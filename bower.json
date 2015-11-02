@@ -1,0 +1,14 @@
+{
+  "name": "exblur",
+  "license": "MIT",
+  "private": true,
+  "homepage": "http://github.com/ikeikeikeike/exblur",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {}
+}
