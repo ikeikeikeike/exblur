@@ -39,4 +39,12 @@ config :exblur, Exblur.Repo,
   password: "postgres",
   database: "exblur_dev",
   hostname: "localhost",
-  pool_size: 10
+  pool_size: 20
+
+config :exblur, Exblur.Mongo,
+  adapter: Mongo.Ecto,
+  database: "video",
+  # username: "mongodb",
+  # password: "mongosb",
+  hostname: "localhost",
+  pool_size: 5
