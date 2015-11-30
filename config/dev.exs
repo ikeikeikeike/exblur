@@ -48,3 +48,8 @@ config :exblur, Exblur.Mongo,
   # password: "mongosb",
   hostname: "localhost",
   pool_size: 5
+
+config :bing_translator,
+   client_id: "",
+   client_secret: "",
+   skip_ssl_verify: false

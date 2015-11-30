@@ -1,6 +1,4 @@
 defmodule Exblur.Entry do
-  # use Ecto.Model
-  # usr Ecto.Query
   use Exblur.Web, :model
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -24,7 +22,7 @@ defmodule Exblur.Entry do
     # index({name: 1}, {name: "name_index", background: true})
   end
 
-  def all do
+  def query do
     from e in Exblur.Entry, 
     select: e
   end
@@ -95,17 +93,17 @@ defmodule Exblur.Entry do
     where: e.posted == true
   end
 
-  # def reserved(query) do
-    # from e in query,
-    # where: e.posted == false 
-    # and is_nil(e.embed_code.ne)
-  # end
+  def reserved(query) do
+    from e in query,
+    where: e.posted == false 
+    and e.embed_code != "" 
+    and not(is_nil(e.embed_code))
+  end
 
   def failed(query) do
     from e in query,
     where: e.posted == false 
-    and is_nil(e.embed_code)
+    and (is_nil(e.embed_code) or e.embed_code == "")
   end
-
 
 end

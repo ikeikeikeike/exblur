@@ -16,6 +16,16 @@ defmodule Exblur.Web do
   below.
   """
 
+  def task do
+    quote do
+      use Mix.Task
+
+      alias Exblur.Mongo
+      alias Exblur.Repo
+      import Ecto.Query
+    end
+  end
+
   def model do
     quote do
       use Ecto.Model
