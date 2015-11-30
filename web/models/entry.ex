@@ -84,30 +84,28 @@ defmodule Exblur.Entry do
     where: e.name == "xhamster"
   end
 
-  # def xvideos(query) do
-    # from e in query,
-    # any_of(
-      # {name: "xvideos"},
-      # {name: "jp_xvideos"}
-    # )
-  # end
+  def xvideos(query) do
+    from e in query,
+    where: e.name == "xvideos" 
+    or e.name == "jp_xvideos"
+  end
 
-  # def released(query) do
-    # from e in query,
-    # where(posted: true)
-  # end
+  def released(query) do
+    from e in query,
+    where: e.posted == true
+  end
 
   # def reserved(query) do
     # from e in query,
-    # where(posted: false)
-      # .where(:embed_code.ne => nil)
+    # where: e.posted == false 
+    # and is_nil(e.embed_code.ne)
   # end
 
-  # def failed(query) do
-    # from e in query,
-    # where(posted: false)
-      # .where(embed_code: nil)
-  # end
+  def failed(query) do
+    from e in query,
+    where: e.posted == false 
+    and is_nil(e.embed_code)
+  end
 
 
 end
