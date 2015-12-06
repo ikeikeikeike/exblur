@@ -1,5 +1,6 @@
 defmodule Exblur.Site do
   use Exblur.Web, :model
+  alias Exblur.Site
 
   schema "sites" do
     field :name, :string
@@ -27,4 +28,67 @@ defmodule Exblur.Site do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
+
+  defmodule Constants do
+    import Exblur.Macros.Attr
+    attr :asg,             "asg.to"
+    attr :ero_video,       "ero-video.net"
+    attr :fc2,             "video.fc2.com"
+    attr :japan_whores,    "jp.japan-whores.com"
+    attr :pornhost,        "www.pornhost.com"
+    attr :pornhub,         "jp.pornhub.com"
+    attr :redtube,         "www.redtube.com"
+    attr :tokyo_tube,      "www.tokyo-tube.com"
+    attr :tokyo_porn_tube, "www.tokyo-porn-tube.com"
+    attr :tube8,           "www.tube8.com"
+    attr :xhamster,        "jp.xhamster.com"
+    attr :xvideos,         "jp.xvideos.com"
+
+    attr :domains, ~w(
+      asg.to
+      ero-video.net
+      video.fc2.com
+      jp.japan-whores.com
+      www.pornhost.com
+      jp.pornhub.com
+      www.redtube.com
+      www.tokyo-tube.com
+      www.tokyo-porn-tube.com
+      www.tube8.com
+      jp.xhamster.com
+      jp.xvideos.com
+    )
+  end
+
+  def asg?(model),             do: model.name == Site.Constants.asg
+  def ero_video?(model),       do: model.name == Site.Constants.ero_video
+  def fc2?(model),             do: model.name == Site.Constants.fc2
+  def japan_whores?(model),    do: model.name == Site.Constants.japan_whores
+  def pornhost?(model),        do: model.name == Site.Constants.pornhost
+  def pornhub?(model),         do: model.name == Site.Constants.pornhub
+  def redtube?(model),         do: model.name == Site.Constants.redtube
+  def tokyo_tube?(model),      do: model.name == Site.Constants.tokyo_tube
+  def tokyo_porn_tube?(model), do: model.name == Site.Constants.tokyo_porn_tube
+  def tube8?(model),           do: model.name == Site.Constants.tube8
+  def xhamster?(model),        do: model.name == Site.Constants.xhamster
+  def xvideos?(model),         do: model.name == Site.Constants.xvideos
+  def whats_this?(model),      do: model.name
+
+  defp gsub_domain(name), do: name |> String.replace("-", "_") |> String.replace("_", ".") 
+  def select_domain(name) do
+    {:ok, ptn} = Regex.compile gsub_domain(name)
+
+    Enum.filter(Site.Constants.domains, fn(domain) -> 
+      Regex.match? ptn, gsub_domain(domain) 
+    end) 
+  end
+
+  def video_creator_by_name(name) do
+    video_creator "http://#{List.first(select_domain(name))}"
+  end
+
+  def video_creator(url) do
+
+  end
+
 end

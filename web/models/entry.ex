@@ -85,7 +85,7 @@ defmodule Exblur.Entry do
   def xvideos(query) do
     from e in query,
     where: e.name == "xvideos" 
-    or e.name == "jp_xvideos"
+        or e.name == "jp_xvideos"
   end
 
   def released(query) do
@@ -96,14 +96,14 @@ defmodule Exblur.Entry do
   def reserved(query) do
     from e in query,
     where: e.posted == false 
-    and e.embed_code != "" 
-    and not(is_nil(e.embed_code))
+       and e.embed_code != "" 
+       and not(is_nil(e.embed_code))
   end
 
   def failed(query) do
     from e in query,
     where: e.posted == false 
-    and (is_nil(e.embed_code) or e.embed_code == "")
+       and (is_nil(e.embed_code) or e.embed_code == "")
   end
 
 end

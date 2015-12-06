@@ -25,7 +25,13 @@ config :exblur, Exblur.Endpoint,
   ]
 
 # Do not include metadata nor timestamps in development logs
-config :logger, :console, format: "[$level] $message\n"
+# config :logger, 
+  # :console, 
+  # format: "[$level] $message\n"
+
+config :logger, :console,
+  format: "$date $time $metadata[$level]$levelpad$message\n",
+  metadata: [:user_id, :request_id, :application, :module, :file, :line]
 
 # Set a higher stacktrace during development.
 # Do not configure such in production as keeping

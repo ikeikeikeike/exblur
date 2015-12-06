@@ -30,6 +30,8 @@ defmodule Exblur.Web do
     quote do
       use Ecto.Model
 
+      alias Exblur.Mongo
+      alias Exblur.Repo
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
     end
@@ -39,6 +41,7 @@ defmodule Exblur.Web do
     quote do
       use Phoenix.Controller
 
+      alias Exblur.Mongo
       alias Exblur.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
@@ -71,6 +74,7 @@ defmodule Exblur.Web do
     quote do
       use Phoenix.Channel
 
+      alias Exblur.Mongo
       alias Exblur.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
