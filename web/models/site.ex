@@ -29,7 +29,7 @@ defmodule Exblur.Site do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  defmodule Constants do
+  defmodule Const do
     import Exblur.Macros.Attr
     attr :asg,             "asg.to"
     attr :ero_video,       "ero-video.net"
@@ -60,25 +60,25 @@ defmodule Exblur.Site do
     )
   end
 
-  def asg?(model),             do: model.name == Site.Constants.asg
-  def ero_video?(model),       do: model.name == Site.Constants.ero_video
-  def fc2?(model),             do: model.name == Site.Constants.fc2
-  def japan_whores?(model),    do: model.name == Site.Constants.japan_whores
-  def pornhost?(model),        do: model.name == Site.Constants.pornhost
-  def pornhub?(model),         do: model.name == Site.Constants.pornhub
-  def redtube?(model),         do: model.name == Site.Constants.redtube
-  def tokyo_tube?(model),      do: model.name == Site.Constants.tokyo_tube
-  def tokyo_porn_tube?(model), do: model.name == Site.Constants.tokyo_porn_tube
-  def tube8?(model),           do: model.name == Site.Constants.tube8
-  def xhamster?(model),        do: model.name == Site.Constants.xhamster
-  def xvideos?(model),         do: model.name == Site.Constants.xvideos
+  def asg?(model),             do: model.name == Site.Const.asg
+  def ero_video?(model),       do: model.name == Site.Const.ero_video
+  def fc2?(model),             do: model.name == Site.Const.fc2
+  def japan_whores?(model),    do: model.name == Site.Const.japan_whores
+  def pornhost?(model),        do: model.name == Site.Const.pornhost
+  def pornhub?(model),         do: model.name == Site.Const.pornhub
+  def redtube?(model),         do: model.name == Site.Const.redtube
+  def tokyo_tube?(model),      do: model.name == Site.Const.tokyo_tube
+  def tokyo_porn_tube?(model), do: model.name == Site.Const.tokyo_porn_tube
+  def tube8?(model),           do: model.name == Site.Const.tube8
+  def xhamster?(model),        do: model.name == Site.Const.xhamster
+  def xvideos?(model),         do: model.name == Site.Const.xvideos
   def whats_this?(model),      do: model.name
 
   defp gsub_domain(name), do: name |> String.replace("-", "_") |> String.replace("_", ".") 
   def select_domain(name) do
     {:ok, ptn} = Regex.compile gsub_domain(name)
 
-    Enum.filter(Site.Constants.domains, fn(domain) -> 
+    Enum.filter(Site.Const.domains, fn(domain) -> 
       Regex.match? ptn, gsub_domain(domain) 
     end) 
   end

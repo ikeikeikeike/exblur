@@ -19,7 +19,7 @@ defmodule Exblur.Mixfile do
   def application do
     [mod: {Exblur, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex, :mongodb_ecto, :bing_translator]]
+                    :phoenix_ecto, :postgrex, :mongodb_ecto, :bing_translator, :exfavicon]]
   end
 
   # Specifies which paths to compile per environment.
@@ -37,7 +37,9 @@ defmodule Exblur.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
      {:mongodb_ecto, "~> 0.1"},
-     {:bing_translator, "~> 0.2"}]
+     {:bing_translator, "~> 0.2"},
+     {:exfavicon, "~> 0.2"},
+     ]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
