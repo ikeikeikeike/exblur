@@ -1,5 +1,7 @@
 defmodule Exblur.Site do
   use Exblur.Web, :model
+  use Arc.Ecto.Model
+
   alias Exblur.Site
 
   schema "sites" do
@@ -15,8 +17,11 @@ defmodule Exblur.Site do
     has_many :video_entries, Exblur.VideoEntry, on_delete: :fetch_and_delete
   end
 
-  @required_fields ~w(name url rss icon last_modified)
+  @required_fields ~w(name url rss last_modified)
   @optional_fields ~w()
+
+  @required_file_fields ~w()
+  @optional_file_fields ~w(icon)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -27,6 +32,7 @@ defmodule Exblur.Site do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> cast_attachments(params, @required_file_fields, @optional_file_fields)
   end
 
   defmodule Const do
@@ -88,6 +94,33 @@ defmodule Exblur.Site do
   end
 
   def video_creator(url) do
+  end
+
+  def find_or_create_by_url(url) do
+    query = from s in Site, 
+          where: s.url == ^url
+
+    model = Repo.one(query)
+    case model do
+      nil ->
+        site = %Site{
+          url: url, 
+          name: URI.parse(url).host,
+          icon: Exfavicon.find(url)
+        }
+        chgeset = 
+          site
+          |> changeset
+
+        case Repo.insert(chgeset) do  
+          {:ok, model} -> 
+            {:new, model}
+          {:error, chgeset} -> 
+            {:error, chgeset}
+        end
+      _ ->
+        {:ok, model}
+    end
 
   end
 

@@ -54,15 +54,15 @@ defmodule Exblur.VideoEntry do
 
     case model do
       nil ->
-        changeset = 
+        chgeset = 
           %VideoEntry{}
           |> changeset_by_entry(entry)
 
-        case Repo.insert(changeset) do  
+        case Repo.insert(chgeset) do  
           {:ok, model} -> 
             {:new, model}
-          {:error, changeset} -> 
-            {:error, changeset}
+          {:error, chgeset} -> 
+            {:error, chgeset}
         end
       _ ->
         {:ok, model}

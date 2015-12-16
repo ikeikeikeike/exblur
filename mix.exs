@@ -39,6 +39,7 @@ defmodule Exblur.Mixfile do
      {:mongodb_ecto, "~> 0.1"},
      {:bing_translator, "~> 0.2"},
      {:exfavicon, "~> 0.2"},
+     {:arc_ecto, "~> 0.3"},
      ]
   end
 
