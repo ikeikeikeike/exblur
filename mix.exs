@@ -38,9 +38,9 @@ defmodule Exblur.Mixfile do
      {:cowboy, "~> 1.0"},
      {:mongodb_ecto, "~> 0.1"},
      {:bing_translator, "~> 0.2"},
-     {:exfavicon, "~> 0.2"},
+     {:exfavicon, "~> 0.3"},
      {:arc_ecto, "~> 0.3"},
-     ]
+    ]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
