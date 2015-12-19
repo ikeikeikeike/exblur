@@ -76,7 +76,10 @@ defmodule Exblur.VideoEntry do
       {:ok, model} -> 
         {:ok, model}
       {:new, model} ->
-        # model.site = Site.video_creator_by_name! entry.name
+        require IEx; IEx.pry
+        # model.site = 
+          # entry.name
+          # |> Exblur.Site.video_creator_by_name
         {:new, model}
     end
   end

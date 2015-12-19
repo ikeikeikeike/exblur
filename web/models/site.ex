@@ -8,7 +8,7 @@ defmodule Exblur.Site do
     field :name, :string
     field :url, :string
     field :rss, :string
-    field :icon, :string
+    field :icon, Exblur.IconUploader.Type
     field :last_modified, Ecto.DateTime
 
     field :created_at, Ecto.DateTime, default: Ecto.DateTime.local
@@ -90,7 +90,7 @@ defmodule Exblur.Site do
   end
 
   def video_creator_by_name(name) do
-    video_creator "http://#{List.first(select_domain(name))}"
+    video_creator "https://#{List.first(select_domain(name))}"
   end
 
   def video_creator(url) do

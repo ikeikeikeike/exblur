@@ -22,11 +22,22 @@ defmodule Exblur.IconUploader do
     "#{scope.id}_#{version}_#{file.file_name}"
   end
 
-  def storage_dir(_version, {_file, scope}) do
-    "uploads/avatars/#{scope.id}"
+  def storage_dir(_version, {_file, model}) do
+    dirname = 
+      model.__struct__
+      |> String.Chars.to_string
+      |> String.downcase
+      |> String.split(".")
+      |> List.last
+
+    "uploads/#{dirname}/#{model.id}"
   end
 
-  def default_url(_version, :thumb) do
+  def default_url(:original) do
+    "https://placehold.it/100x100"
+  end
+
+  def default_url(:thumb) do
     "https://placehold.it/100x100"
   end
 end
