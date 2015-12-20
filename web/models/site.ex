@@ -4,6 +4,8 @@ defmodule Exblur.Site do
 
   alias Exblur.Site
 
+  require Logger
+
   schema "sites" do
     field :name, :string
     field :url, :string
@@ -36,7 +38,7 @@ defmodule Exblur.Site do
   end
 
   defmodule Const do
-    import Exblur.Macros.Attr
+    import Macros.Exblur.Attr
     attr :asg,             "asg.to"
     attr :ero_video,       "ero-video.net"
     attr :fc2,             "video.fc2.com"
@@ -106,37 +108,26 @@ defmodule Exblur.Site do
     model = Repo.one(query)
     case model do
       nil ->
-
-        params = %{
-          "url" => url, 
-          "name" => URI.parse(url).host,
-          "icon" => url |> plug_upload!,
-        }
-        require IEx; IEx.pry
-        cset = 
-          %Site{}
-          |> changeset(params)
+        params = %{"url" => url, "name" => URI.parse(url).host}
+        cset = %Site{} |> changeset(params)
 
         case Repo.insert(cset) do  
-          {:ok, model} -> {:new, model}
-          {:error, cset} -> {:error, cset}
+          {:error, cset} ->
+            {:error, cset}
+          {:ok, model} ->
+            params = 
+              %{"icon" =>  Plug.Exblur.Upload.make_plug_upload!(url)}
+
+            case Repo.update(changeset(model, params)) do
+              {:error, reason} ->
+                {:error, reason}
+              {_, model} ->
+                {:new, model}
+            end
         end
       _ ->
         {:ok, model}
     end
 
   end
-
-  defp plug_upload!(url) do
-    filename = Exfavicon.find url
-    basename = Path.basename filename
-
-    resp = HTTPoison.get!(filename, [connect_timeout: 30])
-
-    path = "/tmp/#{basename}"
-    File.write!(path, resp.body)
-
-    %Plug.Upload{path: path, filename: basename}
-  end
-
 end

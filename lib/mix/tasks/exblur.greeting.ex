@@ -3,6 +3,8 @@ defmodule Mix.Tasks.Exblur.Greeting do
   alias Exblur.Entry
   alias Exblur.VideoEntry
 
+  require Logger
+
   @shortdoc "Sends a greeting to us from Hello Phoenix"
 
   @moduledoc """
@@ -11,7 +13,7 @@ defmodule Mix.Tasks.Exblur.Greeting do
   def run(_args) do
     setup
 
-    limit = 1
+    limit = 1000
 
     query = 
       Entry.query 
@@ -34,7 +36,7 @@ defmodule Mix.Tasks.Exblur.Greeting do
       Repo.transaction fn ->
         case VideoEntry.video_creater(entry) do
           {:error, reason} ->
-            IO.inspect reason
+            Logger.error "#{inspect reason}"
             Repo.rollback(reason)
           {_ok, _model} ->
             Entry.already_post(entry)

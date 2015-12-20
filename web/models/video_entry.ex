@@ -50,7 +50,6 @@ defmodule Exblur.VideoEntry do
           where: v.url == ^entry.url
 
     model = Repo.one(query)
-
     case model do
       nil ->
         cset = 
@@ -73,10 +72,12 @@ defmodule Exblur.VideoEntry do
       {:ok, video_entry} ->
         {:ok, video_entry}
       {:new, video_entry} ->
+
         case Exblur.Site.video_creator_by_name(entry.name) do
           {:error, cset} ->
             {:error, cset}
           {_, site} ->
+
             case Repo.update(changeset(video_entry, %{site_id: site.id})) do
               {:error, reason} ->
                 {:error, reason}

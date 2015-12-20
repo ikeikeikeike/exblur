@@ -1,4 +1,4 @@
-defmodule Exblur.Macros.Attr do
+defmodule Macros.Exblur.Attr do
   defmacro attr(key, value) do
     quote do
       @unquote(key)(unquote(value))
