@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Exblur.Greeting do
+defmodule Mix.Tasks.Exblur.BuildEntry do
   use Exblur.Web, :task
   alias Exblur.Entry
   alias Exblur.VideoEntry
