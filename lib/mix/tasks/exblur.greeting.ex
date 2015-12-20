@@ -11,11 +11,11 @@ defmodule Mix.Tasks.Exblur.Greeting do
   def run(_args) do
     setup
 
-    limit = 10
+    limit = 1
 
     query = 
       Entry.query 
-      |> Entry.xvideos 
+      # |> Entry.xvideos 
       |> Entry.reserved 
       |> limit([_e], ^limit) 
       |> Mongo.all
@@ -31,13 +31,15 @@ defmodule Mix.Tasks.Exblur.Greeting do
       # ve.embed_code = fix_embed_code(ve.embed_code, ve.title)
       # ve.tag_list = entry.tags.map{|tag| fixable.tag(bing.en_to_ja tag)}.join(',')
 
-      ve = 
-        entry
-        |>VideoEntry.find_or_create_by_entry
-
-      IO.inspect "-------"
-      IO.inspect ve
-
+      Repo.transaction fn ->
+        case VideoEntry.video_creater(entry) do
+          {:error, reason} ->
+            IO.inspect reason
+            Repo.rollback(reason)
+          {_ok, _model} ->
+            Entry.already_post(entry)
+        end
+      end
     end)
 
     # IO.inspect query

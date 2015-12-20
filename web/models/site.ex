@@ -11,13 +11,13 @@ defmodule Exblur.Site do
     field :icon, Exblur.IconUploader.Type
     field :last_modified, Ecto.DateTime
 
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.local
-    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.local
+    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
-    has_many :video_entries, Exblur.VideoEntry, on_delete: :fetch_and_delete
+    has_many :video_entries, Exblur.VideoEntry, on_delete: :nilify_all
   end
 
-  @required_fields ~w(name url rss last_modified)
+  @required_fields ~w(name url)
   @optional_fields ~w()
 
   @required_file_fields ~w()
@@ -80,6 +80,12 @@ defmodule Exblur.Site do
   def xvideos?(model),         do: model.name == Site.Const.xvideos
   def whats_this?(model),      do: model.name
 
+  # fetch icon url
+  def fetch_icon(model), do: Exblur.IconUploader.url {model.icon, model}
+  def fetch_icon(model, version), do: Exblur.IconUploader.url {model.icon, model}, version
+
+  ### self
+
   defp gsub_domain(name), do: name |> String.replace("-", "_") |> String.replace("_", ".") 
   def select_domain(name) do
     {:ok, ptn} = Regex.compile gsub_domain(name)
@@ -90,38 +96,47 @@ defmodule Exblur.Site do
   end
 
   def video_creator_by_name(name) do
-    video_creator "https://#{List.first(select_domain(name))}"
+    video_creator "http://#{List.first(select_domain(name))}"
   end
 
   def video_creator(url) do
-  end
-
-  def find_or_create_by_url(url) do
     query = from s in Site, 
           where: s.url == ^url
 
     model = Repo.one(query)
     case model do
       nil ->
-        site = %Site{
-          url: url, 
-          name: URI.parse(url).host,
-          icon: Exfavicon.find(url)
-        }
-        chgeset = 
-          site
-          |> changeset
 
-        case Repo.insert(chgeset) do  
-          {:ok, model} -> 
-            {:new, model}
-          {:error, chgeset} -> 
-            {:error, chgeset}
+        params = %{
+          "url" => url, 
+          "name" => URI.parse(url).host,
+          "icon" => url |> plug_upload!,
+        }
+        require IEx; IEx.pry
+        cset = 
+          %Site{}
+          |> changeset(params)
+
+        case Repo.insert(cset) do  
+          {:ok, model} -> {:new, model}
+          {:error, cset} -> {:error, cset}
         end
       _ ->
         {:ok, model}
     end
 
+  end
+
+  defp plug_upload!(url) do
+    filename = Exfavicon.find url
+    basename = Path.basename filename
+
+    resp = HTTPoison.get!(filename, [connect_timeout: 30])
+
+    path = "/tmp/#{basename}"
+    File.write!(path, resp.body)
+
+    %Plug.Upload{path: path, filename: basename}
   end
 
 end

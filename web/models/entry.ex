@@ -22,6 +22,27 @@ defmodule Exblur.Entry do
     # index({name: 1}, {name: "name_index", background: true})
   end
 
+  @required_fields ~w()
+  @optional_fields ~w(posted)
+
+  @doc """
+  Creates a changeset based on the `model` and `params`.
+
+  If no params are provided, an invalid changeset is returned
+  with no validation performed.
+  """
+  def changeset(model, params \\ :empty) do
+    model
+    |> cast(params, @required_fields, @optional_fields)
+  end
+
+  # posted entry true.
+  def already_post(model) do
+    if ! model.posted do
+      Mongo.update(changeset(model, %{posted: true})) 
+    end
+  end
+
   def query do
     from e in Exblur.Entry, 
     select: e

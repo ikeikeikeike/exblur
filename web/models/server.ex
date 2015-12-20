@@ -10,8 +10,8 @@ defmodule Exblur.Server do
     field :description, :string
     field :primary, :boolean, default: false
 
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.local
-    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.local
+    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
     has_many :video_entries, Exblur.VideoEntry, on_delete: :fetch_and_delete
   end

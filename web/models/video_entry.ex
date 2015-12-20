@@ -15,16 +15,15 @@ defmodule Exblur.VideoEntry do
     field :publish, :boolean, default: false
     field :removal, :boolean, default: false
 
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.local
-    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.local
+    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
     belongs_to :site, Exblur.Site
     belongs_to :server, Exblur.Server
   end
 
-  @required_fields ~w(url title content embed_code time published_at review publish removal)
-  @optional_fields ~w()
-
+  @required_fields ~w(url title embed_code time published_at review publish removal)
+  @optional_fields ~w(content site_id server_id)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -41,7 +40,7 @@ defmodule Exblur.VideoEntry do
     params = 
       entry 
       |> Map.from_struct
-      |> Map.put(:published_at, Ecto.DateTime.local)
+      |> Map.put(:published_at, Ecto.DateTime.utc)
 
     changeset(model, params) 
   end
@@ -54,15 +53,13 @@ defmodule Exblur.VideoEntry do
 
     case model do
       nil ->
-        chgeset = 
-          %VideoEntry{}
+        cset = 
+          %VideoEntry{} 
           |> changeset_by_entry(entry)
 
-        case Repo.insert(chgeset) do  
-          {:ok, model} -> 
-            {:new, model}
-          {:error, chgeset} -> 
-            {:error, chgeset}
+        case Repo.insert(cset) do  
+          {:ok, model} -> {:new, model}
+          {:error, cset} -> {:error, cset}
         end
       _ ->
         {:ok, model}
@@ -71,16 +68,22 @@ defmodule Exblur.VideoEntry do
 
   def video_creater(entry) do
     case find_or_create_by_entry(entry) do
-      {:error, changeset} -> 
-        {:error, changeset}
-      {:ok, model} -> 
-        {:ok, model}
-      {:new, model} ->
-        require IEx; IEx.pry
-        # model.site = 
-          # entry.name
-          # |> Exblur.Site.video_creator_by_name
-        {:new, model}
+      {:error, cset} ->
+        {:error, cset}
+      {:ok, video_entry} ->
+        {:ok, video_entry}
+      {:new, video_entry} ->
+        case Exblur.Site.video_creator_by_name(entry.name) do
+          {:error, cset} ->
+            {:error, cset}
+          {_, site} ->
+            case Repo.update(changeset(video_entry, %{site_id: site.id})) do
+              {:error, reason} ->
+                {:error, reason}
+              {_, video_entry} ->
+                {:new, video_entry}
+            end
+        end
     end
   end
 
