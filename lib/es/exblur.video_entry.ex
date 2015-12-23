@@ -1,13 +1,13 @@
 defmodule Es.Exblur.VideoEntry do
 
-  defmodule IndexMapping do
+  defmodule EsMapping do
     import Tirexs.Mapping
-    require Tirexs.ElasticSearch
+    # require Tirexs.ElasticSearch
 
-    settings = Tirexs.ElasticSearch.config(user: "new_user")
-    Tirexs.ElasticSearch.delete("video_entreis", settings)
+    # settings = Tirexs.ElasticSearch.config()
+    # Tirexs.ElasticSearch.delete("exblur_video_entreis", settings)
 
-    Tirexs.DSL.define [type: "dsl", index: "video_entreis"], fn(index, _) ->
+    Tirexs.DSL.define [type: "dsl", index: "exblur_video_entreis"], fn(index, settings) ->
       mappings do
         indexes "id",             type: "long",   index: "not_analyzed", include_in_all: false
         indexes "url",            type: "string", index: "not_analyzed"
@@ -19,8 +19,8 @@ defmodule Es.Exblur.VideoEntry do
         indexes "tags",           type: "string", index: "not_analyzed"
         indexes "divas",          type: "string", index: "not_analyzed"
 
-        indexes "title",          type: "string", analyzer: "kuromoji_analyzer"
-        indexes "content",        type: "string", analyzer: "kuromoji_analyzer"
+        indexes "title",          type: "string"#, analyzer: "kuromoji_analyzer"
+        indexes "content",        type: "string"#, analyzer: "kuromoji_analyzer"
 
         indexes "time",           type: "long"
         indexes "published_at",   type: "date",   format: "dateOptionalTime"
@@ -34,19 +34,19 @@ defmodule Es.Exblur.VideoEntry do
     end
   end
 
-  defmodule IndexSetting do
+  defmodule EsSetting do
     import Tirexs.Index.Settings
 
-    Tirexs.DSL.define [index: "dsl_settings"], fn(index, es_settings) ->
+    Tirexs.DSL.define [index: "exblur_dsl_settings"], fn(index, es_settings) ->
       settings do
-        filter    "pos_filter",         [type: "kuromoji_part_of_speech", stoptags: ["助詞-格助詞-一般", "助詞-終助詞"]]
+        filter    "pos_filter",         type: "kuromoji_part_of_speech", stoptags: ["助詞-格助詞-一般", "助詞-終助詞"]
 
-        tokenizer "kuromoji_tokenizer", [type: "kuromoji_tokenizer"]
-        tokenizer "ngram_tokenizer",    [type: "nGram", min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]]
+        # tokenizer "kuromoji_tokenizer", type: "kuromoji_tokenizer"
+        # tokenizer "ngram_tokenizer",    type: "nGram", min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
 
-        analyzer  "default",            [type: "custom", tokenizer: "kuromoji_tokenizer"]
-        analyzer  "kuromoji_analyzer",  [type: "custom", tokenizer: "kuromoji_tokenizer", filter: ["kuromoji_baseform", "pos_filter", "cjk_width"]]
-        analyzer  "ngram_analyzer",     [                tokenizer: "ngram_tokenizer"]
+        # analyzer  "default",            type: "custom", tokenizer: "kuromoji_tokenizer"
+        # analyzer  "kuromoji_analyzer",  type: "custom", tokenizer: "kuromoji_tokenizer", filter: ["kuromoji_baseform", "pos_filter", "cjk_width"]
+        # analyzer  "ngram_analyzer",                     tokenizer: "ngram_tokenizer"
       end
 
       {index, es_settings}
