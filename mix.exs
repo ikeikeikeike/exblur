@@ -43,8 +43,9 @@ defmodule Exblur.Mixfile do
      {:exfavicon, "~> 0.3.2"},
      {:arc, "~> 0.2.2"},
      {:arc_ecto, "~> 0.3"},
-     {:ex_aws, "~> 0.4.10"}, # Required if using Amazon S3
-     {:httpoison, "~> 0.7"},  # Required if using Amazon S3
+     {:ex_aws, "~> 0.4.10"},
+     {:httpoison, "~> 0.8"}, 
+     {:tirexs, "~> 0.7"}
     ]
   end
 
