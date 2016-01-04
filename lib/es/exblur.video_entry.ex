@@ -1,8 +1,10 @@
 defmodule Es.Exblur.VideoEntry do
   import Tirexs.Bulk
+  import Tirexs.Search
   import Tirexs.Mapping
   import Tirexs.Index.Settings
 
+  require Tirexs.Query
   require Tirexs.ElasticSearch
 
   @index_name "exblur_video_entreis"
@@ -35,6 +37,36 @@ defmodule Es.Exblur.VideoEntry do
       server_title: (if model.server_id, do: model.server.title, else: ""),
       server_domain: (if model.server_id, do: model.server.domain, else: "")
     ]
+  end
+
+  def search(params \\ []) do
+    queries = search [index: @index_name] do
+      query do
+        string "title:" <> (if params[:title], do: params[:title], else: "*")
+      end
+
+      # filter do
+        # terms "tags", ["elixir", "ruby"]
+      # end
+
+      # facets do
+        # global_tags [global: true] do
+          # terms field: "tags"
+        # end
+
+        # current_tags do
+          # terms field: "tags"
+        # end
+      # end
+
+      sort do
+        [
+          [title: "desc"]
+        ]
+      end
+    end
+
+    Tirexs.Query.create_resource(queries)
   end
 
   # settings = Tirexs.ElasticSearch.config()
