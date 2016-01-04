@@ -8,20 +8,33 @@ defmodule Es.Exblur.VideoEntry do
   @index_name "exblur_video_entreis"
 
   def put_document(models) when is_list(models) do
-    Enum.each models, &put_document(&1)
+    Tirexs.Bulk.store [index: @index_name, refresh: true], Tirexs.ElasticSearch.config() do
+      Enum.each models, &create(search_data(&1))
+    end
   end
 
   def put_document(model) do
-    settings = Tirexs.ElasticSearch.config()
-
-    types = model.__struct__.__changeset__
-
-    Tirexs.Bulk.store [index: @index_name, refresh: true], settings do
-      create id: 1, title: "One",   tags: ["elixir"],         type: "article"
-      create id: 2, title: "Two",   tags: ["elixir", "ruby"], type: "article"
-      create id: 3, title: "Three", tags: ["java"],           type: "article"
-      create id: 4, title: "Four",  tags: ["erlang"],         type: "article"
+    Tirexs.Bulk.store [index: @index_name, refresh: true], Tirexs.ElasticSearch.config() do
+      create search_data(model)
     end
+  end
+
+  def search_data(model) do
+    [
+      # id: model.id,
+      url: model.url,
+      time: model.time,
+      title: model.title,
+      # tags: model.tag_list,
+      # divas: Enum.map(model.divas, &(&1.name)),
+      review: model.review,
+      publish: model.publish,
+      removal: model.removal,
+      published_at: model.published_at,
+      site_name: (if model.site_id, do: model.site.name, else: ""),
+      server_title: (if model.server_id, do: model.server.title, else: ""),
+      server_domain: (if model.server_id, do: model.server.domain, else: "")
+    ]
   end
 
   # settings = Tirexs.ElasticSearch.config()
@@ -48,7 +61,7 @@ defmodule Es.Exblur.VideoEntry do
 
     Tirexs.DSL.define [type: "dsl", index: @index_name], fn(index, es_settings) ->
       mappings do
-        indexes "id",             type: "long",   index: "not_analyzed", include_in_all: false
+        # indexes "id",             type: "long",   index: "not_analyzed", include_in_all: false
         indexes "url",            type: "string", index: "not_analyzed"
 
         indexes "site_name",      type: "string", index: "not_analyzed"
