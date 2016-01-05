@@ -1,4 +1,6 @@
 defmodule Es.Exblur.VideoEntry do
+  # need to agent.
+ 
   import Tirexs.Bulk
   import Tirexs.Search
   import Tirexs.Mapping
@@ -6,6 +8,8 @@ defmodule Es.Exblur.VideoEntry do
 
   require Tirexs.Query
   require Tirexs.ElasticSearch
+
+  require Logger
 
   @index_name "exblur_video_entreis"
 
@@ -27,27 +31,51 @@ defmodule Es.Exblur.VideoEntry do
       url: model.url,
       time: model.time,
       title: model.title,
+
       # tags: model.tag_list,
       # divas: Enum.map(model.divas, &(&1.name)),
+
       review: model.review,
       publish: model.publish,
       removal: model.removal,
+
       published_at: model.published_at,
+
       site_name: (if model.site_id, do: model.site.name, else: ""),
       server_title: (if model.server_id, do: model.server.title, else: ""),
       server_domain: (if model.server_id, do: model.server.domain, else: "")
     ]
   end
 
-  def search(params \\ []) do
-    queries = search [index: @index_name] do
+  def do_search(word \\ "*", options \\ []) do
+
+    # pagination
+    page = max(options[:page] |> to_i, 1)
+    per_page = (options[:limit] || options[:per_page] || 10000)
+    offset = options[:offset] || (page - 1) * per_page
+
+    # queries = search [index: @index_name, from: 0, size: 10, fields: [:tag, :article], explain: 5, version: true, min_score: 0.5] do
+    queries = search [index: @index_name, fields: [:title, :content, :tags, :divas], from: offset, size: per_page] do
       query do
-        string "title:" <> (if params[:title], do: params[:title], else: "*")
+        string "title:" <> word
       end
 
-      # filter do
-        # terms "tags", ["elixir", "ruby"]
+      # query do
+        # term "title", ""
       # end
+
+      filter do
+        _and [_cache: true] do
+          filters do
+            terms "review",  [true]
+            terms "publish", [true]
+            terms "removal", [false]
+            # terms "server_domain" Server.shown_domain(request.host)
+            # terms "site_name"
+            # terms "divas"
+          end
+        end
+      end
 
       # facets do
         # global_tags [global: true] do
@@ -61,11 +89,12 @@ defmodule Es.Exblur.VideoEntry do
 
       sort do
         [
-          [title: "desc"]
+          [published_at: "desc"]
         ]
       end
     end
 
+    Logger.debug "#{inspect queries}"
     Tirexs.Query.create_resource(queries)
   end
 
@@ -118,4 +147,15 @@ defmodule Es.Exblur.VideoEntry do
     end
 
   end
+
+  defp to_i(num) when is_integer(num),  do: num
+  defp to_i(num) when is_float(num),    do: round(num)
+  defp to_i(num) when is_nil(num),      do: 0
+  defp to_i(num) do
+    case Integer.parse(num) do
+      :error -> 0
+      {n, _} -> n
+    end
+  end
+
 end
