@@ -77,15 +77,27 @@ defmodule Es.Exblur.VideoEntry do
         end
       end
 
-      # facets do
-        # global_tags [global: true] do
+      facets do
+        # tags [global: true] do
           # terms field: "tags"
         # end
 
-        # current_tags do
-          # terms field: "tags"
-        # end
-      # end
+        tags do
+          terms field: "tags", size: 180
+          facet_filter do
+            _and [_cache: true] do
+              filters do
+                terms "review",  [true]
+                terms "publish", [true]
+                terms "removal", [false]
+                # terms "server_domain" Server.shown_domain(request.host)
+                # terms "site_name"
+                # terms "divas"
+              end
+            end
+          end
+        end
+      end
 
       sort do
         [
