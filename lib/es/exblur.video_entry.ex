@@ -125,21 +125,18 @@ defmodule Es.Exblur.VideoEntry do
       end
 
       # TODO: highlight: word highlight
-      # TODO: phrase suggester API: I'm not sure that you want like this ?
+      # TODO: phrase suggester API: I'm not sure that you want like this right ?
       # TODO: completion suggester API: autocomplete
       # XXX: more like this: relational contents
 
     end
 
-    search = queries[:search]
-
     if word do
-      search = Keyword.delete(search, :query)
-      search = search ++ query do
-        multi_match word, fields, cutoff_frequency: 0.001, boost: 10, use_dis_max: false, operator: "and"
+      s = Keyword.delete(queries[:search], :query) ++ query do
+        multi_match word, fields # , cutoff_frequency: 0.001, boost: 10, use_dis_max: false, operator: "and"
       end
 
-      queries = Keyword.put queries, :search, search
+      queries = Keyword.put queries, :search, s
     end
 
     Logger.debug "#{inspect queries}"
