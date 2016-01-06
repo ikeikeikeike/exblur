@@ -2,11 +2,11 @@ defmodule Es.Exblur.VideoEntry do
   # need to agent.
  
   import Tirexs.Bulk
+  import Tirexs.Query
   import Tirexs.Search
   import Tirexs.Mapping
   import Tirexs.Index.Settings
 
-  require Tirexs.Query
   require Tirexs.ElasticSearch
 
   require Logger
@@ -25,12 +25,28 @@ defmodule Es.Exblur.VideoEntry do
     end
   end
 
+  #### for develop #####
+  def put_document(model, tags, divas) do
+    Tirexs.Bulk.store [index: @index_name, refresh: true], Tirexs.ElasticSearch.config() do
+      create search_data(model, tags, divas)
+    end
+  end
+
+  def search_data(model, tags, divas) do
+    search_data(model) ++ [
+      tags: tags,
+      divas: divas
+    ]
+  end
+  #########
+
   def search_data(model) do
     [
       # id: model.id,
       url: model.url,
       time: model.time,
       title: model.title,
+      content: model.content,
 
       # tags: model.tag_list,
       # divas: Enum.map(model.divas, &(&1.name)),
@@ -47,7 +63,9 @@ defmodule Es.Exblur.VideoEntry do
     ]
   end
 
-  def do_search(word \\ "*", options \\ []) do
+  def do_search(word \\ nil, options \\ []) do
+
+    fields = [:title, :content, :tags, :divas]
 
     # pagination
     page = max(options[:page] |> to_i, 1)
@@ -55,9 +73,10 @@ defmodule Es.Exblur.VideoEntry do
     offset = options[:offset] || (page - 1) * per_page
 
     # queries = search [index: @index_name, from: 0, size: 10, fields: [:tag, :article], explain: 5, version: true, min_score: 0.5] do
-    queries = search [index: @index_name, fields: [:title, :content, :tags, :divas], from: offset, size: per_page] do
+    queries = search [index: @index_name, fields: fields, from: offset, size: per_page] do
+
       query do
-        string "title:" <> word
+        match_all
       end
 
       # query do
@@ -106,7 +125,19 @@ defmodule Es.Exblur.VideoEntry do
       end
     end
 
+    search = queries[:search]
+
+    if word do
+      search = Keyword.delete(search, :query)
+      search = search ++ query do
+        multi_match word, fields, cutoff_frequency: 0.001, boost: 10, use_dis_max: false, operator: "and"
+      end
+
+      queries = Keyword.put queries, :search, search
+    end
+
     Logger.debug "#{inspect queries}"
+    Logger.debug "#{JSX.prettify! JSX.encode!(queries)}"
     Tirexs.Query.create_resource(queries)
   end
 
