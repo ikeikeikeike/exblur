@@ -123,6 +123,12 @@ defmodule Es.Exblur.VideoEntry do
           [published_at: "desc"]
         ]
       end
+
+      # TODO: highlight: word highlight
+      # TODO: phrase suggester API: I'm not sure that you want like this ?
+      # TODO: completion suggester API: autocomplete
+      # XXX: more like this: relational contents
+
     end
 
     search = queries[:search]
