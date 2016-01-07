@@ -1,0 +1,8 @@
+<h2>Show entry</h2>
+
+<ul>
+
+</ul>
+
+<%= link "Edit", to: entry_path(@conn, :edit, @entry) %>
+<%= link "Back", to: entry_path(@conn, :index) %>

@@ -1,0 +1,27 @@
+<h2>Listing entries</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for ve <- @ventries[:hits] do %>
+      <div><%= ve[:fields][:title] |> List.first %></div>
+    <% end %>
+
+    <%= for entry <- @entries do %>
+      <tr>
+        <td class="text-right">
+          <%#= link "Show", to: entry_path(@conn, :show, entry), class: "btn btn-default btn-xs" %>
+          <%#= link "Edit", to: entry_path(@conn, :edit, entry), class: "btn btn-default btn-xs" %>
+          <%#= link "Delete", to: entry_path(@conn, :delete, entry), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%#= link "New entry", to: entry_path(@conn, :new) %>
