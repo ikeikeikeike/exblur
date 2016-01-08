@@ -147,6 +147,18 @@ defmodule Es.Exblur.VideoEntry do
   # settings = Tirexs.ElasticSearch.config()
   # Tirexs.ElasticSearch.delete("exblur_video_entreis", settings)
 
+  # def remove_index do
+
+  # end
+
+  def reindex do
+    alias_name = @index_name
+    {:ok, suffix} = Timex.Date.now |> Timex.DateFormat.format("%Y%m%d%H%M%S%f", :strftime)
+
+    # old_index = list(c.indices.get_alias(alias_name).keys())[0]
+    new_index = alias_name <> "_" <> suffix
+  end
+
   def create_index do
 
     Tirexs.DSL.define [type: "dsl", index: @index_name], fn(index, es_settings) ->
