@@ -13,36 +13,42 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
   def run(_args) do
     setup
 
-    limit = 1000
-
-    query = 
+    entries = 
       Entry.query 
       # |> Entry.xvideos 
       |> Entry.reserved 
-      |> limit([_e], ^limit) 
+      |> limit([_e], 1000) 
       |> Mongo.all
 
-    Enum.each(query, fn(entry) ->
+    models = 
+      Enum.map entries, fn(entry) ->
+        # entry |> IO.inspect 
+        # abc = BingTranslator.translate(entry.title, to: "ja")
+        # IO.inspect abc
 
-      # entry |> IO.inspect 
-      # abc = BingTranslator.translate(entry.title, to: "ja")
-      # IO.inspect abc
+        # ve.title = fixable.sentence(fixable.tag(bing.en_to_ja entry.title))
+        # ve.content = fixable.sentence(fixable.tag(bing.en_to_ja entry.content))
+        # ve.embed_code = fix_embed_code(ve.embed_code, ve.title)
+        # ve.tag_list = entry.tags.map{|tag| fixable.tag(bing.en_to_ja tag)}.join(',')
 
-      # ve.title = fixable.sentence(fixable.tag(bing.en_to_ja entry.title))
-      # ve.content = fixable.sentence(fixable.tag(bing.en_to_ja entry.content))
-      # ve.embed_code = fix_embed_code(ve.embed_code, ve.title)
-      # ve.tag_list = entry.tags.map{|tag| fixable.tag(bing.en_to_ja tag)}.join(',')
+        Repo.transaction fn ->
+          case VideoEntry.video_creater(entry) do
+            {:error, reason} ->
+              Repo.rollback(reason); Logger.error("#{inspect reason}") 
 
-      Repo.transaction fn ->
-        case VideoEntry.video_creater(entry) do
-          {:error, reason} ->
-            Logger.error "#{inspect reason}"
-            Repo.rollback(reason)
-          {_ok, _model} ->
-            Entry.already_post(entry)
+              nil
+            {_ok, model} ->
+              Entry.already_post(entry) 
+
+              model
+          end
         end
       end
-    end)
+      |> Enum.filter &(&1 != nil)
+        
+    # Put built up document to Elasticsearch
+    models
+    |> Es.Exblur.VideoEntry.put_document
 
     # IO.inspect query
 
