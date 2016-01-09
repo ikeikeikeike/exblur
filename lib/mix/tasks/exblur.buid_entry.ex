@@ -48,7 +48,7 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
         
     # Put built up document to Elasticsearch
     models
-    |> Es.Exblur.VideoEntry.put_document
+    |> Es.VideoEntry.put_document
 
     # IO.inspect query
 

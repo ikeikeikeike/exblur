@@ -12,7 +12,7 @@ defmodule Exblur.EntryController do
     entries = Repo.all(Exblur.VideoEntry)
 
     ventries = 
-      Es.Exblur.VideoEntry.do_search
+      Es.VideoEntry.do_search
       |> Tirexs.Query.result 
 
     render(conn, "index.html", entries: entries, ventries: ventries)

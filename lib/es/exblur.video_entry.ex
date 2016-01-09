@@ -1,4 +1,4 @@
-defmodule Es.Exblur.VideoEntry do
+defmodule Es.VideoEntry do
   # need to agent.
  
   import Tirexs.Bulk
