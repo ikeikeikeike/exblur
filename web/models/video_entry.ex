@@ -5,21 +5,31 @@ defmodule Exblur.VideoEntry do
   require Logger
 
   schema "video_entries" do
-    field :url, :string
-    field :title, :string
-    field :content, :string
-    field :embed_code, :string
-    field :time, :integer
-    field :published_at, Ecto.DateTime
-    field :review, :boolean, default: false
-    field :publish, :boolean, default: false
-    field :removal, :boolean, default: false
+    field :url,             :string
+    field :title,           :string
+    field :content,         :string
+    field :embed_code,      :string
+    field :time,            :integer
+    field :published_at,    Ecto.DateTime
+    field :review,          :boolean, default: false
+    field :publish,         :boolean, default: false
+    field :removal,         :boolean, default: false
 
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
-    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field :created_at,      Ecto.DateTime, default: Ecto.DateTime.utc
+    field :updated_at,      Ecto.DateTime, default: Ecto.DateTime.utc
+
+    has_many :video_entry_divas, Exblur.VideoEntryDiva
+    has_many :divas, through: [:video_entry_divas, :divas]
 
     belongs_to :site, Exblur.Site
     belongs_to :server, Exblur.Server
+  end
+
+  def with_diva(query) do
+          from  video      in query,
+     left_join: video_diva in assoc(video, :video_entry_divas),
+          join: diva       in assoc(video_diva, :diva),
+       preload: [divas: diva]
   end
 
   @required_fields ~w(url title embed_code time published_at review publish removal)

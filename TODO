@@ -1,0 +1,2 @@
+Confirm has_many, m2mのon_delete, notify
+  -> Want to remove relational table's id on video_entries and diva
