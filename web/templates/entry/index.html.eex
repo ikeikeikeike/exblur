@@ -3,7 +3,6 @@
 <table class="table">
   <thead>
     <tr>
-
       <th></th>
     </tr>
   </thead>
@@ -12,14 +11,17 @@
       <div><%= ve[:fields][:title] |> List.first %></div>
     <% end %>
 
-    <%= for entry <- @entries do %>
-      <tr>
-        <td class="text-right">
-          <%#= link "Show", to: entry_path(@conn, :show, entry), class: "btn btn-default btn-xs" %>
-          <%#= link "Edit", to: entry_path(@conn, :edit, entry), class: "btn btn-default btn-xs" %>
-          <%#= link "Delete", to: entry_path(@conn, :delete, entry), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-        </td>
-      </tr>
+    <% if false do %>
+      <%= for entry <- @entries do %>
+        <tr>
+          <td><%= entry.title %></td>
+          <td class="text-left">
+            <%#= link "Show", to: entry_path(@conn, :show, entry), class: "btn btn-default btn-xs" %>
+            <%#= link "Edit", to: entry_path(@conn, :edit, entry), class: "btn btn-default btn-xs" %>
+            <%#= link "Delete", to: entry_path(@conn, :delete, entry), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>

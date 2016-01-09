@@ -44,7 +44,7 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
           end
         end
       end
-      |> Enum.filter &(&1 != nil)
+      |> Enum.filter(&(&1 != nil)) 
         
     # Put built up document to Elasticsearch
     models
