@@ -114,6 +114,7 @@ defmodule Exblur.Site do
         case Repo.insert(cset) do  
           {:error, cset} ->
             {:error, cset}
+
           {:ok, model} ->
             params = 
               %{"icon" =>  Plug.Exblur.Upload.make_plug_upload!(url)}

@@ -35,11 +35,14 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
           case VideoEntry.video_creater(entry) do
             {:error, reason} ->
               Repo.rollback(reason); Logger.error("#{inspect reason}") 
-
               nil
-            {_ok, model} ->
-              Entry.already_post(entry) 
 
+            {:ok, _model} ->
+              Entry.already_post(entry) 
+              nil
+
+            {:new, model} ->
+              Entry.already_post(entry) 
               model
           end
         end
@@ -47,8 +50,7 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
       |> Enum.filter(&(&1 != nil)) 
         
     # Put built up document to Elasticsearch
-    models
-    |> Es.VideoEntry.put_document
+    if length(models) > 0, do: Es.VideoEntry.put_document(models)
 
     # IO.inspect query
 

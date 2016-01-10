@@ -40,5 +40,4 @@ defmodule Divabuilder.Api do
   defp process_url(url) do
     @endpoint <> url
   end
-
 end

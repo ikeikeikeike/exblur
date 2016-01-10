@@ -9,31 +9,38 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
   @moduledoc """
   nothing
   """
-  def run(_args) do
+  def run(args) do
     setup
-
-    {:ok, divas} = Divabuilder.getdata
+    
+    responses = if length(args) > 0, do: Divabuilder.getdata(args), else: Divabuilder.getdata
 
     models = 
-      Enum.map divas, fn(diva) ->
+      responses
+      |> Enum.map(fn(response) ->
+        case response do
+          {:ok, data} ->
+            data["Actresses"]
+        end
+      end)
+      |> Enum.map(fn(actress) ->
         Repo.transaction fn ->
-          case Diva.diva_creater(diva) do
+          case Diva.diva_creater(actress) do
             {:error, reason} ->
               Repo.rollback(reason); Logger.error("#{inspect reason}") 
-
               nil
-            {_ok, model} ->
-              Diva.already_post(diva) 
 
+            {:ok, _model} ->
+              nil
+
+            {:new, model} ->
               model
           end
         end
-      end
+      end)
       |> Enum.filter(&(&1 != nil)) 
         
     # Put built up document to Elasticsearch
-    models
-    |> Es.Diva.put_document
+    if length(models) > 0, do: Es.Diva.put_document(models)
 
   end
 

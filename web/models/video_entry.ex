@@ -67,8 +67,11 @@ defmodule Exblur.VideoEntry do
           |> changeset_by_entry(entry)
 
         case Repo.insert(cset) do  
-          {:ok, model} -> {:new, model}
-          {:error, cset} -> {:error, cset}
+          {:ok, model} ->
+            {:new, model}
+
+          {:error, cset} ->
+            {:error, cset}
         end
       _ ->
         {:ok, model}
@@ -79,18 +82,20 @@ defmodule Exblur.VideoEntry do
     case find_or_create_by_entry(entry) do
       {:error, cset} ->
         {:error, cset}
+
       {:ok, video_entry} ->
         {:ok, video_entry}
-      {:new, video_entry} ->
 
+      {:new, video_entry} ->
         case Exblur.Site.video_creator_by_name(entry.name) do
           {:error, cset} ->
             {:error, cset}
-          {_, site} ->
 
+          {_, site} ->
             case Repo.update(changeset(video_entry, %{site_id: site.id})) do
               {:error, reason} ->
                 {:error, reason}
+
               {_, video_entry} ->
                 {:new, video_entry}
             end

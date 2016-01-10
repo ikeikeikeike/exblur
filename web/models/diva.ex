@@ -1,5 +1,6 @@
 defmodule Exblur.Diva do
   use Exblur.Web, :model
+  alias Exblur.Diva
 
   schema "divas" do
     field :name,       :string
@@ -40,4 +41,38 @@ defmodule Exblur.Diva do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
+
+  def changeset_actress(model, actress) do
+    params = 
+      actress
+      |> Map.put("romaji", actress["oto"]) 
+      |> Map.put("kana",   actress["yomi"]) 
+      |> Map.put("image",  actress["thumb"]) 
+      |> Enum.filter(&(elem(&1, 0) in @required_fields))
+      # for {key, val} <- actress, into: %{}, do: {String.to_atom(key), val}
+
+    changeset(model, params) 
+  end
+
+  def find_or_create(query, cset) do
+    model = Repo.one(query)
+    case model do
+      nil ->
+        case Repo.insert(cset) do  
+          {:ok, model} ->
+            {:new, model}
+
+          {:error, cset} ->
+            {:error, cset}
+        end
+      _ ->
+        {:ok, model}
+    end
+  end
+
+  def diva_creater(actress) do
+    query = from v in Diva, where: v.name == ^actress["name"]
+    find_or_create(query, changeset_actress(%Diva{}, actress))
+  end
+
 end
