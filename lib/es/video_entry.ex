@@ -1,11 +1,13 @@
 defmodule Es.VideoEntry do
-  # need to agent.
- 
+  # need to agent. 
+
   import Tirexs.Bulk
   import Tirexs.Query
   import Tirexs.Search
   import Tirexs.Mapping
   import Tirexs.Index.Settings
+
+  import Imitation.Converter, only: [to_i: 1]
 
   require Tirexs.ElasticSearch
 
@@ -204,16 +206,6 @@ defmodule Es.VideoEntry do
       {index, es_settings}
     end
 
-  end
-
-  defp to_i(num) when is_integer(num),  do: num
-  defp to_i(num) when is_float(num),    do: round(num)
-  defp to_i(num) when is_nil(num),      do: 0
-  defp to_i(num) do
-    case Integer.parse(num) do
-      :error -> 0
-      {n, _} -> n
-    end
   end
 
 end
