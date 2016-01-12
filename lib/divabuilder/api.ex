@@ -31,7 +31,13 @@ defmodule Divabuilder.Api do
   def getdata(prefix) do
     case Client.get process_url(prefix) do
       {:ok, response} ->
-        Poison.decode response.body
+        case Poison.decode(response.body) do
+          {:ok, data} ->
+            {:ok, data}
+
+          {:error, reason} ->
+            {:error, reason, :msg, "Got a unknown letter `" <> prefix <> "`"}
+        end
       {:error, reason} ->
         {:error, reason}
     end

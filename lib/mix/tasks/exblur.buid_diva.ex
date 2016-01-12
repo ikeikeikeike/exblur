@@ -11,14 +11,14 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
   """
   def run(args) do
     setup
-    
+
     responses = if length(args) > 0, do: Divabuilder.getdata(args), else: Divabuilder.getdata
 
     models = 
       responses
-      |> Enum.map(fn(response) ->
-        case response do
-          {:ok, data} ->
+      |> Enum.flat_map(fn(response) ->
+        case (for {_key, val} <- response, into: %{}, do: val) do
+          %{ok: data} ->
             data["Actresses"]
         end
       end)
@@ -37,10 +37,20 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
           end
         end
       end)
-      |> Enum.filter(&(&1 != nil)) 
-        
+      |> Enum.filter(fn(result) ->
+        case result do
+          {:ok, %Exblur.Diva{}} ->
+            true
+         _ ->
+            false
+        end
+      end)
+      |> Enum.map(&elem(&1, 1))
+
     # Put built up document to Elasticsearch
-    if length(models) > 0, do: Es.Diva.put_document(models)
+    # if length(models) > 0, do: Es.Diva.put_document(models)
+
+    IO.inspect models
 
   end
 
