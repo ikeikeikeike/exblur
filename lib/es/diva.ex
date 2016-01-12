@@ -2,17 +2,18 @@ defmodule Es.Diva do
   # need to agent.
  
   import Tirexs.Bulk
-  import Tirexs.Query
-  import Tirexs.Search
+  # import Tirexs.Query
+  # import Tirexs.Search
   import Tirexs.Mapping
   import Tirexs.Index.Settings
 
-  import Imitation.Converter, only: [to_i: 1]
+  # import Imitation.Converter, only: [to_i: 1]
 
   require Tirexs.ElasticSearch
 
   require Logger
 
+  @type_name "diva"
   @index_name "exblur_divas"
 
   def put_document(models) when is_list(models) do
@@ -36,61 +37,47 @@ defmodule Es.Diva do
     ]
   end
 
-  def do_search(word \\ nil, options \\ []) do
+  # def do_search(word \\ nil, options \\ []) do
 
-    # Logger.debug "#{inspect queries}"
-    # Logger.debug "#{JSX.prettify! JSX.encode!(queries)}"
-    # Tirexs.Query.create_resource(queries)
-  end
+    # # Logger.debug "#{inspect queries}"
+    # # Logger.debug "#{JSX.prettify! JSX.encode!(queries)}"
+    # # Tirexs.Query.create_resource(queries)
+  # end
 
-  def reindex do
-    alias_name = @index_name
-    {:ok, suffix} = Timex.Date.now |> Timex.DateFormat.format("%Y%m%d%H%M%S%f", :strftime)
+  # def reindex do
+    # alias_name = @index_name
+    # {:ok, suffix} = Timex.Date.now |> Timex.DateFormat.format("%Y%m%d%H%M%S%f", :strftime)
 
-    # old_index = list(c.indices.get_alias(alias_name).keys())[0]
-    new_index = alias_name <> "_" <> suffix
-  end
+    # # old_index = list(c.indices.get_alias(alias_name).keys())[0]
+    # new_index = alias_name <> "_" <> suffix
+  # end
 
   def create_index do
-
-    Tirexs.DSL.define [type: "dsl", index: @index_name], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: @type_name, index: @index_name, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
       settings do
         analysis do
-          filter    "ja_posfilter",     type: "kuromoji_part_of_speech", stoptags: ["助詞-格助詞-一般", "助詞-終助詞"]
+          filter    "exblur_index_shingle",       type: "shingle",   token_separator: ""
+          filter    "exblur_edge_ngram",          type: "edgeNGram", min_gram: "1", max_gram: "50"
+          filter    "exblur_stemmer",             type: "snowball",  language: "English"
 
-          tokenizer "ja_tokenizer",     type: "kuromoji_tokenizer"
-          tokenizer "ngram_tokenizer",  type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
+          tokenizer "exblur_autocomplete_ngram",  type: "edgeNGram", min_gram: "1", max_gram: "50"
 
-          analyzer  "default",          type: "custom", tokenizer: "ja_tokenizer"
-          analyzer  "ja_analyzer",      type: "custom", tokenizer: "ja_tokenizer", filter: ["kuromoji_baseform", "ja_posfilter", "cjk_width"]
-          analyzer  "ngram_analyzer",                   tokenizer: "ngram_tokenizer"
+          analyzer  "exblur_autocomplete_index",  type: "custom",    filter: ["lowercase", "asciifolding"],                      tokenizer: "exblur_autocomplete_ngram"
+          analyzer  "exblur_autocomplete_search", type: "custom",    filter: ["lowercase", "asciifolding"],                      tokenizer: "keyword"
+          analyzer  "exblur_text_start_index",    type: "custom",    filter: ["lowercase", "asciifolding", "exblur_edge_ngram"], tokenizer: "keyword"
+          analyzer  "default_index",              type: "custom",    filter: [
+            "standard", "lowercase", "asciifolding", "exblur_index_shingle", "exblur_stemmer"], tokenizer: "standard"                
         end
       end
 
       {index, es_settings}
     end
 
-    Tirexs.DSL.define [type: "dsl", index: @index_name], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: @type_name, index: @index_name, index_analyzer: "default_index"], fn(index, es_settings) ->
       mappings do
-        # indexes "id",             type: "long",   index: "not_analyzed", include_in_all: false
-        indexes "url",            type: "string", index: "not_analyzed"
-
-        indexes "site_name",      type: "string", index: "not_analyzed"
-        indexes "server_title",   type: "string", index: "not_analyzed"
-        indexes "server_domain",  type: "string", index: "not_analyzed"
-
-        indexes "tags",           type: "string", index: "not_analyzed"
-        indexes "divas",          type: "string", index: "not_analyzed"
-
-        indexes "title",          type: "string", analyzer: "ja_analyzer"
-        indexes "content",        type: "string", analyzer: "ja_analyzer"
-
-        indexes "time",           type: "long"
-        indexes "published_at",   type: "date",   format: "dateOptionalTime"
-
-        indexes "review",         type: "boolean"
-        indexes "publish",        type: "boolean"
-        indexes "removal",        type: "boolean"
+        indexes "name",   type: "string", analyzer: "exblur_text_start_index"   #  , index: "not_analyzed"
+        indexes "kana",   type: "string", analyzer: "exblur_text_start_index"
+        indexes "romaji", type: "string", analyzer: "exblur_text_start_index"
       end
 
       {index, es_settings}

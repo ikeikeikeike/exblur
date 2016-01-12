@@ -13,6 +13,7 @@ defmodule Es.VideoEntry do
 
   require Logger
 
+  @type_name "video_entry"
   @index_name "exblur_video_entreis"
 
   def put_document(models) when is_list(models) do
@@ -153,17 +154,17 @@ defmodule Es.VideoEntry do
 
   # end
 
-  def reindex do
-    alias_name = @index_name
-    {:ok, suffix} = Timex.Date.now |> Timex.DateFormat.format("%Y%m%d%H%M%S%f", :strftime)
+  # def reindex do
+    # alias_name = @index_name
+    # {:ok, suffix} = Timex.Date.now |> Timex.DateFormat.format("%Y%m%d%H%M%S%f", :strftime)
 
-    # old_index = list(c.indices.get_alias(alias_name).keys())[0]
-    new_index = alias_name <> "_" <> suffix
-  end
+    # # old_index = list(c.indices.get_alias(alias_name).keys())[0]
+    # new_index = alias_name <> "_" <> suffix
+  # end
 
   def create_index do
 
-    Tirexs.DSL.define [type: "dsl", index: @index_name], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: @type_name, index: @index_name], fn(index, es_settings) ->
       settings do
         analysis do
           filter    "ja_posfilter",     type: "kuromoji_part_of_speech", stoptags: ["助詞-格助詞-一般", "助詞-終助詞"]
@@ -180,7 +181,7 @@ defmodule Es.VideoEntry do
       {index, es_settings}
     end
 
-    Tirexs.DSL.define [type: "dsl", index: @index_name], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: @type_name, index: @index_name], fn(index, es_settings) ->
       mappings do
         # indexes "id",             type: "long",   index: "not_analyzed", include_in_all: false
         indexes "url",            type: "string", index: "not_analyzed"
