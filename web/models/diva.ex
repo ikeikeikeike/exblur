@@ -28,8 +28,8 @@ defmodule Exblur.Diva do
     has_many :video_entries, through: [:video_entry_divas, :video_entries]
   end
 
-  @required_fields ~w(name kana romaji gyou height weight bust bracup waste hip blood birthday image)
-  @optional_fields ~w()
+  @required_fields ~w(name kana romaji gyou image)
+  @optional_fields ~w(height weight bust bracup waste hip blood birthday)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -49,6 +49,7 @@ defmodule Exblur.Diva do
       |> Map.put("kana",   actress["yomi"]) 
       |> Map.put("image",  actress["thumb"]) 
       |> Enum.filter(&(elem(&1, 0) in @required_fields))
+      |> Enum.into(%{})
       # for {key, val} <- actress, into: %{}, do: {String.to_atom(key), val}
 
     changeset(model, params) 
