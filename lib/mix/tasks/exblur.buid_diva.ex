@@ -4,7 +4,7 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
 
   require Logger
 
-  @shortdoc "Builds diva table from apiactress.appspot.com"
+  @shortdoc "Builds diva table using apiactress.appspot.com data."
 
   @moduledoc """
   nothing
@@ -48,9 +48,7 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
       |> Enum.map(&elem(&1, 1))
 
     # Put built up document to Elasticsearch
-    # if length(models) > 0, do: Es.Diva.put_document(models)
-
-    IO.inspect models
+    if length(models) > 0, do: Es.Diva.put_document(models)
 
   end
 

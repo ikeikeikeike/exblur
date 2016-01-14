@@ -1,32 +1,21 @@
 defmodule Es.VideoEntry do
   # need to agent. 
-
+  #
   import Tirexs.Bulk
-  import Tirexs.Query
-  import Tirexs.Search
-  import Tirexs.Mapping
-  import Tirexs.Index.Settings
-
+  import Tirexs.Mapping, only: [mappings: 1, indexes: 1]
+  import Tirexs.Index.Settings, only: [settings: 1, analysis: 1, filter: 2, tokenizer: 2, analyzer: 2]
   import Imitation.Converter, only: [to_i: 1]
 
-  require Tirexs.ElasticSearch
-
   require Logger
+  require Es.Document
+  require Tirexs.Query
+  require Tirexs.Search
+  require Tirexs.ElasticSearch
 
   @type_name "video_entry"
   @index_name "exblur_video_entreis"
 
-  def put_document(models) when is_list(models) do
-    Tirexs.Bulk.store [index: @index_name, refresh: true], Tirexs.ElasticSearch.config() do
-      Enum.each models, &create(search_data(&1))
-    end
-  end
-
-  def put_document(model) do
-    Tirexs.Bulk.store [index: @index_name, refresh: true], Tirexs.ElasticSearch.config() do
-      create search_data(model)
-    end
-  end
+  def put_document(models), do: Es.Document.put_document(models) 
 
   #### for develop #####
   def put_document(model, tags, divas) do
@@ -66,7 +55,7 @@ defmodule Es.VideoEntry do
     ]
   end
 
-  def do_search(word \\ nil, options \\ []) do
+  def search(word \\ nil, options \\ []) do
 
     fields = [:title, :content, :tags, :divas]
 
@@ -76,7 +65,7 @@ defmodule Es.VideoEntry do
     offset = options[:offset] || (page - 1) * per_page
 
     # queries = search [index: @index_name, from: 0, size: 10, fields: [:tag, :article], explain: 5, version: true, min_score: 0.5] do
-    queries = search [index: @index_name, fields: fields, from: offset, size: per_page] do
+    queries = Tirexs.Search.search [index: @index_name, fields: fields, from: offset, size: per_page] do
 
       query do
         match_all
@@ -135,7 +124,7 @@ defmodule Es.VideoEntry do
     end
 
     if word do
-      s = Keyword.delete(queries[:search], :query) ++ query do
+      s = Keyword.delete(queries[:search], :query) ++ Tirexs.Query.query do
         multi_match word, fields # , cutoff_frequency: 0.001, boost: 10, use_dis_max: false, operator: "and"
       end
 

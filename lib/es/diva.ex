@@ -1,32 +1,21 @@
 defmodule Es.Diva do
-  # need to agent.
- 
-  import Tirexs.Bulk
-  # import Tirexs.Query
-  # import Tirexs.Search
-  import Tirexs.Mapping
-  import Tirexs.Index.Settings
+  # need to agent. 
+  #
+  import Tirexs.Bulk, only: [create: 1, bulk: 3, store: 3]
+  import Tirexs.Mapping, only: [mappings: 1, indexes: 1]
+  import Tirexs.Index.Settings, only: [settings: 1, analysis: 1, filter: 2, tokenizer: 2, analyzer: 2]
 
   # import Imitation.Converter, only: [to_i: 1]
 
-  require Tirexs.ElasticSearch
-
+  require Tirexs.Query
+  require Tirexs.Search
   require Logger
+  require Es
 
-  @type_name "diva"
+  @type_name  "diva"
   @index_name "exblur_divas"
 
-  def put_document(models) when is_list(models) do
-    Tirexs.Bulk.store [index: @index_name, refresh: true], Tirexs.ElasticSearch.config() do
-      Enum.each models, &create(search_data(&1))
-    end
-  end
-
-  def put_document(model) do
-    Tirexs.Bulk.store [index: @index_name, refresh: true], Tirexs.ElasticSearch.config() do
-      create search_data(model)
-    end
-  end
+  def put_document(models), do: Es.put_document(models) 
 
   def search_data(model) do
     [
