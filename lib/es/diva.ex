@@ -27,8 +27,7 @@ defmodule Es.Diva do
     ]
   end
 
-  def search(word, options \\ []) do
-    _ = options
+  def search(word) do
     queries = Tirexs.Search.search [index: @index_name, from: 0, size: 5] do
       query do
         dis_max do

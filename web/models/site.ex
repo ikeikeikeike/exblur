@@ -122,6 +122,7 @@ defmodule Exblur.Site do
             case Repo.update(changeset(model, params)) do
               {:error, reason} ->
                 {:error, reason}
+
               {_, model} ->
                 {:new, model}
             end
