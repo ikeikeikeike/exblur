@@ -6,16 +6,17 @@ defmodule Es.VideoEntry do
   import Tirexs.Index.Settings, only: [settings: 1, analysis: 1, filter: 2, tokenizer: 2, analyzer: 2]
   import Imitation.Converter, only: [to_i: 1]
 
-  require Logger
-  require Es.Document
   require Tirexs.Query
   require Tirexs.Search
   require Tirexs.ElasticSearch
+  require Logger
+  require Es
 
   @type_name "video_entry"
   @index_name "exblur_video_entreis"
 
-  def put_document(models), do: Es.Document.put_document(models) 
+  def put_document(models) when is_list(models), do: Es.put_docs(models)
+  def put_document(model), do: Es.put_doc(model)
 
   #### for develop #####
   def put_document(model, tags, divas) do

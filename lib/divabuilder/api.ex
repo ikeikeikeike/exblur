@@ -11,9 +11,9 @@ defmodule Divabuilder.Api do
     na ni nu ne no
     ha hi hu he ho
     ma mi mu me mo
-    ya yu yo
+    ya    yu    yo
     ra ri ru re ro
-    wa wo nn vu
+    wa
   }
 
   def getdata do

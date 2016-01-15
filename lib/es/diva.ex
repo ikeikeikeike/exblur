@@ -15,23 +15,36 @@ defmodule Es.Diva do
   @type_name  "diva"
   @index_name "exblur_divas"
 
-  def put_document(models), do: Es.put_document(models) 
+  def put_document(models) when is_list(models), do: Es.put_docs(models)
+  def put_document(model), do: Es.put_doc(model)
 
   def search_data(model) do
     [
       # id: model.id,
       name: model.name,
       kana: model.kana,
-      romaji: model.romaji,
+      romaji: String.replace(model.romaji, "_", ""),
     ]
   end
 
-  # def do_search(word \\ nil, options \\ []) do
+  def search(word, options \\ []) do
+    _ = options
+    queries = Tirexs.Search.search [index: @index_name, from: 0, size: 5] do
+      query do
+        dis_max do
+          queries do
+            multi_match word, ["name"],   analyzer: "exblur_autocomplete_search"
+            multi_match word, ["kana"],   analyzer: "exblur_autocomplete_search"
+            multi_match word, ["romaji"], analyzer: "exblur_autocomplete_search"
+          end
+        end
+      end
+    end
 
-    # # Logger.debug "#{inspect queries}"
-    # # Logger.debug "#{JSX.prettify! JSX.encode!(queries)}"
-    # # Tirexs.Query.create_resource(queries)
-  # end
+    Logger.debug "#{inspect queries}"
+    Logger.debug "#{JSX.prettify! JSX.encode!(queries)}"
+    Tirexs.Query.create_resource(queries)
+  end
 
   # def reindex do
     # alias_name = @index_name
@@ -64,9 +77,9 @@ defmodule Es.Diva do
 
     Tirexs.DSL.define [type: @type_name, index: @index_name, index_analyzer: "default_index"], fn(index, es_settings) ->
       mappings do
-        indexes "name",   type: "string", analyzer: "exblur_text_start_index"   #  , index: "not_analyzed"
-        indexes "kana",   type: "string", analyzer: "exblur_text_start_index"
-        indexes "romaji", type: "string", analyzer: "exblur_text_start_index"
+        indexes "name",   type: "string", analyzer: "exblur_text_start_index", index: "not_analyzed"
+        indexes "kana",   type: "string", analyzer: "exblur_text_start_index", index: "not_analyzed"
+        indexes "romaji", type: "string", analyzer: "exblur_text_start_index", index: "not_analyzed"
       end
 
       {index, es_settings}

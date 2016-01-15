@@ -50,14 +50,9 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
       |> Enum.filter(&(&1 != nil)) 
         
     # Put built up document to Elasticsearch
-    if length(models) > 0, do: Es.VideoEntry.put_document(models)
+    if length(models) > 0, do: Logger.debug("#{inspect Es.VideoEntry.put_document(models)}") 
 
-    # IO.inspect query
-
-    # record = Exblur.Mongo.get Exblur.Entry, "56169c0b20103e0eb9f89f6e"
-    # IO.inspect record
-    # Mix.shell.info "Greetings from the Hello Phoenix Application!"
-
+    Mix.shell.info "Finish to build entry"
   end
 
   def setup do
