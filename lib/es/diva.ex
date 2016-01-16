@@ -32,9 +32,12 @@ defmodule Es.Diva do
       query do
         dis_max do
           queries do
-            multi_match word, ["name"],   analyzer: "exblur_autocomplete_search"
-            multi_match word, ["kana"],   analyzer: "exblur_autocomplete_search"
-            multi_match word, ["romaji"], analyzer: "exblur_autocomplete_search"
+            multi_match word, ["name"]
+            prefix "name", word
+            multi_match word, ["kana"]
+            prefix "kana", word
+            multi_match word, ["romaji"]
+            prefix "romaji", word
           end
         end
       end
@@ -57,28 +60,22 @@ defmodule Es.Diva do
     Tirexs.DSL.define [type: @type_name, index: @index_name, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
       settings do
         analysis do
-          filter    "exblur_index_shingle",       type: "shingle",   token_separator: ""
-          filter    "exblur_edge_ngram",          type: "edgeNGram", min_gram: "1", max_gram: "50"
-          filter    "exblur_stemmer",             type: "snowball",  language: "English"
-
-          tokenizer "exblur_autocomplete_ngram",  type: "edgeNGram", min_gram: "1", max_gram: "50"
-
-          analyzer  "exblur_autocomplete_index",  type: "custom",    filter: ["lowercase", "asciifolding"],                      tokenizer: "exblur_autocomplete_ngram"
-          analyzer  "exblur_autocomplete_search", type: "custom",    filter: ["lowercase", "asciifolding"],                      tokenizer: "keyword"
-          analyzer  "exblur_text_start_index",    type: "custom",    filter: ["lowercase", "asciifolding", "exblur_edge_ngram"], tokenizer: "keyword"
-          analyzer  "default_index",              type: "custom",    filter: [
-            "standard", "lowercase", "asciifolding", "exblur_index_shingle", "exblur_stemmer"], tokenizer: "standard"                
+          tokenizer "ngram_tokenizer", type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
+          analyzer  "ngram_analyzer",  tokenizer: "ngram_tokenizer"
         end
       end
 
       {index, es_settings}
     end
 
-    Tirexs.DSL.define [type: @type_name, index: @index_name, index_analyzer: "default_index"], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: @type_name, index: @index_name], fn(index, es_settings) ->
       mappings do
-        indexes "name",   type: "string", analyzer: "exblur_text_start_index", index: "not_analyzed"
-        indexes "kana",   type: "string", analyzer: "exblur_text_start_index", index: "not_analyzed"
-        indexes "romaji", type: "string", analyzer: "exblur_text_start_index", index: "not_analyzed"
+        indexes "name",   [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
+                                                    tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
+        indexes "kana",   [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
+                                                    tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
+        indexes "romaji", [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
+                                                    tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
       end
 
       {index, es_settings}
