@@ -1,49 +1,5 @@
 defmodule Japanese.Romaji do
-  # alias Japanese.Table
-
-  # def romaji2kana(text, options \\ []) do
-    # text = hira2kata(normalize(text))
-    # pos = 0
-    # k = nil
-    # kana = ''
-    # chars =  text.split(//u)
-    # while true do
-      # # ン
-      # if chars[pos] == 'm' && ['p', 'b', 'm'].include?(chars[pos + 1])
-        # kana += 'ン'
-        # pos += 1
-        # next
-      # end
-
-      # # ッ
-      # if chars[pos] == chars[pos + 1] && !['a', 'i', 'u', 'e', 'o', 'n'].include?(chars[pos]) && chars[pos] =~ /[a-z]/
-        # kana += 'ッ'
-        # pos += 1
-        # next
-      # end
-
-      # Enum.each [3, 2, 1], fn t ->
-        # substr = chars.slice(pos, t).join
-        # k = ROMAJI2KANA[substr]
-        # if k do
-          # kana += k
-          # pos += t
-          # break
-        # end
-      # end
-      # unless k do
-        # kana += chars.slice(pos, 1).join
-        # pos += 1
-      # end
-
-      # if pos >= chars.size, do: break
-    # end
-
-    # kana_type = options[:kana_type] || :katakana
-    # kana = kata2hira(kana) if :hiragana == kana_type.to_sym
-      
-    # kana
-  # end
+  alias Japanese.Table
 
   def romaji2kana(text, options \\ []) do
     chars = 
@@ -65,7 +21,32 @@ defmodule Japanese.Romaji do
   def detect_romaji(list, kana \\ "")
   def detect_romaji([], kana), do: kana
   def detect_romaji([head|tail], kana) do
-    detect_romaji(tail, kana <> head)
+    cond do
+      # ン
+      head == "m" && Enum.member?(["p", "b", "m"], List.first(tail)) ->
+        detect_romaji(tail, kana <> "ン")
+      # ッ
+      head == List.first(tail) && ! Enum.member?(["a", "i", "u", "e", "o", "n"], head) && Regex.match?(~r/[a-z]/, head) ->
+        detect_romaji(tail, kana <> "ッ")
+      # otherwise
+      true ->
+        letters = 
+          Enum.map((3..1), fn(n) ->
+            taken = 
+              tail
+              |> Enum.take(n)
+              |> Enum.join 
+
+            if taken != "", do: Table.romaji2kana[taken], else: nil
+          end)
+          |> Enum.filter(&(&1 != nil))
+
+        if letters == [] do
+          letters = tail |> Enum.take(1)
+        end
+
+        detect_romaji(tail, kana <> Enum.join(letters))
+    end
   end
 
   def hira2kata(text) when is_binary(text), do: hira2kata(to_char_list(text))
