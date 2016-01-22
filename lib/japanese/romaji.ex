@@ -41,11 +41,14 @@ defmodule Japanese.Romaji do
           end)
           |> Enum.filter(&(&1 != nil))
 
-        if letters == [] do
-          letters = tail |> Enum.take(1)
+        case letters do
+          [] ->
+            detect_romaji(tail, kana <> Enum.join(Enum.take(tail, 1)))
+          _ ->
+            takes = Enum.slice(tail, length(letters) - 1, length(tail))
+            detect_romaji(takes, kana <> Enum.join(letters))
         end
 
-        detect_romaji(tail, kana <> Enum.join(letters))
     end
   end
 
