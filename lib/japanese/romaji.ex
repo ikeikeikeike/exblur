@@ -1,54 +1,54 @@
 defmodule Japanese.Romaji do
   alias Japanese.Table
 
-  def romaji2kana(text, options \\ []) do
-    chars = 
-      text
-      |> normalize
-      |> hira2kata 
-      |> String.codepoints
-
-    kana = detect_romaji(chars)
-
-    case (options[:kana_type] || :katakana) do
-      :hiragana ->
-        kata2hira(kana)
-      _ ->
-        kana
-    end
+  def katakana(text) do
+    text
+    |> normalize
+    |> hira2kata 
+    |> String.codepoints
+    |> detect_romaji
   end
 
-  def detect_romaji(list, kana \\ "")
-  def detect_romaji([], kana), do: kana
-  def detect_romaji([head|tail], kana) do
+  def hiragana(text) do
+    text
+    |> normalize
+    |> hira2kata 
+    |> String.codepoints
+    |> detect_romaji
+    |> kata2hira
+  end
+
+  defp detect_romaji(list, kana \\ "")
+  defp detect_romaji([], kana), do: kana
+  defp detect_romaji([head|tail], kana) do
     cond do
       # ン
       head == "m" && Enum.member?(["p", "b", "m"], List.first(tail)) ->
         detect_romaji(tail, kana <> "ン")
       # ッ
-      head == List.first(tail) && ! Enum.member?(["a", "i", "u", "e", "o", "n"], head) && Regex.match?(~r/[a-z]/, head) ->
+      (  
+        head == List.first(tail) && Regex.match?(~r/[a-z]/, head) && 
+       !Enum.member?(["a", "i", "u", "e", "o", "n"], head)
+      ) ->
         detect_romaji(tail, kana <> "ッ")
       # otherwise
       true ->
-        letters = 
-          Enum.map((3..1), fn(n) ->
-            taken = 
-              tail
-              |> Enum.take(n)
-              |> Enum.join 
-
-            if taken != "", do: Table.romaji2kana[taken], else: nil
-          end)
-          |> Enum.filter(&(&1 != nil))
-
-        case letters do
-          [] ->
-            detect_romaji(tail, kana <> Enum.join(Enum.take(tail, 1)))
-          _ ->
-            takes = Enum.slice(tail, length(letters) - 1, length(tail))
-            detect_romaji(takes, kana <> Enum.join(letters))
+        case pos_loop([head] ++ tail) do
+          {_, nil} ->
+            detect_romaji(tail, kana <> head)
+          {tail, letter} ->
+            detect_romaji(tail, kana <> letter)
         end
+    end
+  end
 
+  defp pos_loop(list), do: pos_loop(list, 3)
+  defp pos_loop(list, num) do
+    case letter = Table.romaji2kana[Enum.join(Enum.take(list, num))] do
+      nil ->
+        if num > 1, do: pos_loop(list, num - 1), else: {list, nil}
+      _ ->
+        {Enum.slice(list, num, length(list)), letter}
     end
   end
 
