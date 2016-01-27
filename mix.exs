@@ -19,7 +19,7 @@ defmodule Exblur.Mixfile do
   def application do
     [mod: {Exblur, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :mongodb_ecto, 
+                    :phoenix_ecto, :postgrex, :mongodb_ecto,
                     :ex_aws, :bing_translator, :exfavicon]]
   end
 
@@ -44,9 +44,11 @@ defmodule Exblur.Mixfile do
      {:arc, "~> 0.2.2"},
      {:arc_ecto, "~> 0.3"},
      {:ex_aws, "~> 0.4.10"},
-     {:httpoison, "~> 0.8"}, 
+     {:httpoison, "~> 0.8"},
      {:tirexs, "~> 0.7"},
-     {:timex, "~> 0.19"}
+     {:timex, "~> 0.19"},
+     {:exromaji, "~> 0.2"},
+     {:exkanji, "~> 0.2"},
     ]
   end
 
