@@ -14,7 +14,7 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
 
     responses = if length(args) > 0, do: Divabuilder.getdata(args), else: Divabuilder.getdata
 
-    models = 
+    models =
       responses
       |> Enum.flat_map(fn(response) ->
         case (for {_key, val} <- response, into: %{}, do: val) do
@@ -26,7 +26,7 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
         Repo.transaction fn ->
           case Diva.diva_creater(actress) do
             {:error, reason} ->
-              Repo.rollback(reason); Logger.error("#{inspect reason}") 
+              Repo.rollback(reason); Logger.error("#{inspect reason}")
               nil
 
             {:ok, _model} ->
@@ -48,7 +48,7 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
       |> Enum.map(&elem(&1, 1))
 
     # Put built up document to Elasticsearch
-    if length(models) > 0, do: Logger.debug("#{inspect Es.Diva.put_document(models)}") 
+    if length(models) > 0, do: Logger.debug("#{inspect Es.Diva.put_document(models)}")
 
     Mix.shell.info "Finish to build diva"
   end

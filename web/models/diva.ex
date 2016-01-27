@@ -43,23 +43,23 @@ defmodule Exblur.Diva do
   end
 
   def changeset_actress(model, actress) do
-    params = 
+    params =
       actress
-      |> Map.put("romaji", actress["oto"]) 
-      |> Map.put("kana",   actress["yomi"]) 
-      |> Map.put("image",  actress["thumb"]) 
+      |> Map.put("romaji", actress["oto"])
+      |> Map.put("kana",   actress["yomi"])
+      |> Map.put("image",  actress["thumb"])
       |> Enum.filter(&(elem(&1, 0) in @required_fields))
       |> Enum.into(%{})
       # for {key, val} <- actress, into: %{}, do: {String.to_atom(key), val}
 
-    changeset(model, params) 
+    changeset(model, params)
   end
 
   def find_or_create(query, cset) do
     model = Repo.one(query)
     case model do
       nil ->
-        case Repo.insert(cset) do  
+        case Repo.insert(cset) do
           {:ok, model} ->
             {:new, model}
 
