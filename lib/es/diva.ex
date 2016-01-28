@@ -1,12 +1,15 @@
 defmodule Es.Diva do
-  # need to agent. 
+  # need to agent.
   #
   import Tirexs.Bulk, only: [create: 1, bulk: 3, store: 3]
   import Tirexs.Mapping, only: [mappings: 1, indexes: 1]
   import Tirexs.Index.Settings, only: [settings: 1, analysis: 1, filter: 2, tokenizer: 2, analyzer: 2]
+  import Tirexs.Manage.Aliases, only: [aliases: 1, add: 1, remove: 1]
+
 
   # import Imitation.Converter, only: [to_i: 1]
 
+  require Tirexs.Manage
   require Tirexs.Query
   require Tirexs.Search
   require Logger
@@ -43,18 +46,49 @@ defmodule Es.Diva do
       end
     end
 
-    Logger.debug "#{inspect queries}"
-    Logger.debug "#{JSX.prettify! JSX.encode!(queries)}"
+    Es.ppquery(queries)
     Tirexs.Query.create_resource(queries)
   end
 
-  # def reindex do
-    # alias_name = @index_name
-    # {:ok, suffix} = Timex.Date.now |> Timex.DateFormat.format("%Y%m%d%H%M%S%f", :strftime)
+  def reindex do
+    settings = Tirexs.ElasticSearch.config()
 
-    # # old_index = list(c.indices.get_alias(alias_name).keys())[0]
-    # new_index = alias_name <> "_" <> suffix
-  # end
+    case Tirexs.ElasticSearch.get("#{@index_name}/_aliases/", settings) do
+      {:ok, 200, %{}} ->
+        queries = aliases do
+          add index: @index_name, alias: "#{@index_name}_#{timestamp}"
+        end
+
+        Es.ppquery(queries)
+        Tirexs.ElasticSearch.post("_aliases", JSX.encode!(queries), settings)
+    end
+
+    {:ok, 200, m} = Tirexs.ElasticSearch.get("#{@index_name}/_aliases/", settings)
+    old_index = List.first(Map.keys(m[String.to_atom(@index_name)]))
+    new_index = "#{@index_name}_#{timestamp}"
+
+    #
+    # create new index
+    #
+
+    #
+    # dosomething
+    #
+
+    # queries = aliases do
+      # add index: @index_name, alias: new_index
+    # end
+    # Es.ppquery(queries)
+    # Tirexs.ElasticSearch.post("_aliases", JSX.encode!(queries), settings)
+
+    queries = aliases do
+      remove index: old_index, alias: @index_name
+      add    index: new_index, alias: @index_name
+    end
+    Es.ppquery(queries)
+    Tirexs.Manage.aliases(queries, settings)
+    # Tirexs.ElasticSearch.post("_aliases", JSX.encode!(queries), Tirexs.ElasticSearch.config())
+  end
 
   def create_index do
     Tirexs.DSL.define [type: @type_name, index: @index_name, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
@@ -82,4 +116,10 @@ defmodule Es.Diva do
     end
 
   end
+
+  defp timestamp do
+    Timex.Date.now
+    |> Timex.DateFormat.format!("%Y%m%d%H%M%S%f", :strftime)
+  end
+
 end

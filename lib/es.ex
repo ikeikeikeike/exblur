@@ -1,5 +1,12 @@
 defmodule Es do
 
+  require Logger
+
+  def ppquery(queries) do
+    Logger.debug "#{inspect queries}"
+    Logger.debug "#{JSX.prettify! JSX.encode!(queries)}"
+  end
+
   defmacro put_doc(model) do
     quote do
       Tirexs.Bulk.store [index: @index_name, refresh: true], Tirexs.ElasticSearch.config() do
