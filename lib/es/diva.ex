@@ -55,43 +55,51 @@ defmodule Es.Diva do
 
     case Tirexs.ElasticSearch.get("#{@index_name}/_aliases/", settings) do
       {:ok, 200, %{}} ->
-        queries = aliases do
-          add index: @index_name, alias: "#{@index_name}_#{timestamp}"
-        end
+        new_index = "#{@index_name}_#{timestamp}"
 
-        Es.ppquery(queries)
+        # create index
+        create_index(new_index)
+
+        # create alias
+        queries = aliases do
+          add index: @index_name, alias: new_index
+        end
         Tirexs.ElasticSearch.post("_aliases", JSX.encode!(queries), settings)
+        Es.ppquery(queries)
     end
 
-    {:ok, 200, m} = Tirexs.ElasticSearch.get("#{@index_name}/_aliases/", settings)
+    {:ok, 200, m} = Tirexs.ElasticSearch.get("#{@index_name}/_alias/", settings)
     old_index = List.first(Map.keys(m[String.to_atom(@index_name)]))
+    # IO.inspect old_index
+    # require IEx; IEx.pry
     new_index = "#{@index_name}_#{timestamp}"
 
-    #
     # create new index
-    #
+    create_index(new_index)
 
     #
     # dosomething
     #
 
-    # queries = aliases do
-      # add index: @index_name, alias: new_index
-    # end
-    # Es.ppquery(queries)
-    # Tirexs.ElasticSearch.post("_aliases", JSX.encode!(queries), settings)
+    # create alias
+    queries = aliases do
+      add index: @index_name, alias: new_index
+    end
+    Tirexs.ElasticSearch.post("_aliases", JSX.encode!(queries), settings)
+    Es.ppquery(queries)
 
+    # update new alias from old alias
     queries = aliases do
       remove index: old_index, alias: @index_name
       add    index: new_index, alias: @index_name
     end
+    # Tirexs.Manage.aliases(queries, settings)
+    Tirexs.ElasticSearch.post("_aliases", JSX.encode!(queries), settings)
     Es.ppquery(queries)
-    Tirexs.Manage.aliases(queries, settings)
-    # Tirexs.ElasticSearch.post("_aliases", JSX.encode!(queries), Tirexs.ElasticSearch.config())
   end
 
-  def create_index do
-    Tirexs.DSL.define [type: @type_name, index: @index_name, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
+  def create_index(index_name \\ @index_name) do
+    Tirexs.DSL.define [type: @type_name, index: index_name, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
       settings do
         analysis do
           tokenizer "ngram_tokenizer", type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
@@ -102,7 +110,7 @@ defmodule Es.Diva do
       {index, es_settings}
     end
 
-    Tirexs.DSL.define [type: @type_name, index: @index_name], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: @type_name, index: index_name], fn(index, es_settings) ->
       mappings do
         indexes "name",   [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
                                                     tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
