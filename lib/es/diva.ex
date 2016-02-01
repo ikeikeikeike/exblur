@@ -1,25 +1,15 @@
 defmodule Es.Diva do
   # need to agent.
-  #
-  import Tirexs.Bulk, only: [create: 1, bulk: 3, store: 3]
-  import Tirexs.Mapping, only: [mappings: 1, indexes: 1]
-  import Tirexs.Index.Settings, only: [settings: 1, analysis: 1, filter: 2, tokenizer: 2, analyzer: 2]
-  import Tirexs.Manage.Aliases, only: [aliases: 1, add: 1, remove: 1]
 
+  use Es
 
   # import Imitation.Converter, only: [to_i: 1]
-
-  require Tirexs.Manage
-  require Tirexs.Query
-  require Tirexs.Search
-  require Logger
-  require Es
 
   @type_name  "diva"
   @index_name "exblur_divas"
 
-  def put_document(models) when is_list(models), do: Es.put_docs(models)
-  def put_document(model), do: Es.put_doc(model)
+  def put_document(models) when is_list(models), do: put_docs(models)
+  def put_document(model), do: put_doc(model)
 
   def search_data(model) do
     [
@@ -46,48 +36,45 @@ defmodule Es.Diva do
       end
     end
 
-    Es.ppquery(queries)
+    ppquery(queries)
     Tirexs.Query.create_resource(queries)
   end
 
   def reindex do
     settings = Tirexs.ElasticSearch.config()
 
-    case Tirexs.ElasticSearch.get("#{@index_name}/_aliases/", settings) do
-      {:ok, 200, %{}} ->
-        queries = aliases do
+    # create new index if es doesn't have that.
+    #
+    case get_aliases(@index_name) do
+      map when map == %{} ->
+        (aliases do
           add index: @index_name, alias: "#{@index_name}_#{timestamp}"
-        end
+        end)
+        |> ppquery
+        |> Tirexs.Manage.aliases(settings)
 
-        Es.ppquery(queries)
-        Tirexs.ElasticSearch.post("_aliases", JSX.encode!(queries), settings)
+      _ ->
+        :ng
     end
 
-    {:ok, 200, m} = Tirexs.ElasticSearch.get("#{@index_name}/_aliases/", settings)
-    old_index = List.first(Map.keys(m[String.to_atom(@index_name)]))
+    old_index = List.first(Map.keys(get_aliases(@index_name)))
     new_index = "#{@index_name}_#{timestamp}"
 
-    #
     # create new index
     #
+    (aliases do add index: @index_name, alias: new_index end)
+    |> ppquery
+    |> Tirexs.Manage.aliases(settings)
 
     #
-    # dosomething
+    # TODO: dosomething
     #
 
-    # queries = aliases do
-      # add index: @index_name, alias: new_index
-    # end
-    # Es.ppquery(queries)
-    # Tirexs.ElasticSearch.post("_aliases", JSX.encode!(queries), settings)
-
-    queries = aliases do
-      remove index: old_index, alias: @index_name
-      add    index: new_index, alias: @index_name
-    end
-    Es.ppquery(queries)
-    Tirexs.Manage.aliases(queries, settings)
-    # Tirexs.ElasticSearch.post("_aliases", JSX.encode!(queries), Tirexs.ElasticSearch.config())
+    # remove old alias
+    #
+    (aliases do remove index: @index_name, alias: old_index end)
+    |> ppquery
+    |> Tirexs.Manage.aliases(settings)
   end
 
   def create_index do
@@ -120,6 +107,12 @@ defmodule Es.Diva do
   defp timestamp do
     Timex.Date.now
     |> Timex.DateFormat.format!("%Y%m%d%H%M%S%f", :strftime)
+  end
+
+  defp get_aliases(index_name) do
+    {:ok, 200, m} = Tirexs.ElasticSearch.get("#{index_name}/_aliases/", Tirexs.ElasticSearch.config())
+    %{aliases: aliases} = m[String.to_atom(index_name)]
+    aliases
   end
 
 end
