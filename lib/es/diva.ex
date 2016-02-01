@@ -3,13 +3,8 @@ defmodule Es.Diva do
 
   use Es
 
-  # import Imitation.Converter, only: [to_i: 1]
-
   @type_name  "diva"
   @index_name "exblur_divas"
-
-  def put_document(models) when is_list(models), do: put_docs(models)
-  def put_document(model), do: put_doc(model)
 
   def search_data(model) do
     [
@@ -37,7 +32,7 @@ defmodule Es.Diva do
     end
 
     ppquery(queries)
-    Tirexs.Query.create_resource(queries)
+    |> Tirexs.Query.create_resource(queries)
   end
 
   def reindex do
@@ -77,8 +72,8 @@ defmodule Es.Diva do
     |> Tirexs.Manage.aliases(settings)
   end
 
-  def create_index do
-    Tirexs.DSL.define [type: @type_name, index: @index_name, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
+  def create_index(index_name \\ @index_name) do
+    Tirexs.DSL.define [type: @type_name, index: index_name, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
       settings do
         analysis do
           tokenizer "ngram_tokenizer", type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
@@ -89,7 +84,7 @@ defmodule Es.Diva do
       {index, es_settings}
     end
 
-    Tirexs.DSL.define [type: @type_name, index: @index_name], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: @type_name, index: index_name], fn(index, es_settings) ->
       mappings do
         indexes "name",   [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
                                                     tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
