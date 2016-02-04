@@ -1,5 +1,5 @@
 defmodule Es.VideoEntry do
-  # need to agent. 
+  # need to agent.
   #
   import Tirexs.Bulk
   import Tirexs.Mapping, only: [mappings: 1, indexes: 1]
