@@ -27,14 +27,14 @@ defmodule Es do
         @index_name
       end
 
-      def put_document(model) when is_list(model) do
-        Tirexs.Bulk.store [index: @index_name, refresh: true], Tirexs.ElasticSearch.config() do
+      def put_document(model, index_name \\ @index_name)
+      def put_document(model, index_name) when is_list(model) do
+        Tirexs.Bulk.store [index: index_name, refresh: true], Tirexs.ElasticSearch.config() do
           Enum.map model, &create(search_data(&1))
         end
       end
-
-      def put_document(model) do
-        Tirexs.Bulk.store [index: @index_name, refresh: true], Tirexs.ElasticSearch.config() do
+      def put_document(model, index_name) do
+        Tirexs.Bulk.store [index: index_name, refresh: true], Tirexs.ElasticSearch.config() do
           create search_data(model)
         end
       end

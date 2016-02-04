@@ -32,7 +32,7 @@ defmodule Es.Diva do
     end
 
     ppquery(queries)
-    |> Tirexs.Query.create_resource(queries)
+    |> Tirexs.Query.create_resource
   end
 
   def reindex do
@@ -40,36 +40,42 @@ defmodule Es.Diva do
 
     # create new index if es doesn't have that.
     #
-    case get_aliases(@index_name) do
-      map when map == %{} ->
+    if !get_aliases(@index_name) do
+        create_index("#{@index_name}_#{timestamp}")
+
         (aliases do
-          add index: @index_name, alias: "#{@index_name}_#{timestamp}"
+          add index: "#{@index_name}_#{timestamp}", alias: @index_name
         end)
         |> ppquery
         |> Tirexs.Manage.aliases(settings)
-
-      _ ->
-        :ng
     end
 
-    old_index = List.first(Map.keys(get_aliases(@index_name)))
+    old_index = get_aliases(@index_name)
     new_index = "#{@index_name}_#{timestamp}"
 
     # create new index
     #
-    (aliases do add index: @index_name, alias: new_index end)
+    create_index(new_index)
+
+    #
+    # Send data to es
+    #
+    Exblur.Diva
+    |> Exblur.Repo.all
+    |> put_document(new_index)
+
+    # change alias
+    #
+    (aliases do
+      remove index: old_index, alias: @index_name
+      add    index: new_index, alias: @index_name
+    end)
     |> ppquery
     |> Tirexs.Manage.aliases(settings)
 
-    #
-    # TODO: dosomething
-    #
+    Tirexs.ElasticSearch.delete("#{old_index}", settings)
 
-    # remove old alias
-    #
-    (aliases do remove index: @index_name, alias: old_index end)
-    |> ppquery
-    |> Tirexs.Manage.aliases(settings)
+    :ok
   end
 
   def create_index(index_name \\ @index_name) do
@@ -97,6 +103,7 @@ defmodule Es.Diva do
       {index, es_settings}
     end
 
+    :ok
   end
 
   defp timestamp do
@@ -105,9 +112,15 @@ defmodule Es.Diva do
   end
 
   defp get_aliases(index_name) do
-    {:ok, 200, m} = Tirexs.ElasticSearch.get("#{index_name}/_aliases/", Tirexs.ElasticSearch.config())
-    %{aliases: aliases} = m[String.to_atom(index_name)]
-    aliases
+    {:ok, 200, map} = Tirexs.ElasticSearch.get("#{index_name <> "*"}/_aliases/", Tirexs.ElasticSearch.config())
+
+    alias =
+      map
+      |> Dict.keys
+      |> List.first
+      |> to_string
+
+    if alias != "", do: alias, else: nil
   end
 
 end

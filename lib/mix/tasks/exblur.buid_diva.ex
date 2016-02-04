@@ -48,7 +48,10 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
       |> Enum.map(&elem(&1, 1))
 
     # Put built up document to Elasticsearch
-    if length(models) > 0, do: Logger.debug("#{inspect Es.Diva.put_document(models)}")
+    if length(models) > 0 do
+      Es.Diva.reindex
+      Logger.debug("finish reindex")
+    end
 
     Mix.shell.info "Finish to build diva"
   end
