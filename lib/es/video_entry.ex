@@ -1,26 +1,12 @@
 defmodule Es.VideoEntry do
   # need to agent.
-  #
-  import Tirexs.Bulk
-  import Tirexs.Mapping, only: [mappings: 1, indexes: 1]
-  import Tirexs.Index.Settings, only: [settings: 1, analysis: 1, filter: 2, tokenizer: 2, analyzer: 2]
-  import Imitation.Converter, only: [to_i: 1]
+  use Es
 
-  require Tirexs.Query
-  require Tirexs.Search
-  require Tirexs.ElasticSearch
-  require Logger
-  require Es
-
-  @type_name "video_entry"
-  @index_name "exblur_video_entreis"
-
-  def put_document(models) when is_list(models), do: Es.put_docs(models)
-  def put_document(model), do: Es.put_doc(model)
+  es :model, Exblur.VideoEntry
 
   #### for develop #####
   def put_document(model, tags, divas) do
-    Tirexs.Bulk.store [index: @index_name, refresh: true], Tirexs.ElasticSearch.config() do
+    Tirexs.Bulk.store [index: get_index, refresh: true], Tirexs.ElasticSearch.config() do
       create search_data(model, tags, divas)
     end
   end
@@ -66,7 +52,7 @@ defmodule Es.VideoEntry do
     offset = options[:offset] || (page - 1) * per_page
 
     # queries = search [index: @index_name, from: 0, size: 10, fields: [:tag, :article], explain: 5, version: true, min_score: 0.5] do
-    queries = Tirexs.Search.search [index: @index_name, fields: fields, from: offset, size: per_page] do
+    queries = Tirexs.Search.search [index: get_index, fields: fields, from: offset, size: per_page] do
 
       query do
         match_all
@@ -140,21 +126,9 @@ defmodule Es.VideoEntry do
   # settings = Tirexs.ElasticSearch.config()
   # Tirexs.ElasticSearch.delete("exblur_video_entreis", settings)
 
-  # def remove_index do
+  def create_index(index \\ get_index) do
 
-  # end
-
-  # def reindex do
-    # alias_name = @index_name
-    # {:ok, suffix} = Timex.Date.now |> Timex.DateFormat.format("%Y%m%d%H%M%S%f", :strftime)
-
-    # # old_index = list(c.indices.get_alias(alias_name).keys())[0]
-    # new_index = alias_name <> "_" <> suffix
-  # end
-
-  def create_index do
-
-    Tirexs.DSL.define [type: @type_name, index: @index_name], fn(index, es_settings) ->
+    Tirexs.DSL.define [index: index], fn(index, es_settings) ->
       settings do
         analysis do
           filter    "ja_posfilter",     type: "kuromoji_part_of_speech", stoptags: ["助詞-格助詞-一般", "助詞-終助詞"]
@@ -171,7 +145,7 @@ defmodule Es.VideoEntry do
       {index, es_settings}
     end
 
-    Tirexs.DSL.define [type: @type_name, index: @index_name], fn(index, es_settings) ->
+    Tirexs.DSL.define [index: index], fn(index, es_settings) ->
       mappings do
         # indexes "id",             type: "long",   index: "not_analyzed", include_in_all: false
         indexes "url",            type: "string", index: "not_analyzed"
@@ -196,7 +170,5 @@ defmodule Es.VideoEntry do
 
       {index, es_settings}
     end
-
   end
-
 end

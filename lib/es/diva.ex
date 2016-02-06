@@ -1,6 +1,8 @@
 defmodule Es.Diva do
   # need to agent.
   use Es
+  use Es.Index
+  use Es.Document
 
   es :model, Exblur.Diva
 
@@ -14,7 +16,7 @@ defmodule Es.Diva do
   end
 
   def search(word) do
-    queries = Tirexs.Search.search [index: getindex, from: 0, size: 5] do
+    queries = Tirexs.Search.search [index: get_index, from: 0, size: 5] do
       query do
         dis_max do
           queries do
@@ -33,8 +35,8 @@ defmodule Es.Diva do
     |> Tirexs.Query.create_resource
   end
 
-  def create_index(index \\ getindex) do
-    Tirexs.DSL.define [index: index, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
+  def create_index(index \\ get_index) do
+    Tirexs.DSL.define [type: ess[:type], index: index, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
       settings do
         analysis do
           tokenizer "ngram_tokenizer", type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
@@ -45,7 +47,7 @@ defmodule Es.Diva do
       {index, es_settings}
     end
 
-    Tirexs.DSL.define [index: index], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: ess[:type], index: index], fn(index, es_settings) ->
       mappings do
         indexes "name",   [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
                                                     tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
