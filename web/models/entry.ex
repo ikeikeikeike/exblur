@@ -39,12 +39,12 @@ defmodule Exblur.Entry do
   # posted entry true.
   def already_post(model) do
     if ! model.posted do
-      Mongo.update(changeset(model, %{posted: true})) 
+      Mongo.update(changeset(model, %{posted: true}))
     end
   end
 
   def query do
-    from e in Exblur.Entry, 
+    from e in Exblur.Entry,
     select: e
   end
 
@@ -105,7 +105,7 @@ defmodule Exblur.Entry do
 
   def xvideos(query) do
     from e in query,
-    where: e.name == "xvideos" 
+    where: e.name == "xvideos"
         or e.name == "jp_xvideos"
   end
 
@@ -116,14 +116,14 @@ defmodule Exblur.Entry do
 
   def reserved(query) do
     from e in query,
-    where: e.posted == false 
-       and e.embed_code != "" 
+    where: e.posted == false
+       and e.embed_code != ""
        and not(is_nil(e.embed_code))
   end
 
   def failed(query) do
     from e in query,
-    where: e.posted == false 
+    where: e.posted == false
        and (is_nil(e.embed_code) or e.embed_code == "")
   end
 

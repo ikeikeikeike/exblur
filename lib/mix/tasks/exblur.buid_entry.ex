@@ -13,16 +13,16 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
   def run(_args) do
     setup
 
-    entries = 
-      Entry.query 
-      # |> Entry.xvideos 
-      |> Entry.reserved 
-      |> limit([_e], 1000) 
+    entries =
+      Entry.query
+      # |> Entry.xvideos
+      |> Entry.reserved
+      |> limit([_e], 1)
       |> Mongo.all
 
-    models = 
+    models =
       Enum.map entries, fn(entry) ->
-        # entry |> IO.inspect 
+        # entry |> IO.inspect
         # abc = BingTranslator.translate(entry.title, to: "ja")
         # IO.inspect abc
 
@@ -34,23 +34,26 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
         Repo.transaction fn ->
           case VideoEntry.video_creater(entry) do
             {:error, reason} ->
-              Repo.rollback(reason); Logger.error("#{inspect reason}") 
+              Repo.rollback(reason); Logger.error("#{inspect reason}")
               nil
 
             {:ok, _model} ->
-              Entry.already_post(entry) 
+              Entry.already_post(entry)
               nil
 
             {:new, model} ->
-              Entry.already_post(entry) 
+              Entry.already_post(entry)
               model
           end
         end
       end
-      |> Enum.filter(&(&1 != nil)) 
-        
+      |> Enum.filter(&(&1 != nil))
+
     # Put built up document to Elasticsearch
-    if length(models) > 0, do: Logger.debug("#{inspect Es.VideoEntry.put_document(models)}") 
+    if length(models) > 0 do
+      Es.VideoEntry.reindex
+      Logger.debug("finish reindex")
+    end
 
     Mix.shell.info "Finish to build entry"
   end
