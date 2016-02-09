@@ -1,6 +1,12 @@
 defmodule Exblur.VideoEntry do
   use Exblur.Web, :model
+
   alias Exblur.VideoEntry
+  alias Exblur.VideoEntryTag
+  alias Exblur.VideoEntryDiva
+  alias Exblur.Diva
+  alias Exblur.Server
+  alias Exblur.Site
 
   require Logger
 
@@ -18,14 +24,14 @@ defmodule Exblur.VideoEntry do
     field :created_at,      Ecto.DateTime, default: Ecto.DateTime.utc
     field :updated_at,      Ecto.DateTime, default: Ecto.DateTime.utc
 
-    has_many :video_entry_divas, Exblur.VideoEntryDiva
+    has_many :video_entry_divas, VideoEntryDiva
     has_many :divas, through: [:video_entry_divas, :diva]
 
-    has_many :video_entry_tags, Exblur.VideoEntryTag
+    has_many :video_entry_tags, VideoEntryTag
     has_many :tags, through: [:video_entry_tags, :tag]
 
-    belongs_to :site, Exblur.Site
-    belongs_to :server, Exblur.Server
+    belongs_to :site, Site
+    belongs_to :server, Server
   end
 
   # def with_diva(query) do
@@ -99,7 +105,7 @@ defmodule Exblur.VideoEntry do
 
       {:new, model} ->
         result =
-          case Exblur.Site.video_creator_by_name(entry.name) do
+          case Site.video_creator_by_name(entry.name) do
             {:error, cset} ->
               Logger.error("#{inspect cset}")
               {:error, cset}
@@ -107,6 +113,7 @@ defmodule Exblur.VideoEntry do
             {_, site} ->
               case Repo.update(changeset(model, %{site_id: site.id})) do
                 {:error, reason} ->
+                  Logger.error("#{inspect reason}")
                   {:error, reason}
 
                 {_, model} ->
@@ -114,26 +121,34 @@ defmodule Exblur.VideoEntry do
               end
           end
 
-        result =
-          case result do
-            {:new, model} ->
-              case Exblur.Diva.find_or_create_by_name(entry.name) do
-                {:error, cset} ->
-                  Logger.error("#{inspect cset}")
-                  {:error, cset}
+        case result do
+          {:new, model} ->
 
-                {_, site} ->
-                  case Repo.update(changeset(model, %{site_id: site.id})) do
-                    {:error, reason} ->
-                      {:error, reason}
-
-                    {_, model} ->
-                      {:new, model}
-                  end
+            # name to kana, romaji and more
+            Enum.each entry.divas, fn(name) ->
+              case Diva.find_or_create_by_name(name) do
+                {:error, _} -> nil
+                {_, diva} ->
+                  %VideoEntryDiva{}
+                  |> VideoEntryDiva.changeset(model, diva)
+                  |> Repo.insert
               end
-            _ ->
-              result
-          end
+            end
+
+            # name to kana
+            Enum.each entry.tags, fn(name) ->
+              case Tag.find_or_create_by_name(name) do
+                {:error, _} -> nil
+                {_, tag} ->
+                  %VideoEntryTag{}
+                  |> VideoEntryTag.changeset(model, tag)
+                  |> Repo.insert
+              end
+            end
+
+          _ ->
+            result
+        end
     end
   end
 

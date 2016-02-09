@@ -26,4 +26,26 @@ defmodule Exblur.Tag do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
+
+  def find_or_create(query, cset) do
+    model = Repo.one(query)
+    case model do
+      nil ->
+        case Repo.insert(cset) do
+          {:ok, model} ->
+            {:new, model}
+
+          {:error, cset} ->
+            {:error, cset}
+        end
+      _ ->
+        {:ok, model}
+    end
+  end
+
+  def find_or_create_by_name(name) do
+    query = from v in Tag, where: v.name == ^name
+    find_or_create(query, changeset(%Tag{}, %{name: name}))
+  end
+
 end
