@@ -146,6 +146,19 @@ defmodule Exblur.VideoEntry do
               end
             end
 
+            Enum.each entry.images, fn(image) ->
+              params =
+                %{"icon" => Plug.Exblur.Upload.detect_icon!(image)}
+
+              case Repo.update(changeset(model, params)) do
+                {:error, reason} ->
+                  {:error, reason}
+
+                {_, model} ->
+                  {:new, model}
+              end
+            end
+
           _ ->
             result
         end

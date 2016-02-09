@@ -116,7 +116,7 @@ defmodule Exblur.Site do
 
           {:ok, model} ->
             params =
-              %{"icon" =>  Plug.Exblur.Upload.make_plug_upload!(url)}
+              %{"icon" =>  Plug.Exblur.Upload.detect_icon!(url)}
 
             case Repo.update(changeset(model, params)) do
               {:error, reason} ->
