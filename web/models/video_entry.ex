@@ -39,6 +39,12 @@ defmodule Exblur.VideoEntry do
   @optional_fields ~w(content site_id server_id)
   @relational_fields ~w(site server divas tags)a
 
+  def query do
+    from e in VideoEntry,
+     select: e,
+    preload: ^@relational_fields
+  end
+
   @doc """
   Creates a changeset based on the `model` and `params`.
 
@@ -48,12 +54,6 @@ defmodule Exblur.VideoEntry do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
-  end
-
-  def query do
-    from e in VideoEntry,
-     select: e,
-    preload: ^@relational_fields
   end
 
   def changeset_by_entry(model, entry) do

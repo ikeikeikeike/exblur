@@ -19,11 +19,14 @@ defmodule Exblur.VideoEntryDiva do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, video_entry, diva) do
-    params = %{video_entry_id: video_entry.id, diva_id: diva.id}
-
+  def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def changeset(model, video_entry, diva) do
+    model
+    |> cast(%{video_entry_id: video_entry.id, diva_id: diva.id}, @required_fields, @optional_fields)
   end
 
 end
