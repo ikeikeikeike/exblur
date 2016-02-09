@@ -10,7 +10,7 @@ defmodule Exblur.Tag do
     field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
     has_many :video_entry_tags, Exblur.VideoEntryTag
-    has_many :video_entries, through: [:video_entry_tags, :video_entries]
+    has_many :video_entries, through: [:video_entry_tags, :video_entry]
   end
 
   @required_fields ~w(name kana)

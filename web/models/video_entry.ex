@@ -19,21 +19,21 @@ defmodule Exblur.VideoEntry do
     field :updated_at,      Ecto.DateTime, default: Ecto.DateTime.utc
 
     has_many :video_entry_divas, Exblur.VideoEntryDiva
-    has_many :divas, through: [:video_entry_divas, :divas]
+    has_many :divas, through: [:video_entry_divas, :diva]
 
     has_many :video_entry_tags, Exblur.VideoEntryTag
-    has_many :tags, through: [:video_entry_tags, :tags]
+    has_many :tags, through: [:video_entry_tags, :tag]
 
     belongs_to :site, Exblur.Site
     belongs_to :server, Exblur.Server
   end
 
-  # def with_diva(query) do
-          # from  video      in query,
-     # left_join: video_diva in assoc(video, :video_entry_divas),
-          # join: diva       in assoc(video_diva, :diva),
-       # preload: [divas: diva]
-  # end
+  def with_diva(query) do
+          from  video      in query,
+     left_join: video_diva in assoc(video, :video_entry_divas),
+          join: diva       in assoc(video_diva, :diva),
+       preload: [divas: diva]
+  end
 
   @required_fields ~w(url title embed_code time published_at review publish removal)
   @optional_fields ~w(content site_id server_id)

@@ -25,7 +25,7 @@ defmodule Exblur.Diva do
     field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
     has_many :video_entry_divas, Exblur.VideoEntryDiva
-    has_many :video_entries, through: [:video_entry_divas, :video_entries]
+    has_many :video_entries, through: [:video_entry_divas, :video_entry]
   end
 
   @required_fields ~w(name kana romaji gyou image)
