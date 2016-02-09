@@ -88,13 +88,13 @@ defmodule Exblur.Site do
 
   ### self
 
-  defp gsub_domain(name), do: name |> String.replace("-", "_") |> String.replace("_", ".") 
+  defp gsub_domain(name), do: name |> String.replace("-", "_") |> String.replace("_", ".")
   def select_domain(name) do
     {:ok, ptn} = Regex.compile gsub_domain(name)
 
-    Enum.filter(Site.Const.domains, fn(domain) -> 
-      Regex.match? ptn, gsub_domain(domain) 
-    end) 
+    Enum.filter(Site.Const.domains, fn(domain) ->
+      Regex.match? ptn, gsub_domain(domain)
+    end)
   end
 
   def video_creator_by_name(name) do
@@ -102,21 +102,20 @@ defmodule Exblur.Site do
   end
 
   def video_creator(url) do
-    query = from s in Site, 
+    query = from s in Site,
           where: s.url == ^url
 
-    model = Repo.one(query)
-    case model do
+    case model = Repo.one(query) do
       nil ->
         params = %{"url" => url, "name" => URI.parse(url).host}
         cset = %Site{} |> changeset(params)
 
-        case Repo.insert(cset) do  
+        case Repo.insert(cset) do
           {:error, cset} ->
             {:error, cset}
 
           {:ok, model} ->
-            params = 
+            params =
               %{"icon" =>  Plug.Exblur.Upload.make_plug_upload!(url)}
 
             case Repo.update(changeset(model, params)) do

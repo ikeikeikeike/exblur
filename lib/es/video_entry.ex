@@ -1,6 +1,8 @@
 defmodule Es.VideoEntry do
   # need to agent.
   use Es
+  use Es.Index
+  use Es.Document
 
   es :model, Exblur.VideoEntry
 

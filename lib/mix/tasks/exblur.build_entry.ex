@@ -17,11 +17,11 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
       Entry.query
       # |> Entry.xvideos
       |> Entry.reserved
-      |> limit([_e], 1)
+      |> limit([_e], 2)
       |> Mongo.all
 
     models =
-      Enum.map entries, fn(entry) ->
+      Enum.map(entries, fn(entry) ->
         # entry |> IO.inspect
         # abc = BingTranslator.translate(entry.title, to: "ja")
         # IO.inspect abc
@@ -34,7 +34,8 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
         Repo.transaction fn ->
           case VideoEntry.video_creater(entry) do
             {:error, reason} ->
-              Repo.rollback(reason); Logger.error("#{inspect reason}")
+              Repo.rollback(reason)
+              Logger.error("#{inspect reason}")
               nil
 
             {:ok, _model} ->
@@ -46,7 +47,7 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
               model
           end
         end
-      end
+      end)
       |> Enum.filter(&(&1 != nil))
 
     # Put built up document to Elasticsearch

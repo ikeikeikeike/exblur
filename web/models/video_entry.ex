@@ -21,19 +21,23 @@ defmodule Exblur.VideoEntry do
     has_many :video_entry_divas, Exblur.VideoEntryDiva
     has_many :divas, through: [:video_entry_divas, :divas]
 
+    has_many :video_entry_tags, Exblur.VideoEntryTag
+    has_many :tags, through: [:video_entry_tags, :tags]
+
     belongs_to :site, Exblur.Site
     belongs_to :server, Exblur.Server
   end
 
-  def with_diva(query) do
-          from  video      in query,
-     left_join: video_diva in assoc(video, :video_entry_divas),
-          join: diva       in assoc(video_diva, :diva),
-       preload: [divas: diva]
-  end
+  # def with_diva(query) do
+          # from  video      in query,
+     # left_join: video_diva in assoc(video, :video_entry_divas),
+          # join: diva       in assoc(video_diva, :diva),
+       # preload: [divas: diva]
+  # end
 
   @required_fields ~w(url title embed_code time published_at review publish removal)
   @optional_fields ~w(content site_id server_id)
+  @relational_fields ~w(site server divas tags)a
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -46,27 +50,33 @@ defmodule Exblur.VideoEntry do
     |> cast(params, @required_fields, @optional_fields)
   end
 
+  def query do
+    from e in VideoEntry,
+     select: e,
+    preload: ^@relational_fields
+  end
+
   def changeset_by_entry(model, entry) do
-    params = 
-      entry 
+    params =
+      entry
       |> Map.from_struct
       |> Map.put(:published_at, Ecto.DateTime.utc)
 
-    changeset(model, params) 
+    changeset(model, params)
   end
 
   def find_or_create_by_entry(entry) do
-    query = from v in VideoEntry, 
+    query = from v in VideoEntry,
           where: v.url == ^entry.url
 
     model = Repo.one(query)
     case model do
       nil ->
-        cset = 
-          %VideoEntry{} 
+        cset =
+          %VideoEntry{}
           |> changeset_by_entry(entry)
 
-        case Repo.insert(cset) do  
+        case Repo.insert(cset) do
           {:ok, model} ->
             {:new, model}
 
@@ -81,25 +91,49 @@ defmodule Exblur.VideoEntry do
   def video_creater(entry) do
     case find_or_create_by_entry(entry) do
       {:error, cset} ->
+        Logger.error("#{inspect cset}")
         {:error, cset}
 
-      {:ok, video_entry} ->
-        {:ok, video_entry}
+      {:ok, model} ->
+        {:ok, model}
 
-      {:new, video_entry} ->
-        case Exblur.Site.video_creator_by_name(entry.name) do
-          {:error, cset} ->
-            {:error, cset}
+      {:new, model} ->
+        result =
+          case Exblur.Site.video_creator_by_name(entry.name) do
+            {:error, cset} ->
+              Logger.error("#{inspect cset}")
+              {:error, cset}
 
-          {_, site} ->
-            case Repo.update(changeset(video_entry, %{site_id: site.id})) do
-              {:error, reason} ->
-                {:error, reason}
+            {_, site} ->
+              case Repo.update(changeset(model, %{site_id: site.id})) do
+                {:error, reason} ->
+                  {:error, reason}
 
-              {_, video_entry} ->
-                {:new, video_entry}
-            end
-        end
+                {_, model} ->
+                  {:new, model}
+              end
+          end
+
+        result =
+          case result do
+            {:new, model} ->
+              case Exblur.Diva.find_or_create_by_name(entry.name) do
+                {:error, cset} ->
+                  Logger.error("#{inspect cset}")
+                  {:error, cset}
+
+                {_, site} ->
+                  case Repo.update(changeset(model, %{site_id: site.id})) do
+                    {:error, reason} ->
+                      {:error, reason}
+
+                    {_, model} ->
+                      {:new, model}
+                  end
+              end
+            _ ->
+              result
+          end
     end
   end
 

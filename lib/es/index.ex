@@ -29,7 +29,7 @@ defmodule Es.Index do
         #
         # Send data to es
         #
-        ess[:model]
+        ess[:model].query
         |> Exblur.Repo.all
         |> put_document(new_index)
 

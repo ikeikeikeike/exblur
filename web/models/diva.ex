@@ -71,6 +71,11 @@ defmodule Exblur.Diva do
     end
   end
 
+  def find_or_create_by_name(name) do
+    query = from v in Diva, where: v.name == ^name
+    find_or_create(query, changeset(%Diva{}, %{name: name}))
+  end
+
   def diva_creater(actress) do
     query = from v in Diva, where: v.name == ^actress["name"]
     find_or_create(query, changeset_actress(%Diva{}, actress))
