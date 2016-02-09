@@ -1,5 +1,6 @@
 defmodule Exblur.VideoEntryDiva do
   use Exblur.Web, :model
+  alias Exblur.VideoEntryDiva, as: Model
 
   schema "video_entry_divas" do
     belongs_to :video_entry, Exblur.VideoEntry
@@ -18,7 +19,9 @@ defmodule Exblur.VideoEntryDiva do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
+  def changeset(model, video_entry, diva) do
+    params = %{video_entry_id: video_entry.id, diva_id: diva.id}
+
     model
     |> cast(params, @required_fields, @optional_fields)
   end

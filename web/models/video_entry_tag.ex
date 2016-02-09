@@ -5,8 +5,6 @@ defmodule Exblur.VideoEntryTag do
     belongs_to :video_entry, Exblur.VideoEntry
     belongs_to :tag,         Exblur.Tag
 
-    belongs_to :diva,        Exblur.Diva
-
     field :created_at,       Ecto.DateTime, default: Ecto.DateTime.utc
     field :updated_at,       Ecto.DateTime, default: Ecto.DateTime.utc
   end

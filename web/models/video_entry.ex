@@ -28,12 +28,12 @@ defmodule Exblur.VideoEntry do
     belongs_to :server, Exblur.Server
   end
 
-  def with_diva(query) do
-          from  video      in query,
-     left_join: video_diva in assoc(video, :video_entry_divas),
-          join: diva       in assoc(video_diva, :diva),
-       preload: [divas: diva]
-  end
+  # def with_diva(query) do
+          # from  video      in query,
+     # left_join: video_diva in assoc(video, :video_entry_divas),
+          # join: diva       in assoc(video_diva, :diva),
+       # preload: [divas: diva]
+  # end
 
   @required_fields ~w(url title embed_code time published_at review publish removal)
   @optional_fields ~w(content site_id server_id)
