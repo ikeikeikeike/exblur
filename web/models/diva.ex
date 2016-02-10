@@ -34,12 +34,6 @@ defmodule Exblur.Diva do
   @required_fields ~w(name kana romaji gyou image)
   @optional_fields ~w(height weight bust bracup waste hip blood birthday)
 
-  @doc """
-  Creates a changeset based on the `model` and `params`.
-
-  If no params are provided, an invalid changeset is returned
-  with no validation performed.
-  """
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
