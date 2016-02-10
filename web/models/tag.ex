@@ -1,6 +1,8 @@
 defmodule Exblur.Tag do
   use Exblur.Web, :model
-  alias Exblur.Tag
+
+  alias Exblur.Tag, as: Model
+  alias Imitation.Query
 
   schema "tags" do
     field :name, :string
@@ -27,25 +29,9 @@ defmodule Exblur.Tag do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def find_or_create(query, cset) do
-    model = Repo.one(query)
-    case model do
-      nil ->
-        case Repo.insert(cset) do
-          {:ok, model} ->
-            {:new, model}
-
-          {:error, cset} ->
-            {:error, cset}
-        end
-      _ ->
-        {:ok, model}
-    end
-  end
-
   def find_or_create_by_name(name) do
-    query = from v in Tag, where: v.name == ^name
-    find_or_create(query, changeset(%Tag{}, %{name: name}))
+    query = from v in Model, where: v.name == ^name
+    Query.find_or_create(query, changeset(%Model{}, %{name: name}))
   end
 
 end

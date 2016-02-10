@@ -1,6 +1,8 @@
 defmodule Exblur.Diva do
   use Exblur.Web, :model
-  alias Exblur.Diva
+
+  alias Exblur.Diva, as: Model
+  alias Imitation.Query
 
   schema "divas" do
     field :name,       :string
@@ -55,30 +57,14 @@ defmodule Exblur.Diva do
     changeset(model, params)
   end
 
-  def find_or_create(query, cset) do
-    model = Repo.one(query)
-    case model do
-      nil ->
-        case Repo.insert(cset) do
-          {:ok, model} ->
-            {:new, model}
-
-          {:error, cset} ->
-            {:error, cset}
-        end
-      _ ->
-        {:ok, model}
-    end
-  end
-
   def find_or_create_by_name(name) do
-    query = from v in Diva, where: v.name == ^name
-    find_or_create(query, changeset(%Diva{}, %{name: name}))
+    query = from v in Model, where: v.name == ^name
+    Query.find_or_create(query, changeset(%Model{}, %{name: name}))
   end
 
   def diva_creater(actress) do
-    query = from v in Diva, where: v.name == ^actress["name"]
-    find_or_create(query, changeset_actress(%Diva{}, actress))
+    query = from v in Model, where: v.name == ^actress["name"]
+    Query.find_or_create(query, changeset_actress(%Model{}, actress))
   end
 
 end
