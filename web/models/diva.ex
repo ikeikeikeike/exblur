@@ -2,6 +2,7 @@ defmodule Exblur.Diva do
   use Exblur.Web, :model
 
   alias Exblur.Diva, as: Model
+
   alias Imitation.Query
 
   schema "divas" do

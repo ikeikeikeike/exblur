@@ -2,7 +2,7 @@ defmodule Exblur.Site do
   use Exblur.Web, :model
   use Arc.Ecto.Model
 
-  alias Exblur.Site
+  alias Exblur.Site, as: Model
 
   require Logger
 
@@ -39,6 +39,7 @@ defmodule Exblur.Site do
 
   defmodule Const do
     import Macros.Exblur.Attr
+
     attr :asg,             "asg.to"
     attr :ero_video,       "ero-video.net"
     attr :fc2,             "video.fc2.com"
@@ -68,18 +69,18 @@ defmodule Exblur.Site do
     )
   end
 
-  def asg?(model),             do: model.name == Site.Const.asg
-  def ero_video?(model),       do: model.name == Site.Const.ero_video
-  def fc2?(model),             do: model.name == Site.Const.fc2
-  def japan_whores?(model),    do: model.name == Site.Const.japan_whores
-  def pornhost?(model),        do: model.name == Site.Const.pornhost
-  def pornhub?(model),         do: model.name == Site.Const.pornhub
-  def redtube?(model),         do: model.name == Site.Const.redtube
-  def tokyo_tube?(model),      do: model.name == Site.Const.tokyo_tube
-  def tokyo_porn_tube?(model), do: model.name == Site.Const.tokyo_porn_tube
-  def tube8?(model),           do: model.name == Site.Const.tube8
-  def xhamster?(model),        do: model.name == Site.Const.xhamster
-  def xvideos?(model),         do: model.name == Site.Const.xvideos
+  def asg?(model),             do: model.name == Model.Const.asg
+  def ero_video?(model),       do: model.name == Model.Const.ero_video
+  def fc2?(model),             do: model.name == Model.Const.fc2
+  def japan_whores?(model),    do: model.name == Model.Const.japan_whores
+  def pornhost?(model),        do: model.name == Model.Const.pornhost
+  def pornhub?(model),         do: model.name == Model.Const.pornhub
+  def redtube?(model),         do: model.name == Model.Const.redtube
+  def tokyo_tube?(model),      do: model.name == Model.Const.tokyo_tube
+  def tokyo_porn_tube?(model), do: model.name == Model.Const.tokyo_porn_tube
+  def tube8?(model),           do: model.name == Model.Const.tube8
+  def xhamster?(model),        do: model.name == Model.Const.xhamster
+  def xvideos?(model),         do: model.name == Model.Const.xvideos
   def whats_this?(model),      do: model.name
 
   # fetch icon url
@@ -92,7 +93,7 @@ defmodule Exblur.Site do
   def select_domain(name) do
     {:ok, ptn} = Regex.compile gsub_domain(name)
 
-    Enum.filter(Site.Const.domains, fn(domain) ->
+    Enum.filter(Model.Const.domains, fn(domain) ->
       Regex.match? ptn, gsub_domain(domain)
     end)
   end
@@ -102,13 +103,12 @@ defmodule Exblur.Site do
   end
 
   def video_creator(url) do
-    query = from s in Site,
-          where: s.url == ^url
+    query = from s in Model, where: s.url == ^url
 
     case model = Repo.one(query) do
       nil ->
         params = %{"url" => url, "name" => URI.parse(url).host}
-        cset = %Site{} |> changeset(params)
+        cset = changeset(%Model{}, params)
 
         case Repo.insert(cset) do
           {:error, cset} ->
