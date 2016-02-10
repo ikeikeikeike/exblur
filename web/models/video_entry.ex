@@ -24,6 +24,8 @@ defmodule Exblur.VideoEntry do
     field :created_at,      Ecto.DateTime, default: Ecto.DateTime.utc
     field :updated_at,      Ecto.DateTime, default: Ecto.DateTime.utc
 
+    # field :thumbs,          {:array, Exblur.ThumbUploader.Type}
+
     has_many :video_entry_divas, VideoEntryDiva
     has_many :divas, through: [:video_entry_divas, :diva]
 
@@ -118,7 +120,7 @@ defmodule Exblur.VideoEntry do
         case result do
           {:new, model} ->
 
-            # name to kana, romaji and more
+            # TODO: name to kana, romaji and more
             Enum.each entry.divas, fn(name) ->
               case Diva.find_or_create_by_name(name) do
                 {:error, _} -> nil
@@ -129,7 +131,7 @@ defmodule Exblur.VideoEntry do
               end
             end
 
-            # name to kana
+            # TODO: name to kana
             Enum.each entry.tags, fn(name) ->
               case Tag.find_or_create_by_name(name) do
                 {:error, _} -> nil
@@ -140,18 +142,19 @@ defmodule Exblur.VideoEntry do
               end
             end
 
-            Enum.each entry.images, fn(image) ->
-              params =
-                %{"icon" => Plug.Exblur.Upload.detect_icon!(image)}
+            # TODO:
+            # Enum.each entry.images, fn(image) ->
+              # params =
+                # %{"thumb" => Plug.Exblur.Upload.detect_icon!(image)}
 
-              case Repo.update(changeset(model, params)) do
-                {:error, reason} ->
-                  {:error, reason}
+              # case Repo.update(changeset(model, params)) do
+                # {:error, reason} ->
+                  # {:error, reason}
 
-                {_, model} ->
-                  {:new, model}
-              end
-            end
+                # {_, model} ->
+                  # {:new, model}
+              # end
+            # end
 
           _ ->
             result
