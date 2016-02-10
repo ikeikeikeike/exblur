@@ -2,7 +2,7 @@ defmodule Exblur.Tag do
   use Exblur.Web, :model
 
   alias Exblur.Tag, as: Model
-  alias Imitation.Query
+  alias Imitation.Q
 
   schema "tags" do
     field :name, :string
@@ -25,7 +25,7 @@ defmodule Exblur.Tag do
 
   def find_or_create_by_name(name) do
     query = from v in Model, where: v.name == ^name
-    Query.find_or_create(query, changeset(%Model{}, %{name: name}))
+    Q.find_or_create(query, changeset(%Model{}, %{name: name}))
   end
 
 end

@@ -24,7 +24,7 @@ defmodule Exblur.VideoEntry do
     field :created_at,      Ecto.DateTime, default: Ecto.DateTime.utc
     field :updated_at,      Ecto.DateTime, default: Ecto.DateTime.utc
 
-    # field :thumbs,          {:array, Exblur.ThumbUploader.Type}
+    field :thumbs,          {:array, Exblur.ThumbUploader.Type}
 
     has_many :video_entry_divas, VideoEntryDiva
     has_many :divas, through: [:video_entry_divas, :diva]

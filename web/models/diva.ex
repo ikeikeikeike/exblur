@@ -2,8 +2,7 @@ defmodule Exblur.Diva do
   use Exblur.Web, :model
 
   alias Exblur.Diva, as: Model
-
-  alias Imitation.Query
+  alias Imitation.Q
 
   schema "divas" do
     field :name,       :string
@@ -54,12 +53,12 @@ defmodule Exblur.Diva do
 
   def find_or_create_by_name(name) do
     query = from v in Model, where: v.name == ^name
-    Query.find_or_create(query, changeset(%Model{}, %{name: name}))
+    Q.find_or_create(query, changeset(%Model{}, %{name: name}))
   end
 
   def diva_creater(actress) do
     query = from v in Model, where: v.name == ^actress["name"]
-    Query.find_or_create(query, changeset_actress(%Model{}, actress))
+    Q.find_or_create(query, changeset_actress(%Model{}, actress))
   end
 
 end

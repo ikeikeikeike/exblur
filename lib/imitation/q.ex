@@ -1,11 +1,9 @@
-defmodule Imitation.Query do
-
-  use Exblur.Web, :model
+defmodule Imitation.Q do
 
   def find_or_create(query, cset) do
-    case model = Repo.one(query) do
+    case model = Exblur.Repo.one(query) do
       nil ->
-        case Repo.insert(cset) do
+        case Exblur.Repo.insert(cset) do
           {:ok, model} ->
             {:new, model}
 

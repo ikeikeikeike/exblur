@@ -12,15 +12,15 @@ defmodule Exblur.ThumbUploader do
     Enum.member?(@extension_whitelist, file_extension)
   end
 
-  def transform(size_100x66:, _) do
+  def transform(:size_100x66, _) do
     {:convert, "-thumbnail 100x66^ -gravity center -extent 100x66 -format png"}
   end
 
-  def transform(:size_200x132:, _) do
+  def transform(:size_200x132, _) do
     {:convert, "-thumbnail 200x132^ -gravity center -extent 200x132 -format png"}
   end
 
-  def transform(size_300x200:, _) do
+  def transform(:size_300x200, _) do
     {:convert, "-thumbnail 300x200^ -gravity center -extent 300x200 -format png"}
   end
 

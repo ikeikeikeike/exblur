@@ -7,14 +7,14 @@ defmodule Exblur.Site do
   require Logger
 
   schema "sites" do
-    field :name, :string
-    field :url, :string
-    field :rss, :string
-    field :icon, Exblur.IconUploader.Type
-    field :last_modified, Ecto.DateTime
+    field    :name,          :string
+    field    :url,           :string
+    field    :rss,           :string
+    field    :icon,          Exblur.IconUploader.Type
+    field    :last_modified, Ecto.DateTime
 
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
-    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field    :created_at,    Ecto.DateTime,     default: Ecto.DateTime.utc
+    field    :updated_at,    Ecto.DateTime,     default: Ecto.DateTime.utc
 
     has_many :video_entries, Exblur.VideoEntry, on_delete: :nilify_all
   end

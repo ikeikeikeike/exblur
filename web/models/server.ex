@@ -13,7 +13,7 @@ defmodule Exblur.Server do
     field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
     field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
-    has_many :video_entries, Exblur.VideoEntry, on_delete: :fetch_and_delete
+    has_many :video_entries, Exblur.VideoEntry, on_delete: :nilify_all
   end
 
   @required_fields ~w(title icon domain twitter_url keywords description primary)
