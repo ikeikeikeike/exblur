@@ -1,11 +1,17 @@
 defmodule Translator.Proofreading do
   alias Translator.Proofreading, as: Proof
 
-  def configure(tags_filter \\ [], sentences_filter \\ []) do
-    start_link([
-      tags: tags_filter,  #|| Filter.find_tags.as_filter,
-      sentences: sentences_filter  #|| Filter.find_sentences.as_filter
-    ])
+  def configure do
+    filters =
+      Path.join(File.cwd!, "config/translate_filters.yml")
+      |> YamlElixir.read_from_file
+
+    start_link([tags: filters["tags"], sentences: filters["sentences"]])
+    {:ok, []}
+  end
+
+  def configure(tags_filter, sentences_filter) do
+    start_link([tags: tags_filter, sentences: sentences_filter])
     {:ok, []}
   end
 
@@ -33,15 +39,25 @@ defmodule Translator.Proofreading do
   def sentence(word) do
     filters = Proof.filters
 
-    Enum.each filters[:tags], fn{key, value} ->
-      word = String.replace(word, key, value)
-    end
+    word
+    |> proof_tag(filters[:tags])
+    |> proof_sentence(filters[:sentences])
+  end
 
-    Enum.each filters[:sentences], fn(key, values) ->
-      word = String.replace(word, key, Enum.random(String.split(values, ",")))
-    end
+  defp proof_tag(word, []), do: word
+  defp proof_tag(word, [map|tail]) do
+    word
+    |> String.replace(map["from_word"], map["to_word"])
+    |> proof_tag(tail)
+  end
+
+  defp proof_sentence(word, []), do: word
+  defp proof_sentence(word, [map|tail]) do
+    value = Enum.random(String.split(map["to_word"], ","))
 
     word
+    |> String.replace(map["from_word"], value)
+    |> proof_sentence(tail)
   end
 
 end

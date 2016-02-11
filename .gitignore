@@ -24,6 +24,7 @@ erl_crash.dump
 # variables.
 /config/prod.secret.exs
 /config/consts.exs
+/config/translate_filters.yml
 
 # TAGS
 tags
