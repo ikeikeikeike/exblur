@@ -1,10 +1,10 @@
-defmodule Es.Diva do
+defmodule Es.Tag do
   # need to agent.
   use Es
   use Es.Index
   use Es.Document
 
-  es :model, Exblur.Diva
+  es :model, Exblur.Tag
 
   def search_data(model) do
     [
@@ -36,7 +36,7 @@ defmodule Es.Diva do
   end
 
   def create_index(index \\ get_index) do
-    Tirexs.DSL.define [type: "diva", index: index, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: "tag", index: index, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
       settings do
         analysis do
           tokenizer "ngram_tokenizer", type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
@@ -47,7 +47,7 @@ defmodule Es.Diva do
       {index, es_settings}
     end
 
-    Tirexs.DSL.define [type: "diva", index: index], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: "tag", index: index], fn(index, es_settings) ->
       mappings do
         indexes "name",   [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
                                                     tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]

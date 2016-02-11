@@ -130,7 +130,7 @@ defmodule Es.VideoEntry do
 
   def create_index(index \\ get_index) do
 
-    Tirexs.DSL.define [index: index], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: "video_entry", index: index], fn(index, es_settings) ->
       settings do
         analysis do
           filter    "ja_posfilter",     type: "kuromoji_part_of_speech", stoptags: ["助詞-格助詞-一般", "助詞-終助詞"]
@@ -147,7 +147,7 @@ defmodule Es.VideoEntry do
       {index, es_settings}
     end
 
-    Tirexs.DSL.define [index: index], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: "video_entry", index: index], fn(index, es_settings) ->
       mappings do
         # indexes "id",             type: "long",   index: "not_analyzed", include_in_all: false
         indexes "url",            type: "string", index: "not_analyzed"
