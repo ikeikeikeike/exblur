@@ -5,8 +5,11 @@ defmodule Exblur.Tag do
   alias Imitation.Q
 
   schema "tags" do
-    field :name, :string
-    field :kana, :string
+    field :name,   :string
+    field :kana,   :string
+    field :romaji, :string
+    field :gyou,   :string
+    field :orig,   :string
 
     field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
     field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
@@ -16,7 +19,7 @@ defmodule Exblur.Tag do
   end
 
   @required_fields ~w(name)
-  @optional_fields ~w(kana)
+  @optional_fields ~w(kana romaji gyou orig)
 
   def changeset(model, params \\ :empty) do
     model

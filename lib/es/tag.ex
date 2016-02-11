@@ -11,7 +11,8 @@ defmodule Es.Tag do
       # id: model.id,
       name: model.name,
       kana: model.kana,
-      romaji: String.replace(model.romaji, "_", ""),
+      orig: model.orig,
+      romaji: model.romaji,
     ]
   end
 
@@ -24,6 +25,8 @@ defmodule Es.Tag do
             prefix "name", word
             multi_match word, ["kana"]
             prefix "kana", word
+            multi_match word, ["orig"]
+            prefix "orig", word
             multi_match word, ["romaji"]
             prefix "romaji", word
           end
@@ -52,6 +55,8 @@ defmodule Es.Tag do
         indexes "name",   [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
                                                     tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
         indexes "kana",   [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
+                                                    tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
+        indexes "orig",   [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
                                                     tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
         indexes "romaji", [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
                                                     tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
