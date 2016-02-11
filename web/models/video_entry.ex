@@ -1,6 +1,5 @@
 defmodule Exblur.VideoEntry do
   use Exblur.Web, :model
-  use Arc.Ecto.Model
 
   alias Exblur.VideoEntry
   alias Exblur.VideoEntryTag
@@ -8,36 +7,38 @@ defmodule Exblur.VideoEntry do
   alias Exblur.Diva
   alias Exblur.Server
   alias Exblur.Site
+  alias Exblur.Tag
+  alias Exblur.Thumb
 
   require Logger
 
   schema "video_entries" do
-    field :url,             :string
+    field :url, :string
 
-    field :title,           :string
-    field :content,         :string
-    field :embed_code,      :string
+    field :title, :string
+    field :content, :string
+    field :embed_code, :string
 
-    field :time,            :integer
-    field :published_at,    Ecto.DateTime
+    field :time, :integer
+    field :published_at, Ecto.DateTime
 
-    field :thumbs,          {:array, Exblur.ThumbUploader.Type}
+    field :review, :boolean, default: false
+    field :publish, :boolean, default: false
+    field :removal, :boolean, default: false
 
-    field :review,          :boolean, default: false
-    field :publish,         :boolean, default: false
-    field :removal,         :boolean, default: false
+    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
-    field :created_at,      Ecto.DateTime, default: Ecto.DateTime.utc
-    field :updated_at,      Ecto.DateTime, default: Ecto.DateTime.utc
+    belongs_to :site, Site
+    belongs_to :server, Server
+
+    has_many :thumbs, Thumb, on_delete: :delete_all
 
     has_many :video_entry_divas, VideoEntryDiva
     has_many :divas, through: [:video_entry_divas, :diva]
 
     has_many :video_entry_tags, VideoEntryTag
     has_many :tags, through: [:video_entry_tags, :tag]
-
-    belongs_to :site, Site
-    belongs_to :server, Server
   end
 
   # def with_diva(query) do
@@ -49,10 +50,7 @@ defmodule Exblur.VideoEntry do
 
   @required_fields ~w(url title embed_code time published_at review publish removal)
   @optional_fields ~w(content site_id server_id)
-  @relational_fields ~w(site server divas tags)a
-
-  @required_file_fields ~w()
-  @optional_file_fields ~w(thumbs)
+  @relational_fields ~w(site server divas tags thumbs)a
 
   def query do
     from e in VideoEntry,
@@ -63,7 +61,6 @@ defmodule Exblur.VideoEntry do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> cast_attachments(params, @required_file_fields, @optional_file_fields)
   end
 
   def changeset_by_entry(model, entry) do
@@ -125,34 +122,15 @@ defmodule Exblur.VideoEntry do
               end
           end
 
-        result =
-          case result do
-            {:new, model} ->
-              thumbs =
-                Enum.map entry.images, fn(image) ->
-                  "#{Application.get_env(:exblur, :scrapy)[:endpoint]}#{image["path"]}"
-                  |> Plug.Exblur.Upload.make_plug!
-                end
-              case Repo.update(changeset(model, %{"thumbs" => thumbs})) do
-                {:error, reason} ->
-                  Logger.error("#{inspect reason}")
-                  {:error, reason}
-
-                {_, model} ->
-                  {:new, model}
-              end
-
-            _ ->
-              result
-          end
-
         case result do
           {:new, model} ->
 
             # TODO: name to kana, romaji and more
             Enum.each entry.divas, fn(name) ->
               case Diva.find_or_create_by_name(name) do
-                {:error, reason} -> Logger.error("#{inspect reason}")
+                {:error, reason} ->
+                  Logger.error("#{inspect reason}")
+
                 {_, diva} ->
                   %VideoEntryDiva{}
                   |> VideoEntryDiva.changeset(model, diva)
@@ -163,7 +141,9 @@ defmodule Exblur.VideoEntry do
             # TODO: name to kana
             Enum.each entry.tags, fn(name) ->
               case Tag.find_or_create_by_name(name) do
-                {:error, reason} -> Logger.error("#{inspect reason}")
+                {:error, reason} ->
+                  Logger.error("#{inspect reason}")
+
                 {_, tag} ->
                   %VideoEntryTag{}
                   |> VideoEntryTag.changeset(model, tag)
@@ -171,9 +151,17 @@ defmodule Exblur.VideoEntry do
               end
             end
 
-          _ ->
-            result
+            Enum.each entry.images, fn(scrapy) ->
+              case Thumb.create_by_scrapy(model, scrapy) do
+                {:error, reason} -> Logger.error("#{inspect reason}")
+                _ -> :ok
+              end
+            end
+
+          _ -> nil
         end
+
+        result
     end
   end
 

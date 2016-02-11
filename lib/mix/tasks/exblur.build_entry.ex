@@ -10,14 +10,16 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
   @moduledoc """
     This is where we would put any long form documentation or doctests.
   """
-  def run(_args) do
+  def run(args) do
     setup
+
+    limit = if length(args) > 0, do: List.first(args), else: -1
 
     entries =
       Entry.query
       # |> Entry.xvideos
       |> Entry.reserved
-      |> limit([_e], 2)
+      |> limit([_e], ^limit)
       |> Mongo.all
 
     models =

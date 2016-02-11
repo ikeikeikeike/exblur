@@ -41,7 +41,7 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
         case result do
           {:ok, %Exblur.Diva{}} ->
             true
-         _ ->
+          _ ->
             false
         end
       end)

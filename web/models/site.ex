@@ -78,8 +78,8 @@ defmodule Exblur.Site do
   def whats_this?(model),      do: model.name
 
   # fetch icon url
-  def fetch_icon(model), do: Exblur.IconUploader.url {model.icon, model}
-  def fetch_icon(model, version), do: Exblur.IconUploader.url {model.icon, model}, version
+  def get_icon(model), do: Exblur.IconUploader.url {model.icon, model}
+  def get_icon(model, version), do: Exblur.IconUploader.url {model.icon, model}, version
 
   ### self
 

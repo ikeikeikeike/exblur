@@ -15,8 +15,8 @@ defmodule Exblur.Tag do
     has_many :video_entries, through: [:video_entry_tags, :video_entry]
   end
 
-  @required_fields ~w(name kana)
-  @optional_fields ~w()
+  @required_fields ~w(name)
+  @optional_fields ~w(kana)
 
   def changeset(model, params \\ :empty) do
     model

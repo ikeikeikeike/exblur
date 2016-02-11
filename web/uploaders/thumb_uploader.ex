@@ -27,7 +27,7 @@ defmodule Exblur.ThumbUploader do
   def __storage, do: Arc.Storage.Local
 
   def filename(version, {file, scope}) do
-    "#{scope.id}_#{version}_#{file.file_name}"
+    "#{scope.video_entry_id}_#{version}_#{file.file_name}"
   end
 
   def storage_dir(_version, {_file, model}) do
@@ -38,7 +38,7 @@ defmodule Exblur.ThumbUploader do
       |> String.split(".")
       |> List.last
 
-    "uploads/#{dirname}/#{model.id}"
+    "uploads/#{dirname}/#{model.video_entry_id}"
   end
 
   def default_url(:original) do
