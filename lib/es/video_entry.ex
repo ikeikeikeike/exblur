@@ -163,7 +163,7 @@ defmodule Es.VideoEntry do
         indexes "content",        type: "string", analyzer: "ja_analyzer"
 
         indexes "time",           type: "long"
-        indexes "published_at",   type: "date",   format: "dateOptionalTime"
+        indexes "published_at",   type: "date" #  ,   format: "strict_date_optional_time"
 
         indexes "review",         type: "boolean"
         indexes "publish",        type: "boolean"

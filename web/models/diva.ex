@@ -33,6 +33,10 @@ defmodule Exblur.Diva do
   @required_fields ~w(name kana romaji gyou image)
   @optional_fields ~w(height weight bust bracup waste hip blood birthday)
 
+  def query do
+    from e in Model, select: e
+  end
+
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)

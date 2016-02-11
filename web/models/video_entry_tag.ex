@@ -1,6 +1,7 @@
 defmodule Exblur.VideoEntryTag do
   use Exblur.Web, :model
-  alias Exblur.VideoEntryDiva, as: Model
+  alias Exblur.VideoEntryTag, as: Model
+  alias Imitation.Q
 
   schema "video_entry_tags" do
     belongs_to :video_entry, Exblur.VideoEntry
@@ -18,9 +19,22 @@ defmodule Exblur.VideoEntryTag do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def changeset(model, video_entry, diva) do
+  def changeset(model, video_entry, tag) do
+    params =
+      %{video_entry_id: video_entry.id, tag_id: tag.id}
+
     model
-    |> cast(%{video_entry_id: video_entry.id, tag_id: diva.id}, @required_fields, @optional_fields)
+    |> cast(params, @required_fields, @optional_fields)
   end
+
+  def find_or_create(entry, tag) do
+    query =
+      from v in Model,
+      where: v.tag_id == ^tag.id
+         and v.video_entry_id == ^entry.id
+
+    Q.find_or_create(query, changeset(%Model{}, entry, tag))
+  end
+
 
 end

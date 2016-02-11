@@ -13,7 +13,7 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
   def run(args) do
     setup
 
-    limit = if length(args) > 0, do: List.first(args), else: -1
+    limit = if length(args) > 0, do: List.first(args), else: 0
 
     entries =
       Entry.query
@@ -48,6 +48,14 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
               Entry.already_post(entry)
               model
           end
+        end
+      end)
+      |> Enum.filter(fn(result) ->
+        case result do
+          {:ok, %Exblur.VideoEntry{}} ->
+            true
+          _ ->
+            false
         end
       end)
       |> Enum.filter(&(&1 != nil))

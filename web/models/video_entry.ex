@@ -1,7 +1,7 @@
 defmodule Exblur.VideoEntry do
   use Exblur.Web, :model
+  alias Exblur.VideoEntry, as: Model
 
-  alias Exblur.VideoEntry
   alias Exblur.VideoEntryTag
   alias Exblur.VideoEntryDiva
   alias Exblur.Diva
@@ -53,7 +53,7 @@ defmodule Exblur.VideoEntry do
   @relational_fields ~w(site server divas tags thumbs)a
 
   def query do
-    from e in VideoEntry,
+    from e in Model,
      select: e,
     preload: ^@relational_fields
   end
@@ -73,14 +73,14 @@ defmodule Exblur.VideoEntry do
   end
 
   def find_or_create_by_entry(entry) do
-    query = from v in VideoEntry,
+    query = from v in Model,
           where: v.url == ^entry.url
 
     model = Repo.one(query)
     case model do
       nil ->
         cset =
-          %VideoEntry{}
+          %Model{}
           |> changeset_by_entry(entry)
 
         case Repo.insert(cset) do
@@ -132,9 +132,7 @@ defmodule Exblur.VideoEntry do
                   Logger.error("#{inspect reason}")
 
                 {_, diva} ->
-                  %VideoEntryDiva{}
-                  |> VideoEntryDiva.changeset(model, diva)
-                  |> Repo.insert
+                  VideoEntryDiva.find_or_create(model, diva)
               end
             end
 
@@ -145,9 +143,7 @@ defmodule Exblur.VideoEntry do
                   Logger.error("#{inspect reason}")
 
                 {_, tag} ->
-                  %VideoEntryTag{}
-                  |> VideoEntryTag.changeset(model, tag)
-                  |> Repo.insert
+                  VideoEntryTag.find_or_create(model, tag)
               end
             end
 
