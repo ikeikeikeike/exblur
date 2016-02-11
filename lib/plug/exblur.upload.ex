@@ -3,7 +3,12 @@ defmodule Plug.Exblur.Upload do
   require Logger
 
   def detect_icon!(url) do
-    filename = Exfavicon.find url
+    url
+    |> Exfavicon.find
+    |> make_plug!
+  end
+
+  def make_plug!(filename) do
     basename = Path.basename URI.parse(filename).path
 
     resp = recursive_request!(filename)
@@ -14,7 +19,7 @@ defmodule Plug.Exblur.Upload do
     %Plug.Upload{path: path, filename: basename}
   end
 
-  defp recursive_request!(filename, retry \\ 5) do
+  defp recursive_request!(filename, retry \\ 10) do
     case HTTPoison.get(filename, [connect_timeout: 30]) do
       {:error, reason} ->
         Logger.warn "#{inspect reason}"

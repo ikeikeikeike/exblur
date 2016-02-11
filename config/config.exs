@@ -31,3 +31,6 @@ import_config "#{Mix.env}.exs"
 config :phoenix, :generators,
   migration: true,
   binary_id: false
+
+# consts
+import_config "consts.exs"
