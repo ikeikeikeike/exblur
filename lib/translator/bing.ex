@@ -15,13 +15,9 @@ defmodule Translator.Bing do
         word
 
       true ->
-        word
-        # translated = Rails.cache.fetch("en_to_ja:#{word}", expires_in: 15.days) do
-          # BingTranslator.translate("Hello. This will be translated!", to: "ja")
-          # client.translate word, from: 'en', to: 'ja'
-        # end
-
-        # translated
+        ConCache.get_or_store exblur_cache:, "translator.bing:#{key}", fn ->
+          BingTranslator.translate(word, to: "ja")
+        end
     end
   end
 

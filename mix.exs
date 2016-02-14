@@ -19,8 +19,8 @@ defmodule Exblur.Mixfile do
   def application do
     [mod: {Exblur, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :mongodb_ecto,
-                    :ex_aws, :bing_translator, :exfavicon, :yaml_elixir]]
+                    :phoenix_ecto, :postgrex, :mongodb_ecto, :ex_aws,
+                    :bing_translator, :exfavicon, :yaml_elixir, :con_cache]]
   end
 
   # Specifies which paths to compile per environment.
@@ -51,6 +51,7 @@ defmodule Exblur.Mixfile do
      {:exkanji, "~> 0.2"},
      {:yaml_elixir, "~> 1.0.0"},
      {:yamerl, github: "yakaz/yamerl"},
+     {:con_cache, "~> 0.10.0"},
     ]
   end
 
