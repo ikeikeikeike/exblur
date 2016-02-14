@@ -2,6 +2,7 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
   use Exblur.Web, :task
   alias Exblur.Entry
   alias Exblur.VideoEntry
+  alias Translator, as: Tlor
 
   require Logger
 
@@ -22,8 +23,13 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
       |> limit([_e], ^limit)
       |> Mongo.all
 
-    models =
-      Enum.map(entries, fn(entry) ->
+    entries =
+      Enum.map entries, fn(e) ->
+        e = %{e | tags: Enum.join(Enum.map(e.tags, &Tlor.tag(Tlor.translate(&1.tag))), ",")}
+        e = %{e | title: Tlor.sentence(Tlor.tag(Tlor.translate(e.title)))}
+        e = %{e | content: Tlor.sentence(Tlor.tag(Tlor.translate(e.content)))}
+        # e = %{e | embed_code: fix_embed_code(e.embed_code, e.title)
+
         # entry |> IO.inspect
         # abc = BingTranslator.translate(entry.title, to: "ja")
         # IO.inspect abc
@@ -32,20 +38,26 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
         # ve.content = fixable.sentence(fixable.tag(bing.en_to_ja entry.content))
         # ve.embed_code = fix_embed_code(ve.embed_code, ve.title)
         # ve.tag_list = entry.tags.map{|tag| fixable.tag(bing.en_to_ja tag)}.join(',')
+        e
+      end
 
+    require IEx; IEx.pry
+
+    models =
+      Enum.map(entries, fn(e) ->
         Repo.transaction fn ->
-          case VideoEntry.video_creater(entry) do
+          case VideoEntry.video_creater(e) do
             {:error, reason} ->
               Repo.rollback(reason)
               Logger.error("#{inspect reason}")
               nil
 
             {:ok, _model} ->
-              Entry.already_post(entry)
+              Entry.already_post(e)
               nil
 
             {:new, model} ->
-              Entry.already_post(entry)
+              Entry.already_post(e)
               model
           end
         end
@@ -73,7 +85,7 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
     Repo.start_link
     Mongo.start_link
     HTTPoison.start
-    BingTranslator.configure
+    Tlor.configure
   end
 
   # We can define other functions as needed here.
