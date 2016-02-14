@@ -18,6 +18,5 @@ defmodule Translator do
   def configure do
     BingTranslator.configure
     Translator.Proofreading.configure
-    ConCache.start_link([], name: :exblur_cache)
   end
 end

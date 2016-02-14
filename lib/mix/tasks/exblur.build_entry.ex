@@ -82,6 +82,7 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
   end
 
   def setup do
+    ConCache.start_link([], name: :exblur_cache)
     Repo.start_link
     Mongo.start_link
     HTTPoison.start

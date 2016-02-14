@@ -57,6 +57,7 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
   end
 
   def setup do
+    ConCache.start_link([], name: :exblur_cache)
     Repo.start_link
     HTTPoison.start
   end
