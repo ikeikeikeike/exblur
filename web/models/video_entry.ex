@@ -76,8 +76,7 @@ defmodule Exblur.VideoEntry do
     query = from v in Model,
           where: v.url == ^entry.url
 
-    model = Repo.one(query)
-    case model do
+    case model = Repo.one(query) do
       nil ->
         cset =
           %Model{}

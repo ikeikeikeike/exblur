@@ -1,29 +1,11 @@
 defmodule Translator.Proofreading do
   alias Translator.Proofreading, as: Proof
 
-  def configure do
-    filters =
-      Path.join(File.cwd!, "config/translate_filters.yml")
-      |> YamlElixir.read_from_file
-
-    start_link([tags: filters["tags"], sentences: filters["sentences"]])
-    {:ok, []}
-  end
-
-  def configure(tags_filter, sentences_filter) do
-    start_link([tags: tags_filter, sentences: sentences_filter])
-    {:ok, []}
-  end
-
-  defp start_link(value) do
-    Agent.start_link(fn -> value end, name: __MODULE__)
-  end
-
-  @doc """
-  Get the filters
-  """
-  def filters do
-    Agent.get(__MODULE__, fn config -> config end)
+  def tag(word) when "" ==  word,  do: word
+  def tag(word) when is_nil(word), do: word
+  def tag(word) do
+    word
+    |> proof_tag(Proof.filters[:tags])
   end
 
   # sentence needs data types below.
@@ -58,6 +40,37 @@ defmodule Translator.Proofreading do
     word
     |> String.replace(map["from_word"], value)
     |> proof_sentence(tail)
+  end
+
+  def configure do
+    filters =
+      Path.join(File.cwd!, "config/translate_filters.yml")
+      |> YamlElixir.read_from_file
+
+    start_link([
+      tags: filters["tags"],
+      sentences: filters["sentences"]]
+    )
+    {:ok, []}
+  end
+
+  def configure(tags_filter, sentences_filter) do
+    start_link([
+      tags: tags_filter,
+      sentences: sentences_filter]
+    )
+    {:ok, []}
+  end
+
+  defp start_link(value) do
+    Agent.start_link(fn -> value end, name: __MODULE__)
+  end
+
+  @doc """
+  Get the filters
+  """
+  def filters do
+    Agent.get(__MODULE__, fn config -> config end)
   end
 
 end
