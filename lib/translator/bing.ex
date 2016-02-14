@@ -15,7 +15,7 @@ defmodule Translator.Bing do
         word
 
       true ->
-        ConCache.get_or_store exblur_cache:, "translator.bing:#{key}", fn ->
+        ConCache.get_or_store :exblur_cache, "translator.bing:#{word}", fn ->
           BingTranslator.translate(word, to: "ja")
         end
     end
