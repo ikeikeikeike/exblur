@@ -1,4 +1,5 @@
-Confirm has_many, m2mのon_delete, notify
+- Confirm has_many, m2mのon_delete, notify
   -> Want to remove relational table's id on video_entries and diva
 
-Translate tags to kana and romaji then that creates translated field in tag table if that wants.
+- Translate tags to kana and romaji then that creates translated field in tag table if that wants.
+- Set Expires(TTL) in con_cache
