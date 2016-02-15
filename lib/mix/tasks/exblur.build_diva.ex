@@ -57,9 +57,8 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
   end
 
   def setup do
-    ConCache.start_link([], name: :exblur_cache)
-    Repo.start_link
-    HTTPoison.start
+    Mix.Task.run "app.start", []
+    Mix.Task.load_all
   end
 
   # We can define other functions as needed here.

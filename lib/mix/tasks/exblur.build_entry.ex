@@ -23,25 +23,17 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
       |> limit([_e], ^limit)
       |> Mongo.all
 
+    # require IEx; IEx.pry
+    # ConCache.start_link([], name: :exblur_cache)
+
     entries =
       Enum.map entries, fn(e) ->
-        e = %{e | tags: Enum.join(Enum.map(e.tags, &Tlor.tag(Tlor.translate(&1.tag))), ",")}
-        e = %{e | title: Tlor.sentence(Tlor.tag(Tlor.translate(e.title)))}
-        e = %{e | content: Tlor.sentence(Tlor.tag(Tlor.translate(e.content)))}
+        e = %{e | tags: Enum.join(Enum.map(e.tags, &Tlor.tag(Tlor.translate(&1))), ",")}
+        e = %{e | title: Tlor.sentence(Tlor.translate(e.title))}
+        e = %{e | content: Tlor.sentence(Tlor.translate(e.content))}
         # e = %{e | embed_code: fix_embed_code(e.embed_code, e.title)
-
-        # entry |> IO.inspect
-        # abc = BingTranslator.translate(entry.title, to: "ja")
-        # IO.inspect abc
-
-        # ve.title = fixable.sentence(fixable.tag(bing.en_to_ja entry.title))
-        # ve.content = fixable.sentence(fixable.tag(bing.en_to_ja entry.content))
-        # ve.embed_code = fix_embed_code(ve.embed_code, ve.title)
-        # ve.tag_list = entry.tags.map{|tag| fixable.tag(bing.en_to_ja tag)}.join(',')
         e
       end
-
-    require IEx; IEx.pry
 
     models =
       Enum.map(entries, fn(e) ->
@@ -82,10 +74,14 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
   end
 
   def setup do
-    ConCache.start_link([], name: :exblur_cache)
-    Repo.start_link
-    Mongo.start_link
-    HTTPoison.start
+    Mix.Task.run "app.start", []
+    Mix.Task.load_all
+    ConCache.start_link [
+      ttl_check:     :timer.seconds(1),
+      ttl:           :timer.seconds(15),
+      touch_on_read: true
+    ], name: :exblur_cache
+
     Tlor.configure
   end
 
