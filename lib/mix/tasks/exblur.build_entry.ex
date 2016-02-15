@@ -28,7 +28,7 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
 
     entries =
       Enum.map entries, fn(e) ->
-        e = %{e | tags: Enum.join(Enum.map(e.tags, &Tlor.tag(Tlor.translate(&1))), ",")}
+        e = %{e | tags: Enum.map(e.tags, &Tlor.tag(Tlor.translate(&1)))}
         e = %{e | title: Tlor.sentence(Tlor.translate(e.title))}
         e = %{e | content: Tlor.sentence(Tlor.translate(e.content))}
         # e = %{e | embed_code: fix_embed_code(e.embed_code, e.title)

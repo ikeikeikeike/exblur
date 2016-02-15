@@ -129,7 +129,6 @@ defmodule Es.VideoEntry do
   # Tirexs.ElasticSearch.delete("exblur_video_entreis", settings)
 
   def create_index(index \\ get_index) do
-
     Tirexs.DSL.define [type: "video_entry", index: index], fn(index, es_settings) ->
       settings do
         analysis do
