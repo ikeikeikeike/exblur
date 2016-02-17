@@ -78,7 +78,7 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
     Mix.Task.load_all
     ConCache.start_link [
       ttl_check:     :timer.seconds(1),
-      ttl:           :timer.seconds(15),
+      ttl:           :timer.seconds(600),
       touch_on_read: true
     ], name: :exblur_cache
 

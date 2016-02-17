@@ -12,8 +12,6 @@ defmodule Exblur.Repo.Migrations.CreateVideoEntry do
       add :time,         :integer
       add :published_at, :datetime
 
-      add :thumbs,       {:array, :string}, default: []
-
       add :review,       :boolean, default: false
       add :publish,      :boolean, default: false
       add :removal,      :boolean, default: false
