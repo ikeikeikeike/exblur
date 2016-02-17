@@ -6,21 +6,6 @@ defmodule Es.VideoEntry do
 
   es :model, Exblur.VideoEntry
 
-  #### for develop #####
-  def put_document(model, tags, divas) do
-    Tirexs.Bulk.store [index: get_index, refresh: true], Tirexs.ElasticSearch.config() do
-      create search_data(model, tags, divas)
-    end
-  end
-
-  def search_data(model, tags, divas) do
-    search_data(model) ++ [
-      tags: tags,
-      divas: divas
-    ]
-  end
-  #########
-
   def search_data(model) do
     [
       # id: model.id,
