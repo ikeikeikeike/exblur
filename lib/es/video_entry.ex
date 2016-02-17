@@ -8,11 +8,11 @@ defmodule Es.VideoEntry do
 
   def search_data(model) do
     [
-      # id: model.id,
+      _id: model.id,
       url: model.url,
       time: model.time,
       title: model.title,
-      content: model.content,
+      # content: model.content,
 
       tags: Enum.map(model.tags, &(&1.name)),
       divas: Enum.map(model.divas, &(&1.name)),
@@ -31,15 +31,13 @@ defmodule Es.VideoEntry do
 
   def search(word \\ nil, options \\ []) do
 
-    fields = [:title, :content, :tags, :divas]
-
     # pagination
     page = max(options[:page] |> to_i, 1)
     per_page = (options[:limit] || options[:per_page] || 10000)
     offset = options[:offset] || (page - 1) * per_page
 
     # queries = search [index: @index_name, from: 0, size: 10, fields: [:tag, :article], explain: 5, version: true, min_score: 0.5] do
-    queries = Tirexs.Search.search [index: get_index, fields: fields, from: offset, size: per_page] do
+    queries = Tirexs.Search.search [index: get_index, fields: [], from: offset, size: per_page] do
 
       query do
         match_all
@@ -115,6 +113,8 @@ defmodule Es.VideoEntry do
     end
 
     if word do
+      fields = [:title, :tags, :divas]  # , :content
+
       s = Keyword.delete(queries[:search], :query) ++ Tirexs.Query.query do
         multi_match word, fields # , cutoff_frequency: 0.001, boost: 10, use_dis_max: false, operator: "and"
       end
@@ -161,7 +161,7 @@ defmodule Es.VideoEntry do
         indexes "divas",          type: "string", index: "not_analyzed"
 
         indexes "title",          type: "string", analyzer: "ja_analyzer"
-        indexes "content",        type: "string", analyzer: "ja_analyzer"
+        # indexes "content",        type: "string", analyzer: "ja_analyzer"
 
         indexes "time",           type: "long"
         indexes "published_at",   type: "date" #  ,   format: "strict_date_optional_time"
