@@ -29,8 +29,8 @@ defmodule Es.VideoEntry do
       title: model.title,
       content: model.content,
 
-      # tags: model.tag_list,
-      # divas: Enum.map(model.divas, &(&1.name)),
+      tags: Enum.map(model.tags, &(&1.name)),
+      divas: Enum.map(model.divas, &(&1.name)),
 
       review: model.review,
       publish: model.publish,
@@ -97,6 +97,23 @@ defmodule Es.VideoEntry do
             end
           end
         end
+
+        divas do
+          terms field: "divas", size: 180
+          facet_filter do
+            _and [_cache: true] do
+              filters do
+                terms "review",  [true]
+                terms "publish", [true]
+                terms "removal", [false]
+                # terms "server_domain" Server.shown_domain(request.host)
+                # terms "site_name"
+                # terms "divas"
+              end
+            end
+          end
+        end
+
       end
 
       sort do

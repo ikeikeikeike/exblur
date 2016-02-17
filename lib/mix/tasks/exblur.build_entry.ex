@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
   use Exblur.Web, :task
   alias Exblur.Entry
   alias Exblur.VideoEntry
-  alias Translator, as: Tlor
+  alias Translator, as: TL
 
   require Logger
 
@@ -23,14 +23,11 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
       |> limit([_e], ^limit)
       |> Mongo.all
 
-    # require IEx; IEx.pry
-    # ConCache.start_link([], name: :exblur_cache)
-
     entries =
       Enum.map entries, fn(e) ->
-        e = %{e | tags: Enum.map(e.tags, &Tlor.tag(Tlor.translate(&1)))}
-        e = %{e | title: Tlor.sentence(Tlor.translate(e.title))}
-        e = %{e | content: Tlor.sentence(Tlor.translate(e.content))}
+        e = %{e | tags: Enum.map(e.tags, &TL.tag(TL.translate(&1)))}
+        e = %{e | title: TL.sentence(TL.translate(e.title))}
+        e = %{e | content: TL.sentence(TL.translate(e.content))}
         # e = %{e | embed_code: fix_embed_code(e.embed_code, e.title)
         e
       end
@@ -82,7 +79,7 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
       touch_on_read: true
     ], name: :exblur_cache
 
-    Tlor.configure
+    TL.configure
   end
 
   # We can define other functions as needed here.
