@@ -72,3 +72,6 @@ config :arc,
 
 config :scrivener_html,
   routes_helper: Exblur.Router.Helpers
+
+config :ua_inspector,
+  database_path: Path.join(File.cwd!, "config/ua_inspector")

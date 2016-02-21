@@ -20,7 +20,8 @@ defmodule Exblur.Mixfile do
     [mod: {Exblur, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex, :mongodb_ecto, :ex_aws,
-                    :bing_translator, :exfavicon, :yaml_elixir, :con_cache]]
+                    :bing_translator, :exfavicon, :yaml_elixir, :con_cache,
+                    :ua_inspector]]
   end
 
   # Specifies which paths to compile per environment.
@@ -54,6 +55,7 @@ defmodule Exblur.Mixfile do
      {:con_cache, "~> 0.10.0"},
      # {:scrivener, "~> 1.0"},
      {:scrivener_html, "~> 1.0"},
+     {:ua_inspector, "~> 0.10"},
     ]
   end
 

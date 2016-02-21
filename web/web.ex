@@ -61,6 +61,7 @@ defmodule Exblur.Web do
       use Phoenix.HTML
 
       import Exblur.Router.Helpers
+      import DeviceDetector
     end
   end
 
