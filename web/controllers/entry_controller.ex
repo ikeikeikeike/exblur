@@ -1,21 +1,25 @@
 defmodule Exblur.EntryController do
   use Exblur.Web, :controller
-
-  # alias Exblur.VideoEntry
-
-  require Tirexs.Query
+  alias Exblur.VideoEntry, as: Model
+  import Imitation.Converter, only: [to_i: 1]
 
   plug :scrub_params, "video_entry" when action in [:create, :update]
 
-  def index(conn, _params) do
+  def index(conn, params) do
+    params = Enum.reduce(params, %{}, fn {k, v}, map ->
+      Map.put(map, String.to_atom(k), v)
+    end)
 
-    entries = Repo.all(Exblur.VideoEntry)
+    params = if params[:page], do: %{params | page: params[:page] |> to_i}, else: Map.put(params, :page, 1)
+    params = if params[:page_size], do: params, else: Map.put(params, :page_size, 5)
+    params = Map.put params, :repo, Exblur.Repo
+    params = Map.put params, :query, Model
 
-    ventries = 
-      Es.VideoEntry.do_search
-      |> Tirexs.Query.result 
+    entries =
+      Es.VideoEntry.search(params[:q], params)
+      |> Es.Paginator.paginate(params)
 
-    render(conn, "index.html", entries: entries, ventries: ventries)
+    render(conn, "index.html", entries: entries)
   end
 
   # def index(conn, _params) do

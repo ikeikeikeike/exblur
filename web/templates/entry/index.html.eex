@@ -1,5 +1,7 @@
 <h2>Listing entries</h2>
 
+<%= pagination_links nil, @entries %>
+
 <table class="table">
   <thead>
     <tr>
@@ -7,23 +9,20 @@
     </tr>
   </thead>
   <tbody>
-    <%= for ve <- @ventries[:hits] do %>
-      <div><%= ve[:fields][:title] |> List.first %></div>
-    <% end %>
 
-    <% if false do %>
-      <%= for entry <- @entries do %>
-        <tr>
-          <td><%= entry.title %></td>
-          <td class="text-left">
-            <%#= link "Show", to: entry_path(@conn, :show, entry), class: "btn btn-default btn-xs" %>
-            <%#= link "Edit", to: entry_path(@conn, :edit, entry), class: "btn btn-default btn-xs" %>
-            <%#= link "Delete", to: entry_path(@conn, :delete, entry), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-          </td>
-        </tr>
-      <% end %>
-    <% end %>
+    <%= for entry <- @entries.entries do %>
+      <tr>
+        <td><%= entry.title %></td>
+        <td class="text-left">
+          <%#= link "Show", to: entry_path(@conn, :show, entry), class: "btn btn-default btn-xs" %>
+          <%#= link "Edit", to: entry_path(@conn, :edit, entry), class: "btn btn-default btn-xs" %>
+          <%#= link "Delete", to: entry_path(@conn, :delete, entry), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        </td>
+      </tr>
+     <% end %>
   </tbody>
 </table>
+
+<%= pagination_links nil, @entries %>
 
 <%#= link "New entry", to: entry_path(@conn, :new) %>

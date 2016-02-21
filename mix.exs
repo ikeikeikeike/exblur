@@ -52,7 +52,7 @@ defmodule Exblur.Mixfile do
      {:yaml_elixir, "~> 1.0.0"},
      {:yamerl, github: "yakaz/yamerl"},
      {:con_cache, "~> 0.10.0"},
-     {:scrivener, "~> 1.0"},
+     # {:scrivener, "~> 1.0"},
      {:scrivener_html, "~> 1.0"},
     ]
   end
