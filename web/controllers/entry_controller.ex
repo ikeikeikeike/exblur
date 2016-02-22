@@ -13,7 +13,7 @@ defmodule Exblur.EntryController do
     params = if params[:page], do: %{params | page: params[:page] |> to_i}, else: Map.put(params, :page, 1)
     params = if params[:page_size], do: params, else: Map.put(params, :page_size, 5)
     params = Map.put params, :repo, Exblur.Repo
-    params = Map.put params, :query, Model
+    params = Map.put params, :query, Model.query
 
     entries =
       Es.VideoEntry.search(params[:q], params)

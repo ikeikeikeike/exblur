@@ -1,24 +1,6 @@
 mobile:<%= mobile? @conn %>
 desctop:<%= desctop? @conn %>
 
-<h2>Listing entries</h2>
-
-<%= pagination_links nil, @entries %>
-
-<%= for entry <- @entries.entries do %>
-  <tr>
-    <td><%= entry.id %></td>
-    <td><%= entry.title %></td>
-    <td class="text-left">
-      <%#= link "Show", to: entry_path(@conn, :show, entry), class: "btn btn-default btn-xs" %>
-      <%#= link "Edit", to: entry_path(@conn, :edit, entry), class: "btn btn-default btn-xs" %>
-      <%#= link "Delete", to: entry_path(@conn, :delete, entry), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-    </td>
-  </tr>
-<% end %>
-
-<%#= link "New entry", to: entry_path(@conn, :new) %>
-
 <div class="container bs-docs-container">
   <div class="row">
     <div class="panel panel-default">
@@ -93,7 +75,7 @@ desctop:<%= desctop? @conn %>
       </div>
 
       <div id='entries'>
-        <%#= render partial: 'entries' %>
+        <%= render "_entries.html", conn: @conn, entries: @entries %>
       </div>
 
       <div class="clearfix"></div>
@@ -101,13 +83,15 @@ desctop:<%= desctop? @conn %>
       <div id="paginator">
         <ul class="pager">
           <li>
+            <%= pagination_links nil, @entries %>
+
             <%#= paginate @entries %>
             <%#= link_to_next_page @entries,
                   t('views.pagination.next'),
                   remote: true,
                   params: params do
             %>
-              <span>ページがありません</span>
+              <%# <span>ページがありません</span> %>
             <%# end %>
           </li>
         </ul>
