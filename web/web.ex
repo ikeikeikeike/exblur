@@ -16,16 +16,6 @@ defmodule Exblur.Web do
   below.
   """
 
-  def task do
-    quote do
-      use Mix.Task
-
-      alias Exblur.Mongo
-      alias Exblur.Repo
-      import Ecto.Query
-    end
-  end
-
   def model do
     quote do
       use Ecto.Model
@@ -47,6 +37,7 @@ defmodule Exblur.Web do
       import Ecto.Query, only: [from: 1, from: 2]
 
       import Exblur.Router.Helpers
+      import Exblur.Gettext
     end
   end
 
@@ -61,6 +52,8 @@ defmodule Exblur.Web do
       use Phoenix.HTML
 
       import Exblur.Router.Helpers
+      import Exblur.ErrorHelpers
+      import Exblur.Gettext
       import DeviceDetector
     end
   end
@@ -79,6 +72,17 @@ defmodule Exblur.Web do
       alias Exblur.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
+      import Exblur.Gettext
+    end
+  end
+
+  def task do
+    quote do
+      use Mix.Task
+
+      alias Exblur.Mongo
+      alias Exblur.Repo
+      import Ecto.Query
     end
   end
 
