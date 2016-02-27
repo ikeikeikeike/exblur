@@ -11,7 +11,7 @@ defmodule Exblur.EntryController do
     end)
 
     params = if params[:page], do: %{params | page: params[:page] |> to_i}, else: Map.put(params, :page, 1)
-    params = if params[:page_size], do: params, else: Map.put(params, :page_size, 5)
+    params = if params[:page_size], do: params, else: Map.put(params, :page_size, 10)
     params = Map.put params, :repo, Exblur.Repo
     params = Map.put params, :query, Model.query
 
