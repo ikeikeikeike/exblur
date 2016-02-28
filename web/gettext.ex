@@ -22,22 +22,22 @@ defmodule Exblur.Gettext do
   """
   use Gettext, otp_app: :exblur
 
-  # def default_locale do
-    # Application.get_env(:exblur, Exblur.Gettext)[:default_locale] || "en"
-  # end
+  def default_locale do
+    Application.get_env(:exblur, Exblur.Gettext)[:default_locale] || "en"
+  end
 
-  # def find_locale(language_tag) do
-    # [language | _] =
-      # language_tag
-      # |> String.downcase
-      # |> String.split("-", parts: 2)
+  def find_locale(language_tag) do
+    [language | _] =
+      language_tag
+      |> String.downcase
+      |> String.split("-", parts: 2)
 
-    # Gettext.known_locales(__MODULE__)
+    Gettext.known_locales(__MODULE__)
 
-    # if language in Gettext.known_locales(__MODULE__) do
-      # language
-    # else
-      # nil
-    # end
-  # end
+    if language in Gettext.known_locales(__MODULE__) do
+      language
+    else
+      nil
+    end
+  end
 end

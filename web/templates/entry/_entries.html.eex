@@ -78,8 +78,8 @@
             <% end %>
 
             <p class='text-right'>
-              <span class="label label-danger "><%= entry.time / 60 %>分</span>
-              <span class="label label-default"><%#= time_ago_in_words entry.published_at %>前</span>
+              <span class="label label-danger "><%= round(entry.time / 60) %>分</span>
+              <span class="label label-default"><%= time_ago_in_words entry.published_at %>前</span>
             </p>
 
           </div>

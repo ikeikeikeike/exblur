@@ -50,6 +50,7 @@ defmodule Exblur.Web do
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
+      use Phoenix.HTML.SimplifiedHelpers
 
       import Exblur.Router.Helpers
       import Exblur.ErrorHelpers
