@@ -56,7 +56,7 @@ defmodule Exblur.Mixfile do
      {:yamerl, github: "yakaz/yamerl"},
      {:con_cache, "~> 0.10.0"},
      # {:scrivener, "~> 1.0"},
-     {:scrivener_html, "~> 1.0"},
+     {:scrivener_html, github: "ikeikeikeike/scrivener_html"},
      {:ua_inspector, "~> 0.10"},
      {:phoenix_html_simplified_helpers, "~> 0.2"}
     ]

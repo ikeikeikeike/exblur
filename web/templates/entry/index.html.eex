@@ -83,7 +83,7 @@ desctop:<%= desctop? @conn %>
       <div id="paginator">
         <ul class="pager">
           <li>
-            <%#= pagination_links nil, @entries %>
+            <%= pagination_links @entries %>
 
             <%#= paginate @entries %>
             <%#= link_to_next_page @entries,
