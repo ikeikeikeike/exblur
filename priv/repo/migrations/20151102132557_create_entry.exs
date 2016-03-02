@@ -1,8 +1,8 @@
-defmodule Exblur.Repo.Migrations.CreateVideoEntry do
+defmodule Exblur.Repo.Migrations.CreateEntry do
   use Ecto.Migration
 
   def change do
-    create table(:video_entries) do
+    create table(:entries) do
       add :url,          :text
 
       add :title,        :string
@@ -22,12 +22,12 @@ defmodule Exblur.Repo.Migrations.CreateVideoEntry do
       add :created_at,   :datetime, null: false
       add :updated_at,   :datetime, null: false
     end
-    create index(:video_entries, [:site_id])
-    create index(:video_entries, [:server_id])
-    create index(:video_entries, [:publish])
-    create index(:video_entries, [:published_at])
-    create index(:video_entries, [:removal])
-    create index(:video_entries, [:review])
-    create index(:video_entries, [:url], unique: true)
+    create index(:entries, [:site_id])
+    create index(:entries, [:server_id])
+    create index(:entries, [:publish])
+    create index(:entries, [:published_at])
+    create index(:entries, [:removal])
+    create index(:entries, [:review])
+    create index(:entries, [:url], unique: true)
   end
 end

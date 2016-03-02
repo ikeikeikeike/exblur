@@ -1,124 +1,163 @@
 defmodule Exblur.Entry do
   use Exblur.Web, :model
+  alias Exblur.Entry, as: Model
 
-  @primary_key {:id, :binary_id, autogenerate: true}
+  alias Exblur.EntryTag
+  alias Exblur.EntryDiva
+  alias Exblur.Diva
+  alias Exblur.Server
+  alias Exblur.Site
+  alias Exblur.Tag
+  alias Exblur.Thumb
+
+  require Logger
+
   schema "entries" do
-
-    field :posted, :boolean
-
     field :url, :string
-    field :name, :string
-    field :time, :integer
+
     field :title, :string
     field :content, :string
     field :embed_code, :string
 
-    field :tags, {:array, :string}
-    field :divas, {:array, :string}
+    field :time, :integer
+    field :published_at, Timex.Ecto.DateTimeWithTimezone
 
-    field :images, {:array, :map}
-    field :image_urls, {:array, :string}
+    field :review, :boolean, default: false
+    field :publish, :boolean, default: false
+    field :removal, :boolean, default: false
 
-    # index({name: 1}, {name: "name_index", background: true})
+    field :created_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
+    field :updated_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
+
+    belongs_to :site, Site
+    belongs_to :server, Server
+
+    has_many :thumbs, Thumb, on_delete: :delete_all
+
+    has_many :entry_divas, EntryDiva
+    has_many :divas, through: [:entry_divas, :diva]
+
+    has_many :entry_tags, EntryTag
+    has_many :tags, through: [:entry_tags, :tag]
   end
 
-  @required_fields ~w()
-  @optional_fields ~w(posted)
+  # def with_diva(query) do
+          # from  video      in query,
+     # left_join: video_diva in assoc(video, :entry_divas),
+          # join: diva       in assoc(video_diva, :diva),
+       # preload: [divas: diva]
+  # end
+
+  @required_fields ~w(url title embed_code time published_at review publish removal)
+  @optional_fields ~w(content site_id server_id)
+  @relational_fields ~w(site server divas tags thumbs)a
+
+  def query do
+    from e in Model,
+     select: e,
+    preload: ^@relational_fields
+  end
 
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  # posted entry true.
-  def already_post(model) do
-    if ! model.posted do
-      Mongo.update(changeset(model, %{posted: true}))
+  def changeset_by_entry(model, entry) do
+    params =
+      entry
+      |> Map.from_struct
+      |> Map.put(:published_at, Timex.Date.now)
+
+    changeset(model, params)
+  end
+
+  def find_or_create_by_entry(entry) do
+    query = from v in Model,
+          where: v.url == ^entry.url
+
+    case model = Repo.one(query) do
+      nil ->
+        cset =
+          %Model{}
+          |> changeset_by_entry(entry)
+
+        case Repo.insert(cset) do
+          {:ok, model} ->
+            {:new, model}
+
+          {:error, cset} ->
+            {:error, cset}
+        end
+      _ ->
+        {:ok, model}
     end
   end
 
-  def query do
-    from e in Exblur.Entry,
-    select: e
-  end
+  def video_creater(entry) do
+    case find_or_create_by_entry(entry) do
+      {:error, cset} ->
+        Logger.error("#{inspect cset}")
+        {:error, cset}
 
-  def asg(query) do
-    from e in query,
-    where: e.name == "asg"
-  end
+      {:ok, model} ->
+        {:ok, model}
 
-  def ero_video(query) do
-    from e in query,
-    where: e.name == "ero_video"
-  end
+      {:new, model} ->
+        result =
+          case Site.video_creator_by_name(entry.name) do
+            {:error, cset} ->
+              Logger.error("#{inspect cset}")
+              {:error, cset}
 
-  def fc2(query) do
-    from e in query,
-    where: e.name == "fc2"
-  end
+            {_, site} ->
+              case Repo.update(changeset(model, %{site_id: site.id})) do
+                {:error, reason} ->
+                  Logger.error("#{inspect reason}")
+                  {:error, reason}
 
-  def japan_whores(query) do
-    from e in query,
-    where: e.name == "japan_whores"
-  end
+                {_, model} ->
+                  {:new, model}
+              end
+          end
 
-  def pornhost(query) do
-    from e in query,
-    where: e.name == "pornhost"
-  end
+        case result do
+          {:new, model} ->
 
-  def pornhub(query) do
-    from e in query,
-    where: e.name == "pornhub"
-  end
+            # TODO: name to kana, romaji and more
+            Enum.each entry.divas, fn(name) ->
+              case Diva.find_or_create_by_name(name) do
+                {:error, reason} ->
+                  Logger.error("#{inspect reason}")
 
-  def redtube(query) do
-    from e in query,
-    where: e.name == "redtube"
-  end
+                {_, diva} ->
+                  EntryDiva.find_or_create(model, diva)
+              end
+            end
 
-  def tokyo_tube(query) do
-    from e in query,
-    where: e.name == "tokyo_tube"
-  end
+            # TODO: name to kana
+            Enum.each entry.tags, fn(name) ->
+              case Tag.find_or_create_by_name(name) do
+                {:error, reason} ->
+                  Logger.error("#{inspect reason}")
 
-  def tokyo_porn_tube(query) do
-    from e in query,
-    where: e.name == "tokyo_porn_tube"
-  end
+                {_, tag} ->
+                  EntryTag.find_or_create(model, tag)
+              end
+            end
 
-  def tube8(query) do
-    from e in query,
-    where: e.name == "tube8"
-  end
+            Enum.each entry.images, fn(scrapy) ->
+              case Thumb.create_by_scrapy(model, scrapy) do
+                {:error, reason} -> Logger.error("#{inspect reason}")
+                _ -> :ok
+              end
+            end
 
-  def xhamster(query) do
-    from e in query,
-    where: e.name == "xhamster"
-  end
+          _ -> nil
+        end
 
-  def xvideos(query) do
-    from e in query,
-    where: e.name == "xvideos"
-        or e.name == "jp_xvideos"
-  end
-
-  def released(query) do
-    from e in query,
-    where: e.posted == true
-  end
-
-  def reserved(query) do
-    from e in query,
-    where: e.posted == false
-       and e.embed_code != ""
-       and not(is_nil(e.embed_code))
-  end
-
-  def failed(query) do
-    from e in query,
-    where: e.posted == false
-       and (is_nil(e.embed_code) or e.embed_code == "")
+        result
+    end
   end
 
 end

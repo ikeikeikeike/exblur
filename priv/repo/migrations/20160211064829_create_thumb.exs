@@ -3,13 +3,13 @@ defmodule Exblur.Repo.Migrations.CreateThumb do
 
   def change do
     create table(:thumbs) do
-      add :video_entry_id, references(:video_entries, on_delete: :nothing)
+      add :entry_id, references(:entries, on_delete: :nothing)
 
       add :image, :string
 
       add :created_at, :datetime, null: false
     end
 
-    create index(:thumbs, [:video_entry_id])
+    create index(:thumbs, [:entry_id])
   end
 end

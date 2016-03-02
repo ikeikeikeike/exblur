@@ -10,10 +10,10 @@ defmodule Exblur.Server do
     field :description, :string
     field :primary, :boolean, default: false
 
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
-    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field :created_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
+    field :updated_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
 
-    has_many :video_entries, Exblur.VideoEntry, on_delete: :nilify_all
+    has_many :entries, Exblur.Entry, on_delete: :nilify_all
   end
 
   @required_fields ~w(title icon domain twitter_url keywords description primary)

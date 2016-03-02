@@ -1,17 +1,17 @@
-defmodule Exblur.VideoEntryTag do
+defmodule Exblur.EntryTag do
   use Exblur.Web, :model
-  alias Exblur.VideoEntryTag, as: Model
+  alias Exblur.EntryTag, as: Model
   alias Imitation.Q
 
-  schema "video_entry_tags" do
-    belongs_to :video_entry, Exblur.VideoEntry
+  schema "entry_tags" do
+    belongs_to :entry, Exblur.Entry
     belongs_to :tag,         Exblur.Tag
 
-    field :created_at,       Ecto.DateTime, default: Ecto.DateTime.utc
-    field :updated_at,       Ecto.DateTime, default: Ecto.DateTime.utc
+    field :created_at,       Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
+    field :updated_at,       Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
   end
 
-  @required_fields ~w(video_entry_id tag_id)
+  @required_fields ~w(entry_id tag_id)
   @optional_fields ~w()
 
   def changeset(model, params \\ :empty) do
@@ -19,9 +19,9 @@ defmodule Exblur.VideoEntryTag do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def changeset(model, video_entry, tag) do
+  def changeset(model, entry, tag) do
     params =
-      %{video_entry_id: video_entry.id, tag_id: tag.id}
+      %{entry_id: entry.id, tag_id: tag.id}
 
     model
     |> cast(params, @required_fields, @optional_fields)
@@ -31,7 +31,7 @@ defmodule Exblur.VideoEntryTag do
     query =
       from v in Model,
       where: v.tag_id == ^tag.id
-         and v.video_entry_id == ^entry.id
+         and v.entry_id == ^entry.id
 
     Q.find_or_create(query, changeset(%Model{}, entry, tag))
   end

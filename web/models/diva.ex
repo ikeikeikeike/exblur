@@ -23,11 +23,11 @@ defmodule Exblur.Diva do
 
     field :image,      :string
 
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
-    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field :created_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
+    field :updated_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
 
-    has_many :video_entry_divas, Exblur.VideoEntryDiva
-    has_many :video_entries, through: [:video_entry_divas, :video_entry]
+    has_many :entry_divas, Exblur.EntryDiva
+    has_many :entries, through: [:entry_divas, :entry]
   end
 
   @required_fields ~w(name kana romaji gyou image)

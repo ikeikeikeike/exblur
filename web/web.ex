@@ -19,6 +19,7 @@ defmodule Exblur.Web do
   def model do
     quote do
       use Ecto.Model
+      use Timex.Ecto.Timestamps
 
       alias Exblur.Mongo
       alias Exblur.Repo

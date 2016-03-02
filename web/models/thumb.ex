@@ -9,12 +9,12 @@ defmodule Exblur.Thumb do
 
   schema "thumbs" do
     field :image, ThumbUploader.Type
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field :created_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
 
-    belongs_to :video_entry, Exblur.VideoEntry
+    belongs_to :entry, Exblur.Entry
   end
 
-  @required_fields ~w(video_entry_id)
+  @required_fields ~w(entry_id)
   @optional_fields ~w()
 
   @required_file_fields ~w(image)
@@ -30,12 +30,12 @@ defmodule Exblur.Thumb do
   def get_thumb(model), do: ThumbUploader.url {model.image, model}
   def get_thumb(model, version), do: ThumbUploader.url {model.image, model}, version
 
-  def create_by_scrapy(video_entry, scrapy) do
+  def create_by_scrapy(entry, scrapy) do
     image =
       "#{Application.get_env(:exblur, :scrapy)[:endpoint]}#{scrapy["path"]}"
       |> Plug.Exblur.Upload.make_plug!
 
-    params = %{"video_entry_id" => video_entry.id, "image" => image}
+    params = %{"entry_id" => entry.id, "image" => image}
     case Repo.insert(changeset(%Model{}, params)) do
       {:error, reason} ->
         Logger.error("#{inspect reason}")

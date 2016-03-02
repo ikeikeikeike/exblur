@@ -11,11 +11,11 @@ defmodule Exblur.Tag do
     field :gyou,   :string
     field :orig,   :string
 
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
-    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field :created_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
+    field :updated_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
 
-    has_many :video_entry_tags, Exblur.VideoEntryTag
-    has_many :video_entries, through: [:video_entry_tags, :video_entry]
+    has_many :entry_tags, Exblur.EntryTag
+    has_many :entries, through: [:entry_tags, :entry]
   end
 
   @required_fields ~w(name)

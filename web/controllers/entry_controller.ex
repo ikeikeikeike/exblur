@@ -1,9 +1,9 @@
 defmodule Exblur.EntryController do
   use Exblur.Web, :controller
-  alias Exblur.VideoEntry, as: Model
+  alias Exblur.Entry, as: Model
   import Imitation.Converter, only: [to_i: 1]
 
-  plug :scrub_params, "video_entry" when action in [:create, :update]
+  plug :scrub_params, "entry" when action in [:create, :update]
 
   def index(conn, params) do
     params = Enum.reduce(params, %{}, fn {k, v}, map ->
@@ -16,7 +16,7 @@ defmodule Exblur.EntryController do
     params = Map.put params, :query, Model.query
 
     entries =
-      Es.VideoEntry.search(params[:q], params)
+      Es.Entry.search(params[:q], params)
       |> Es.Paginator.paginate(params)
 
     render(conn, "index.html", entries: entries)
@@ -28,12 +28,12 @@ defmodule Exblur.EntryController do
   # end
 
   # def new(conn, _params) do
-    # changeset = VideoEntry.changeset(%VideoEntry{})
+    # changeset = Entry.changeset(%Entry{})
     # render(conn, "new.html", changeset: changeset)
   # end
 
   # def create(conn, %{"entry" => entry_params}) do
-    # changeset = VideoEntry.changeset(%VideoEntry{}, entry_params)
+    # changeset = Entry.changeset(%Entry{}, entry_params)
 
     # case Repo.insert(changeset) do
       # {:ok, _entry} ->
@@ -46,19 +46,19 @@ defmodule Exblur.EntryController do
   # end
 
   # def show(conn, %{"id" => id}) do
-    # entry = Repo.get!(VideoEntry, id)
+    # entry = Repo.get!(Entry, id)
     # render(conn, "show.html", entry: entry)
   # end
 
   # def edit(conn, %{"id" => id}) do
-    # entry = Repo.get!(VideoEntry, id)
-    # changeset = VideoEntry.changeset(entry)
+    # entry = Repo.get!(Entry, id)
+    # changeset = Entry.changeset(entry)
     # render(conn, "edit.html", entry: entry, changeset: changeset)
   # end
 
   # def update(conn, %{"id" => id, "entry" => entry_params}) do
-    # entry = Repo.get!(VideoEntry, id)
-    # changeset = VideoEntry.changeset(entry, entry_params)
+    # entry = Repo.get!(Entry, id)
+    # changeset = Entry.changeset(entry, entry_params)
 
     # case Repo.update(changeset) do
       # {:ok, entry} ->
@@ -71,7 +71,7 @@ defmodule Exblur.EntryController do
   # end
 
   # def delete(conn, %{"id" => id}) do
-    # entry = Repo.get!(VideoEntry, id)
+    # entry = Repo.get!(Entry, id)
 
     # # Here we use delete! (with a bang) because we expect
     # # it to always work (and if it does not, it will raise).

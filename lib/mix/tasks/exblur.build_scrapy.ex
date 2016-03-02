@@ -1,7 +1,7 @@
-defmodule Mix.Tasks.Exblur.BuildEntry do
+defmodule Mix.Tasks.Exblur.BuildScrapy do
   use Exblur.Web, :task
+  alias Exblur.Scrapy
   alias Exblur.Entry
-  alias Exblur.VideoEntry
   alias Translator, as: TL
 
   require Logger
@@ -17,9 +17,9 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
     limit = if length(args) > 0, do: List.first(args), else: 0
 
     entries =
-      Entry.query
-      # |> Entry.xvideos
-      |> Entry.reserved
+      Scrapy.query
+      # |> Scrapy.xvideos
+      |> Scrapy.reserved
       |> limit([_e], ^limit)
       |> Mongo.all
 
@@ -35,25 +35,25 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
     models =
       Enum.map(entries, fn(e) ->
         Repo.transaction fn ->
-          case VideoEntry.video_creater(e) do
+          case Entry.video_creater(e) do
             {:error, reason} ->
               Repo.rollback(reason)
               Logger.error("#{inspect reason}")
               nil
 
             {:ok, _model} ->
-              Entry.already_post(e)
+              Scrapy.already_post(e)
               nil
 
             {:new, model} ->
-              Entry.already_post(e)
+              Scrapy.already_post(e)
               model
           end
         end
       end)
       |> Enum.filter(fn(result) ->
         case result do
-          {:ok, %Exblur.VideoEntry{}} ->
+          {:ok, %Exblur.Entry{}} ->
             true
           _ ->
             false
@@ -63,11 +63,11 @@ defmodule Mix.Tasks.Exblur.BuildEntry do
 
     # Put built up document to Elasticsearch
     if length(models) > 0 do
-      Es.VideoEntry.reindex
+      Es.Entry.reindex
       Logger.debug("finish reindex")
     end
 
-    Mix.shell.info "Finish to build entry"
+    Mix.shell.info "Finish to build scrapy"
   end
 
   def setup do
