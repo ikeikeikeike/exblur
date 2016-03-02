@@ -7,7 +7,7 @@ desctop:<%= desctop? @conn %>
       <div class="panel-heading">
 
         <form style='<%= if mobile? @conn do %> "padding: 5px 15px; margin-top: -9px; margin-bottom: 0;" <% end %>'
-              class="navbar-form" role="search" action="<%#= entries_path %>">
+              class="navbar-form" role="search" action="<%= entry_path(@conn, :index) %>">
 
           <%#= take_params_hidden_field_tags :list, :divas %>
 
@@ -36,7 +36,10 @@ desctop:<%= desctop? @conn %>
           ten_minutes_path = take_params(:list, :page, :search, :site_name, :tag, :divas)
           if params[:t600].blank?, do: ten_minutes_path = ten_minutes_path.merge(t600: 1)
           %>
-          <a href="<%#= entries_path ten_minutes_path %>"
+          <%
+          ten_minutes_path = @conn.query_params
+          %>
+          <a href="<%= entry_path(@conn, :index, ten_minutes_path) %>"
               type="button"
               class="btn btn-default <%= if mobile? @conn do %>btn-sm<% end %> <%= if @conn.params["t600"] do %>active<% end %>">
             <small><%= gettext "Over 10 Min" %></small>
