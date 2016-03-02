@@ -32,7 +32,7 @@
 
         <div class="thumbnail">
 
-          <a href="<%#= entry_path(entry, entry.title) %>"
+          <a href="<%= entry_path(@conn, :show, entry, entry.title) %>"
              rel="bookmark"
              data-no-turbolink="1"
           >
