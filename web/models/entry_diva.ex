@@ -7,8 +7,8 @@ defmodule Exblur.EntryDiva do
     belongs_to :entry, Exblur.Entry
     belongs_to :diva,        Exblur.Diva
 
-    field :created_at,       Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
-    field :updated_at,       Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
+    field :created_at,       Ecto.DateTime, default: Ecto.DateTime.utc
+    field :updated_at,       Ecto.DateTime, default: Ecto.DateTime.utc
   end
 
   @required_fields ~w(entry_id diva_id)

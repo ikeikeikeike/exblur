@@ -23,8 +23,8 @@ defmodule Exblur.Diva do
 
     field :image,      :string
 
-    field :created_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
-    field :updated_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
+    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
     has_many :entry_divas, Exblur.EntryDiva
     has_many :entries, through: [:entry_divas, :entry]

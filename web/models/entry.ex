@@ -20,14 +20,14 @@ defmodule Exblur.Entry do
     field :embed_code, :string
 
     field :time, :integer
-    field :published_at, Timex.Ecto.DateTimeWithTimezone
+    field :published_at, Ecto.DateTime
 
     field :review, :boolean, default: false
     field :publish, :boolean, default: false
     field :removal, :boolean, default: false
 
-    field :created_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
-    field :updated_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
+    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
     belongs_to :site, Site
     belongs_to :server, Server
@@ -67,7 +67,7 @@ defmodule Exblur.Entry do
     params =
       entry
       |> Map.from_struct
-      |> Map.put(:published_at, Timex.Date.now)
+      |> Map.put(:published_at, Ecto.DateTime.utc)
 
     changeset(model, params)
   end

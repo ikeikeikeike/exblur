@@ -9,7 +9,7 @@ defmodule Exblur.Thumb do
 
   schema "thumbs" do
     field :image, ThumbUploader.Type
-    field :created_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
+    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
     belongs_to :entry, Exblur.Entry
   end

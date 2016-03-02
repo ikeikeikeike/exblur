@@ -11,10 +11,10 @@ defmodule Exblur.Site do
     field    :url,           :string
     field    :rss,           :string
     field    :icon,          Exblur.IconUploader.Type
-    field    :last_modified, Timex.Ecto.DateTimeWithTimezone
+    field    :last_modified, Ecto.DateTime
 
-    field    :created_at,    Timex.Ecto.DateTimeWithTimezone,     default: Timex.Date.now
-    field    :updated_at,    Timex.Ecto.DateTimeWithTimezone,     default: Timex.Date.now
+    field    :created_at,    Ecto.DateTime,     default: Ecto.DateTime.utc
+    field    :updated_at,    Ecto.DateTime,     default: Ecto.DateTime.utc
 
     has_many :entries, Exblur.Entry, on_delete: :nilify_all
   end

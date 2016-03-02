@@ -127,7 +127,7 @@ defmodule Es.Entry do
     Tirexs.Query.create_resource(queries)
   end
 
-  # settings = Tirexs.ElasticSearch.config()
+  # settings = Tirexs.get_uri_env()
   # Tirexs.ElasticSearch.delete("exblur_video_entreis", settings)
 
   def create_index(index \\ get_index) do

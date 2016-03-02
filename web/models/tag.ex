@@ -11,8 +11,8 @@ defmodule Exblur.Tag do
     field :gyou,   :string
     field :orig,   :string
 
-    field :created_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
-    field :updated_at, Timex.Ecto.DateTimeWithTimezone, default: Timex.Date.now
+    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
     has_many :entry_tags, Exblur.EntryTag
     has_many :entries, through: [:entry_tags, :entry]
