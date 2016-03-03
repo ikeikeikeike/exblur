@@ -13,6 +13,7 @@ defmodule Exblur.Repo.Migrations.CreateSite do
       add :updated_at, :datetime, null: false
     end
 
+    create index(:sites, [:name])
     create index(:sites, [:last_modified])
     create index(:sites, [:rss], unique: true)
 

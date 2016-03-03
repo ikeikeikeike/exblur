@@ -10,6 +10,7 @@ defmodule Exblur.Repo.Migrations.CreateThumb do
       add :created_at, :datetime, null: false
     end
 
+    create index(:thumbs, [:image])
     create index(:thumbs, [:entry_id])
   end
 end

@@ -22,12 +22,15 @@ defmodule Exblur.Repo.Migrations.CreateEntry do
       add :created_at,   :datetime, null: false
       add :updated_at,   :datetime, null: false
     end
+
     create index(:entries, [:site_id])
     create index(:entries, [:server_id])
-    create index(:entries, [:publish])
     create index(:entries, [:published_at])
+    create index(:entries, [:publish])
     create index(:entries, [:removal])
     create index(:entries, [:review])
+    create index(:entries, [:title])
+    create index(:entries, [:time])
     create index(:entries, [:url], unique: true)
   end
 end
