@@ -1,8 +1,47 @@
-<h2>Show entry</h2>
+<%#
+# Title, Keywords, Descriptionを動的に変更
+content_for :title, @entry.title
+content_for :keywords, @entry.id.to_s
+content_for :description, "#{@entry.title}: #{@entry.content}"
+%>
 
-<ul>
+<%# <style> %>
+<%# * { color: #FFF !important; } %>
+<%# span { color: #428bca !important; } %>
+<%# </style> %>
 
-</ul>
+<div class="container bs-docs-container">
+  <div class="row">
+    <div id="show_entry" class="panel panel-default">
 
-<%= link "Edit", to: entry_path(@conn, :edit, @entry) %>
-<%= link "Back", to: entry_path(@conn, :index) %>
+      <% if false do %>
+      <%# if is_mobile? @conn do %>
+        <%# adsenses = Adsense.random_list.mobiled %>
+        <%# if adsenses.exists? do %>
+          <ul class="media-list" style="padding: 0px 3px 3px;">
+            <%# adsamp(adsenses, 3).each.with_index(1) do |adsense, index| %>
+              <%#= render partial: 'entries_list_adsense', locals: {
+                adsense: adsense,
+                index: index,
+                adsense_category: 'show_top_entries_list'
+              } %>
+            <%# end %>
+          </ul>
+        <%# end %>
+      <%# end %>
+      <% end %>
+
+      <%#- cache ['show_entry', request.smart_phone?, request.mobile?, @entry] do -%>
+
+        <div class="panel-heading">
+          <h1 class="no-heading-style">
+            <strong><%= title_with_link @conn, @entry %></strong>
+          </h1>
+        </div>
+
+
+      <%# end %>
+
+    </div>
+  </div>
+</div>
