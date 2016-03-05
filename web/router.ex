@@ -21,6 +21,8 @@ defmodule Exblur.Router do
 
     get "/", EntryController, :index
     get "/vid/:id/:title", EntryController, :show
+
+    get "/divas", DivaController, :index
   end
 
   # Other scopes may use custom stacks.

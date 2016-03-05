@@ -1,0 +1,53 @@
+<%#
+content_for :title, gettext("")
+content_for :keywords, gettext("")
+content_for :description, gettext("")
+%>
+
+<div class="container">
+  <div class="row">
+
+    <div class="panel panel-primary">
+
+      <div class="panel-heading">
+        <h1 class="no-heading-style">
+          <span class="glyphicon glyphicon-credit-card"></span>
+          <%= gettext "The 100 best divas to watch on %{title}", title: "site" %>
+        </h1>
+      </div>
+
+      <div class="list-group">
+
+        <%= for {term, index} <- Enum.with_index(@divas[:facets][:tags][:terms]) do %>
+          <%= if diva = Exblur.Repo.get_by(Exblur.Diva, name: term[:term]) do %>
+
+            <%#- cache ['diva_top100', request.smart_phone?, request.mobile?, diva] do -%>
+              <div>
+                <a class="list-group-item" rel="category tag" data-toggle="collapse" data-target="#collapse<%= index %>" href='javascript:;'>
+                  <img class="media-object pull-right"
+                       data-src="holder.js/40x40"
+                       style="width: 40px; height: 40px; margin-top: -9px;"
+                       alt="<%= diva.name %>"
+                       src="<%#= diva.image.url :size_64x64 %>">
+
+                       <!-- src="<%#= diva.__struct__.get_thumb(diva, "size_200x132") %>" -->
+
+                  <h4 class="media-heading">
+                    <%= diva.name %>
+                    <span class='badge badge-warning'><%= term[:count] %></span>
+                  </h4>
+                </a>
+
+
+
+
+              </div>
+            <%# end # end cache %>
+
+          <% end %>
+        <% end %>
+      </div><!-- .list-group -->
+
+    </div>
+  </div><!-- .row -->
+</div><!-- .container -->
