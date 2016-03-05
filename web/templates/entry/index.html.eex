@@ -1,5 +1,5 @@
 mobile:<%= mobile? @conn %>
-desctop:<%= desctop? @conn %>
+desktop:<%= desktop? @conn %>
 
 <div class="container bs-docs-container">
   <div class="row">
@@ -42,7 +42,7 @@ desctop:<%= desctop? @conn %>
             <small><%= gettext "Over 10 Min" %></small>
           </a>
 
-          <%= if desctop? @conn do %>
+          <%= if desktop? @conn do %>
             <a href="<%= entry_path @conn, :index, take_params(@conn, [:t600, :page, :search, :site_name, :tag, :divas]) %>"
                 type="button"
                 class="btn btn-default <%= unless @conn.params["list"] do %>active<% end %>">
