@@ -116,16 +116,39 @@ content_for :description, "#{@entry.title}: #{@entry.content}"
 
                 <p><%= simple_format @entry.content %></p>
               </div>
-
-
-
             </div>
+          </div><!-- end: class="col-md-offset-0 col-md-6 -->
 
+          <%= if false && desktop?(@conn) do %><%# adsense %>
+            <div class='col-md-3' style='padding-left: 0px;'>
+              <ul class='media-list'>
+                <%#= Adsense.show_movie_right.immobiled.order('updated_at ASC').each.with_index do |ad, i| %>
+                  <li class="media">
+                    <a href='<%#= ad.url %>'
+                         class='col-md-2 adsense'
+                         rel='nofollow'
+                         onclick="ga('send', 'event', 'show_left', 'click', 'show_right_click<%#= i %>');"
+                      >
+                        <%#= image_tag ad.adimages.sample.image.url(:size_250x500) if ad.adimages.exists? %>
+                    </a>
+                  </li>
+                <%# end %>
+              </ul>
+              &nbsp;
+            </div>
+          <% end %>
+
+        </div><!-- end: panel-body row -->
+
+        <div class='container'>
+          <div class="page-header">
+            <h4 style='font-size: 15px;'><strong><%= gettext "Customers Who Watched This Video Also Watched" %></strong></h4>
           </div>
-
         </div>
 
       <%# end %>
+
+      <%= render "_entries.html", conn: @conn, entries: @related_entries %>
 
     </div>
   </div>

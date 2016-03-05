@@ -22,8 +22,13 @@ defmodule Exblur.EntryController do
     render(conn, "index.html", entries: entries)
   end
 
-  def show(conn, %{"id" => id, "title" => _}) do
-    render(conn, "show.html", entry: Repo.get(Model.query, id))
+  def show(conn, %{"id" => id, "title" => title}) do
+    params = [page: 1, page_size: 15, repo: Exblur.Repo, query: Model.query]
+    entries =
+      Es.Entry.search(title, params)
+      |> Es.Paginator.paginate(params)
+
+    render(conn, "show.html", entry: Repo.get(Model.query, id), related_entries: entries)
   end
 
   # def index(conn, _params) do
