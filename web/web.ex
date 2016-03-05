@@ -57,6 +57,7 @@ defmodule Exblur.Web do
       import Exblur.ErrorHelpers
       import Exblur.Gettext
 
+      import SimpleFormat
       import DeviceDetector
     end
   end

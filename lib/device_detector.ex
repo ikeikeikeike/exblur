@@ -2,13 +2,13 @@ defmodule DeviceDetector do
   alias UAInspector.Result
   alias UAInspector.Parser
 
-  def desctop?(%Plug.Conn{} = conn) do
+  def desktop?(%Plug.Conn{} = conn) do
     conn
     |> Plug.Conn.get_req_header("user-agent")
     |> List.first
-    |> desctop?
+    |> desktop?
   end
-  def desctop?(useragent) do
+  def desktop?(useragent) do
     case Parser.parse(useragent) do
       %Result{device: %Result.Device{type: "smartphone"}} -> false
       %Result{device: %Result.Device{type: "tablet"}} -> false

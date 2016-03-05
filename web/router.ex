@@ -19,10 +19,8 @@ defmodule Exblur.Router do
   scope "/", Exblur do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
-    get "/entries", EntryController, :index
-    # get "/entries/show/:id", EntryController, :show
-    get "/entries/show/:title", EntryController, :show
+    get "/", EntryController, :index
+    get "/vid/:id/:title", EntryController, :show
   end
 
   # Other scopes may use custom stacks.

@@ -58,7 +58,8 @@ defmodule Exblur.Mixfile do
      # {:scrivener, "~> 1.0"},
      {:scrivener_html, github: "ikeikeikeike/scrivener_html"},
      {:ua_inspector, "~> 0.10"},
-     {:phoenix_html_simplified_helpers, "~> 0.2"}
+     {:phoenix_html_simplified_helpers, "~> 0.2"},
+     {:simple_format, "~> 0.1"},
     ]
   end
 

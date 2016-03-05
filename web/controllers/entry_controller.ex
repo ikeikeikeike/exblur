@@ -22,8 +22,8 @@ defmodule Exblur.EntryController do
     render(conn, "index.html", entries: entries)
   end
 
-  def show(conn, %{"title" => title}) do
-    render(conn, "show.html", entry: Repo.get_by!(Model.query, title: title))
+  def show(conn, %{"id" => id, "title" => _}) do
+    render(conn, "show.html", entry: Repo.get(Model.query, id))
   end
 
   # def index(conn, _params) do
