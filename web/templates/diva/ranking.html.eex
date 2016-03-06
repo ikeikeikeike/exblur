@@ -18,8 +18,8 @@ content_for :description, gettext("")
 
       <div class="list-group">
 
-        <%= for {term, index} <- Enum.with_index(@divas[:facets][:tags][:terms]) do %>
-          <%= if diva = Exblur.Repo.get_by(Exblur.Diva, name: term[:term]) do %>
+        <%= for {term, index} <- Enum.with_index(@divas[:facets][:divas][:terms]) do %>
+          <%= if diva = Exblur.Repo.get_by(Exblur.Diva.query, name: term[:term]) do %>
 
             <%#- cache ['diva_top100', request.smart_phone?, request.mobile?, diva] do -%>
               <div>
@@ -38,8 +38,20 @@ content_for :description, gettext("")
                   </h4>
                 </a>
 
+                <div style='margin-top: 1px;' id="collapse<%= index %>" class="collapse <%= if index < 1, do: "in", else: "" %>">
+                  <% is_adsense = rem(index + 1, 5) == 0 %>
 
-
+                  <%= render 'entries/entries_list.html',
+                    entries: Enum.take(diva.entries, (if is_adsense, do: 2, else: 3)),
+                    adlimit: (if is_adsense, do: 1, else: nil),
+                    adsense_category: 'divas_entries_list'
+                   %>
+                  <div style="min-height: 25px; margin: 0px 0px 5px 15px; ">
+                    <a rel="category tag" href="<%#= search_diva_path diva.name %>" >
+                      <%= gettext "Jump to %{name}'s diva results", tag: diva.name %>
+                    </a>
+                  </div>
+                </div>
 
               </div>
             <%# end # end cache %>

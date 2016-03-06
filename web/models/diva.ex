@@ -32,9 +32,12 @@ defmodule Exblur.Diva do
 
   @required_fields ~w(name kana romaji gyou image)
   @optional_fields ~w(height weight bust bracup waste hip blood birthday)
+  @relational_fields ~w(entries)a
 
   def query do
-    from e in Model, select: e
+    from e in Model,
+     select: e,
+    preload: ^@relational_fields
   end
 
   def changeset(model, params \\ :empty) do
