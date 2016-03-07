@@ -23,6 +23,8 @@ defmodule Exblur.Router do
     get "/vid/:id/:title", EntryController, :show
 
     get "/divas", DivaController, :index
+
+    get "/tags/autocomplete/:search", TagController, :autocomplete
   end
 
   # Other scopes may use custom stacks.
