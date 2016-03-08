@@ -1,24 +1,31 @@
 defmodule Exblur.TagController do
   use Exblur.Web, :controller
 
-  # require Tirexs.Query
-  # alias Exblur.Tag, as: Model
+  alias Exblur.Tag, as: Model
 
-  # def autocomplete(conn, _params) do
-    # not_found unless request.xhr?
-    # expires = 10.days
+  import Ecto.Query
+  require Tirexs.Query
 
-    # words = Rails.cache.fetch("tags_autocomplete:#{params[:search]}", expires_in: expires) do
-      # tags = ActsAsTaggableOn::Tag.search params[:search],
-        # fields: [{name: :text_start}],
-        # limit: 5
-      # tags.map{|o| {value: o.name, tokens: o.name.split}}
-    # end
+  def autocomplete(conn, %{"search" => search}) do
+    tags =
+      ConCache.get_or_store :exblur_cache, "tags_autocomplete:#{search}", fn ->
+        search
+        |> String.split(".")
+        |> List.first
+        |> Es.Tag.search
+        |> Tirexs.Query.result
+        |> as_model
+      end
 
-    # manual_cache expires
+    render(conn, "autocomplete.json", tags: tags)
+  end
 
-    # render json: words
-  # end
-
+  defp as_model(tirexs) do
+    Enum.map tirexs[:hits], fn(hit) ->
+      Model
+      |> where([q], q.id == ^hit[:_id])
+      |> Exblur.Repo.one
+    end
+  end
 
 end

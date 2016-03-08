@@ -29,18 +29,18 @@ $(document).on('ready', function() {
     hint: true,
     highlight: true
   }, {
-    name: 'tag-suggest',
-    displayKey: 'value',
-    source: tagSuggest.ttAdapter(),
-    templates: {
-      header: '<h5 class="league-name">TAG</h5>'
-    }
-  }, {
     name: 'diva-suggest',
     displayKey: 'value',
     source: divaSuggest.ttAdapter(),
     templates: {
-      header: '<h5 class="league-name">女優</h5>'
+      header: '<h5 class="league-name"><i>Diva</i></h5>'
+    }
+  }, {
+    name: 'tag-suggest',
+    displayKey: 'value',
+    source: tagSuggest.ttAdapter(),
+    templates: {
+      header: '<h5 class="league-name"><i>Tag</i></h5>'
     }
   });
 

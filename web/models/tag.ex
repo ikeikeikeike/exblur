@@ -20,6 +20,13 @@ defmodule Exblur.Tag do
 
   @required_fields ~w(name)
   @optional_fields ~w(kana romaji gyou orig)
+  @relational_fields ~w(entries)a
+
+  def query do
+    from e in Model,
+     select: e,
+    preload: ^@relational_fields
+  end
 
   def changeset(model, params \\ :empty) do
     model
