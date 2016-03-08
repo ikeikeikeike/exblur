@@ -8,7 +8,7 @@ defmodule Es.Diva do
 
   def search_data(model) do
     [
-      # id: model.id,
+      _id: model.id,
       name: model.name,
       kana: model.kana,
       romaji: String.replace(model.romaji, "_", ""),
@@ -16,7 +16,7 @@ defmodule Es.Diva do
   end
 
   def search(word) do
-    queries = Tirexs.Search.search [index: get_index, from: 0, size: 5] do
+    queries = Tirexs.Search.search [index: get_index, from: 0, size: 5, fields: []] do
       query do
         dis_max do
           queries do

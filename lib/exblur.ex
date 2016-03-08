@@ -15,7 +15,10 @@ defmodule Exblur do
       # worker(Exblur.Worker, [arg1, arg2, arg3]),
       worker(Exblur.Mongo, []),
       worker(ConCache, [
-        # [ttl_check: :timer.seconds(1)], ttl: :timer.seconds(5)],
+        [
+          ttl_check: :timer.seconds(3),
+          ttl: :timer.seconds(1200)
+        ],
         [name: :exblur_cache]
       ])
     ]
