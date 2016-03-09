@@ -1,0 +1,21 @@
+.label-white {
+    color: #434a54;
+    background-color: white;
+    border: 1px solid #aab2bd;
+}
+
+.modal-sm {
+    width: 300px;
+}
+
+.font-middle-size {
+  font-size: 30px;
+}
+
+.bookmarkhub {
+    min-height: 20px;
+}
+
+.bookmarkhub a img {
+   display: inline-block;
+}

@@ -27,7 +27,7 @@
     <%= render @view_module, @view_template, assigns %>
   </div> <!-- /container -->
 
-  <%#= render '_footer', assigns %>
+  <%= render "_footer.html", assigns %>
 
   <script><%= "window.isMobile = #{mobile? @conn};" %></script>
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>

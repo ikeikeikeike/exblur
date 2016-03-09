@@ -1,0 +1,46 @@
+<footer>
+  <div class="container">
+
+    <p class="text-muted">
+      <h2 style="font-size: 15px;">
+        <span class="glyphicon glyphicon-copyright-mark"></span> 2016 <strong><%#= Settings.site_name %></strong>
+      </h2>
+    </p>
+
+    <% if false do %>
+    <dl class="dl-horizontal">
+      <%# Server.all.each do |site| do %>
+        <dt><%#= link_to site.title, urlize(site.domain) %></span></dt>
+        <dd class="text-muted"><span class="glyphicon glyphicon-heart-empty"></dd>
+      <%# end %>
+    </dl>
+    <% end %>
+
+   </div>
+
+   <!--
+    <div class="container">
+        <div class="col-md-3 col-sm-6">
+          <ul>
+              <li><a target="_blank" href=""> </a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <ul>
+              <li><a target="_blank" href=""> </a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <ul>
+              <li><a target="_blank" href=""> </a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <ul>
+              <li><a target="_blank" href=""> </a></li>
+          </ul>
+        </div>
+    </div>
+    -->
+
+</footer>
