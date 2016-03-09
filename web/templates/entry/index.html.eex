@@ -27,7 +27,7 @@ desktop:<%= desktop? @conn %>
 
           <%= take_hidden_field_tags @conn, [:list, :divas] %>
 
-          <div class='input-group <%= if mobile? @conn do %> "input-group-sm" <% end %>'>
+          <div class='input-group <%= if mobile? @conn do %> "input-group-sm" <% end %>' style='display: inline-table; width: <%= if mobile?(@conn), do: 100, else: 114 %>%;'>
             <%= if desktop? @conn do %>
               <div id="remote">
                 <input style='width: 100%;' class="form-control search-query typeahead"
