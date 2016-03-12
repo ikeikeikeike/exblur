@@ -4,6 +4,22 @@ defmodule Exblur.EntryController do
 
   plug :scrub_params, "entry" when action in [:create, :update]
 
+  def index(conn, %{"tag" => tag} = params) do
+    # if tag does not exists in database, throw `not found` exception.
+    Repo.get_by! Exblur.Tag, name: tag
+
+    params =
+      params
+      |> Es.Params.prepare_params(1, 10)
+      |> Map.put(:query, Model.query)
+
+    entries =
+      Es.Entry.search(tag != "" && tag || nil, params)
+      |> Es.Paginator.paginate(params)
+
+    render(conn, "index.html", entries: entries)
+  end
+
   def index(conn, params) do
     params =
       params
@@ -11,7 +27,7 @@ defmodule Exblur.EntryController do
       |> Map.put(:query, Model.query)
 
     entries =
-      Es.Entry.search(params[:q], params)
+      Es.Entry.search(params[:search] != "" && params[:search] || nil, params)
       |> Es.Paginator.paginate(params)
 
     render(conn, "index.html", entries: entries)
@@ -27,7 +43,7 @@ defmodule Exblur.EntryController do
       Es.Entry.search(title, params)
       |> Es.Paginator.paginate(params)
 
-    render(conn, "show.html", entry: Repo.get(Model.query, id), related_entries: entries)
+    render(conn, "show.html", entry: Repo.get!(Model.query, id), related_entries: entries)
   end
 
   # def index(conn, _params) do

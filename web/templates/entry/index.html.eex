@@ -1,8 +1,8 @@
 <%#
-if params[:search].present?
+if params["search"].present?
   # search
-  content_for :title, "#{params[:search]}の検索結果"
-  content_for :keywords, params[:search]
+  content_for :title, "#{params["search"]}の検索結果"
+  content_for :keywords, params["search"]
 elsif params[:tag].present?
   # tag
   content_for :title, "#{params[:tag]}"
@@ -64,8 +64,8 @@ desktop:<%= desktop? @conn %>
         <div class="btn-group pull-right">
 
           <%
-          ten_min_params = take_params(@conn, [:list, :page, :search, :site_name, :tag, :divas])
-          unless @conn.params[:t600], do: ten_min_params = Map.merge ten_min_params, %{t600: 1}
+          ten_min_params = take_params(@conn, ~w(list page search site_name tag divas))
+          unless @conn.params["t600"], do: ten_min_params = Map.merge ten_min_params, %{"t600" => 1}
           %>
           <a href="<%= entry_path @conn, :index, ten_min_params %>"
               type="button"
@@ -74,15 +74,15 @@ desktop:<%= desktop? @conn %>
           </a>
 
           <%= if desktop? @conn do %>
-            <a href="<%= entry_path @conn, :index, take_params(@conn, [:t600, :page, :search, :site_name, :tag, :divas]) %>"
+            <a href="<%= entry_path @conn, :index, take_params(@conn, ~w(t600 page search site_name tag divas)) %>"
                 type="button"
                 class="btn btn-default <%= unless @conn.params["list"] do %>active<% end %>">
               <span class="glyphicon glyphicon-picture"></span>
             </a>
 
-            <a href="<%= entry_path @conn, :index, take_params(@conn, [:t600, :page, :search, :site_name, :tag, :divas], list: 1) %>"
+            <a href="<%= entry_path @conn, :index, take_params(@conn, ~w(t600 page search site_name tag divas), list: 1) %>"
                 type="button"
-                class="btn btn-default <%= if @conn.params[:list] do %>active<% end %>">
+                class="btn btn-default <%= if @conn.params["list"] do %>active<% end %>">
               <span class="glyphicon glyphicon-list"></span>
             </a>
           <% end %>
@@ -139,7 +139,7 @@ desktop:<%= desktop? @conn %>
           <ul class="list-inline">
             <%= for term <- @entries.tirexs[:facets][:tags][:terms] do %>
               <li>
-                <a href="<%= entry_path @conn, :index, take_params(@conn, [:list], search: term['term'])  %>"
+                <a href="<%= entry_path @conn, :index, take_params(@conn, ~w(list), search: term['term'])  %>"
                    title="<%= gettext "Jump to %{tag}'s video results", tag: term[:term] %>"
                    rel="category tag nofollow"
                 >

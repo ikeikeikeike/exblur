@@ -2,13 +2,16 @@
   <div class="container">
     <div class="navbar-header">
       <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-        <span class="sr-only">トグルナビゲーション</span>
+        <span class="sr-only">Toggle Navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
       <a style="font-size: 14px;" class="navbar-brand" rel="home"
-         href="<%#= Server.get_primary ? urlize(Server.get_primary.domain) : entries_path %>" >
+         href="<%= entry_path(@conn, :index) %>"
+         <%#= if Server.get_primary, do: urlize(Server.get_primary.domain), else: entriy_path(@conn, :index) %>
+         >
+
         <%#= image_tag 'icons/sexmen.jpg',
            alt: Settings.site_name, title: "#{Settings.site_name}へようこそ",
            style: 'max-width:100px; margin-top: -10px;' %>
@@ -17,8 +20,12 @@
 
     <nav class="navbar-collapse bs-navbar-collapse collapse" role="navigation" style="height: 1px;">
       <ul itemscope="itemscope" itemtype="http://www.schema.org/SiteNavigationElement" class="nav navbar-nav">
-        <li itemprop="name"><a itemprop="url" href="<%#= Server.get_primary ? urlize(Server.get_primary.domain) : entries_path %>">
-          <span class="glyphicon glyphicon-facetime-video"></span><%= gettext "Recently XXX Videos" %>
+        <li itemprop="name"><a itemprop="url"
+            href="<%= entry_path @conn, :index %>"
+            <%#= Server.get_primary ? urlize(Server.get_primary.domain) : entries_path %>
+            >
+
+          <span class="glyphicon glyphicon-facetime-video"></span> <%= gettext "Recently XXX Videos" %>
         </a></li>
         <% if mobile?(@conn) && false do %>
           <li class="dropdown">

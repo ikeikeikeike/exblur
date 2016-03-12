@@ -52,7 +52,7 @@
 
             <p style='white-space: nowrap;'>
               <%= for tag <- Enum.take(entry.tags, 3) do %>
-                <a href="<%#= entries_path tag.name %>"
+                <a href="<%= entrytag_path @conn, :index, tag.name %>"
                   title="<%= gettext "Jump to %{tag}'s video results", tag: tag.name %>"
                     rel="category tag">
                   <span class="glyphicon glyphicon-tag label label-primary"><%= tag.name %></span>
