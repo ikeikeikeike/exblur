@@ -1,19 +1,14 @@
 defmodule Exblur.EntryController do
   use Exblur.Web, :controller
   alias Exblur.Entry, as: Model
-  import Imitation.Converter, only: [to_i: 1]
 
   plug :scrub_params, "entry" when action in [:create, :update]
 
   def index(conn, params) do
-    params = Enum.reduce(params, %{}, fn {k, v}, map ->
-      Map.put(map, String.to_atom(k), v)
-    end)
-
-    params = if params[:page], do: %{params | page: params[:page] |> to_i}, else: Map.put(params, :page, 1)
-    params = if params[:page_size], do: params, else: Map.put(params, :page_size, 10)
-    params = Map.put params, :repo, Exblur.Repo
-    params = Map.put params, :query, Model.query
+    params =
+      params
+      |> Es.Params.prepare_params(1, 10)
+      |> Map.put(:query, Model.query)
 
     entries =
       Es.Entry.search(params[:q], params)
@@ -23,7 +18,11 @@ defmodule Exblur.EntryController do
   end
 
   def show(conn, %{"id" => id, "title" => title}) do
-    params = [page: 1, page_size: 15, repo: Exblur.Repo, query: Model.query]
+    params =
+      %{}
+      |> Es.Params.prepare_params(1, 15)
+      |> Map.put(:query, Model.query)
+
     entries =
       Es.Entry.search(title, params)
       |> Es.Paginator.paginate(params)

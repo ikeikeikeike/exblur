@@ -1,4 +1,5 @@
 defmodule Es.Paginator do
+  use Es
   import Ecto.Query
   require Tirexs.Query
 
@@ -12,18 +13,18 @@ defmodule Es.Paginator do
     %Es.Paginator.Page{
       page_size: options[:page_size],
       page_number: options[:page],
-      entries: entries(tirexs, options[:query], options[:repo]),
+      entries: entries(tirexs, options[:query]),
       total_entries: tirexs[:count],
       total_pages: total_pages(tirexs[:count], options[:page_size]),
       tirexs: tirexs,
     }
   end
 
-  defp entries(tirexs, query, repo) do
+  defp entries(tirexs, query) do
     Enum.map tirexs[:hits], fn(hit) ->
       query
       |> where([q], q.id == ^hit[:_id])
-      |> repo.one
+      |> Exblur.Repo.one
     end
   end
 

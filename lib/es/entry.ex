@@ -31,10 +31,12 @@ defmodule Es.Entry do
 
   def search(word \\ nil, options \\ []) do
 
+    opt = prepare_options(options)
+
     # pagination
-    page = max(options[:page] |> to_i, 1)
-    per_page = (options[:limit] || options[:per_page] || options[:page_size] || 10000)
-    offset = options[:offset] || (page - 1) * per_page
+    # page = opt[:page]
+    offset = opt[:offset]
+    per_page = opt[:per_page]
 
     # queries = search [index: @index_name, from: 0, size: 10, fields: [:tag, :article], explain: 5, version: true, min_score: 0.5] do
     queries = Tirexs.Search.search [index: get_index, fields: [], from: offset, size: per_page] do

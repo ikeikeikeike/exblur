@@ -12,6 +12,7 @@ defmodule Es do
       import Tirexs.Manage.Aliases
       import Imitation.Converter, only: [to_i: 1]
       import Es
+      import Es.Params
 
       require Tirexs.Manage
       require Tirexs.Query
