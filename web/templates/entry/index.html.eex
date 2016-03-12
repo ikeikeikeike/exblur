@@ -139,11 +139,11 @@ desktop:<%= desktop? @conn %>
           <ul class="list-inline">
             <%= for term <- @entries.tirexs[:facets][:tags][:terms] do %>
               <li>
-                <a href="<%= entry_path @conn, :index, take_params(@conn, ~w(list), search: term['term'])  %>"
+                <a href="<%= entry_path @conn, :index, take_params(@conn, ~w(list), search: term[:term])  %>"
                    title="<%= gettext "Jump to %{tag}'s video results", tag: term[:term] %>"
                    rel="category tag nofollow"
                 >
-                  <h2 style='<%#= if tags_exists term["term"] %>color: #d9534f; font-weight: bold;' <%# end  %>
+                  <h2 style='<%= if tags_exists(@conn, term[:term]), do: "color: #d9534f; font-weight: bold;" %>'
                       class="no-heading-style"><%= term[:term] %>(<%= term[:count] %>)</h2>
                 </a>
               </li>
