@@ -24,7 +24,7 @@ end
     <div class="panel panel-default">
       <div class="panel-heading">
 
-        <form style='<%= if mobile? @conn do %> "padding: 5px 15px; margin-top: -9px; margin-bottom: 0;" <% end %>'
+        <form style='<%= if mobile?(@conn), do: "padding: 5px 15px; margin-top: -9px; margin-bottom: 0;" %>'
               class="navbar-form" role="search" action="<%= entry_path(@conn, :index) %>">
 
           <%= take_hidden_field_tags @conn, ~w(list divas) %>
@@ -63,20 +63,20 @@ end
           %>
           <a href="<%= entry_path @conn, :index, ten_min_params %>"
               type="button"
-              class="btn btn-default <%= if mobile? @conn do %>btn-sm<% end %> <%= if @conn.params["t600"] do %>active<% end %>">
+              class="btn btn-default <%= if mobile?(@conn), do: "btn-sm" %> <%= if @conn.params["t600"], do: "active" %>">
             <small><%= gettext "Over 10 Min" %></small>
           </a>
 
           <%= if desktop? @conn do %>
             <a href="<%= entry_path @conn, :index, take_params(@conn, ~w(t600 page search site_name tag divas)) %>"
                 type="button"
-                class="btn btn-default <%= unless @conn.params["list"] do %>active<% end %>">
+                class="btn btn-default <%= unless @conn.params["list"], do: "active" %>">
               <span class="glyphicon glyphicon-picture"></span>
             </a>
 
             <a href="<%= entry_path @conn, :index, take_params(@conn, ~w(t600 page search site_name tag divas), list: 1) %>"
                 type="button"
-                class="btn btn-default <%= if @conn.params["list"] do %>active<% end %>">
+                class="btn btn-default <%= if @conn.params["list"], do: "active" %>">
               <span class="glyphicon glyphicon-list"></span>
             </a>
           <% end %>
@@ -99,7 +99,7 @@ end
 
       </div>
 
-      <div id='entries'>
+      <div id='entries' style='<%= if mobile?(@conn), do: "margin-top: -16px;" %>'>
         <%= render "_entries.html", conn: @conn, entries: @entries %>
       </div>
 
