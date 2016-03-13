@@ -5,7 +5,6 @@ defmodule Exblur.Entry do
   alias Exblur.EntryTag
   alias Exblur.EntryDiva
   alias Exblur.Diva
-  alias Exblur.Server
   alias Exblur.Site
   alias Exblur.Tag
   alias Exblur.Thumb
@@ -30,7 +29,6 @@ defmodule Exblur.Entry do
     field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
     belongs_to :site, Site
-    belongs_to :server, Server
 
     has_many :thumbs, Thumb, on_delete: :delete_all
 
@@ -49,8 +47,8 @@ defmodule Exblur.Entry do
   # end
 
   @required_fields ~w(url title embed_code time published_at review publish removal)
-  @optional_fields ~w(content site_id server_id)
-  @relational_fields ~w(site server divas tags thumbs)a
+  @optional_fields ~w(content site_id)
+  @relational_fields ~w(site divas tags thumbs)a
 
   def query do
     from e in Model,
