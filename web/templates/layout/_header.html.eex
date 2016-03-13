@@ -62,14 +62,15 @@
   </div>
 
   <% categories = String.split(gettext("some cate gor ies")) %>
+  <% category_link = String.split(gettext("some cate gor links")) %>
 
   <%= if desktop?(@conn) do %>
     <div class="btn-group btn-group-justified">
-      <%= for {title, index} <- Enum.with_index categories do %>
+      <%= for {dict, index} <- Enum.with_index(Enum.zip(categories, category_link)) do %>
         <div class="btn-group">
-          <a href="<%= entrytag_path @conn, :index, title %>" type="button"
-            class="btn <%= if mobile?(@conn), do: "btn-xs" %> btn-<%= if @conn.params["tag"] == title, do: "primary", else: "default" %>">
-            <strong><%= title %></strong>
+          <a href="<%= entrytag_path @conn, :index, elem(dict, 1) %>" type="button"
+            class="btn <%= if mobile?(@conn), do: "btn-xs" %> btn-<%= if @conn.params["tag"] == elem(dict, 0), do: "primary", else: "default" %>">
+            <strong><%= elem(dict, 0) %></strong>
           </a>
         </div>
       <% end %>
@@ -77,12 +78,12 @@
   <% end %>
 
   <%= if mobile?(@conn) do %>
-    <%= for {title, index} <- Enum.with_index categories do %>
+    <%= for {dict, index} <- Enum.with_index(Enum.zip(categories, category_link)) do %>
       <%= if rem(index, 6) == 0, do: raw "<div class='btn-group btn-group-justified'>" %>
         <div class="btn-group">
-          <a href="<%= entrytag_path @conn, :index, title %>" type="button"
-            class="btn <%= if mobile?(@conn), do: "btn-xs" %> btn-<%= if @conn.params["tag"] == title, do: "primary", else: "default" %>">
-            <strong><%= title %></strong>
+          <a href="<%= entrytag_path @conn, :index, elem(dict, 1) %>" type="button"
+            class="btn <%= if mobile?(@conn), do: "btn-xs" %> btn-<%= if @conn.params["tag"] == elem(dict, 0), do: "primary", else: "default" %>">
+            <strong><%= elem(dict, 0) %></strong>
           </a>
         </div>
       <%= if rem(index + 1, 6) == 0, do: raw "</div>" %>
