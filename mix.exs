@@ -46,7 +46,7 @@ defmodule Exblur.Mixfile do
      {:arc_ecto, "~> 0.3"},
      {:ex_aws, "~> 0.4.10"},
      {:httpoison, "~> 0.8"},
-     {:tirexs, "~> 0.7"},
+     {:tirexs, "~> 0.8"},
      {:timex, "~> 1.0.1"},
      {:timex_ecto, "~> 0.9"},
      {:calendar, "~> 0.12.4"},
