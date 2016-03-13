@@ -57,7 +57,7 @@ defmodule Es.Index do
 
       defp get_aliases(index) do
         settings = Tirexs.get_uri_env()
-        {:ok, 200, map} = Tirexs.ElasticSearch.get("#{index <> "*"}/_aliases/", settings)
+        {:ok, 200, map} = Tirexs.HTTP.get("#{index <> "*"}/_aliases/", settings)
 
         alias =
           map
