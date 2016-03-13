@@ -11,9 +11,7 @@ defmodule Exblur.EntryView do
         title = String.replace(title, diva.name, "")
       end
 
-      link diva.name, to: "#"
-      # link diva.name, to: entry_path(conn, :search_diva, diva.name)
-      # h.link_to(diva.name, h.search_diva_path(diva.name), 'data-no-turbolink' => 1)
+      link diva.name, to: entrydiva_path(conn, :index, diva.name)
     end
 
     names ++ [" " <> title]
