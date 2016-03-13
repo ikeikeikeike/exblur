@@ -7,6 +7,9 @@ defmodule Exblur.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+
+    # plug Plug.Static, at: "/uploads", from: :exblur
+
     plug Plug.Exblur.AssignLocale
     plug Plug.Exblur.HandleLocalizedPath
     plug Plug.Exblur.ConfigureGettext

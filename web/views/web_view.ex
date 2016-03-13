@@ -17,7 +17,7 @@ defmodule Exblur.WebView do
   end
 
   def take_hidden_field_tags(%Plug.Conn{} = conn, keys) when is_list(keys) do
-    Enum.map take_params(conn, keys), fn(key, value) ->
+    Enum.map take_params(conn, keys), fn{key, value} ->
       Tag.tag(:input, type: "hidden", id: key, name: key, value: value)
     end
   end

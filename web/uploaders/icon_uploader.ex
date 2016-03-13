@@ -7,13 +7,13 @@ defmodule Exblur.IconUploader do
 
   def acl(:thumb, _), do: :public_read
 
-  def validate({file, _}) do   
+  def validate({file, _}) do
     file_extension = file.file_name |> Path.extname |> String.downcase
     Enum.member?(@extension_whitelist, file_extension)
   end
 
   def transform(:thumb, _) do
-    {:convert, "-thumbnail 100x100^ -gravity center -extent 100x100 -format png"}
+    {:convert, "-thumbnail 100x100^ -gravity center -extent 100x100"}
   end
 
   def __storage, do: Arc.Storage.Local
@@ -23,7 +23,7 @@ defmodule Exblur.IconUploader do
   end
 
   def storage_dir(_version, {_file, model}) do
-    dirname = 
+    dirname =
       model.__struct__
       |> String.Chars.to_string
       |> String.downcase

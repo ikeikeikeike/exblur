@@ -25,9 +25,10 @@ desktop:<%= desktop? @conn %>
         <form style='<%= if mobile? @conn do %> "padding: 5px 15px; margin-top: -9px; margin-bottom: 0;" <% end %>'
               class="navbar-form" role="search" action="<%= entry_path(@conn, :index) %>">
 
-          <%= take_hidden_field_tags @conn, [:list, :divas] %>
+          <%= take_hidden_field_tags @conn, ~w(list divas) %>
 
-          <div class='input-group <%= if mobile? @conn do %> "input-group-sm" <% end %>' style='display: inline-table; width: <%= if mobile?(@conn), do: 100, else: 114 %>%;'>
+          <div class='input-group <%= if mobile?(@conn), do: "input-group-sm" %>'
+               style='display: inline-table; width: <%= if mobile?(@conn), do: 100, else: 114 %>%;'>
             <%= if desktop? @conn do %>
               <div id="remote">
                 <input style='width: 100%;' class="form-control search-query typeahead"
@@ -139,7 +140,7 @@ desktop:<%= desktop? @conn %>
           <ul class="list-inline">
             <%= for term <- @entries.tirexs[:facets][:tags][:terms] do %>
               <li>
-                <a href="<%= entry_path @conn, :index, take_params(@conn, ~w(list), search: term[:term])  %>"
+                <a href="<%= entrytag_path @conn, :index, term[:term]  %><%= if @conn.params["list"], do: "?list=#{@conn.params["list"]}" %>"
                    title="<%= gettext "Jump to %{tag}'s video results", tag: term[:term] %>"
                    rel="category tag nofollow"
                 >

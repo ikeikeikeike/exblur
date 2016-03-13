@@ -13,15 +13,15 @@ defmodule Exblur.ThumbUploader do
   end
 
   def transform(:size_100x66, _) do
-    {:convert, "-thumbnail 100x66^ -gravity center -extent 100x66 -format png"}
+    {:convert, "-thumbnail 100x66^ -gravity center -extent 100x66"}
   end
 
   def transform(:size_200x132, _) do
-    {:convert, "-thumbnail 200x132^ -gravity center -extent 200x132 -format png"}
+    {:convert, "-thumbnail 200x132^ -gravity center -extent 200x132"}
   end
 
   def transform(:size_300x200, _) do
-    {:convert, "-thumbnail 300x200^ -gravity center -extent 300x200 -format png"}
+    {:convert, "-thumbnail 300x200^ -gravity center -extent 300x200"}
   end
 
   def __storage, do: Arc.Storage.Local
