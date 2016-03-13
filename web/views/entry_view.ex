@@ -16,7 +16,7 @@ defmodule Exblur.EntryView do
       # h.link_to(diva.name, h.search_diva_path(diva.name), 'data-no-turbolink' => 1)
     end
 
-    Enum.join(names, "") <> title
+    names ++ [" " <> title]
   end
 
   def search_url_normalization(conn) do

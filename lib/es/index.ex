@@ -2,7 +2,7 @@ defmodule Es.Index do
   defmacro __using__(_opts) do
     quote do
       def reindex do
-        settings = Tirexs.get_uri_env()
+        settings = Tirexs.ElasticSearch.config()
         index = get_index
 
         # create new index if es doesn't have that.
@@ -56,8 +56,8 @@ defmodule Es.Index do
       end
 
       defp get_aliases(index) do
-        settings = Tirexs.get_uri_env()
-        {:ok, 200, map} = Tirexs.HTTP.get("#{index <> "*"}/_aliases/", settings)
+        settings = Tirexs.ElasticSearch.config()
+        {:ok, 200, map} = Tirexs.ElasticSearch.get("#{index <> "*"}/_aliases/", settings)
 
         alias =
           map
