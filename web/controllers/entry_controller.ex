@@ -23,7 +23,7 @@ defmodule Exblur.EntryController do
 
   def index(conn, %{"tag" => tag} = params) do
     # if tag does not exists in database, throw `not found` exception.
-    Repo.get_by! Exblur.Tag, name: tag
+    # Repo.get_by! Exblur.Tag, name: tag
 
     params =
       params

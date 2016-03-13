@@ -7,11 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a style="font-size: 14px;" class="navbar-brand" rel="home"
-         href="<%= entry_path(@conn, :index) %>"
-         <%#= if Server.get_primary, do: urlize(Server.get_primary.domain), else: entriy_path(@conn, :index) %>
-         >
-
+      <a style="font-size: 14px;" class="navbar-brand" rel="home" href="<%= entry_path(@conn, :index) %>">
         <%#= image_tag 'icons/sexmen.jpg',
            alt: Settings.site_name, title: "#{Settings.site_name}へようこそ",
            style: 'max-width:100px; margin-top: -10px;' %>
@@ -20,10 +16,7 @@
 
     <nav class="navbar-collapse bs-navbar-collapse collapse" role="navigation" style="height: 1px;">
       <ul itemscope="itemscope" itemtype="http://www.schema.org/SiteNavigationElement" class="nav navbar-nav">
-        <li itemprop="name"><a itemprop="url"
-            href="<%= entry_path @conn, :index %>"
-            <%#= Server.get_primary ? urlize(Server.get_primary.domain) : entries_path %>
-            >
+        <li itemprop="name"><a itemprop="url" href="<%= entry_path @conn, :index %>">
 
           <span class="glyphicon glyphicon-facetime-video"></span> <%= gettext "Recently XXX Videos" %>
         </a></li>
@@ -68,30 +61,32 @@
     </nav>
   </div>
 
-  <!--
-  <%# if desktop? @conn do %>
+  <% categories = String.split(gettext("some cate gor ies")) %>
+
+  <%= if desktop?(@conn) do %>
     <div class="btn-group btn-group-justified">
-      <%# Server.categories.each.with_index do |server, index| %>
+      <%= for {title, index} <- Enum.with_index categories do %>
         <div class="btn-group">
-          <a href="<%#= urlize(server.domain) %>" type="button"
-            class="btn <%#= 'btn-xs' if is_mobile? %> btn-<%#= (server.domain == request.host) ? 'primary' : 'default' %>">
-            <strong><%#= server.title %></strong>
+          <a href="<%= entrytag_path @conn, :index, title %>" type="button"
+            class="btn <%= if mobile?(@conn), do: "btn-xs" %> btn-<%= if @conn.params["tag"] == title, do: "primary", else: "default" %>">
+            <strong><%= title %></strong>
           </a>
         </div>
-      <%# end %>
+      <% end %>
     </div>
-  <%# else %>
-    <%# Server.categories.each.with_index do |server, index| %>
-      <%# if index % 6 == 0 %><div class="btn-group btn-group-justified"><%# end %>
+  <% end %>
+
+  <%= if mobile?(@conn) do %>
+    <%= for {title, index} <- Enum.with_index categories do %>
+      <%= if rem(index, 6) == 0, do: raw "<div class='btn-group btn-group-justified'>" %>
         <div class="btn-group">
-          <a href="<%#= urlize(server.domain) %>" type="button"
-            class="btn <%#= 'btn-xs' if is_mobile? %> btn-<%#= (server.domain == request.host) ? 'primary' : 'default' %>">
-            <strong><%#= server.title %></strong>
+          <a href="<%= entrytag_path @conn, :index, title %>" type="button"
+            class="btn <%= if mobile?(@conn), do: "btn-xs" %> btn-<%= if @conn.params["tag"] == title, do: "primary", else: "default" %>">
+            <strong><%= title %></strong>
           </a>
         </div>
-      <%# if (index + 1) % 6 == 0 %></div><%# end %>
-    <%# end %>
-  <%# end %>
-  -->
+      <%= if rem(index + 1, 6) == 0, do: raw "</div>" %>
+    <% end %>
+  <% end %>
 
 </header>
