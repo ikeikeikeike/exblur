@@ -34,7 +34,8 @@ defmodule Es.Tag do
       end
     end
 
-    ppquery(queries)
+    queries
+    |> ppquery
     |> Tirexs.Query.create_resource
   end
 
@@ -46,6 +47,7 @@ defmodule Es.Tag do
           analyzer  "ngram_analyzer",  tokenizer: "ngram_tokenizer"
         end
       end
+      |> ppquery
 
       {index, es_settings}
     end
@@ -61,6 +63,7 @@ defmodule Es.Tag do
         indexes "romaji", [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
                                                     tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
       end
+      |> ppquery
 
       {index, es_settings}
     end

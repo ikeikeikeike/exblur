@@ -68,7 +68,7 @@ defmodule Es.Entry do
         # end
 
         tags do
-          terms field: "tags", size: 180
+          terms field: "tags", size: 20
           facet_filter do
             _and [_cache: true] do
               filters do
@@ -84,7 +84,7 @@ defmodule Es.Entry do
         end
 
         divas do
-          terms field: "divas", size: 180
+          terms field: "divas", size: 20
           facet_filter do
             _and [_cache: true] do
               filters do
@@ -124,9 +124,9 @@ defmodule Es.Entry do
       queries = Keyword.put queries, :search, s
     end
 
-    Logger.debug "#{inspect queries}"
-    Logger.debug "#{JSX.prettify! JSX.encode!(queries)}"
-    Tirexs.Query.create_resource(queries)
+    queries
+    |> ppquery
+    |> Tirexs.Query.create_resource
   end
 
   # settings = Tirexs.ElasticSearch.config()
@@ -146,6 +146,7 @@ defmodule Es.Entry do
           analyzer  "ngram_analyzer",                   tokenizer: "ngram_tokenizer"
         end
       end
+      |> ppquery
 
       {index, es_settings}
     end
@@ -162,6 +163,17 @@ defmodule Es.Entry do
         indexes "tags",           type: "string", index: "not_analyzed"
         indexes "divas",          type: "string", index: "not_analyzed"
 
+        # indexes "tags" ,         [type: "multi_field", fields: [tags:     [type: "string", index: "not_analyzed"],
+                                                                # analized: [type: "string", index: "analyzed", analyzer: "ngram_analyzer"]]]
+        # indexes "divas",         [type: "multi_field", fields: [divas:    [type: "string", index: "not_analyzed"],
+                                                                # analized: [type: "string", index: "analyzed", analyzer: "ngram_analyzer"]]]
+
+        # indexes "tags",          [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
+                                                           # tokenzed: [type: "string", index: "analyzed", analyzer: "ngram_analyzer"]]]
+
+        # indexes "divas",         [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
+                                                           # tokenzed: [type: "string", index: "analyzed", analyzer: "ngram_analyzer"]]]
+
         indexes "title",          type: "string", analyzer: "ja_analyzer"
         # indexes "content",        type: "string", analyzer: "ja_analyzer"
 
@@ -172,6 +184,7 @@ defmodule Es.Entry do
         indexes "publish",        type: "boolean"
         indexes "removal",        type: "boolean"
       end
+      |> ppquery
 
       {index, es_settings}
     end

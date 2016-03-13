@@ -14,8 +14,10 @@ end
 #content_for :description, @entries.first.content if @entries.first.present?
 %>
 
-mobile:<%= mobile? @conn %>
-desktop:<%= desktop? @conn %>
+<% if false do %>
+  mobile:<%= mobile? @conn %>
+  desktop:<%= desktop? @conn %>
+<%= end %>
 
 <div class="container bs-docs-container">
   <div class="row">
@@ -29,22 +31,13 @@ desktop:<%= desktop? @conn %>
 
           <div class='input-group <%= if mobile?(@conn), do: "input-group-sm" %>'
                style='display: inline-table; width: <%= if mobile?(@conn), do: 100, else: 114 %>%;'>
-            <%= if desktop? @conn do %>
-              <div id="remote">
-                <input style='width: 100%;' class="form-control search-query typeahead"
-                       type="search" name="search"
-                       placeholder="<%= gettext "Search XXX Videos" %>"
-                       value='<%= @conn.params["search"] %><%= @conn.params["tag"] %>'
-                       autocomplete='on' />
-              </div>
-            <% end %>
-            <%= if mobile? @conn do %>
-              <input class="form-control"
+            <div id="remote">
+              <input style='width: 100%;' class="form-control search-query typeahead"
                      type="search" name="search"
                      placeholder="<%= gettext "Search XXX Videos" %>"
                      value='<%= @conn.params["search"] %><%= @conn.params["tag"] %>'
-                     autocomplete="on" />
-            <% end %>
+                     autocomplete='on' />
+            </div>
 
             <label class="sr-only" for="searchInput1"><%= gettext "Let fill out search word for XXX videos" %></label>
             <div class="input-group-btn">
@@ -132,7 +125,7 @@ desktop:<%= desktop? @conn %>
       <div class="container">
         <div class="page-header">
           <h4>
-            <span class="glyphicon glyphicon-tags"></span> <%= gettext "Relevant tag" %>
+            <span class="glyphicon glyphicon-tags"></span> <%= gettext "Relevant Tag" %>
           </h4>
         </div>
 
@@ -152,6 +145,32 @@ desktop:<%= desktop? @conn %>
           </ul>
         </p>
       </div><!-- /.container -->
+
+      <% if false do %>
+      <div class="container">
+        <div class="page-header">
+          <h4>
+            <span class="glyphicon glyphicon-heart"></span> <%= gettext "Relevant Diva" %>
+          </h4>
+        </div>
+
+        <p>
+          <ul class="list-inline">
+            <%= for term <- @entries.tirexs[:facets][:divas][:terms] do %>
+              <li>
+                <a href="<%= entrydiva_path @conn, :index, term[:term]  %><%= if @conn.params["list"], do: "?list=#{@conn.params["list"]}" %>"
+                   title="<%= gettext "Jump to %{diva}'s video results", diva: term[:term] %>"
+                   rel="category tag nofollow"
+                >
+                  <h2 style='<%= if tags_exists(@conn, term[:term]), do: "color: #d9534f; font-weight: bold;" %>'
+                      class="no-heading-style"><%= term[:term] %>(<%= term[:count] %>)</h2>
+                </a>
+              </li>
+            <% end %>
+          </ul>
+        </p>
+      </div><!-- /.container -->
+      <% end %>
     </div>
   </div>
 </div>
