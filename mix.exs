@@ -50,7 +50,7 @@ defmodule Exblur.Mixfile do
      {:timex, "~> 1.0.1"},
      {:timex_ecto, "~> 0.9"},
      {:calendar, "~> 0.12.4"},
-     {:exromaji, "~> 0.2"},
+     {:exromaji, "~> 0.3"},
      {:exkanji, "~> 0.2"},
      {:yaml_elixir, "~> 1.0.0"},
      {:yamerl, github: "yakaz/yamerl"},
