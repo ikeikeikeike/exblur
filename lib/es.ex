@@ -43,6 +43,7 @@ defmodule Es do
 
         "es_#{index}"
       end
+
     end
   end
 

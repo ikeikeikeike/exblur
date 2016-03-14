@@ -32,7 +32,7 @@ defmodule Mix.Tasks.Exblur.BuildScrapy do
         e
       end
 
-    models =
+    # models =
       Enum.map(entries, fn(e) ->
         Repo.transaction fn ->
           case Entry.video_creater(e) do
@@ -62,10 +62,11 @@ defmodule Mix.Tasks.Exblur.BuildScrapy do
       |> Enum.filter(&(&1 != nil))
 
     # Put built up document to Elasticsearch
-    if length(models) > 0 do
-      Es.Entry.reindex
-      Logger.debug("finish reindex")
-    end
+    # IO.inspect models
+    # if length(models) > 0 do
+      # Es.Entry.reindex
+      # Logger.debug("finish reindex")
+    # end
 
     Mix.shell.info "Finish to build scrapy"
   end

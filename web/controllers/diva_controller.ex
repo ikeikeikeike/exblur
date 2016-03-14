@@ -10,7 +10,7 @@ defmodule Exblur.DivaController do
   def index(conn, _params) do
     params = [page: 1, page_size: 1, repo: Exblur.Repo, query: Model.query]
     entries =
-      Es.Entry.search(nil, params)
+      Exblur.Entry.search(nil, params)
       |> Tirexs.Query.result
 
     render(conn, "ranking.html", divas: entries)

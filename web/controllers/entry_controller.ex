@@ -15,7 +15,7 @@ defmodule Exblur.EntryController do
       |> Map.put(:query, Model.query)
 
     entries =
-      Es.Entry.search(diva != "" && diva || nil, params)
+      Model.search(diva != "" && diva || nil, params)
       |> Es.Paginator.paginate(params)
 
     render(conn, "index.html", entries: entries)
@@ -31,7 +31,7 @@ defmodule Exblur.EntryController do
       |> Map.put(:query, Model.query)
 
     entries =
-      Es.Entry.search(tag != "" && tag || nil, params)
+      Model.search(tag != "" && tag || nil, params)
       |> Es.Paginator.paginate(params)
 
     render(conn, "index.html", entries: entries)
@@ -44,7 +44,7 @@ defmodule Exblur.EntryController do
       |> Map.put(:query, Model.query)
 
     entries =
-      Es.Entry.search(params[:search] != "" && params[:search] || nil, params)
+      Model.search(params[:search] != "" && params[:search] || nil, params)
       |> Es.Paginator.paginate(params)
 
     render(conn, "index.html", entries: entries)
@@ -57,7 +57,7 @@ defmodule Exblur.EntryController do
       |> Map.put(:query, Model.query)
 
     entries =
-      Es.Entry.search(title, params)
+      Model.search(title, params)
       |> Es.Paginator.paginate(params)
 
     render(conn, "show.html", entry: Repo.get!(Model.query, id), related_entries: entries)
