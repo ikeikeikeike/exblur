@@ -49,7 +49,7 @@ end
         <h1 class="no-heading-style" style="display: inline-table; margin: 9px 0px 0px 0px;">
           <span class="glyphicon glyphicon-facetime-video"></span>
           <%= if @conn.params["search"] do %>
-            <%= gettext "Relevant Video Results: %{name}", name: @conn.params["search"] %>
+            <%= gettext "Relevant Video Results" %>
           <% else %>
             <%= gettext "Recently XXX Videos" %>
           <% end %>

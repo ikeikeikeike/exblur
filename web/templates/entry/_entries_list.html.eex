@@ -58,7 +58,7 @@
 
           <div class="media-body">
 
-            <p style='white-space: nowrap;'>
+            <p>
               <%= for tag <- Enum.take(entry.tags, (if mobile?(@conn), do: 2, else: 10)) do %>
                 <a href="<%= entrytag_path @conn, :index, tag.name %>"
                     title="<%= gettext "Jump to %{tag}'s video results", tag: tag.name %>"
