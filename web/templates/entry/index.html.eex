@@ -105,21 +105,22 @@ end
 
       <div class="clearfix"></div>
 
-      <div id="paginator">
-        <ul class="pager">
-          <li>
-            <%= pagination_links @conn, @entries %>
+      <div id="paginator" style='text-align: center;'>
+        <%= if desktop? @conn do %>
+          <%= pagination_links @conn, @entries, first: false, last: false %>
+        <% end %>
+        <%= if mobile? @conn do %>
+          <%= pagination_links @conn, @entries, distance: 2, first: false, last: false %>
+        <% end %>
 
-            <%#= paginate @entries %>
-            <%#= link_to_next_page @entries,
-                  t('views.pagination.next'),
-                  remote: true,
-                  params: params do
-            %>
-              <%# <span>ページがありません</span> %>
-            <%# end %>
-          </li>
-        </ul>
+        <%#= paginate @entries %>
+        <%#= link_to_next_page @entries,
+              t('views.pagination.next'),
+              remote: true,
+              params: params do
+        %>
+          <%# <span>ページがありません</span> %>
+        <%# end %>
       </div>
 
       <div class="container">
