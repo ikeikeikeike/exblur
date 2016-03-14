@@ -30,7 +30,7 @@ defmodule Exblur.IconUploader do
       |> String.split(".")
       |> List.last
 
-    "/uploads/#{dirname}/#{model.id}"
+    "uploads/#{dirname}/#{model.id}"
   end
 
   def default_url(:original) do

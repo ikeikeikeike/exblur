@@ -38,7 +38,7 @@ defmodule Exblur.ThumbUploader do
       |> String.split(".")
       |> List.last
 
-    "/uploads/#{dirname}/#{model.entry_id}"
+    "uploads/#{dirname}/#{model.entry_id}"
   end
 
   def default_url(:original) do
