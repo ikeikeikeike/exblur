@@ -66,6 +66,15 @@ defmodule Exblur.Entry do
     changeset
   end
 
+  after_delete :delete_es_document
+  def delete_es_document(changeset) do
+    changeset.model
+    |> Repo.preload(@relational_fields)
+    |> delete_document
+
+    changeset
+  end
+
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)

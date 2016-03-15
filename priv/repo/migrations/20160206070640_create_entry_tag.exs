@@ -3,8 +3,8 @@ defmodule Exblur.Repo.Migrations.CreateEntryTag do
 
   def change do
     create table(:entry_tags) do
-      add :entry_id, references(:entries, on_delete: :nothing)
-      add :tag_id,         references(:tags, on_delete: :nothing)
+      add :entry_id, references(:entries, on_delete: :delete_all)
+      add :tag_id,   references(:tags, on_delete: :delete_all)
 
       add :created_at,     :datetime, null: false
       add :updated_at,     :datetime, null: false

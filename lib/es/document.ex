@@ -13,6 +13,18 @@ defmodule Es.Document do
         end
       end
 
+      def delete_document(model, index \\ get_index)
+      def delete_document(model, index) when is_list(model) do
+        Tirexs.Bulk.store [index: index, refresh: true], Tirexs.ElasticSearch.config() do
+          Enum.map model, &delete(search_data(&1))
+        end
+      end
+      def delete_document(model, index) do
+        Tirexs.Bulk.store [index: index, refresh: true], Tirexs.ElasticSearch.config() do
+          delete search_data(model)
+        end
+      end
+
     end
   end
 end

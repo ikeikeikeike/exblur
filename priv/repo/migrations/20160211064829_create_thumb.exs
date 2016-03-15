@@ -3,7 +3,7 @@ defmodule Exblur.Repo.Migrations.CreateThumb do
 
   def change do
     create table(:thumbs) do
-      add :entry_id, references(:entries, on_delete: :nothing)
+      add :entry_id, references(:entries)
 
       add :image, :string
 

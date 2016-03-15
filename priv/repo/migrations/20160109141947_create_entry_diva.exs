@@ -3,8 +3,8 @@ defmodule Exblur.Repo.Migrations.CreateEntryDiva do
 
   def change do
     create table(:entry_divas) do
-      add :entry_id, references(:entries, on_delete: :nothing)
-      add :diva_id,        references(:divas, on_delete: :nothing)
+      add :entry_id, references(:entries, on_delete: :delete_all)
+      add :diva_id,  references(:divas, on_delete: :delete_all)
 
       add :created_at,     :datetime, null: false
       add :updated_at,     :datetime, null: false
