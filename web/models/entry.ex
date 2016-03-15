@@ -50,28 +50,20 @@ defmodule Exblur.Entry do
   @optional_fields ~w(content published_at site_id)
   @relational_fields ~w(site divas tags thumbs)a
 
-  before_insert :set_published_at_to_now
-  def set_published_at_to_now(changeset) do
-    # require IEx; IEx.pry
-    changeset
-    |> Ecto.Changeset.put_change(:published_at, Ecto.DateTime.utc)
-  end
+  # before_insert :set_published_at_to_now
+  # def set_published_at_to_now(changeset) do
+    # changeset
+    # |> Ecto.Changeset.put_change(:published_at, Ecto.DateTime.utc)
+  # end
 
   after_insert :put_es_document
   after_update :put_es_document
   def put_es_document(changeset) do
-    require IEx; IEx.pry
     changeset.model
     |> Repo.preload(@relational_fields)
     |> put_document
 
     changeset
-  end
-
-  def query do
-    from e in Model,
-     select: e,
-    preload: ^@relational_fields
   end
 
   def changeset(model, params \\ :empty) do
@@ -85,6 +77,64 @@ defmodule Exblur.Entry do
       |> Map.from_struct
 
     changeset(model, params)
+  end
+
+  def query do
+    from e in __MODULE__,
+     select: e,
+    preload: ^@relational_fields
+  end
+
+  def relates(query) do
+    from e in query,
+    preload: ^@relational_fields
+  end
+
+  def released(query),             do: from p in query, where: p.publish == true
+  def unreleased(query),           do: from p in query, where: p.publish == false
+  def reviewed(query),             do: from p in query, where: p.review  == true
+  def unreviewed(query),           do: from p in query, where: p.review  == false
+  def removed(query),              do: from p in query, where: p.removal == true
+  def unremoved(query),            do: from p in query, where: p.removal == false
+  def more_than_10_minutes(query), do: from p in query, where: p.time    >= 600
+
+  # return on publish record.
+  #
+  def published_entries do
+    __MODULE__
+    |> released
+    |> reviewed
+    |> unremoved
+  end
+
+  # before release contents.
+  #
+  def reserved_entries do
+    __MODULE__
+    |> unreleased
+    |> reviewed
+    |> unremoved
+  end
+
+  # default contents.
+  #
+  def initialized_entries do
+    __MODULE__
+    |> unreleased
+    |> unreviewed
+    |> unremoved
+  end
+
+  def publish_entry(model) do
+    params = %{
+      review: true,
+      publish: true,
+      published_at: Ecto.DateTime.utc,
+    }
+
+    model
+    |> changeset(params)
+    |> Repo.update
   end
 
   def find_or_create_by_entry(entry) do
