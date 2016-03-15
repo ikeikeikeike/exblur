@@ -59,6 +59,11 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
   def setup do
     Mix.Task.run "app.start", []
     Mix.Task.load_all
+    ConCache.start_link [
+      ttl_check:     :timer.seconds(1),
+      ttl:           :timer.seconds(600),
+      touch_on_read: true
+    ], name: :exblur_cache
   end
 
   # We can define other functions as needed here.

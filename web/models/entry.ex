@@ -57,8 +57,10 @@ defmodule Exblur.Entry do
     |> Ecto.Changeset.put_change(:published_at, Ecto.DateTime.utc)
   end
 
-  before_update :put_es_document
+  after_insert :put_es_document
+  after_update :put_es_document
   def put_es_document(changeset) do
+    require IEx; IEx.pry
     changeset.model
     |> Repo.preload(@relational_fields)
     |> put_document

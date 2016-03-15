@@ -28,6 +28,16 @@ defmodule Exblur.Tag do
   @optional_fields ~w(kana romaji gyou orig)
   @relational_fields ~w(entries)a
 
+  after_insert :put_es_document
+  after_update :put_es_document
+  def put_es_document(changeset) do
+    changeset.model
+    |> Repo.preload(@relational_fields)
+    |> put_document
+
+    changeset
+  end
+
   def query do
     from e in Model,
      select: e,
