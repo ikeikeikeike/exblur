@@ -12,7 +12,7 @@ defmodule Exblur.TagController do
         search
         |> String.split(".")
         |> List.first
-        |> Es.Tag.search
+        |> Model.search
         |> Tirexs.Query.result
         |> as_model
       end

@@ -38,7 +38,7 @@ defmodule Exblur.DivaController do
         search
         |> String.split(".")
         |> List.first
-        |> Es.Diva.search
+        |> Model.search
         |> Tirexs.Query.result
         |> as_model
       end
