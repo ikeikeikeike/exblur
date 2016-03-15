@@ -38,6 +38,15 @@ defmodule Exblur.Tag do
     changeset
   end
 
+  after_delete :delete_es_document
+  def delete_es_document(changeset) do
+    changeset.model
+    |> Repo.preload(@relational_fields)
+    |> delete_document
+
+    changeset
+  end
+
   def query do
     from e in Model,
      select: e,
