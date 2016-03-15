@@ -11,6 +11,7 @@ defmodule Mix.Tasks.Exblur.BuildScrapy do
   @moduledoc """
     This is where we would put any long form documentation or doctests.
   """
+  def run, do: run([])
   def run(args) do
     setup
 

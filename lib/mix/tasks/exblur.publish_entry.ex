@@ -9,7 +9,8 @@ defmodule Mix.Tasks.Exblur.PublishEntry do
   @moduledoc """
     This is where we would put any long form documentation or doctests.
   """
-  def run(args) do
+  def run, do: run([])
+  def run(_args) do
     setup
 
     entries = Entry.initialized_entries

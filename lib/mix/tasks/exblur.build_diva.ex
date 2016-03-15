@@ -9,6 +9,7 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
   @moduledoc """
   nothing
   """
+  def run, do: run([])
   def run(args) do
     setup
 

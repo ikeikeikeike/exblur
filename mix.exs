@@ -21,7 +21,7 @@ defmodule Exblur.Mixfile do
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex, :mongodb_ecto, :ex_aws,
                     :bing_translator, :exfavicon, :yaml_elixir, :con_cache,
-                    :ua_inspector, :calendar, :timex]]
+                    :ua_inspector, :calendar, :timex, :quantum]]
   end
 
   # Specifies which paths to compile per environment.
