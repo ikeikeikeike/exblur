@@ -8,7 +8,9 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Hello Phoenix!</title>
+  <title><%= page_title(@conn, assigns) %></title>
+  <meta name="keywords" content="">
+  <meta name="description" content="">
 
   <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
 
