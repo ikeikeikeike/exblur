@@ -50,7 +50,6 @@ defmodule Exblur.Mixfile do
        :arc_ecto,
        :phoenix_html_simplified_helpers,
        :scrivener_html,
-       :phoenix_live_reload,
      ]
    ]
   end
