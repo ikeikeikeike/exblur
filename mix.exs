@@ -3,7 +3,7 @@ defmodule Exblur.Mixfile do
 
   def project do
     [app: :exblur,
-     version: version,
+     version: "0.0.1",
      elixir: "~> 1.2",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
@@ -11,15 +11,6 @@ defmodule Exblur.Mixfile do
      start_permanent: Mix.env == :prod,
      aliases: aliases,
      deps: deps]
-  end
-
-  defp version do
-    {{year, month, day}, {hour, minute, _}} = :calendar.local_time()
-    version = :io_lib.format("~4..0B.~2..0B~2..0B.~2..0B~2..0B", [year, month, day, hour, minute])
-      |> List.flatten
-      |> to_string
-    File.write! "VERSION", version
-    version
   end
 
   # Configuration for the OTP application.
@@ -47,6 +38,19 @@ defmodule Exblur.Mixfile do
        :quantum,
        :conform,
        :conform_exrm,
+     ],
+     included_applications: [
+       :arc,
+       :timex_ecto,
+       :scrivener,
+       :simple_format,
+       :tirexs,
+       :exkanji,
+       :exromaji,
+       :arc_ecto,
+       :phoenix_html_simplified_helpers,
+       :scrivener_html,
+       :phoenix_live_reload,
      ]
    ]
   end
@@ -60,8 +64,6 @@ defmodule Exblur.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-     {:httpoison, "~> 0.8"},
-
      {:phoenix, "~> 1.1"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_ecto, "~> 2.0"},
@@ -69,6 +71,7 @@ defmodule Exblur.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.10"},
      {:cowboy, "~> 1.0"},
+     {:httpoison, "~> 0.8"},
      {:mongodb_ecto, "~> 0.1"},
      {:bing_translator, "~> 0.2"},
      {:exfavicon, "~> 0.3"},
@@ -77,8 +80,7 @@ defmodule Exblur.Mixfile do
      {:ex_aws, "~> 0.4"},
      {:httpoison, "~> 0.8"},
      {:tirexs, "~> 0.7"},
-     # {:tirexs, github: "Zatvobor/tirexs"},
-     {:timex, "~> 1.0"},
+     {:timex, "~> 1.0"},  # {:tirexs, github: "Zatvobor/tirexs"},
      {:timex_ecto, "~> 0.9"},
      {:calendar, "~> 0.12"},
      {:exromaji, "~> 0.3"},
@@ -91,7 +93,6 @@ defmodule Exblur.Mixfile do
      {:phoenix_html_simplified_helpers, "~> 0.3"},
      {:simple_format, "~> 0.1"},
      {:quantum, "~> 1.7"},
-
      {:exrm, "~> 1.0", override: true},
      {:conform, "~> 2.0", override: true},
      {:conform_exrm, "~> 1.0"}
