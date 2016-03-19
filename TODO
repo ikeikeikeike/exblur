@@ -3,3 +3,7 @@
 
 - Translate tags to kana and romaji then that creates translated field in tag table if that wants.
 - Set Expires(TTL) in con_cache
+
+
+mongo index
+mongo auth for securty

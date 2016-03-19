@@ -3,8 +3,8 @@ defmodule Exblur.Mixfile do
 
   def project do
     [app: :exblur,
-     version: "0.0.1",
-     elixir: "> 1.0.0",
+     version: version,
+     elixir: "~> 1.2",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
@@ -13,15 +13,42 @@ defmodule Exblur.Mixfile do
      deps: deps]
   end
 
+  defp version do
+    {{year, month, day}, {hour, minute, _}} = :calendar.local_time()
+    version = :io_lib.format("~4..0B.~2..0B~2..0B.~2..0B~2..0B", [year, month, day, hour, minute])
+      |> List.flatten
+      |> to_string
+    File.write! "VERSION", version
+    version
+  end
+
   # Configuration for the OTP application.
   #
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Exblur, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :mongodb_ecto, :ex_aws,
-                    :bing_translator, :exfavicon, :yaml_elixir, :con_cache,
-                    :ua_inspector, :calendar, :timex, :quantum]]
+     applications: [
+       :phoenix,
+       :phoenix_html,
+       :cowboy,
+       :logger,
+       :gettext,
+       :phoenix_ecto,
+       :postgrex,
+       :mongodb_ecto,
+       :ex_aws,
+       :bing_translator,
+       :exfavicon,
+       :yaml_elixir,
+       :con_cache,
+       :ua_inspector,
+       :calendar,
+       :timex,
+       :quantum,
+       :conform,
+       :conform_exrm,
+     ]
+   ]
   end
 
   # Specifies which paths to compile per environment.
@@ -64,7 +91,10 @@ defmodule Exblur.Mixfile do
      {:phoenix_html_simplified_helpers, "~> 0.3"},
      {:simple_format, "~> 0.1"},
      {:quantum, "~> 1.7"},
-     {:exrm, "~> 1.0"}
+
+     {:exrm, "~> 1.0", override: true},
+     {:conform, "~> 2.0", override: true},
+     {:conform_exrm, "~> 1.0"}
     ]
   end
 
