@@ -13,7 +13,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :exblur, Exblur.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: "example.com", port: 80],
+  url: [host: "example.com", port: 8888],
   cache_static_manifest: "priv/static/manifest.json",
   server: true
 

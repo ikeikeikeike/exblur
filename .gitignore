@@ -28,6 +28,8 @@ erl_crash.dump
 /config/prod.secret.exs
 /config/consts.exs
 /config/translate_filters.yml
+/config/exblur.conf
+/config/exblur.schema.exs
 
 # TAGS
 tags
