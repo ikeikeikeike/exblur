@@ -40,3 +40,5 @@ tags
 /Gemfile
 /Gemfile.lock
 /vendor/
+/.hg
+/.hgignore
