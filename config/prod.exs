@@ -56,6 +56,19 @@ config :exblur, Exblur.Endpoint,
 #     config :exblur, Exblur.Endpoint, server: true
 #
 
+config :quantum, cron: [
+    build_scrapy: [
+      schedule: "0 * * * *",
+      task: "Mix.Tasks.Exblur.BuildScrapy.run",
+      args: []
+    ],
+    publish_entry: [
+      schedule: "0 30 * * *",
+      task: "Mix.Tasks.Exblur.PublishEntry.run",
+      args: []
+    ]
+]
+
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"
