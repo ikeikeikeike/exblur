@@ -42,4 +42,7 @@ tags
 /vendor/
 /.hg
 /.hgignore
-/up
+
+/build
+/deploy
+/exblur.tar.gz
