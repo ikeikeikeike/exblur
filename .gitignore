@@ -45,6 +45,7 @@ tags
 /.hgignore
 
 /do
+/prod-do
 /build
 /deploy
 /deploy-production
