@@ -36,7 +36,7 @@ defmodule Entrybuilder.Publish do
       # end
 
       Logger.info "Publish: #{e.id}:#{Ecto.DateTime.utc}"
-      :timer.sleep(if Mix.env == :prod, do: 6340, else: 200)
+      :timer.sleep(2000)
     end
 
     Logger.info "Finish to publish entries"
