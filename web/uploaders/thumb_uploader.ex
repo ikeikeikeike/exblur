@@ -24,7 +24,11 @@ defmodule Exblur.ThumbUploader do
     {:convert, "-thumbnail 300x200^ -gravity center -extent 300x200"}
   end
 
-  def __storage, do: Arc.Storage.Local
+  def s3_object_headers(_version, {file, _scope}) do
+    [content_type: Plug.MIME.path(file.file_name)] # for "image.png", would produce: "image/png"
+  end
+
+  def __storage, do: Arc.Storage.S3
 
   def filename(version, {file, scope}) do
     "#{scope.entry_id}_#{version}_#{file.file_name}"

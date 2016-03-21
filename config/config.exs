@@ -32,12 +32,6 @@ config :phoenix, :generators,
   migration: true,
   binary_id: false
 
-config :arc,
-  # :version_timeout, 15_000 # milliseconds
-  # bucket: "uploads"
-  # virtual_host: true  # for aws
-  asset_host: "https://d3gav2egqolk5.cloudfront.net"
-
 config :tirexs,
    uri: URI.parse("http://127.0.0.1:9200")
 
