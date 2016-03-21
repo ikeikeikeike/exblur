@@ -28,7 +28,8 @@ defmodule Exblur.ThumbUploader do
     [content_type: Plug.MIME.path(file.file_name)] # for "image.png", would produce: "image/png"
   end
 
-  def __storage, do: Arc.Storage.S3
+  # def __storage, do: Arc.Storage.Local
+  # def __storage, do: Arc.Storage.S3
 
   def filename(version, {file, scope}) do
     "#{scope.entry_id}_#{version}_#{file.file_name}"

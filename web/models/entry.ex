@@ -220,7 +220,8 @@ defmodule Exblur.Entry do
               end
             end
 
-            Enum.each entry.images, fn(scrapy) ->
+            # XXX: fixed taking limit now.
+            Enum.each Enum.take(entry.images, 2), fn(scrapy) ->
               case Thumb.create_by_scrapy(model, scrapy) do
                 {:error, reason} -> Logger.error("#{inspect reason}")
                 _ -> :ok
