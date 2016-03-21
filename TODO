@@ -7,3 +7,5 @@
 
 mongo index
 mongo auth for securty
+
+reindex mix task

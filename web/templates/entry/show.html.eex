@@ -85,8 +85,8 @@ content_for :description, "#{@entry.title}: #{@entry.content}"
               <meta itemprop="name" content="<%= @entry.title %>" />
               <meta itemprop="headline" content="<%= @entry.title %>" />
               <meta itemprop="description" content="<%= @entry.content %>" />
-              <meta itemprop="image" content="/<%= if length(@entry.thumbs) > 0, do: thumb = List.first(@entry.thumbs); thumb.__struct__.get_thumb(thumb) %>">
-              <meta itemprop="thumbnailUrl" content="/<%= if length(@entry.thumbs) > 0, do: thumb = List.first(@entry.thumbs); thumb.__struct__.get_thumb(thumb) %>" />
+              <meta itemprop="image" content="<%= if length(@entry.thumbs) > 0, do: thumb = List.first(@entry.thumbs); thumb.__struct__.get_thumb(thumb) %>">
+              <meta itemprop="thumbnailUrl" content="<%= if length(@entry.thumbs) > 0, do: thumb = List.first(@entry.thumbs); thumb.__struct__.get_thumb(thumb) %>" />
               <meta itemprop="duration" content="<%#= Duration.new(@entry.time).iso8601 %>" />
               <meta itemprop="timeRequired" content="<%#= Duration.new(@entry.time).iso8601 %>" />
               <%# <meta itemprop="contentUrl" content="http://www.example.com/video123.flv" /> %>
