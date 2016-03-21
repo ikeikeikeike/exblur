@@ -8,6 +8,7 @@ defmodule Entrybuilder.Build do
 
   def run, do: run([])
   def run(args) do
+    TL.configure
 
     limit = if length(args) > 0, do: List.first(args), else: 0
 
