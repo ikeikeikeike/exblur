@@ -29,6 +29,7 @@ erl_crash.dump
 /config/dev.secret.exs
 /config/consts.exs
 /config/translate_filters.yml
+/config/translate_filters.exs
 /config/exblur.conf
 /config/exblur.schema.exs
 

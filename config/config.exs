@@ -44,5 +44,11 @@ config :ua_inspector,
 config :exblur, Exblur.Gettext,
   default_locale: "ja"
 
+# config :exblur, :translate_filters,
+  # db: Path.join(File.cwd!, "config/translate_filters.yml") |> YamlElixir.read_from_file
+
+# filters
+import_config "translate_filters.exs"
+
 # consts
 import_config "consts.exs"

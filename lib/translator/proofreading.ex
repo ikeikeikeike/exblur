@@ -54,8 +54,7 @@ defmodule Translator.Proofreading do
 
   def configure do
     filters =
-      Path.join(File.cwd!, "config/translate_filters.yml")
-      |> YamlElixir.read_from_file
+      Application.get_env(:exblur, :translate_filters)[:db]
 
     start_link([
       tags: filters["tags"],
