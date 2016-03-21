@@ -90,6 +90,14 @@ defmodule Exblur.Web do
     end
   end
 
+  def build do
+    quote do
+      alias Exblur.Mongo
+      alias Exblur.Repo
+      import Ecto.Query
+    end
+  end
+
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """
