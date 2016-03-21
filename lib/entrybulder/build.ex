@@ -10,7 +10,7 @@ defmodule Entrybuilder.Build do
   def run(args) do
     TL.configure
 
-    limit = if length(args) > 0, do: List.first(args), else: 0
+    limit = if length(args) > 0, do: List.first(args), else: 50
 
     entries =
       Scrapy.query
