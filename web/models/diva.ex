@@ -27,6 +27,7 @@ defmodule Exblur.Diva do
     field :blood,      :string
     field :birthday,   Ecto.Date
 
+    # TODO: To be arc file
     field :image,      :string
 
     field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc

@@ -5,9 +5,8 @@
 - Set Expires(TTL) in con_cache
 
 
-mongo index
-mongo auth for securty
-
-reindex mix task
-
-Translator Agent in Application
+- mongo index
+- mongo auth for securty
+- reindex mix task diva, entry, tag
+- Translator's Agent to be follow Application system
+- make over 10 min

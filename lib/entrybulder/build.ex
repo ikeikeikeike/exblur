@@ -10,7 +10,7 @@ defmodule Entrybuilder.Build do
   def run(args) do
     TL.configure
 
-    limit = if length(args) > 0, do: List.first(args), else: 50
+    limit = if length(args) > 0, do: List.first(args), else: 300
 
     entries =
       Scrapy.query
@@ -31,19 +31,26 @@ defmodule Entrybuilder.Build do
     # models =
       Enum.map(entries, fn(e) ->
         Repo.transaction fn ->
-          case Entry.video_creater(e) do
-            {:error, reason} ->
-              Repo.rollback(reason)
-              Logger.error("#{inspect reason}")
-              nil
+          try do
+            case Entry.video_creater(e) do
+              {:error, reason} ->
+                Repo.rollback(reason)
+                Logger.error("#{inspect reason}")
+                nil
 
-            {:ok, _model} ->
-              Scrapy.already_post(e)
-              nil
+              {:ok, _model} ->
+                Scrapy.already_post(e)
+                nil
 
-            {:new, model} ->
+              {:new, model} ->
+                Scrapy.already_post(e)
+                model
+            end
+          rescue
+            # skip entry
+            e in Postgrex.Error ->
               Scrapy.already_post(e)
-              model
+              Logger.error("#{inspect e}")
           end
         end
       end)
