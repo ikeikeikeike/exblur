@@ -13,6 +13,9 @@ defmodule Translator.Proofreading do
     cond do
       word == map["from_word"] ->
         matched_sub_tags(map["to_word"], [])
+      ! String.valid?(word) ->
+        # XXX: invalid char to be change random word.
+        matched_sub_tags(Enum.random(tail)["to_word"], [])
       true ->
         matched_sub_tags(word, tail)
     end
