@@ -10,7 +10,7 @@ defmodule Entrybuilder.Build do
   def run(args) do
     TL.configure
 
-    limit = if length(args) > 0, do: List.first(args), else: 300
+    limit = if length(args) > 0, do: List.first(args), else: 100
 
     entries =
       Scrapy.query
@@ -48,9 +48,9 @@ defmodule Entrybuilder.Build do
             end
           rescue
             # skip entry
-            e in Postgrex.Error ->
+            err in Postgrex.Error ->
               Scrapy.already_post(e)
-              Logger.error("#{inspect e}")
+              Logger.error("#{inspect err}")
           end
         end
       end)

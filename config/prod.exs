@@ -59,7 +59,7 @@ config :logger, level: :info
 
 config :quantum, cron: [
     build_scrapy: [
-      schedule: "*/15 * * * *",
+      schedule: "45 * * * *",
       task: "Entrybuilder.Build.run",
       args: []
     ],
