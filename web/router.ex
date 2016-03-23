@@ -22,6 +22,9 @@ defmodule Exblur.Router do
   scope "/", Exblur do
     pipe_through :browser # Use the default browser stack
 
+    get "robots.text", RobotController, :index
+    get "robots.txt", RobotController, :index
+
     get "/:tag", EntryController, :index, as: :entrytag  # if tag does not exists in database, Exblur throws `not found` exception.
     get "/", EntryController, :index
 
