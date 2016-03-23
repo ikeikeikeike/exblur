@@ -236,6 +236,10 @@ defmodule Exblur.Entry do
   end
 
   def search_data(model) do
+    {:ok, published_at} =
+      model.published_at
+      |> Timex.Ecto.DateTime.cast
+
     [
       _id: model.id,
       url: model.url,
@@ -250,7 +254,7 @@ defmodule Exblur.Entry do
       publish: model.publish,
       removal: model.removal,
 
-      published_at: model.published_at,
+      published_at: Timex.DateFormat.format!(published_at, "{ISO}"),
 
       site_name: (if model.site_id, do: model.site.name, else: ""),
     ]
@@ -329,7 +333,7 @@ defmodule Exblur.Entry do
 
       sort do
         [
-          [published_at: "desc"]
+          [published_at: [order: "desc"]]
         ]
       end
 
@@ -404,7 +408,7 @@ defmodule Exblur.Entry do
         # indexes "content",        type: "string", analyzer: "ja_analyzer"
 
         indexes "time",           type: "long"
-        indexes "published_at",   type: "date" #  ,   format: "strict_date_optional_time"
+        indexes "published_at",   type: "date",  format: "date_optional_time"
 
         indexes "review",         type: "boolean"
         indexes "publish",        type: "boolean"
