@@ -14,7 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "0.1.17"
+    v = "0.2.0"
     File.write! "VERSION", v
     v
   end
@@ -42,8 +42,8 @@ defmodule Exblur.Mixfile do
        :calendar,
        :timex,
        :quantum,
-       :conform,
-       :conform_exrm,
+       # :conform,
+       # :conform_exrm,
      ],
      included_applications: [
        :arc,
@@ -99,9 +99,9 @@ defmodule Exblur.Mixfile do
      {:phoenix_html_simplified_helpers, "~> 0.3"},
      {:simple_format, "~> 0.1"},
      {:quantum, "~> 1.7"},
-     {:exrm, "~> 1.0", override: true},
-     {:conform, "~> 2.0", override: true},
-     {:conform_exrm, "~> 1.0"}
+     {:exrm, "~> 1.0"},
+     # {:conform, "~> 2.0", override: true},
+     # {:conform_exrm, "~> 1.0"}
     ]
   end
 
