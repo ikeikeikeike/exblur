@@ -236,9 +236,12 @@ defmodule Exblur.Entry do
   end
 
   def search_data(model) do
-    {:ok, published_at} =
-      model.published_at
-      |> Timex.Ecto.DateTime.cast
+    published_at =
+      case Timex.Ecto.DateTime.cast(model.published_at) do
+        {:ok, at} ->
+          Timex.DateFormat.format!(at, "{ISO}")
+        _ -> model.published_at
+      end
 
     [
       _id: model.id,
@@ -254,7 +257,7 @@ defmodule Exblur.Entry do
       publish: model.publish,
       removal: model.removal,
 
-      published_at: Timex.DateFormat.format!(published_at, "{ISO}"),
+      published_at: published_at,
 
       site_name: (if model.site_id, do: model.site.name, else: ""),
     ]
