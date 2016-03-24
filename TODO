@@ -5,14 +5,24 @@
 - Set Expires(TTL) in con_cache
 
 
-- mongo index
-- mongo auth for securty
-- reindex mix task diva, entry, tag
+- Mongo index
+- Mongo auth for securty
 - Translator's Agent to be follow Application system
-- make over 10 min
-- description, author, keywords
-- free SSL certification
-
+- Make over 10 min
+- Description, author, keywords
+- Free SSL certification
+- To video time format. entry.published_at.iso8601
+- Version up Elasticsearch
+- Fix facets search in ES
+- Fix word search matches in ES
+- Generate sitemap
+- Autocomplete(suggestion) performance improving.
+- Suggestion with Image.
+- Send mail when the system happended error.
+- To be internationalization to Tag, Diva, Entry Model for template words.
+- Mix task: reindex diva, entry, tag
+- Mix task: Remove old videos. Its like unable video.
+- Mix task: Dead link checker.
 
 http://www.google.com/ping?sitemap=
 http://www.google.com/webmasters/sitemaps/ping?sitemap=
