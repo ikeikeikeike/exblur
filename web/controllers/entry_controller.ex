@@ -11,7 +11,7 @@ defmodule Exblur.EntryController do
 
     params =
       params
-      |> Es.Params.prepare_params(1, 10)
+      |> Es.Params.prepare_params(1, 25)
       |> Map.put(:query, Model.query)
 
     entries =
@@ -27,7 +27,7 @@ defmodule Exblur.EntryController do
 
     params =
       params
-      |> Es.Params.prepare_params(1, 10)
+      |> Es.Params.prepare_params(1, 25)
       |> Map.put(:query, Model.query)
 
     entries =
@@ -40,7 +40,7 @@ defmodule Exblur.EntryController do
   def index(conn, params) do
     params =
       params
-      |> Es.Params.prepare_params(1, 10)
+      |> Es.Params.prepare_params(1, 25)
       |> Map.put(:query, Model.query)
 
     entries =
