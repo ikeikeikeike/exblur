@@ -42,6 +42,17 @@ defmodule Exblur.Scrapy do
     select: e
   end
 
+  # defmacro generate_accessor(name) do
+  #   quote do
+  #     def unquote(:"#{name}")(query) do
+  #       from e in query,
+  #       where: e.name == unquote(name)
+  #     end
+  #   end
+  # end
+
+  # generate_accessor("")
+
   def asg(query) do
     from e in query,
     where: e.name == "asg"
