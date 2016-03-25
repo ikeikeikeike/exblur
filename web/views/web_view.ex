@@ -22,5 +22,12 @@ defmodule Exblur.WebView do
     end
   end
 
+  def thumb_one(thumbs) do
+    if length(thumbs) > 0, do: Exblur.Thumb.get_thumb(List.first(thumbs)), else: nil
+  end
+
+  def thumb_one(thumbs, version) do
+    if length(thumbs) > 0, do: Exblur.Thumb.get_thumb(List.first(thumbs), version), else: nil
+  end
 
 end

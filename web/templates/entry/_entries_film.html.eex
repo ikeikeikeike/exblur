@@ -26,8 +26,8 @@
         <meta itemprop="name" content="<%= entry.title %>" />
         <meta itemprop="headline" content="<%= entry.title %>" />
         <meta itemprop="description" content="<%= entry.content %>" />
-        <meta itemprop="image" content="<%= if length(entry.thumbs) > 0, do: thumb = List.first(entry.thumbs); thumb.__struct__.get_thumb(thumb) %>">
-        <meta itemprop="thumbnailUrl" content="<%= if length(entry.thumbs) > 0, do: thumb = List.first(entry.thumbs); thumb.__struct__.get_thumb(thumb) %>" />
+        <meta itemprop="image" content="<%= thumb_one entry.thumbs %>">
+        <meta itemprop="thumbnailUrl" content="<%= thumb_one entry.thumbs %>" />
         <meta itemprop="timeRequired" content="<%#= Duration.new(entry.time).iso8601 %>" />
         <meta itemprop="datePublished" content="<%#= entry.published_at.iso8601 %>" />
         <meta itemprop="keywords" content="<%= Enum.join(Enum.map(entry.tags, fn(tag) -> tag.name end), ",") %>" />
@@ -43,7 +43,7 @@
               <%# src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE1MCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE5cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MzAweDIwMDwvdGV4dD48L3N2Zz4=' %>
               <%# style="width: 300px; height: 200px;" %>
               style="width: 200px; height: 132px;"
-              src="<%= if length(entry.thumbs) > 0, do: thumb = List.first(entry.thumbs); thumb.__struct__.get_thumb(thumb, "size_200x132") %>"
+              src="<%= thumb_one entry.thumbs, "size_200x132" %>"
               alt="<%= truncate entry.content, length: 100 %>"
               >
           </a>

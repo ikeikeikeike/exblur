@@ -23,6 +23,8 @@
 - Mix task: reindex diva, entry, tag
 - Mix task: Remove old videos. Its like unable video.
 - Mix task: Dead link checker.
+- Fix title_with_link
+- To be macro generation in site and scrapy models.
 
 http://www.google.com/ping?sitemap=
 http://www.google.com/webmasters/sitemaps/ping?sitemap=
