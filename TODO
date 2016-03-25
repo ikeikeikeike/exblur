@@ -25,6 +25,7 @@
 - Mix task: Dead link checker.
 - Fix title_with_link
 - To be macro generation in site and scrapy models.
+- limited title length.
 
 http://www.google.com/ping?sitemap=
 http://www.google.com/webmasters/sitemaps/ping?sitemap=

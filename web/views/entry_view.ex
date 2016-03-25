@@ -6,14 +6,40 @@ defmodule Exblur.EntryView do
   def page_title(:index, assigns) do
     params = assigns.conn.params
     cond do
-      params["tag"]    -> gettext "%{word} showing", word: params["tag"]
-      params["search"] -> gettext "%{word} search results", word: params["search"]
-      true             -> gettext "Recently XXX Videos"
+      params["tag"]      -> gettext "%{word} showing", word: params["tag"]
+      params["search"]   -> gettext "%{word} search results", word: params["search"]
+      true               -> gettext "Recently XXX Videos"
     end
   end
 
-  def page_title(:show, assigns), do: assigns[:entry].title
-  def page_title(_, _),           do: "Default Entry title"
+  def page_keywords(:index, assigns) do
+    params = assigns.conn.params
+    keywords =
+      cond do
+        params["tag"]    -> gettext ",%{word}", word: params["tag"]
+        params["search"] -> gettext ",%{word}", word: params["search"]
+        true             -> ""
+      end
+
+    gettext("Default,Page,Keywords") <> keywords
+  end
+
+  def page_description(:index, assigns) do
+    params = assigns.conn.params
+    cond do
+      params["tag"]      -> gettext "You would search '%{word}' in XXX. Let's see the video in XXX !!", word: params["tag"]
+      params["search"]   -> gettext "You would search '%{word}' in XXX. Let's see the video in XXX !!", word: params["search"]
+      true               -> gettext "Default Page Description"
+    end
+  end
+
+  def page_title(:show, assigns),       do: truncate(assigns[:entry].title, length: 70)
+  def page_keywords(:show, assigns),    do: gettext("Default,Page,Keywords") <> "," <> Enum.join(Enum.map(assigns[:entry].tags, fn(tag) -> tag.name end), ",")
+  def page_description(:show, assigns), do: truncate(assigns[:entry].content, length: 400)
+
+  def page_title(_, _),                 do: gettext "Default Page Title"
+  def page_keywords(_, _),              do: gettext "Default,Page,Keywords"
+  def page_description(_, _),           do: gettext "Default Page Description"
 
   def title_with_link(conn, entry) do
     title = entry.title
