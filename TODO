@@ -5,27 +5,26 @@
 - Set Expires(TTL) in con_cache
 
 
-- Mongo index
-- Mongo auth for securty
-- Translator's Agent to be follow Application system
+- Fix title_with_link
 - Make over 10 min
-- Description, author, keywords
-- Free SSL certification
-- To video time format. entry.published_at.iso8601
-- Version up Elasticsearch
 - Fix facets search in ES
 - Fix word search matches in ES
-- Generate sitemap
-- Autocomplete(suggestion) performance improving.
-- Suggestion with Image.
 - Send mail when the system happended error.
+- To be macro generation in site and scrapy models.
 - To be internationalization to Tag, Diva, Entry Model for template words.
+- Generate sitemap
+- Mongo index
+
 - Mix task: reindex diva, entry, tag
 - Mix task: Remove old videos. Its like unable video.
 - Mix task: Dead link checker.
-- Fix title_with_link
-- To be macro generation in site and scrapy models.
-- limited title length.
+- Suggestion with Image.
+- Translator's Agent to be follow Application system
+- To video time format. entry.published_at.iso8601
+- Autocomplete(suggestion) performance improving.
+- Version up Elasticsearch
+- Mongo auth for securty
+- Free SSL certification
 
 http://www.google.com/ping?sitemap=
 http://www.google.com/webmasters/sitemaps/ping?sitemap=
