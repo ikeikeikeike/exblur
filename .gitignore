@@ -40,6 +40,8 @@ tags
 
 /.bundle/
 /.byebug_history
+/web/models/scrapy.ex
+/web/models/site.ex
 /Gemfile
 /Gemfile.lock
 /vendor/

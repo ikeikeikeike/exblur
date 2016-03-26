@@ -5,7 +5,7 @@
 - Set Expires(TTL) in con_cache
 
 
-- To be macro generation in site and scrapy models.
+- Fixed widgh in container using css.
 - To be internationalization to Tag, Diva, Entry Model for template words.
 - Fix facets search in ES
 - Fix word search matches in ES
