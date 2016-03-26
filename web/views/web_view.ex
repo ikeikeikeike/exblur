@@ -30,4 +30,10 @@ defmodule Exblur.WebView do
     if length(thumbs) > 0, do: Exblur.Thumb.get_thumb(List.first(thumbs), version), else: nil
   end
 
+  def to_keylist(params) do
+    Enum.reduce(params, [], fn {k, v}, kw ->
+      if !is_atom(k), do: k = String.to_atom(k)
+      Keyword.put(kw, k , v)
+    end)
+  end
 end

@@ -5,12 +5,11 @@
 - Set Expires(TTL) in con_cache
 
 
-- Make over 10 min
+- To be macro generation in site and scrapy models.
+- To be internationalization to Tag, Diva, Entry Model for template words.
 - Fix facets search in ES
 - Fix word search matches in ES
 - Send mail when the system happended error.
-- To be macro generation in site and scrapy models.
-- To be internationalization to Tag, Diva, Entry Model for template words.
 - Generate sitemap
 - Mongo index
 
