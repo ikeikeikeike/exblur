@@ -5,13 +5,16 @@ defmodule Exblur.EntryView do
 
   def page_title(:index, assigns) do
     params = assigns.conn.params
-    cond do
-      params["tag"]      -> gettext "%{word} showing", word: params["tag"]
-      params["search"]   -> gettext "%{word} search results", word: params["search"]
-      true               -> gettext "Default Page Title"
-    end
+    title =
+      cond do
+        params["tag"]      -> gettext "%{word} showing", word: params["tag"]
+        params["search"]   -> gettext "%{word} search results", word: params["search"]
+        true               -> ""
+      end
+
+    title <> " - " <> gettext("Default Page Title")
   end
-  def page_title(:show, assigns), do: truncate(assigns[:entry].title, length: 70)
+  def page_title(:show, assigns), do: truncate(assigns[:entry].title, length: 100) <> " - " <> gettext("Default Page Title")
   def page_title(_, _),           do: gettext "Default Page Title"
 
   def page_keywords(:index, assigns) do
@@ -36,7 +39,7 @@ defmodule Exblur.EntryView do
       true             -> gettext "Default Page Description"
     end
   end
-  def page_description(:show, assigns), do: truncate(assigns[:entry].content, length: 400)
+  def page_description(:show, assigns), do: truncate(assigns[:entry].content, length: 700)
   def page_description(_, _),           do: gettext "Default Page Description"
 
   def title_with_link(conn, entry) do
