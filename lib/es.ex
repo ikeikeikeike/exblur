@@ -16,6 +16,7 @@ defmodule Es do
 
       require Tirexs.Manage
       require Tirexs.Query
+      require Tirexs.Query.Filter
       require Tirexs.Search
       require Logger
     end

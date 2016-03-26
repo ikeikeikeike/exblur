@@ -263,8 +263,9 @@ defmodule Exblur.Entry do
     ]
   end
 
-  def search(word \\ nil, options \\ []) do
-
+  def search,               do: search(nil, [])
+  def search(word),         do: search(word, [])
+  def search(word, options) do
     opt = prepare_options(options)
 
     # pagination
@@ -355,6 +356,21 @@ defmodule Exblur.Entry do
       end
 
       queries = Keyword.put queries, :search, s
+    end
+
+    if opt[:filter][:ft] do
+      f = Keyword.delete(queries[:search], :filter) ++ Tirexs.Query.Filter.filter do
+        _and [_cache: true] do
+          filters do
+            terms "review",  [true]
+            terms "publish", [true]
+            terms "removal", [false]
+            range "time", [gte: opt[:filter][:ft]]
+          end
+        end
+      end
+
+      queries = Keyword.put queries, :search, f
     end
 
     queries

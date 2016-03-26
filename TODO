@@ -5,7 +5,6 @@
 - Set Expires(TTL) in con_cache
 
 
-- Fix title_with_link
 - Make over 10 min
 - Fix facets search in ES
 - Fix word search matches in ES

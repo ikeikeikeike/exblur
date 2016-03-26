@@ -16,7 +16,6 @@ defmodule Es.Params do
       cond do
         params[:page_size] -> params
         true -> Map.put(params, :page_size, per_page)
-
       end
 
     params
@@ -28,6 +27,10 @@ defmodule Es.Params do
     per_page = (options[:limit] || options[:per_page] || options[:page_size] || 10000)
     offset = options[:offset] || (page - 1) * per_page
 
-    [page: page, per_page: per_page, offset: offset]
+    # filters
+    filter = []
+    if options[:ft], do: filter = Keyword.put(filter, :ft, options[:ft])
+
+    [page: page, per_page: per_page, offset: offset, filter: filter]
   end
 end

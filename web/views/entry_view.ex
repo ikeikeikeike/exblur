@@ -46,10 +46,9 @@ defmodule Exblur.EntryView do
     title = entry.title
 
     names = Enum.map entry.divas, fn(diva) ->
-      if String.starts_with?(entry.title, diva.name) do
-        title = String.replace(title, diva.name, "")
-      end
-
+      # if String.starts_with?(entry.title, diva.name) do
+        # title = String.replace(title, diva.name, "")
+      # end
       link diva.name, to: entrydiva_path(conn, :index, diva.name)
     end
 

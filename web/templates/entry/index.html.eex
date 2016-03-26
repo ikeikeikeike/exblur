@@ -59,22 +59,22 @@ end
 
           <%
           ten_min_params = take_params(@conn, ~w(list page search site_name tag divas))
-          unless @conn.params["t600"], do: ten_min_params = Map.merge ten_min_params, %{"t600" => 1}
+          unless @conn.params["ft"], do: ten_min_params = Map.merge ten_min_params, %{"ft" => 600}
           %>
           <a href="<%= entry_path @conn, :index, ten_min_params %>"
               type="button"
-              class="btn btn-default <%= if mobile?(@conn), do: "btn-sm" %> <%= if @conn.params["t600"], do: "active" %>">
+              class="btn btn-default <%= if mobile?(@conn), do: "btn-sm" %> <%= if @conn.params["ft"], do: "active" %>">
             <small><%= gettext "Over 10 Min" %></small>
           </a>
 
           <%= if desktop? @conn do %>
-            <a href="<%= entry_path @conn, :index, take_params(@conn, ~w(t600 page search site_name tag divas)) %>"
+            <a href="<%= entry_path @conn, :index, take_params(@conn, ~w(ft page search site_name tag divas)) %>"
                 type="button"
                 class="btn btn-default <%= unless @conn.params["list"], do: "active" %>">
               <span class="glyphicon glyphicon-picture"></span>
             </a>
 
-            <a href="<%= entry_path @conn, :index, take_params(@conn, ~w(t600 page search site_name tag divas), list: 1) %>"
+            <a href="<%= entry_path @conn, :index, take_params(@conn, ~w(ft page search site_name tag divas), list: 1) %>"
                 type="button"
                 class="btn btn-default <%= if @conn.params["list"], do: "active" %>">
               <span class="glyphicon glyphicon-list"></span>
