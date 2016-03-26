@@ -19,7 +19,7 @@ defmodule Exblur.EntryController do
   end
 
   def index(conn, params) do
-    es = esearch(params[:search], params)
+    es = esearch(params["search"], params)
     render(conn, "index.html", entries: es[:entries])
   end
 
