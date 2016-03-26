@@ -8,7 +8,7 @@ defmodule Exblur.EntryView do
     cond do
       params["tag"]      -> gettext "%{word} showing", word: params["tag"]
       params["search"]   -> gettext "%{word} search results", word: params["search"]
-      true               -> gettext "Recently XXX Videos"
+      true               -> gettext "Default Page Title"
     end
   end
   def page_title(:show, assigns), do: truncate(assigns[:entry].title, length: 70)
