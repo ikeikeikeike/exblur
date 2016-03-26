@@ -62,7 +62,7 @@ carried_params = ~w(ft page search site_name tag divas)
         <div class="btn-group pull-right">
 
           <%
-          ten_min_params = take_params(@conn, ~w(list page search site_name tag divas))
+          ten_min_params = take_params(@conn, ~w(list search site_name tag divas))
           unless @conn.params["ft"], do: ten_min_params = Map.merge ten_min_params, %{"ft" => 600}
           %>
           <a href="<%= entry_path @conn, :index, ten_min_params %>"

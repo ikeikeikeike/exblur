@@ -12,6 +12,7 @@
 - Send mail when the system happended error.
 - Generate sitemap
 - Mongo index
+- Support hreflang. It's able to choose needed language for user and G.
 
 - Mix task: reindex diva, entry, tag
 - Mix task: Remove old videos. Its like unable video.
