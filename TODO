@@ -5,8 +5,8 @@
 - Set Expires(TTL) in con_cache
 
 - upstart script and monit
-- remove less than 3 min video
-- Fix facets search in ES
+- Korean to Japanese translation in builder.
+- update removal status to entry model like remove record and then send remove api to ES for performance and storage size. its not updating status in ES.
 - Fix word search matches in ES
 - Make Tag list page
 - Make About Site page

@@ -9,15 +9,6 @@ defmodule Entrybuilder.Publish do
 
     entries = Entry.initialized_entries
 
-    # Clean video: Physical delete entries coz before publishing those.
-    entries
-    |> where([e], e.content == "%contents.fc2.com%")
-    |> Repo.delete_all
-
-    # Clean video: Physical delete entries coz before publishing those.
-    # Entrybuilder::Query.chinese_spams(
-      # entries: reserve_entries).delete_all
-
     # .where(site: Site.order("RANDOM()").first)
     entries =
       entries

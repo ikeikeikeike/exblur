@@ -44,6 +44,10 @@ defmodule Entrybuilder.Build do
     Logger.info "Finish to build scrapy #{length models} records."
   end
 
+  # Clean video: Physical delete entries coz before publishing those.
+  # Entrybuilder::Query.chinese_spams(
+    # entries: reserve_entries).delete_all
+
   #: over the 2 minutes.
   defp filter_less_than(entries, time \\ 120) do
     Enum.filter(entries, fn(e) ->
