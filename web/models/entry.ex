@@ -283,7 +283,6 @@ defmodule Exblur.Entry do
             terms "review",  [true]
             terms "publish", [true]
             terms "removal", [false]
-            range "time", [gte: 180]  # XXX: over the 3 minutes.
             # terms "divas"  # TODO: specified serach
           end
         end
