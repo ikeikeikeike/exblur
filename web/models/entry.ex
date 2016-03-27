@@ -280,10 +280,6 @@ defmodule Exblur.Entry do
         match_all
       end
 
-      # query do
-        # term "title", ""
-      # end
-
       filter do
         _and [_cache: true] do
           filters do
@@ -345,7 +341,6 @@ defmodule Exblur.Entry do
       # TODO: phrase suggester API: I'm not sure that you want like this right ?
       # TODO: completion suggester API: autocomplete
       # XXX: more like this: relational contents
-
     end
 
     if word do
@@ -385,13 +380,13 @@ defmodule Exblur.Entry do
     Tirexs.DSL.define [type: "entry", index: index], fn(index, es_settings) ->
       settings do
         analysis do
-          filter    "ja_posfilter",     type: "kuromoji_part_of_speech", stoptags: ["助詞-格助詞-一般", "助詞-終助詞"]
+          filter    "ja_posfilter",     type: "kuromoji_neologd_part_of_speech", stoptags: ["助詞-格助詞-一般", "助詞-終助詞"]
 
-          tokenizer "ja_tokenizer",     type: "kuromoji_tokenizer"
+          tokenizer "ja_tokenizer",     type: "kuromoji_neologd_tokenizer"
           tokenizer "ngram_tokenizer",  type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
 
           analyzer  "default",          type: "custom", tokenizer: "ja_tokenizer"
-          analyzer  "ja_analyzer",      type: "custom", tokenizer: "ja_tokenizer", filter: ["kuromoji_baseform", "ja_posfilter", "cjk_width"]
+          analyzer  "ja_analyzer",      type: "custom", tokenizer: "ja_tokenizer", filter: ["kuromoji_neologd_baseform", "ja_posfilter", "cjk_width"]
           analyzer  "ngram_analyzer",                   tokenizer: "ngram_tokenizer"
         end
       end
@@ -411,17 +406,6 @@ defmodule Exblur.Entry do
 
         indexes "tags",           type: "string", index: "not_analyzed"
         indexes "divas",          type: "string", index: "not_analyzed"
-
-        # indexes "tags" ,         [type: "multi_field", fields: [tags:     [type: "string", index: "not_analyzed"],
-                                                                # analized: [type: "string", index: "analyzed", analyzer: "ngram_analyzer"]]]
-        # indexes "divas",         [type: "multi_field", fields: [divas:    [type: "string", index: "not_analyzed"],
-                                                                # analized: [type: "string", index: "analyzed", analyzer: "ngram_analyzer"]]]
-
-        # indexes "tags",          [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
-                                                           # tokenzed: [type: "string", index: "analyzed", analyzer: "ngram_analyzer"]]]
-
-        # indexes "divas",         [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
-                                                           # tokenzed: [type: "string", index: "analyzed", analyzer: "ngram_analyzer"]]]
 
         indexes "title",          type: "string", analyzer: "ja_analyzer"
         # indexes "content",        type: "string", analyzer: "ja_analyzer"

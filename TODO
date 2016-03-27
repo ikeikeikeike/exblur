@@ -5,14 +5,21 @@
 - Set Expires(TTL) in con_cache
 
 
-- Fixed widgh in container using css.
-- To be internationalization to Tag, Diva, Entry Model for template words.
 - Fix facets search in ES
 - Fix word search matches in ES
+- Make Tag list page
+- Make About Site page
+- Make RSS page
+- Make Contact page
+- Make Privacies policy page
+- Make C mark
+- To be internationalization to Tag, Diva, Entry Model for template words.
+- Fixed widgh in container using css.
 - Send mail when the system happended error.
 - Generate sitemap
 - Mongo index
 - Support hreflang. It's able to choose needed language for user and G.
+- Needs more scrapy sites and remove already enabled sites.
 
 - Mix task: reindex diva, entry, tag
 - Mix task: Remove old videos. Its like unable video.
