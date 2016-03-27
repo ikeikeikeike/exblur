@@ -58,7 +58,7 @@ end
         <div class="btn-group pull-right">
 
           <%
-          ten_min_params = take_params(@conn, ~w(list search site_name tag divas))
+          ten_min_params = take_params(@conn, ~w(fs list search site_name tag divas))
           unless @conn.params["ft"], do: ten_min_params = Map.merge ten_min_params, %{"ft" => 600}
           %>
           <a href="<%= entry_path @conn, :index, ten_min_params %>"
@@ -68,7 +68,7 @@ end
           </a>
 
           <%
-          carried_params = ~w(ft page search site_name tag divas)
+          carried_params = ~w(fs ft page search site_name tag divas)
           %>
           <%= if desktop? @conn do %>
             <a href="<%= entry_path @conn, :index, take_params(@conn, carried_params) %>"
@@ -110,7 +110,7 @@ end
 
       <div id="paginator" style='text-align: center;'>
         <%
-        carried_params = ~w(list ft page search site_name tag divas)
+        carried_params = ~w(list fs ft page search site_name tag divas)
         %>
         <%= if desktop? @conn do %>
           <%= pagination_links @conn, @entries, to_keylist(take_params(@conn, carried_params, first: false, last: false)) %>
