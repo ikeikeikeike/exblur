@@ -4,7 +4,8 @@
 - Translate tags to kana and romaji then that creates translated field in tag table if that wants.
 - Set Expires(TTL) in con_cache
 
-
+- upstart script and monit
+- remove less than 3 min video
 - Fix facets search in ES
 - Fix word search matches in ES
 - Make Tag list page

@@ -14,10 +14,6 @@ end
 #content_for :description, @entries.first.content if @entries.first.present?
 %>
 
-<%
-carried_params = ~w(ft page search site_name tag divas)
-%>
-
 <% if false do %>
   mobile:<%= mobile? @conn %>
   desktop:<%= desktop? @conn %>
@@ -71,6 +67,9 @@ carried_params = ~w(ft page search site_name tag divas)
             <small><%= gettext "Over 10 Min" %></small>
           </a>
 
+          <%
+          carried_params = ~w(ft page search site_name tag divas)
+          %>
           <%= if desktop? @conn do %>
             <a href="<%= entry_path @conn, :index, take_params(@conn, carried_params) %>"
                 type="button"
@@ -110,6 +109,9 @@ carried_params = ~w(ft page search site_name tag divas)
       <div class="clearfix"></div>
 
       <div id="paginator" style='text-align: center;'>
+        <%
+        carried_params = ~w(list ft page search site_name tag divas)
+        %>
         <%= if desktop? @conn do %>
           <%= pagination_links @conn, @entries, to_keylist(take_params(@conn, carried_params, first: false, last: false)) %>
         <% end %>
