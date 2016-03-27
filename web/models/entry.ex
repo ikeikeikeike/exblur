@@ -236,13 +236,6 @@ defmodule Exblur.Entry do
   end
 
   def search_data(model) do
-    published_at =
-      case Timex.Ecto.DateTime.cast(model.published_at) do
-        {:ok, at} ->
-          Timex.DateFormat.format!(at, "{ISO}")
-        _ -> model.published_at
-      end
-
     [
       _id: model.id,
       url: model.url,
@@ -257,7 +250,11 @@ defmodule Exblur.Entry do
       publish: model.publish,
       removal: model.removal,
 
-      published_at: published_at,
+      published_at: (case Timex.Ecto.DateTime.cast(model.published_at) do
+        {:ok, at} ->
+          Timex.DateFormat.format!(at, "{ISO}")
+        _ -> model.published_at
+      end),
 
       site_name: (if model.site_id, do: model.site.name, else: ""),
     ]
@@ -287,8 +284,7 @@ defmodule Exblur.Entry do
             terms "publish", [true]
             terms "removal", [false]
             range "time", [gte: 180]  # XXX: over the 3 minutes.
-            # terms "site_name"
-            # terms "divas"
+            # terms "divas"  # TODO: specified serach
           end
         end
       end
@@ -354,19 +350,52 @@ defmodule Exblur.Entry do
       queries = Keyword.put queries, :search, s
     end
 
-    if opt[:filter][:ft] do
+    # XXX: OMG.. Its not dry. Its tirerd that how to build xml in this library. later I'll fixed below.
+    if opt[:filter][:ft] && opt[:filter][:fs] do
       f = Keyword.delete(queries[:search], :filter) ++ Tirexs.Query.Filter.filter do
         _and [_cache: true] do
           filters do
             terms "review",  [true]
             terms "publish", [true]
             terms "removal", [false]
+            terms "site_name", [opt[:filter][:fs]]
             range "time", [gte: opt[:filter][:ft]]
           end
         end
       end
 
       queries = Keyword.put queries, :search, f
+    else
+      if opt[:filter][:fs] do
+        f = Keyword.delete(queries[:search], :filter) ++ Tirexs.Query.Filter.filter do
+          _and [_cache: true] do
+            filters do
+              terms "review",  [true]
+              terms "publish", [true]
+              terms "removal", [false]
+              terms "site_name", [opt[:filter][:fs]]
+            end
+          end
+        end
+
+        queries = Keyword.put queries, :search, f
+      end
+
+      if opt[:filter][:ft] do
+        f = Keyword.delete(queries[:search], :filter) ++ Tirexs.Query.Filter.filter do
+          _and [_cache: true] do
+            filters do
+              terms "review",  [true]
+              terms "publish", [true]
+              terms "removal", [false]
+              range "time", [gte: opt[:filter][:ft]]
+            end
+          end
+        end
+
+        queries = Keyword.put queries, :search, f
+      end
+
     end
 
     queries

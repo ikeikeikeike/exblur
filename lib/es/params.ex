@@ -30,6 +30,7 @@ defmodule Es.Params do
     # filters
     filter = []
     if options[:ft], do: filter = Keyword.put(filter, :ft, options[:ft])
+    if options[:fs], do: filter = Keyword.put(filter, :fs, options[:fs])
 
     [page: page, per_page: per_page, offset: offset, filter: filter]
   end
