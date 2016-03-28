@@ -34,28 +34,6 @@
         <% end %>
       </ul>
 
-      <ul itemscope="itemscope" itemtype="http://www.schema.org/SiteNavigationElement" class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <span class='glyphicon glyphicon-info-sign'></span><%= gettext "About Site" %> <b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu">
-            <li itemprop="name"><a itemprop="url" href="<%#= abouts_path %>">
-              <span class='glyphicon glyphicon-info-sign'></span> <%= gettext "About Site" %>
-            </a></li>
-            <%# <li><a href="">Botについて</a></li> %>
-            <li itemprop="name"><a itemprop="url" href="<%#= Settings.accounts[:twitter][:url] %>" target="_blank">
-                <span class='glyphicon glyphicon-globe'></span> <%= gettext "SNS Account" %>
-            </a></li>
-            <li itemprop="name"><a itemprop="url" href="<%#= rss_path %>" target="_blank">
-                <span class='glyphicon glyphicon-bullhorn'></span> <%= gettext "RSS" %>
-            </a></li>
-            <li itemprop="name"><a itemprop="url" href="<%#= contact_path %>">
-                <span class='glyphicon glyphicon-comment'></span> <%= gettext "Contact" %>
-            </a></li>
-          </ul>
-        </li>
-      </ul>
     </nav>
   </div>
 

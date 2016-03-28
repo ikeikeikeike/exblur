@@ -1,12 +1,6 @@
 <footer>
   <div class="container">
 
-    <p class="text-muted">
-      <h2 style="font-size: 15px;">
-        <span class="glyphicon glyphicon-copyright-mark"></span> 2016 <strong><%#= Settings.site_name %></strong>
-      </h2>
-    </p>
-
     <% if false do %>
     <dl class="dl-horizontal">
       <%# Server.all.each do |site| do %>
@@ -15,6 +9,22 @@
       <%# end %>
     </dl>
     <% end %>
+
+    <ul itemscope="itemscope" itemtype="http://www.schema.org/SiteNavigationElement" class="list-inline">
+      <li itemprop="name"><a itemprop="url" href="<%= about_path @conn, :index %>">
+        <span class='glyphicon glyphicon-info-sign'></span> <%= gettext "About Site" %>
+      </a></li>
+      <%# <li><a href="">Botについて</a></li> %>
+      <li itemprop="name"><a itemprop="url" href="#">
+          <span class='glyphicon glyphicon-comment'></span> <%= gettext "Contact" %>
+      </a></li>
+    </ul>
+
+    <p class="text-muted">
+      <h2 style="font-size: 15px;">
+        <span class="glyphicon glyphicon-copyright-mark"></span> 2015-16 <%= gettext "Copyright" %>
+      </h2>
+    </p>
 
    </div>
 

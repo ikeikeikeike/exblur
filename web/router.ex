@@ -28,12 +28,14 @@ defmodule Exblur.Router do
   scope "/", Exblur do
     pipe_through :browser # Use the default browser stack
 
+    get "/divas", DivaController, :index
+    get "/about", AboutController, :index
     get "/:tag", EntryController, :index, as: :entrytag  # if tag does not exists in database, Exblur throws `not found` exception.
+
     get "/", EntryController, :index
 
     get "/vid/:id/:title", EntryController, :show
 
-    get "/divas", DivaController, :index
     get "/divas/:diva", EntryController, :index, as: :entrydiva
     get "/divas/autocomplete/:search", DivaController, :autocomplete
 
