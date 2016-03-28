@@ -14,7 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "0.2.26"
+    v = "0.2.27"
     File.write! "VERSION", v
     v
   end
@@ -56,7 +56,8 @@ defmodule Exblur.Mixfile do
        :arc_ecto,
        :phoenix_html_simplified_helpers,
        :scrivener_html,
-       :floki
+       :floki,
+       :mailgun
      ]
    ]
   end
@@ -100,6 +101,7 @@ defmodule Exblur.Mixfile do
      {:simple_format, "~> 0.1"},
      {:quantum, "~> 1.7"},
      {:exrm, "~> 1.0"},
+     {:mailgun, "~> 0.1"},
      # {:conform, "~> 2.0", override: true},
      # {:conform_exrm, "~> 1.0"}
     ]

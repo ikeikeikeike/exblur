@@ -8,7 +8,9 @@
         <span class="icon-bar"></span>
       </button>
       <a style="font-size: 14px;" class="navbar-brand" rel="home" href="<%= entry_path(@conn, :index) %>">
-        <img src='<%= static_path @conn, "/images/main-logo.png" %>' alt="bbbbbb" title="aaaaaaa" style='max-width:150px; margin-top: -6px;'/>
+        <img src='<%= static_path @conn, "/images/main-logo.png" %>'
+              alt="<%= gettext "Default Page Title" %>"
+              title="<%= gettext "Default Page Title" %>" style='max-width:150px; margin-top: -6px;'/>
       </a>
     </div>
 

@@ -5,11 +5,8 @@
 - Set Expires(TTL) in con_cache
 
 - Make Tag list page
-- Make About Site page
-- Make RSS page
+- Make Removal page
 - Make Contact page
-- Make Privacies policy page
-- Make policy mark
 - update removal status to entry model like remove record and then send remove api to ES for performance and storage size. its not updating status in ES.
 - Fix word search matches in ES
 - To be internationalization to Tag, Diva, Entry Model for template words.
