@@ -1,0 +1,41 @@
+<div class="container bs-docs-container">
+  <div class="row">
+
+    <div class="page-header">
+      <h1 class="no-heading-style">
+        <strong><span class='glyphicon glyphicon-info-sign'></span> About Site</strong>
+      </h1>
+    </div>
+
+
+    <div id="site-policy" class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="no-heading-style">Site Policy</h2>
+      </div>
+
+      <div class="panel-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <%= gettext "plicy2" %>
+          </li>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 id='feedback-anchor' class="no-heading-style"><%= gettext "Removal Guideline" %></h2>
+      </div>
+
+      <div class="panel-body">
+        <ul class="list-group">
+          <li class="list-group-item"><%= gettext "violation2" %></li>
+          <li class="list-group-item"><%= gettext "violation3" %></li>
+        </ul>
+
+        <a href=""><%= gettext "Removal requests" %></a>
+      </div>
+    </div>
+
+
+  </div>
+</div>
