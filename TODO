@@ -16,6 +16,7 @@
 - Mongo index
 - Support hreflang. It's able to choose needed language for user and G.
 - Needs more scrapy sites and remove already enabled sites.
+- Remove mongo records when the record has bad condition about less than 120 or including url.
 
 - Mix task: reindex diva, entry, tag
 - Mix task: Remove old videos. Its like unable video.
