@@ -30,9 +30,8 @@ defmodule Entrybuilder.Build do
 
     models =
       entries
-      |> ignore_less_than
-      |> ignore_include_url
-      |> filter_ignore
+      |> filter_less_than
+      |> filter_include_url
       |> entry_record
 
     # Put built up document to Elasticsearch
@@ -50,29 +49,28 @@ defmodule Entrybuilder.Build do
     # entries: reserve_entries).delete_all
 
   #: over the 2 minutes.
-  defp ignore_less_than(entries, time \\ 120) do
-    Enum.map(entries, fn(e) ->
-      case e.time < time do
-        true -> Scrapy.already_post(e)
-        _    -> e
-      end
-    end)
-  end
-
-  defp ignore_include_url(entries) do
-    Enum.map(entries, fn(e) ->
-      case Regex.match?(~r/ttps?:\/\//i, e.content || "") do
-        true -> Scrapy.already_post(e)
-        _    -> e
-      end
-    end)
-  end
-
-  defp filter_ignore(entries) do
+  defp filter_less_than(entries, time \\ 120) do
     Enum.filter(entries, fn(e) ->
-      case e do
-        %Exblur.Entry{} -> true
-        _ -> false
+      case e.time < time do
+        true ->
+          Scrapy.already_post(e)
+          false
+
+        _ ->
+          true
+      end
+    end)
+  end
+
+  defp filter_include_url(entries) do
+    Enum.filter(entries, fn(e) ->
+      case Regex.match?(~r/ttps?:\/\//i, e.content || "") do
+        true ->
+          Scrapy.already_post(e)
+          false
+
+        _ ->
+          true
       end
     end)
   end
