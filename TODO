@@ -4,6 +4,8 @@
 - Translate tags to kana and romaji then that creates translated field in tag table if that wants.
 - Set Expires(TTL) in con_cache
 
+
+- http://hashnuke.com/2015/07/19/convenience-hacks-for-using-exrm-with-phoenix-apps.html
 - Make Tag list page
 - Make Removal page
 - Make Contact page
