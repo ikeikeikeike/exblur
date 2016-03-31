@@ -5,12 +5,12 @@
 - Set Expires(TTL) in con_cache
 
 
+- Make Tag list page
+- Support hreflang. It's able to choose needed language for user and G.
+- Fixed flash message in reception pages. Its not showing that coz that is caching by nginx on GET request.
 - http://hashnuke.com/2015/07/19/convenience-hacks-for-using-exrm-with-phoenix-apps.html
 - To be match result in show page's related entries.
-- Find diva names from title and content with specific condition.
-- Make Tag list page
-- Make Removal page
-- Make Contact page
+- Fixes: that will store diva name to database by title and content with specific condition.
 - update removal status to entry model like remove record and then send remove api to ES for performance and storage size. its not updating status in ES.
 - Fix word search matches in ES
 - To be internationalization to Tag, Diva, Entry Model for template words.
@@ -18,7 +18,6 @@
 - Send mail when the system happended error.
 - Generate sitemap
 - Mongo index
-- Support hreflang. It's able to choose needed language for user and G.
 - Needs more scrapy sites and remove already enabled sites.
 - Remove mongo records when the record has bad condition about less than 120 or including url.
 
