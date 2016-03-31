@@ -1,46 +1,40 @@
-<%#
-content_for :title, "違反動画の報告"
-content_for :keywords, "違反動画の報告,メール"
-content_for :description, "#{Settings.site_name}へご意見やご要望がございましたらこちらよりご連絡下さい。"
-%>
-
 <div class="container bs-docs-container">
 
   <div class="span6 offset3">
 
     <div class="page-header">
       <h1 class="no-heading-style">
-        <strong><span class='glyphicon glyphicon-comment'></span> 違反動画の報告</strong>
+        <strong><span class='glyphicon glyphicon-comment'></span> <%= gettext "Removal Requests" %></strong>
       </h1>
     </div>
 
-    <%= form_for @conn, reception_path(@conn, :index), [as: :reception], fn f -> %>
-    <%#= form_for @feedback, url: feedback_path, method: 'post' do |f| %>
+    <%= form_for @conn, reception_path(@conn, :removal), [as: :reception], fn f -> %>
 
-      <%= if false do %>
-        <%# if error %>
-          <div class="alert alert-danger">
-            <strong><%#= error %></strong>
-          </div>
-        <%# elsif success %>
-          <div class="alert alert-success">
-            <strong><%#= success %></strong>
-          </div>
-        <%# end %>
+      <%= if info = get_flash(@conn, :info) do %>
+        <div class="alert alert-success">
+          <strong><%= info %></strong>
+        </div>
+      <% end %>
+      <%= if error = get_flash(@conn, :error) do %>
+        <div class="alert alert-danger">
+          <strong><%= error %></strong>
+        </div>
       <% end %>
 
       <div class="row">
         <label class="sr-only" for="inputEmail1"><%= gettext "Please fill out E-mail form specificaly" %></label>
         <label class="col-xs-4" for="inputEmail1"><%= gettext "E-Mail" %></label>
         <div class="col-xs-8">
-          <%= email_input f, :email, id: "inputEmail1", class: "form-control", placeholder: "example@gmail.com", required: false %>
+          <%= email_input f, :email, id: "inputEmail1", class: "form-control", placeholder: "example@gmail.com", required: true, value: "" %>
+          <%#= error_tag f, :email %>
         </div>
       </div>
       <div class="row">
         <label class="sr-only" for="inputSubject1"><%= gettext "Please fill out Subject form specificaly" %></label>
         <label class="col-xs-4" for="inputSubject1"><%=  gettext "Subject" %></label>
         <div class="col-xs-8">
-          <%= text_input f, :subject, id: "inputSubject1", class: "form-control", placeholder: gettext("About something"), required: true %>
+          <%= text_input f, :subject, id: "inputSubject1", class: "form-control", placeholder: gettext("Title"), required: true %>
+          <%#= error_tag f, :subject %>
         </div>
       </div>
       <div class="row">
@@ -52,6 +46,7 @@ content_for :description, "#{Settings.site_name}へご意見やご要望がご�
           <%= textarea f, :body, id: "TextArea", class: "form-control", rows: "8", cols: "0", required: true,
             placeholder: gettext "Please write anything specifically."
           %>
+          <%#= error_tag f, :body %>
         </div>
       </div>
       <div class="row">
