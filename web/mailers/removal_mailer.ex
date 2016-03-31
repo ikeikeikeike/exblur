@@ -1,16 +1,37 @@
 # https://github.com/chrismccord/mailgun/
-defmodule Exblur.RemovalMailer do
+defmodule Exblur.ReceptionMailer do
   @config domain: Application.get_env(:exblur, :mailer)[:mailgun_domain],
           key: Application.get_env(:exblur, :mailer)[:mailgun_key]
   use Mailgun.Client, @config
 
   @from Application.get_env(:exblur, :mailer)[:from]
 
-  def send_removal_request(email, subject, message) do
+  def send_removal_request(%{"email" => email, "subject" => subject, "body" => body}) do
     send_email to: Application.get_env(:exblur, :mailer)[:me],
                from: @from,
-               subject: "From Mailgun: #{subject}",
-               text: message
+               subject: "From Mailgun as removal request: #{subject}",
+               text: body
+
+    send_email to: email,
+               from: @from,
+               subject: "We've received your body.",
+               text: """
+               We've received your body below.
+
+               ---
+               subject: #{subject}
+               body: #{body}
+
+               ---
+               Thanks.
+               """
+  end
+
+  def send_contact(%{"email" => email, "subject" => subject, "body" => body}) do
+    send_email to: Application.get_env(:exblur, :mailer)[:me],
+               from: @from,
+               subject: "From Mailgun as contact: #{subject}",
+               text: body
 
     send_email to: email,
                from: @from,
@@ -19,19 +40,13 @@ defmodule Exblur.RemovalMailer do
                We've received your message below.
 
                ---
-               #{subject}
-               #{message}
+               subject: #{subject}
+               body: #{body}
 
                ---
-               Thanks.
+               Thank you for your contact.
                """
   end
 
-  # def send_welcome_html_email(email) do
-    # send_email to: email,
-               # from: @from,
-               # subject: "hello!",
-               # html: "<strong>Welcome!</strong>"
-  # end
 end
 

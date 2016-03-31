@@ -28,8 +28,11 @@ defmodule Exblur.Router do
   scope "/", Exblur do
     pipe_through :browser # Use the default browser stack
 
-    get "/reception", ReceptionController, :index
-    get "/contact", ContactController, :index
+    get  "/reception/contact", ReceptionController, :contact
+    post "/reception/contact", ReceptionController, :contact
+    get  "/reception/removal", ReceptionController, :removal
+    post "/reception/removal", ReceptionController, :removal
+
     get "/divas", DivaController, :index
     get "/about", AboutController, :index
     get "/:tag", EntryController, :index, as: :entrytag  # if tag does not exists in database, Exblur throws `not found` exception.

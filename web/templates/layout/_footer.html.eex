@@ -15,7 +15,7 @@
         <span class='glyphicon glyphicon-info-sign'></span> <%= gettext "About Site" %>
       </a></li>
       <%# <li><a href="">Botについて</a></li> %>
-      <li itemprop="name"><a itemprop="url" href="#">
+      <li itemprop="name"><a itemprop="url" href="<%= reception_path @conn, :contact %>">
           <span class='glyphicon glyphicon-comment'></span> <%= gettext "Contact" %>
       </a></li>
     </ul>
