@@ -14,56 +14,53 @@ content_for :description, "#{Settings.site_name}へご意見やご要望がご�
       </h1>
     </div>
 
+    <%= form_for @conn, reception_path(@conn, :index), [as: :reception], fn f -> %>
     <%#= form_for @feedback, url: feedback_path, method: 'post' do |f| %>
 
-      <%# if error %>
-        <div class="alert alert-danger">
-          <strong><%#= error %></strong>
-        </div>
-      <%# elsif success %>
-        <div class="alert alert-success">
-          <strong><%#= success %></strong>
-        </div>
-      <%# end %>
-
+      <%= if false do %>
+        <%# if error %>
+          <div class="alert alert-danger">
+            <strong><%#= error %></strong>
+          </div>
+        <%# elsif success %>
+          <div class="alert alert-success">
+            <strong><%#= success %></strong>
+          </div>
+        <%# end %>
+      <% end %>
 
       <div class="row">
-        <label class="sr-only" for="inputEmail1">メールアドレスを入力しください</label>
-        <label class="col-xs-4" for="inputEmail1">メール</label>
+        <label class="sr-only" for="inputEmail1"><%= gettext "Please fill out E-mail form specificaly" %></label>
+        <label class="col-xs-4" for="inputEmail1"><%= gettext "E-Mail" %></label>
         <div class="col-xs-8">
-          <%#= f.email_field :email, id: "inputEmail1", class: 'form-control', placeholder: "example@gmail.com", required: false %>
+          <%= email_input f, :email, id: "inputEmail1", class: "form-control", placeholder: "example@gmail.com", required: false %>
         </div>
       </div>
       <div class="row">
-        <label class="sr-only" for="inputSubject1">件名を入力しください</label>
-        <label class="col-xs-4" for="inputSubject1">件名</label>
+        <label class="sr-only" for="inputSubject1"><%= gettext "Please fill out Subject form specificaly" %></label>
+        <label class="col-xs-4" for="inputSubject1"><%=  gettext "Subject" %></label>
         <div class="col-xs-8">
-          <%#= f.text_field :subject, id: "inputSubject1", class: 'form-control', placeholder: '違反動画の報告', required: true %>
+          <%= text_input f, :subject, id: "inputSubject1", class: "form-control", placeholder: gettext("About something"), required: true %>
         </div>
       </div>
       <div class="row">
-        <label class="sr-only" for="TextArea">本文を入力しください</label>
-        <label class="col-xs-12" for="TextArea">本文</label>
+        <label class="sr-only" for="TextArea"><%= gettext "Please fill out Body form specificaly" %></label>
+        <label class="col-xs-12" for="TextArea"><%= gettext "Body" %></label>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <%#= f.text_area :body, id: "TextArea", class: 'form-control', size: '0x8', required: true,
-            placeholder: '動画IDまたはURL、詳細をご記入ください。'
+          <%= textarea f, :body, id: "TextArea", class: "form-control", rows: "8", cols: "0", required: true,
+            placeholder: gettext "Please write anything specifically."
           %>
         </div>
       </div>
       <div class="row">
-        <label class="sr-only" for="TextArea">以上の内容を送信いたします</label>
+        <label class="sr-only" for="TextArea"><%= gettext "That's all" %></label>
         <div class="col-xs-12">
-          <%#= submit_tag nil, class: 'btn btn-warning btn-block btn-large' %>
+          <%= submit "Submit", class: "btn btn-warning btn-block btn-large" %>
         </div>
       </div>
-    <%# end %>
-
-    <p class='help-block'>
-    違反動画については<a href='<%#= abouts_path %>#feedback-anchor'><strong>違反動画ガイドライン</strong></a>を御覧ください。<br />
-    いただいたご報告への返信は原則として行っておりません。今後とも<%#= Settings.site_name %>を宜しくお願い致します。
-    </p>
+    <% end %>
 
   </div>
 

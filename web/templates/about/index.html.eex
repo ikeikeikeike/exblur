@@ -32,7 +32,7 @@
           <li class="list-group-item"><%= gettext "violation3" %></li>
         </ul>
 
-        <a href=""><%= gettext "Removal requests" %></a>
+        <a href="<%= reception_path @conn, :index %>"><%= gettext "Removal requests" %></a>
       </div>
     </div>
 
