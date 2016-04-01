@@ -5,7 +5,9 @@
 - Set Expires(TTL) in con_cache
 
 
+
 - Make Tag list page
+- Scraping more sites
 - Support hreflang. It's able to choose needed language for user and G.
 - Fixed flash message in reception pages. Its not showing that coz that is caching by nginx on GET request.
 - http://hashnuke.com/2015/07/19/convenience-hacks-for-using-exrm-with-phoenix-apps.html
