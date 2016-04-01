@@ -9,7 +9,7 @@
 - Make Tag list page
 - Scraping more sites
 - Support hreflang. It's able to choose needed language for user and G.
-- Fixed flash message in reception pages. Its not showing that coz that is caching by nginx on GET request.
+- Fixed flash message in reception pages. Its not still showing because that is cached by nginx on GET request.
 - http://hashnuke.com/2015/07/19/convenience-hacks-for-using-exrm-with-phoenix-apps.html
 - To be match result in show page's related entries.
 - Fixes: that will store diva name to database by title and content with specific condition.
