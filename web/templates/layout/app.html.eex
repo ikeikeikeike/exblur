@@ -12,6 +12,12 @@
   <meta name="google-site-verification" content="<%= Application.get_env(:exblur, :sitemap)[:verify] %>" />
 
   <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+
+  <!-- Generate link alternate tags -->
+  <%#= for {lang, path} <- language_annotations(@conn) do %>
+    <%#= Phoenix.HTML.Tag.tag(:link, rel: "alternate", hreflang: lang, href: path) %>
+  <%# end %>
+
 </head>
 
 <body>

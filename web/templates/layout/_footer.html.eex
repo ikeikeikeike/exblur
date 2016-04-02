@@ -11,13 +11,27 @@
     <% end %>
 
     <ul itemscope="itemscope" itemtype="http://www.schema.org/SiteNavigationElement" class="list-inline">
-      <li itemprop="name"><a itemprop="url" href="<%= about_path @conn, :index %>">
-        <span class='glyphicon glyphicon-info-sign'></span> <%= gettext "About Site" %>
+      <li class="dropup">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <%= String.upcase locale %> <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li itemprop="name"><a itemprop="url" href="?locale=en">
+            <span class="flag-icon flag-icon-background flag-icon-us"></span> English</span>
+          </a></li>
+          <li itemprop="name"><a itemprop="url" href="?locale=ja">
+            <span class="flag-icon flag-icon-background flag-icon-jp"></span> Japanese</span>
+          </a></li>
+        </ul>
+      </li>
+      <li itemprop="name"class=''><a itemprop="url" href="<%= about_path @conn, :index %>">
+        <%= gettext "About Site" %>
       </a></li>
       <%# <li><a href="">Botについて</a></li> %>
-      <li itemprop="name"><a itemprop="url" href="<%= reception_path @conn, :contact %>">
-          <span class='glyphicon glyphicon-comment'></span> <%= gettext "Contact" %>
+      <li itemprop="name" class=''><a itemprop="url" href="<%= reception_path @conn, :contact %>">
+        <%= gettext "Contact" %>
       </a></li>
+
     </ul>
 
     <p class="text-muted">

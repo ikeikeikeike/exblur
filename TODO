@@ -5,30 +5,31 @@
 - Set Expires(TTL) in con_cache
 
 
+- Support hreflang. It's able to choose needed language for user and G.
+- Fixes: that will store diva name to database by title and content with specific condition.
+- To be internationalization to Tag, Diva, Entry Model for template words.
+- Mongo index
+- Remove mongo records when the record has bad condition about less than 120 or including url.
+- Needs more scrapy sites and remove already enabled sites.
+- update removal status to entry model like remove record and then send remove api to ES for performance and storage size. its not updating status in ES.
+- To video time format. entry.published_at.iso8601
+- Mix task: Dead link checker.
+- Mix task: Remove old videos. Its like unable video.
 
 - Make Tag list page
 - Scraping more sites
-- Support hreflang. It's able to choose needed language for user and G.
 - Fixed flash message in reception pages. Its not still showing because that is cached by nginx on GET request.
 - http://hashnuke.com/2015/07/19/convenience-hacks-for-using-exrm-with-phoenix-apps.html
 - To be match result in show page's related entries.
-- Fixes: that will store diva name to database by title and content with specific condition.
-- update removal status to entry model like remove record and then send remove api to ES for performance and storage size. its not updating status in ES.
 - Fix word search matches in ES
-- To be internationalization to Tag, Diva, Entry Model for template words.
+
 - Fixed widgh in container using css.
 - Send mail when the system happended error.
 - Generate sitemap
-- Mongo index
-- Needs more scrapy sites and remove already enabled sites.
-- Remove mongo records when the record has bad condition about less than 120 or including url.
 
 - Mix task: reindex diva, entry, tag
-- Mix task: Remove old videos. Its like unable video.
-- Mix task: Dead link checker.
 - Suggestion with Image.
 - Translator's Agent to be follow Application system
-- To video time format. entry.published_at.iso8601
 - Autocomplete(suggestion) performance improving.
 - Version up Elasticsearch
 - Mongo auth for securty

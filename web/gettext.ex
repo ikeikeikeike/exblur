@@ -40,4 +40,13 @@ defmodule Exblur.Gettext do
       nil
     end
   end
+
+  def supported_locales do
+    known = Gettext.known_locales(Exblur.Gettext)
+    allowed = Application.get_env(:exblur, Exblur.Gettext)[:locales]
+
+    Set.intersection(Enum.into(known, HashSet.new), Enum.into(allowed, HashSet.new))
+    |> Set.to_list
+  end
+
 end
