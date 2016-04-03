@@ -20,7 +20,8 @@ defmodule Plug.Exblur.AssignLocale do
 
     cond do
       ses ->
-        {Plug.Conn.put_resp_header(conn, "X-Accel-Expires", "0"), ses}
+        # Plug.Conn.put_resp_header(conn, "X-Accel-Expires", "0")
+        {conn, ses}
       ecc  ->
         {conn, ecc}
     end
