@@ -7,6 +7,7 @@
 
 - Support hreflang. It's able to choose needed language for user and G. nginx
 
+- Imitate pop up searching on mobile page.
 - Fixes: that will store diva name to database by title and content with specific condition.
 - Make Tag list page
 - Make Diva list page
