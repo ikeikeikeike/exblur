@@ -5,8 +5,12 @@
 - Set Expires(TTL) in con_cache
 
 
-- Support hreflang. It's able to choose needed language for user and G.
+- Support hreflang. It's able to choose needed language for user and G. nginx
+
 - Fixes: that will store diva name to database by title and content with specific condition.
+- Make Tag list page
+- Make Diva list page
+
 - To be internationalization to Tag, Diva, Entry Model for template words.
 - Mongo index
 - Remove mongo records when the record has bad condition about less than 120 or including url.
@@ -16,7 +20,6 @@
 - Mix task: Dead link checker.
 - Mix task: Remove old videos. Its like unable video.
 
-- Make Tag list page
 - Scraping more sites
 - Fixed flash message in reception pages. Its not still showing because that is cached by nginx on GET request.
 - http://hashnuke.com/2015/07/19/convenience-hacks-for-using-exrm-with-phoenix-apps.html
