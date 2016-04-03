@@ -28,4 +28,19 @@ defmodule Exblur.TagController do
     end
   end
 
+  def index(conn, _params) do
+    tags = Repo.all Exblur.Tag
+
+    # where = where_cond
+
+    # @related_entries = VideoEntry.search(
+      # '*',
+      # limit: 1,
+      # facets: {tags: {where: where, limit: 12} },
+      # fields: [:tags]
+    # )
+
+    render(conn, "index.html", tags: tags)
+  end
+
 end

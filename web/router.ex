@@ -33,6 +33,7 @@ defmodule Exblur.Router do
     get  "/reception/removal", ReceptionController, :removal
     post "/reception/removal", ReceptionController, :removal
 
+    get "/tags", TagController, :index
     get "/divas", DivaController, :index
     get "/about", AboutController, :index
     get "/:tag", EntryController, :index, as: :entrytag  # if tag does not exists in database, Exblur throws `not found` exception.

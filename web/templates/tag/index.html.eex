@@ -1,0 +1,27 @@
+<div class='container'>
+
+  <ol class="breadcrumb">
+    <li><a data-no-turbolink="1" href="#">Home</a></li>
+    <li class="active">POPULAR TAGS</li>
+  </ol>
+
+  <h1 class="main-heading text-center">
+    <strong><span class='glyphicon glyphicon-tags'></span> POPULAR TAGS</strong>
+  </h1>
+
+  <br /><div class='clearfix'></div>
+
+  <ul class="list-inline">
+    <%= for tag <- @tags do %>
+      <li>
+        <a href="<%= entrytag_path @conn, :index, tag.name %>"
+           title="<%= tag.name %> のエロ動画を表示"
+           data-no-turbolink="1"
+           rel="category tag"
+        >
+        <h2 style='font-weight: bold;' class="no-heading-style"><%= tag.name %> <em class='badge alert-warning'><%#= tag.count %></em></h2>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</div>
