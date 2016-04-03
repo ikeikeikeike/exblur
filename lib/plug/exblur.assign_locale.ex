@@ -1,4 +1,5 @@
 defmodule Plug.Exblur.AssignLocale do
+  alias Conn, as: Conn
   alias Exblur.Gettext, as: I18n
 
   def init(opts), do: opts
@@ -7,28 +8,28 @@ defmodule Plug.Exblur.AssignLocale do
     {conn, lang_tag} = choose_locale_then_proxycache(conn)
 
     locale = I18n.find_locale(lang_tag) || I18n.default_locale
-    Plug.Conn.assign(conn, :locale, locale)
+    Conn.assign(conn, :locale, locale)
   end
 
   defp choose_locale_then_proxycache(conn) do
     if locale = conn.params["locale"] do
-      conn = Plug.Conn.put_session(conn, :locale, locale)
+      conn = Conn.put_session(conn, :locale, locale)
     end
 
-    session_lang = Plug.Conn.get_session(conn, :locale)
-    eccept_lang = List.first(extract_accept_language(conn))
+    ses = Conn.get_session(conn, :locale)
+    ecc = List.first(extract_accept_language(conn))
 
     cond do
-      session_lang ->
-        {Plug.Conn.put_resp_header(conn, "X-Accel-Expires", "0"), session_lang}
-      eccept_lang  ->
-        {conn, eccept_lang}
+      ses ->
+        {Conn.put_resp_header(conn, "X-Accel-Expires", "0"), ses}
+      ecc  ->
+        {conn, ecc}
     end
   end
 
   # Adapted from http://code.parent.co/practical-i18n-with-phoenix-and-elixir/
   defp extract_accept_language(conn) do
-    case conn |> Plug.Conn.get_req_header("accept-language") do
+    case conn |> Conn.get_req_header("accept-language") do
       [value|_] ->
         value
         |> String.replace(" ", "")
