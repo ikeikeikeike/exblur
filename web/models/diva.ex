@@ -128,7 +128,8 @@ defmodule Exblur.Diva do
       settings do
         analysis do
           tokenizer "ngram_tokenizer", type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
-          analyzer  "ngram_analyzer",  tokenizer: "ngram_tokenizer"
+          analyzer  "default",         type: "custom", tokenizer: "ngram_tokenizer"
+          analyzer  "ngram_analyzer",                  tokenizer: "ngram_tokenizer"
         end
       end
       |> ppquery
@@ -138,12 +139,9 @@ defmodule Exblur.Diva do
 
     Tirexs.DSL.define [type: "diva", index: index], fn(index, es_settings) ->
       mappings do
-        indexes "name",   [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
-                                                    tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
-        indexes "kana",   [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
-                                                    tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
-        indexes "romaji", [type: "string", fields: [raw:      [type: "string", index: "not_analyzed"],
-                                                    tokenzed: [type: "string", index: "analyzed",     analyzer: "ngram_analyzer"]]]
+        indexes "name",   type: "string", analyzer: "ngram_analyzer"
+        indexes "kana",   type: "string", analyzer: "ngram_analyzer"
+        indexes "romaji", type: "string", analyzer: "ngram_analyzer"
       end
       |> ppquery
 
