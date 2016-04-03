@@ -39,8 +39,7 @@ end
                        placeholder="<%= gettext "Search XXX Videos" %>"
                        value='<%= @conn.params["search"] %><%= @conn.params["tag"] %>' autocomplete='on' />
               </div>
-            <% end %>
-            <%= if smartphone?(@conn) do %>
+            <% else %>
               <input class="form-control search-query js-autocomplete-firedom readonly-white"
                      data-toggle="modal" data-target=".k-search-modal-sm"
                      placeholder="<%= gettext "Search XXX Videos" %>" readonly
