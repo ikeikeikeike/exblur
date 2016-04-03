@@ -12,6 +12,20 @@
     }
 }
 
+@media (min-width: 330px) and (orientation: portrait) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 106%;
+    }
+}
+
+@media (min-width: 350px) and (orientation: portrait) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 111%;
+    }
+}
+
 @media (min-width: 370px) and (orientation: portrait) {
     .responsive-visible-modal {
         height: 0;
@@ -79,6 +93,19 @@
     .responsive-visible-modal {
         height: 0;
         width: 195%;
+    }
+}
+
+/* for Nexsus 5X */
+@media
+(min-width: 410px) and
+(max-width: 412px) and
+(min-height: 305px) and
+(max-height: 310px) and
+(orientation: landscape) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 129%;
     }
 }
 
