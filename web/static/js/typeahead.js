@@ -7,11 +7,7 @@ $(document).on('ready', function() {
       $(this).find('input[name="search"]').focus();
     });
     $modal.on('hidden.bs.modal', function() {
-      $('input.js-autocomplete-firedom')
-        .blur()
-        .val($(this).find('input[name="search"]').val());
-
-      $('.form-control.search-query.typeahead').focus();
+      $('input.js-autocomplete-firedom').val($(this).find('input[name="search"]').val());
     });
   }
 
