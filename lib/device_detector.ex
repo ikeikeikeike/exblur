@@ -40,4 +40,36 @@ defmodule DeviceDetector do
     end
   end
 
+  def smartphone?(%Plug.Conn{} = conn) do
+    conn
+    |> Plug.Conn.get_req_header("user-agent")
+    |> List.first
+    |> smartphone?
+  end
+  def smartphone?(useragent) do
+    case mobile?(useragent) && Parser.parse(useragent) do
+      %Result{device: %Result.Device{type: "tablet"}} -> false
+      %Result{device: %Result.Device{type: "smart display"}} -> false
+      %Result{device: %Result.Device{type: "car browser"}} -> false
+      _ -> true
+    end
+  end
+
+  def tabled?(%Plug.Conn{} = conn) do
+    conn
+    |> Plug.Conn.get_req_header("user-agent")
+    |> List.first
+    |> tabled?
+  end
+  def tabled?(useragent) do
+    case mobile?(useragent) && Parser.parse(useragent) do
+      %Result{device: %Result.Device{type: "smartphone"}} -> false
+      %Result{device: %Result.Device{type: "feature phone"}} -> false
+      %Result{device: %Result.Device{type: "phablet"}} -> false
+      %Result{device: %Result.Device{type: "portable media player"}} -> false
+      %Result{device: %Result.Device{type: "camera"}} -> false
+      _ -> true
+    end
+  end
+
 end

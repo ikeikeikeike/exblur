@@ -32,14 +32,15 @@ end
           <div class='input-group <%= if mobile?(@conn), do: "input-group-sm" %>'
                style='display: inline-table; width: <%= if mobile?(@conn), do: 100, else: 114 %>%;'>
 
-            <%= if desktop?(@conn) do %>
+            <%= if desktop?(@conn) || tabled?(@conn) do %>
               <div id="remote">
                 <input style='width: 100%;' class="form-control search-query typeahead"
                        type="search" name="search"
                        placeholder="<%= gettext "Search XXX Videos" %>"
                        value='<%= @conn.params["search"] %><%= @conn.params["tag"] %>' autocomplete='on' />
               </div>
-            <% else %>
+            <% end %>
+            <%= if smartphone?(@conn) do %>
               <input class="form-control search-query js-autocomplete-firedom"
                      data-toggle="modal" data-target=".k-search-modal-sm"
                      placeholder="<%= gettext "Search XXX Videos" %>" autofocus="false"
@@ -53,11 +54,11 @@ end
           </div>
         </form>
 
-        <%= if mobile?(@conn) do %>
+        <%= if smartphone?(@conn) do %>
           <!-- start: Search Modal -->
           <div class="modal fade k-search-modal-sm js-autocomplete-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalDialog" aria-hidden="true">
             <div class="modal-dialog modal-sm">
-              <div class="modal-content" style='height: 0; width: 102%;'>
+              <div class="modal-content responsive-visible-modal">
                 <form class="form" role="search" action="<%= entry_path(@conn, :index) %>">
                   <div class="input-group">
                     <label class="sr-only" for="searchInput1"><%= gettext "Let fill out search word for XXX videos" %></label>

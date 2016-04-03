@@ -1,3 +1,129 @@
+@media (min-width: 200px) and (orientation: portrait) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 100%;
+    }
+}
+
+@media (min-width: 310px) and (orientation: portrait) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 102%;
+    }
+}
+
+@media (min-width: 370px) and (orientation: portrait) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 115%;
+    }
+}
+
+@media (min-width: 410px) and (orientation: portrait) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 125%;
+    }
+}
+
+@media (min-width: 413px) and (orientation: portrait) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 128%;
+    }
+}
+
+@media (min-width: 430px) and (orientation: portrait) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 133%;
+    }
+}
+
+@media (min-width: 450px) and (orientation: portrait) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 140%;
+    }
+}
+
+@media (min-width: 700px) and (orientation: portrait) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 230%;
+    }
+}
+
+@media (min-width: 200px) and (orientation: landscape) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 200%;
+    }
+}
+
+@media (min-width: 310px) and (orientation: landscape) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 202%;
+    }
+}
+
+@media (min-width: 370px) and (orientation: landscape) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 215%;
+    }
+}
+
+@media (min-width: 410px) and (orientation: landscape) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 195%;
+    }
+}
+
+@media (min-width: 430px) and (orientation: landscape) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 203%;
+    }
+}
+
+@media (min-width: 550px) and (orientation: landscape) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 182%;
+    }
+}
+
+@media (min-width: 640px) and (orientation: landscape) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 207%;;
+    }
+}
+
+@media (min-width: 660px) and (orientation: landscape) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 214%;;
+    }
+}
+
+@media (min-width: 680px) and (orientation: landscape) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 222%;
+    }
+}
+
+@media (min-width: 720px) and (orientation: landscape) {
+    .responsive-visible-modal {
+        height: 0;
+        width: 235%;
+    }
+}
+
 /*
  * typehead.js-bootstrap3.less
  * @version 0.2.3
