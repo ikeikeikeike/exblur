@@ -17,10 +17,10 @@
             <%= String.upcase locale %> <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <li itemprop="name"><a itemprop="url" href="?locale=en">
+            <li class="disabled" itemprop="name"><a itemprop="url" href="javascript:;">
               <span class="flag-icon flag-icon-background flag-icon-us"></span> English</span>
             </a></li>
-            <li itemprop="name"><a itemprop="url" href="?locale=ja">
+            <li class="disabled" itemprop="name"><a itemprop="url" href="javascript:;">
               <span class="flag-icon flag-icon-background flag-icon-jp"></span> Japanese</span>
             </a></li>
           </ul>

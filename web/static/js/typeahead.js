@@ -4,10 +4,14 @@ $(document).on('ready', function() {
   if (window.isMobile) {
     $modal = $('.js-autocomplete-modal');
     $modal.on('shown.bs.modal', function() {
-      return $(this).find('input[name="search"]').focus();
+      $(this).find('input[name="search"]').focus();
     });
     $modal.on('hidden.bs.modal', function() {
-      return $('input.js-autocomplete-firedom').val($(this).find('input[name="search"]').val());
+      $('input.js-autocomplete-firedom')
+        .blur()
+        .val($(this).find('input[name="search"]').val());
+
+      $('.form-control.search-query.typeahead').focus();
     });
   }
 
