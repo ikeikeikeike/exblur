@@ -1,3 +1,7 @@
+.readonly-white[readonly] {
+    background-color: #FFF;
+}
+
 @media (min-width: 200px) and (orientation: portrait) {
     .responsive-visible-modal {
         height: 0;
