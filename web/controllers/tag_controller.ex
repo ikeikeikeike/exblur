@@ -30,18 +30,8 @@ defmodule Exblur.TagController do
 
   def index(conn, _params) do
     tags =
-      Exblur.Tag
-      |> limit([_e], 3001)
-      |> Repo.all
-
-    # where = where_cond
-
-    # @related_entries = VideoEntry.search(
-      # '*',
-      # limit: 1,
-      # facets: {tags: {where: where, limit: 12} },
-      # fields: [:tags]
-    # )
+      Exblur.Entry.tag_facets
+      |> Tirexs.Query.result
 
     render(conn, "index.html", tags: tags)
   end

@@ -402,6 +402,53 @@ defmodule Exblur.Entry do
     |> Tirexs.Query.create_resource
   end
 
+  def tag_facets do
+    queries = Tirexs.Search.search [index: get_index, fields: [], from: 0, size: 0] do
+      facets do
+        tags do
+          terms field: "tags", size: 1000
+          facet_filter do
+            _and [_cache: true] do
+              filters do
+                terms "review",  [true]
+                terms "publish", [true]
+                terms "removal", [false]
+              end
+            end
+          end
+        end
+      end
+    end
+
+    queries
+    |> ppquery
+    |> Tirexs.Query.create_resource
+  end
+
+  def diva_facets do
+    queries = Tirexs.Search.search [index: get_index, fields: [], from: 0, size: 0] do
+      facets do
+        divas do
+          terms field: "divas", size: 1000
+          facet_filter do
+            _and [_cache: true] do
+              filters do
+                terms "review",  [true]
+                terms "publish", [true]
+                terms "removal", [false]
+              end
+            end
+          end
+        end
+      end
+    end
+
+    queries
+    |> ppquery
+    |> Tirexs.Query.create_resource
+
+  end
+
   # settings = Tirexs.ElasticSearch.config()
   # Tirexs.ElasticSearch.delete("exblur_video_entreis", settings)
 

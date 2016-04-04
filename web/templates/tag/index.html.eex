@@ -2,18 +2,19 @@
 
   <ol class="breadcrumb">
     <li><a href="/">Home</a></li>
-    <li class="active">ALL Tags</li>
+    <li class="active">Tags</li>
   </ol>
 
   <ul class="list-inline">
-    <%= for tag <- @tags do %>
+    <%= for term <- @tags[:facets][:tags][:terms] do %>
       <li>
-        <a href="<%= entrytag_path @conn, :index, tag.name %>"
-           title="<%= tag.name %> のエロ動画を表示"
-           data-no-turbolink="1"
+        <a href="<%= entrytag_path @conn, :index,  term[:term] %>"
+           title="<%= gettext "Jump to %{tag}'s video results", tag: term[:term] %>"
            rel="category tag"
         >
-        <h2 style='font-weight: bold;' class="no-heading-style"><%= tag.name %> <em class='badge alert-warning'><%#= tag.count %></em></h2>
+          <h2 style='font-weight: bold;' class="no-heading-style">
+            <%= term[:term] %> <em class='badge' style='padding: 2px 4px; background-color: #ABABAB; font-size: 7px;'><%= term[:count] %></em>
+          </h2>
         </a>
       </li>
     <% end %>
