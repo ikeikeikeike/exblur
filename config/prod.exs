@@ -18,7 +18,7 @@ config :exblur, Exblur.Endpoint,
   server: true
 
 # Do not print debug messages in production
-config :logger, level: :info
+config :logger, level: :warn
 
 # ## SSL Support
 #
