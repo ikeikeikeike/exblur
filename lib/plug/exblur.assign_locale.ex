@@ -8,10 +8,8 @@ defmodule Plug.Exblur.AssignLocale do
     # {conn, lang_tag} = choose_locale_then_proxycache(conn)
     lang_tag = List.first(extract_accept_language(conn))
 
-    locale = I18n.find_locale(lang_tag) || I18n.default_locale
+    locale = I18n.find_locale(lang_tag || I18n.default_locale)
     Plug.Conn.assign(conn, :locale, locale)
-  catch
-    e -> Logger.error(e)
   end
 
   defp choose_locale_then_proxycache(conn) do
