@@ -29,7 +29,10 @@ defmodule Exblur.TagController do
   end
 
   def index(conn, _params) do
-    tags = Repo.all Exblur.Tag
+    tags =
+      Exblur.Tag
+      |> limit([_e], 3001)
+      |> Repo.all
 
     # where = where_cond
 

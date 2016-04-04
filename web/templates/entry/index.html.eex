@@ -126,7 +126,7 @@ end
         <h2 class="no-heading-style">
           <%= if @conn.params["search"] do %>
             <em class="badge"><%= @conn.params["search"] %></em>
-            <%= gettext "Search - %{num} results", num: number_with_delimiter(@entries.total_entries) %>
+            <%= gettext "Found - %{num} results", num: number_with_delimiter(@entries.total_entries) %>
           <% else %>
             <em class="badge"><%= number_with_delimiter(@entries.total_entries) %></em> <%= gettext "Showing" %>
           <% end %>

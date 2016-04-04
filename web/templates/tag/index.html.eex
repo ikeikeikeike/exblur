@@ -1,15 +1,9 @@
 <div class='container'>
 
   <ol class="breadcrumb">
-    <li><a data-no-turbolink="1" href="#">Home</a></li>
-    <li class="active">POPULAR TAGS</li>
+    <li><a href="/">Home</a></li>
+    <li class="active">ALL Tags</li>
   </ol>
-
-  <h1 class="main-heading text-center">
-    <strong><span class='glyphicon glyphicon-tags'></span> POPULAR TAGS</strong>
-  </h1>
-
-  <br /><div class='clearfix'></div>
 
   <ul class="list-inline">
     <%= for tag <- @tags do %>

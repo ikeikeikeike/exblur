@@ -8,11 +8,11 @@ defmodule Exblur.EntryView do
     title =
       cond do
         params["tag"]      -> gettext "%{word} showing", word: params["tag"]
-        params["search"]   -> gettext "%{word} search results", word: params["search"]
-        true               -> ""
+        params["search"]   -> gettext "%{word} Found", word: params["search"]
+        true               -> nil
       end
 
-    title <> " - " <> gettext("Default Page Title")
+    (if title, do: title <> " - ", else: "") <> gettext("Default Page Title")
   end
   def page_title(:show, assigns), do: truncate(assigns[:entry].title, length: 100) <> " - " <> gettext("Default Page Title")
   def page_title(_, _),           do: gettext "Default Page Title"
