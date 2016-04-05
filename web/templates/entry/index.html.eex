@@ -1,14 +1,14 @@
 <%#
 if params["search"].present?
   # search
-  content_for :title, "#{params["search"]}の検索結果"
+  content_for :title, "#{params["search"]}"
   content_for :keywords, params["search"]
 elsif params[:tag].present?
   # tag
   content_for :title, "#{params[:tag]}"
   content_for :keywords, params[:tag]
 else
-  content_for :title, "最新動画"
+  content_for :title, ""
 end
 
 #content_for :description, @entries.first.content if @entries.first.present?

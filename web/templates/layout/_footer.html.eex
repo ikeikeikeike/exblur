@@ -29,7 +29,6 @@
       <li itemprop="name"class=''><a itemprop="url" href="<%= about_path @conn, :index %>">
         <%= gettext "About Site" %>
       </a></li>
-      <%# <li><a href="">Botについて</a></li> %>
       <li itemprop="name" class=''><a itemprop="url" href="<%= reception_path @conn, :contact %>">
         <%= gettext "Contact" %>
       </a></li>
