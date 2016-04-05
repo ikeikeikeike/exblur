@@ -7,8 +7,8 @@ defmodule Exblur.EntryView do
     params = assigns.conn.params
     title =
       cond do
-        params["tag"]      -> gettext "%{word} showing %{num} results", word: params["tag"], num: number_with_delimiter(assigns.entries.total_entries)
-        params["search"]   -> gettext "%{word} Found %{num} results", word: params["search"], num: number_with_delimiter(assigns.entries.total_entries)
+        ! Blank.blank? params["tag"]    -> gettext "%{word} showing %{num} results", word: params["tag"], num: number_with_delimiter(assigns.entries.total_entries)
+        ! Blank.blank? params["search"] -> gettext "%{word} Found %{num} results", word: params["search"], num: number_with_delimiter(assigns.entries.total_entries)
         true               -> nil
       end
 
@@ -21,8 +21,8 @@ defmodule Exblur.EntryView do
     params = assigns.conn.params
     keywords =
       cond do
-        params["tag"]    -> gettext ",%{word}", word: params["tag"]
-        params["search"] -> gettext ",%{word}", word: params["search"]
+        ! Blank.blank? params["tag"]    -> gettext ",%{word}", word: params["tag"]
+        ! Blank.blank? params["search"] -> gettext ",%{word}", word: params["search"]
         true             -> ""
       end
 
@@ -34,8 +34,8 @@ defmodule Exblur.EntryView do
   def page_description(:index, assigns) do
     params = assigns.conn.params
     cond do
-      params["tag"]    -> gettext "You would search '%{word}' in XXX. Let's see the video in XXX !!", word: params["tag"]
-      params["search"] -> gettext "You would search '%{word}' in XXX. Let's see the video in XXX !!", word: params["search"]
+      ! Blank.blank? params["tag"]    -> gettext "You would search '%{word}' in XXX. Let's see the video in XXX !!", word: params["tag"]
+      ! Blank.blank? params["search"] -> gettext "You would search '%{word}' in XXX. Let's see the video in XXX !!", word: params["search"]
       true             -> gettext "Default Page Description"
     end
   end
