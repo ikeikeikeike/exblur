@@ -7,8 +7,8 @@ defmodule Exblur.EntryView do
     params = assigns.conn.params
     title =
       cond do
-        params["tag"]      -> gettext "%{word} showing", word: params["tag"]
-        params["search"]   -> gettext "%{word} Found", word: params["search"]
+        params["tag"]      -> gettext "%{word} showing %{num} results", word: params["tag"], num: number_with_delimiter(assigns.entries.total_entries)
+        params["search"]   -> gettext "%{word} Found %{num} results", word: params["search"], num: number_with_delimiter(assigns.entries.total_entries)
         true               -> nil
       end
 
