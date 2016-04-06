@@ -1,0 +1,22 @@
+<div class='container'>
+
+  <ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Divas</li>
+  </ol>
+
+  <ul class="list-inline">
+    <%= for term <- @divas[:facets][:divas][:terms] do %>
+      <li>
+        <a href="<%= entrydiva_path @conn, :index,  term[:term] %>"
+           title="<%= gettext "Jump to %{diva}'s video results", diva: term[:term] %>"
+           rel="category tag"
+        >
+          <h2 style='font-weight: bold;' class="no-heading-style">
+            <%= term[:term] %> <em class='badge' style='padding: 2px 4px; background-color: #ABABAB; font-size: 7px;'><%= term[:count] %></em>
+          </h2>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</div>

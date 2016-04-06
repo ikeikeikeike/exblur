@@ -8,6 +8,14 @@ defmodule Exblur.DivaController do
   require Tirexs.Query
 
   def index(conn, _params) do
+    divas =
+      Exblur.Entry.diva_facets
+      |> Tirexs.Query.result
+
+    render(conn, "index.html", divas: divas)
+  end
+
+  def ranking(conn, _params) do
     params = [page: 1, page_size: 1, repo: Exblur.Repo, query: Model.query]
     entries =
       Exblur.Entry.search(nil, params)
