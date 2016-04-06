@@ -1,0 +1,32 @@
+defmodule Entrybuilder.BuildDivas do
+  use Exblur.Web, :build
+  alias Exblur.Entry
+  alias Exblur.Diva
+  alias Exblur.EntryDiva
+
+  require Logger
+
+  def run do
+    reHKA3 = ~r/^([ぁ-んー－]|[ァ-ヴー－]|[a-z]){3,4}$/iu
+
+    divas =
+      Diva
+      |> Repo.all
+      |> Enum.filter(fn(d) ->
+        !Regex.match?(reHKA3, d.name) && String.length(d.name) > 2
+      end)
+
+    Enum.each(divas, fn(diva) ->
+      entries =
+        Entry.query
+        |> where([e], like(e.title, ^"%#{diva.name}%"))
+        |> Repo.all
+
+      Enum.each(entries, fn(entry) ->
+        EntryDiva.find_or_create(entry, diva)
+      end)
+    end)
+
+  end
+
+end
