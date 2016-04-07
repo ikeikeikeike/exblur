@@ -46,16 +46,25 @@ defmodule Exblur.EntryView do
   def page_description(_, _),           do: gettext "Default Page Description"
 
   def title_with_link(conn, entry) do
-    title = entry.title
+    case length entry.divas do
+      x when x > 0 ->
+        title =
+          Enum.reduce entry.divas, entry.title, fn(diva, title) ->
+            atag =
+            link(diva.name, to: entrydiva_path(conn, :index, diva.name))
+            |> elem(1)
+            |> List.to_string
 
-    names = Enum.map entry.divas, fn(diva) ->
-      # if String.starts_with?(entry.title, diva.name) do
-        # title = String.replace(title, diva.name, "")
-      # end
-      link diva.name, to: entrydiva_path(conn, :index, diva.name)
+            String.replace(title, diva.name, atag)
+          end
+
+        raw title
+
+      _ ->
+        entry.title
     end
 
-    names ++ [" " <> title]
+
   end
 
   def search_url_normalization(conn) do
