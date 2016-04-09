@@ -52,7 +52,7 @@
               style="width: 150px; height: 99px; margin-bottom: 3px;"
               class="media-object"
               alt="<%= truncate entry.content, length: 100 %>"
-              src="<%= thumb_one entry.thumbs, "size_200x132" %>"
+              src="<%= thumb_one entry.thumbs %>"
               >
           </a>
 
