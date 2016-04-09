@@ -6,7 +6,8 @@ defmodule Entrybuilder.BuildDivas do
 
   require Logger
 
-  def run do
+  def run, do: run([])
+  def run(_args) do
     reHKA3 = ~r/^([ぁ-んー－]|[ァ-ヴー－]|[a-z]){3,4}$/iu
 
     divas =
