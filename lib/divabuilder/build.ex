@@ -11,8 +11,7 @@ defmodule Divabuilder.Build do
       responses
       |> Enum.flat_map(fn(response) ->
         case (for {_key, val} <- response, into: %{}, do: val) do
-          %{ok: data} ->
-            data["Actresses"]
+          %{ok: data} -> data["Actresses"]
         end
       end)
       |> Enum.map(fn(actress) ->

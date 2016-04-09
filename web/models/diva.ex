@@ -37,9 +37,10 @@ defmodule Exblur.Diva do
     has_many :entries, through: [:entry_divas, :entry]
   end
 
-  @required_fields ~w(name kana romaji gyou image)
-  @optional_fields ~w(height weight bust bracup waste hip blood birthday)
+  @required_fields ~w(name)
+  @optional_fields ~w(kana romaji gyou image height weight bust bracup waste hip blood birthday)
   @relational_fields ~w(entries)a
+  @actress_fields ~w(name kana romaji gyou image)
 
   after_insert :put_es_document
   after_update :put_es_document
@@ -77,7 +78,7 @@ defmodule Exblur.Diva do
       |> Map.put("romaji", actress["oto"])
       |> Map.put("kana",   actress["yomi"])
       |> Map.put("image",  actress["thumb"])
-      |> Enum.filter(&(elem(&1, 0) in @required_fields))
+      |> Enum.filter(&(elem(&1, 0) in @actress_fields))
       |> Enum.into(%{})
       # for {key, val} <- actress, into: %{}, do: {String.to_atom(key), val}
 
@@ -99,7 +100,7 @@ defmodule Exblur.Diva do
       _id: model.id,
       name: model.name,
       kana: model.kana,
-      romaji: String.replace(model.romaji, "_", ""),
+      romaji: (if model.romaji, do: String.replace(model.romaji, "_", ""))
     ]
   end
 
