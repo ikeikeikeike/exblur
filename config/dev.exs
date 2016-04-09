@@ -20,8 +20,8 @@ config :exblur, Exblur.Endpoint,
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
-      # ~r{web/models/.*(ex)$},
-      # ~r{web/controllers/.*(ex)$},
+      ~r{web/models/.*(ex)$},
+      ~r{web/controllers/.*(ex)$},
       ~r{web/views/.*(ex)$},
       ~r{web/templates/.*(eex)$}
     ]

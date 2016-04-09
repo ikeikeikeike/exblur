@@ -23,10 +23,20 @@ defmodule Entrybuilder.BuildDivas do
         |> Repo.all
 
       Enum.each(entries, fn(entry) ->
-        EntryDiva.find_or_create(entry, diva)
+        case EntryDiva.find_or_create(entry, diva) do
+          {:error, reason} ->
+            Repo.rollback(reason)
+            Logger.error("#{inspect reason}")
+
+          {:ok, _model} -> nil
+
+          {:new, _model} ->
+            %{entry | divas: entry.divas ++ [diva]}
+            |> Entry.put_document
+        end
       end)
     end)
 
+    Logger.info "Finish to build entry diva."
   end
-
 end
