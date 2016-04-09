@@ -5,11 +5,13 @@
 - Set Expires(TTL) in con_cache
 
 - Support hreflang. It's able to choose needed language for user and G. nginx
-
 - Fixes: that will store diva name to database by title and content with specific condition.
-- Make Tag list page < need limit length
+
 - Make Diva list page
 - move cusor when tap input form on Nexus 5x
+- Fixed Elasticserach build
+- Scraping more sites
+- fixed more-than-10-min filter working in divas path when there's enabled
 
 - To be internationalization to Tag, Diva, Entry Model for template words.
 - Mongo index
@@ -20,13 +22,12 @@
 - Mix task: Dead link checker.
 - Mix task: Remove old videos. Its like unable video.
 
-- Scraping more sites
 - Fixed flash message in reception pages. Its not still showing because that is cached by nginx on GET request.
 - http://hashnuke.com/2015/07/19/convenience-hacks-for-using-exrm-with-phoenix-apps.html
 - To be match result in show page's related entries.
 - Fix word search matches in ES
 
-- Fixed widgh in container using css.
+- Fixed width in container using css.
 - Send mail when the system happended error.
 - Generate sitemap
 

@@ -14,7 +14,6 @@ defmodule Entrybuilder.Build do
 
     entries =
       Scrapy.query
-      # |> Scrapy.xvideos
       |> Scrapy.reserved
       |> limit([_e], ^limit)
       |> Mongo.all

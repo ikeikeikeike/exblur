@@ -3,9 +3,8 @@ defmodule Plug.Exblur.Upload do
   require Logger
 
   def detect_icon!(url) do
-    url
-    |> Exfavicon.find
-    |> make_plug!
+    icon = Exfavicon.find(url)
+    if Exfavicon.valid_favicon_url?(icon), do: make_plug!(icon), else: nil
   end
 
   def make_plug!(filename) do
