@@ -27,7 +27,7 @@ defmodule Entrybuilder.Publish do
       # end
 
       Logger.info "Publish: #{e.id}:#{Ecto.DateTime.utc}"
-      :timer.sleep(2000)
+      :timer.sleep(500)
     end
 
     Logger.info "Finish to publish entries"

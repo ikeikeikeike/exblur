@@ -5,11 +5,10 @@
 - Set Expires(TTL) in con_cache
 
 - Support hreflang. It's able to choose needed language for user and G. nginx
-- Fixes: that will store diva name to database by title and content with specific condition.
 
-- Make Diva list page
+- Diva's profile with some detail info on atag link.
+
 - move cusor when tap input form on Nexus 5x
-- Fixed Elasticserach build
 - Scraping more sites
 - fixed more-than-10-min filter working in divas path when there's enabled
 

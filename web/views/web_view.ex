@@ -9,6 +9,10 @@ defmodule Exblur.WebView do
     |> Map.merge(merge)
   end
 
+  def to_qstring(params) do
+    "?" <> URI.encode_query params
+  end
+
   def take_hidden_field_tags(%Plug.Conn{} = conn, keys) when is_list(keys) do
     Enum.map take_params(conn, keys), fn{key, value} ->
       Tag.tag(:input, type: "hidden", id: key, name: key, value: value)

@@ -164,7 +164,7 @@ end
       <div class="container">
         <div class="page-header">
           <h4>
-            <span class="glyphicon glyphicon-tags"></span> <%= gettext "Relevant Tag" %>
+            <span class="glyphicon glyphicon-tags"></span> <%= gettext "Relevant Tag & Diva" %>
           </h4>
         </div>
 
@@ -181,20 +181,6 @@ end
                 </a>
               </li>
             <% end %>
-          </ul>
-        </p>
-      </div><!-- /.container -->
-
-      <% if false do %>
-      <div class="container">
-        <div class="page-header">
-          <h4>
-            <span class="glyphicon glyphicon-heart"></span> <%= gettext "Relevant Diva" %>
-          </h4>
-        </div>
-
-        <p>
-          <ul class="list-inline">
             <%= for term <- @entries.tirexs[:facets][:divas][:terms] do %>
               <li>
                 <a href="<%= entrydiva_path @conn, :index, term[:term]  %><%= if @conn.params["list"], do: "?list=#{@conn.params["list"]}" %>"
@@ -209,7 +195,7 @@ end
           </ul>
         </p>
       </div><!-- /.container -->
-      <% end %>
+
     </div>
   </div>
 </div>
