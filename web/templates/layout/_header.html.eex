@@ -20,17 +20,15 @@
           <span class="glyphicon glyphicon-facetime-video"></span> <%= gettext "Recently XXX Videos" %>
         </a></li>
 
-        <li itemprop="name"><a itemprop="url" href="<%= tag_path @conn, :index %>">
-          <span class="glyphicon glyphicon-tags"></span> <%= gettext "Tags" %>
-        </a></li>
-
-
-        <% if mobile?(@conn) && false do %>
-
         <li itemprop="name"><a itemprop="url" href="<%= diva_path @conn, :index %>">
           <span class="glyphicon glyphicon-heart"></span> <%= gettext "Diva" %>
         </a></li>
 
+        <li itemprop="name"><a itemprop="url" href="<%= tag_path @conn, :index %>">
+          <span class="glyphicon glyphicon-tags"></span> <%= gettext "Tags" %>
+        </a></li>
+
+        <% if mobile?(@conn) && false do %>
 
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

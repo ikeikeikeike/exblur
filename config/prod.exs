@@ -59,7 +59,7 @@ config :logger, level: :warn
 
 config :quantum, cron: [
     build_divas: [
-      schedule: "5 5 * * *",,
+      schedule: "5 5 * * *",
       task: "Entrybuilder.BuildDivas.run",
       args: []
     ],
