@@ -118,11 +118,13 @@ end
         </div>
 
         <div class='clearfix'></div>
-
       </div>
 
-      <div style="padding: 10px;" class="panel-body">
 
+      <%= render "_diva_profile.html", conn: @conn, diva: @diva %>
+
+
+      <div style="padding: 10px;" class="panel-body">
         <h2 class="no-heading-style">
           <%= if @conn.params["search"] do %>
             <em class="badge"><%= @conn.params["search"] %></em>
@@ -131,12 +133,13 @@ end
             <em class="badge"><%= number_with_delimiter(@entries.total_entries) %></em> <%= gettext "Showing" %>
           <% end %>
         </h2>
-
       </div>
+
 
       <div id='entries' style='<%= if mobile?(@conn), do: "margin-top: -16px;" %>'>
         <%= render "_entries.html", conn: @conn, entries: @entries %>
       </div>
+
 
       <div class="clearfix"></div>
 
@@ -157,7 +160,7 @@ end
               remote: true,
               params: params do
         %>
-          <%# <span>ページがありません</span> %>
+          <%# <span>page not found</span> %>
         <%# end %>
       </div>
 

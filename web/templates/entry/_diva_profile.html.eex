@@ -1,0 +1,68 @@
+<%#= Blank.blank?(@diva) &&  %>
+<%= unless true do %>
+
+  <div class="container diva-profile" style="margin-top: 20px; margin-bottom: 20px;">
+    <div class="row panel">
+      <a href="<%#= search_diva_path @diva.name %>?page=1">
+        <div class="col-md-4 bg_blur" style='
+          background-image: url("<%= @diva.image %>");
+          height: 300px;
+          background-size: cover;'>
+        </div>
+      </a>
+      <div class="col-md-8  col-xs-12">
+        <% if false do %>
+          <img src="<%= @diva.image %>" class="img-thumbnail picture hidden-xs" />
+          <img src="<%= @diva.image %>" class="img-thumbnail visible-xs picture_mob" />
+        <% end %>
+        <div class="header">
+          <h1><%= @diva.name %></h1>
+          <h4><%= @diva.kana %></h4>
+          <table class="table table-user-information">
+            <tbody>
+              <%= if @diva.birthday do %>
+                <tr>
+                  <td>年齢:</td>
+                  <td><%= @diva.birthday.to_age %>歳 (<%= @diva.birthday %>)</td>
+                </tr>
+              <% end %>
+              <%= if @diva.height do %>
+                <tr>
+                  <td>身長体重:</td>
+                  <td><%= @diva.height %>cm / <%= @diva.weight || 'ー' %>kg</td>
+                </tr>
+              <% end %>
+              <%= if @diva.blood do %>
+                <tr>
+                  <td>血液型:</td>
+                  <td><%= @diva.blood %>型</td>
+                </tr>
+              <% end %>
+              <%= if @diva.bracup do %>
+                <tr>
+                  <td>バスト:</td>
+                  <td><%= @diva.bracup %></td>
+                </tr>
+              <% end %>
+              <%= if @diva.bust do %>
+                <tr>
+                  <td>サイズ:</td>
+                  <td>B:<%= @diva.bust %> W:<%= @diva.waste %> H:<%= @diva.hip %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <%# <div class="row nav">     %>
+      <%# <div class="col-md-4"></div> %>
+      <%# <div class="col-md-8 col-xs-12" style="margin: 0px;padding: 0px;"> %>
+        <%# <div class="col-md-4 col-xs-4 well"><i class="fa fa-weixin fa-lg"></i> 16</div> %>
+        <%# <div class="col-md-4 col-xs-4 well"><i class="fa fa-heart-o fa-lg"></i> 14</div> %>
+        <%# <div class="col-md-4 col-xs-4 well"><i class="fa fa-thumbs-o-up fa-lg"></i> 26</div> %>
+      <%# </div> %>
+    <%# </div> %>
+  </div>
+<% end %>

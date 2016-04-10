@@ -7,10 +7,10 @@
 - Support hreflang. It's able to choose needed language for user and G. nginx
 
 - Diva's profile with some detail info on atag link.
+- To be change some color to 'duration and create_at' when there have some condition."
 
 - move cusor when tap input form on Nexus 5x
 - Scraping more sites
-- fixed more-than-10-min filter working in divas path when there's enabled
 
 - To be internationalization to Tag, Diva, Entry Model for template words.
 - Mongo index

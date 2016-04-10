@@ -8,19 +8,32 @@ defmodule Exblur.EntryController do
     # if diva param does not exists in database, throw `not found` exception.
     # Repo.get_by! Exblur.Diva, name: diva
     es = esearch(diva, params)
-    render(conn, "index.html", entries: es[:entries])
+    render(conn, "index.html", entries: es[:entries], diva: find_diva(diva))
   end
 
   def index(conn, %{"tag" => tag} = params) do
     # if tag does not exists in database, throw `not found` exception.
     # Repo.get_by! Exblur.Tag, name: tag
     es = esearch(tag, params)
-    render(conn, "index.html", entries: es[:entries])
+    render(conn, "index.html", entries: es[:entries], diva: find_diva(tag))
   end
 
   def index(conn, params) do
     es = esearch(params["search"], params)
-    render(conn, "index.html", entries: es[:entries])
+    render(conn, "index.html", entries: es[:entries], diva: find_diva(conn.params["search"]))
+  end
+
+  def show(conn, %{"id" => id, "title" => title}) do
+    params =
+      %{}
+      |> Es.Params.prepare_params(1, 15)
+      |> Map.put(:query, Model.query)
+
+    entries =
+      Model.search(title, params)
+      |> Es.Paginator.paginate(params)
+
+    render(conn, "show.html", entry: Repo.get!(Model.query, id), entries: entries)
   end
 
   defp esearch(word, params) do
@@ -36,17 +49,11 @@ defmodule Exblur.EntryController do
     [entries: entries, params: params]
   end
 
-  def show(conn, %{"id" => id, "title" => title}) do
-    params =
-      %{}
-      |> Es.Params.prepare_params(1, 15)
-      |> Map.put(:query, Model.query)
-
-    entries =
-      Model.search(title, params)
-      |> Es.Paginator.paginate(params)
-
-    render(conn, "show.html", entry: Repo.get!(Model.query, id), entries: entries)
+  defp find_diva(name) do
+    case Blank.blank?(name) do
+      false -> Repo.get_by(Exblur.Diva, name: name)
+      true  -> nil
+    end
   end
 
 end
