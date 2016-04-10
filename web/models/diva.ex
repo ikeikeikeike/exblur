@@ -97,6 +97,7 @@ defmodule Exblur.Diva do
 
   def search_data(model) do
     [
+      _type: "diva",
       _id: model.id,
       name: model.name,
       kana: model.kana,

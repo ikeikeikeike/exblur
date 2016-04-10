@@ -237,6 +237,7 @@ defmodule Exblur.Entry do
 
   def search_data(model) do
     [
+      _type: "entry",
       _id: model.id,
       url: model.url,
       time: model.time,
@@ -457,11 +458,12 @@ defmodule Exblur.Entry do
       settings do
         analysis do
           filter    "ja_posfilter",     type: "kuromoji_neologd_part_of_speech", stoptags: ["助詞-格助詞-一般", "助詞-終助詞"]
+          filter    "edge_ngram",       type: "edgeNGram", min_gram: 1, max_gram: 15
 
           tokenizer "ja_tokenizer",     type: "kuromoji_neologd_tokenizer"
           tokenizer "ngram_tokenizer",  type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
 
-          analyzer  "default",          type: "custom", tokenizer: "ja_tokenizer"
+          # analyzer  "default",          type: "custom", tokenizer: "ja_tokenizer", filter: ["kuromoji_neologd_baseform", "ja_posfilter", "cjk_width"]
           analyzer  "ja_analyzer",      type: "custom", tokenizer: "ja_tokenizer", filter: ["kuromoji_neologd_baseform", "ja_posfilter", "cjk_width"]
           analyzer  "ngram_analyzer",                   tokenizer: "ngram_tokenizer"
         end
@@ -473,7 +475,8 @@ defmodule Exblur.Entry do
 
     Tirexs.DSL.define [type: "entry", index: index], fn(index, es_settings) ->
       mappings do
-        # indexes "id",             type: "long",   index: "not_analyzed", include_in_all: false
+
+        # indexes "id",             type: "long",   analyzer: "not_analyzed", include_in_all: false
         indexes "url",            type: "string", index: "not_analyzed"
 
         indexes "site_name",      type: "string", index: "not_analyzed"
@@ -487,16 +490,20 @@ defmodule Exblur.Entry do
         # indexes "content",        type: "string", analyzer: "ja_analyzer"
 
         indexes "time",           type: "long"
-        indexes "published_at",   type: "date",  format: "date_optional_time"
+        indexes "published_at",   type: "date",  format: "dateOptionalTime"
 
         indexes "review",         type: "boolean"
         indexes "publish",        type: "boolean"
         indexes "removal",        type: "boolean"
+
       end
       |> ppquery
 
       {index, es_settings}
     end
+
+    :ok
   end
+
 
 end

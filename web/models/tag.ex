@@ -65,6 +65,7 @@ defmodule Exblur.Tag do
 
   def search_data(model) do
     [
+      _type: "tag",
       _id: model.id,
       name: model.name,
       kana: model.kana,
@@ -97,7 +98,7 @@ defmodule Exblur.Tag do
   end
 
   def create_index(index \\ get_index) do
-    Tirexs.DSL.define [type: "tag", index: index, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: "tag", index: index], fn(index, es_settings) ->
       settings do
         analysis do
           tokenizer "ngram_tokenizer", type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
