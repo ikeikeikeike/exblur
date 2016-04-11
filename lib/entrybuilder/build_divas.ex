@@ -3,25 +3,31 @@ defmodule Entrybuilder.BuildDivas do
   alias Exblur.Entry
   alias Exblur.Diva
   alias Exblur.EntryDiva
+  alias Entrybuilder.Filter
 
   require Logger
 
   def run, do: run([])
   def run(_args) do
-    reHKA3 = ~r/^([ぁ-んー－]|[ァ-ヴー－]|[a-z]){3,4}$/iu
 
     divas =
       Diva
       |> Repo.all
       |> Enum.filter(fn(d) ->
-        !Regex.match?(reHKA3, d.name) && String.length(d.name) > 2
+        Filter.right_name?(d.name)
       end)
 
     Enum.each(divas, fn(diva) ->
       entries =
-        Entry.query
-        |> where([e], like(e.title, ^"%#{diva.name}%"))
-        |> Repo.all
+        Filter.separate_name(diva.name)
+        |> Enum.reduce([], fn(name, total) ->
+          entries =
+            Entry.query
+            |> where([e], like(e.title, ^"%#{name}%"))
+            |> Repo.all
+
+          total ++ entries
+        end)
 
       Enum.each(entries, fn(entry) ->
         case EntryDiva.find_or_create(entry, diva) do
