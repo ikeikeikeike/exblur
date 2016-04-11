@@ -100,7 +100,7 @@ defmodule Entrybuilder.Build do
     end)
     |> Enum.filter(fn(result) ->
       case result do
-        {:ok, %Exblur.Entry{}} ->
+        {:ok, %Entry{}} ->
           true
         _ ->
           false

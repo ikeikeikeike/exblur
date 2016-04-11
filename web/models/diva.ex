@@ -1,11 +1,13 @@
 defmodule Exblur.Diva do
   use Exblur.Web, :model
+  use Arc.Ecto.Model
 
   use Es
   use Es.Index
   use Es.Document
 
   alias Exblur.Diva, as: Model
+  alias Exblur.ThumbUploader
   alias Imitation.Q
 
   es :model, Model
@@ -27,8 +29,7 @@ defmodule Exblur.Diva do
     field :blood,      :string
     field :birthday,   Ecto.Date
 
-    # TODO: To be arc file
-    field :image,      :string
+    field :image,      ThumbUploader.Type
 
     field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
     field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
@@ -38,9 +39,12 @@ defmodule Exblur.Diva do
   end
 
   @required_fields ~w(name)
-  @optional_fields ~w(kana romaji gyou image height weight bust bracup waste hip blood birthday)
+  @optional_fields ~w(kana romaji gyou height weight bust bracup waste hip blood birthday)
   @relational_fields ~w(entries)a
-  @actress_fields ~w(name kana romaji gyou image)
+  @actress_fields ~w(name kana romaji gyou)
+
+  @required_file_fields ~w(image)
+  @optional_file_fields ~w()
 
   after_insert :put_es_document
   after_update :put_es_document
@@ -70,19 +74,46 @@ defmodule Exblur.Diva do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> cast_attachments(params, @required_file_fields, @optional_file_fields)
   end
 
   def changeset_actress(model, actress) do
     params =
       actress
-      |> Map.put("romaji", actress["oto"])
       |> Map.put("kana",   actress["yomi"])
+      |> Map.put("romaji", actress["oto"])
       |> Map.put("image",  actress["thumb"])
       |> Enum.filter(&(elem(&1, 0) in @actress_fields))
       |> Enum.into(%{})
       # for {key, val} <- actress, into: %{}, do: {String.to_atom(key), val}
 
     changeset(model, params)
+  end
+
+  def changeset_profile(model, profile) do
+    params =
+      profile
+      |> Map.put("kana",     profile["Kana"])
+      |> Map.put("romaji",   profile["Romaji"])
+      |> Map.put("gyou",     profile["Gyou"])
+      |> Map.put("height",   profile["Height"])
+      |> Map.put("weight",   profile["Weight"])
+      |> Map.put("bust",     profile["Bust"])
+      |> Map.put("bracup",   profile["Bracup"])
+      |> Map.put("waste",    profile["Waste"])
+      |> Map.put("hip",      profile["Hip"])
+      |> Map.put("blood",    profile["Blood"])
+      |> Map.put("birthday", profile["Birthday"])
+
+    if profile["Icon"] && profile["Icon"]["Src"] do
+      image =
+        profile["Icon"]["Src"]
+        |> Plug.Exblur.Upload.make_plug!
+
+      params = Map.put(params, "image",  image)
+    end
+
+    changeset(model, Enum.into(params, %{}))
   end
 
   def find_or_create_by_name(name) do
@@ -126,7 +157,7 @@ defmodule Exblur.Diva do
   end
 
   def create_index(index \\ get_index) do
-    Tirexs.DSL.define [type: "diva", index: index, number_of_shards: "5", number_of_replicas: "1"], fn(index, es_settings) ->
+    Tirexs.DSL.define [type: "diva", index: index], fn(index, es_settings) ->
       settings do
         analysis do
           tokenizer "ngram_tokenizer", type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]

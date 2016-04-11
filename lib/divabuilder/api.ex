@@ -1,7 +1,7 @@
 defmodule Divabuilder.Api do
   alias Divabuilder.Client
 
-  @endpoint "http://apiactress.appspot.com/api/1/getdata/"
+  @endpoint Application.get_env(:exblur, :diva)[:actress]
 
   @kunrei_romaji ~w{
     a i u e o
