@@ -53,14 +53,14 @@ defmodule Exblur.EntryView do
           |> Enum.flat_map(fn(diva) ->
             Entrybuilder.Filter.separate_name(diva.name)
           end)
-          |> Enum.reduce entry.title, fn(name, title) ->
+          |> Enum.reduce(entry.title, fn(name, title) ->
             atag =
               link(name, to: entrydiva_path(conn, :index, name))
               |> elem(1)
               |> List.to_string
 
             String.replace(title, name, atag)
-          end
+          end)
 
         raw title
 
