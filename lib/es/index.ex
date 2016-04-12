@@ -49,8 +49,8 @@ defmodule Es.Index do
 
       defp make_index(index) do
         suffix =
-          Timex.Date.now
-          |> Timex.DateFormat.format!("%Y%m%d%H%M%S%f", :strftime)
+          Timex.DateTime.now
+          |> Timex.format!("%Y%m%d%H%M%S%f", :strftime)
 
         "#{index}_#{suffix}"
       end

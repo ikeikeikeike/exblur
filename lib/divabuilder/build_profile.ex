@@ -22,14 +22,12 @@ defmodule Divabuilder.BuildProfile do
             {:error, reason} ->
               Repo.rollback(reason)
               Logger.error("#{inspect reason}")
-              nil
 
             {_, model} ->
               case Repo.update(Diva.changeset_profile(model, profile)) do
                 {:error, reason} ->
                   Repo.rollback(reason)
                   Logger.error("#{inspect reason}")
-                  nil
 
                 {_, model} -> model
               end

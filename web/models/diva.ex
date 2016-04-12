@@ -7,7 +7,7 @@ defmodule Exblur.Diva do
   use Es.Document
 
   alias Exblur.Diva, as: Model
-  alias Exblur.ThumbUploader
+  alias Exblur.DivaUploader
   alias Imitation.Q
 
   es :model, Model
@@ -29,7 +29,7 @@ defmodule Exblur.Diva do
     field :blood,      :string
     field :birthday,   Ecto.Date
 
-    field :image,      ThumbUploader.Type
+    field :image,      DivaUploader.Type
 
     field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
     field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
@@ -43,8 +43,8 @@ defmodule Exblur.Diva do
   @relational_fields ~w(entries)a
   @actress_fields ~w(name kana romaji gyou)
 
-  @required_file_fields ~w(image)
-  @optional_file_fields ~w()
+  @required_file_fields ~w()
+  @optional_file_fields ~w(image)
 
   after_insert :put_es_document
   after_update :put_es_document
@@ -106,11 +106,16 @@ defmodule Exblur.Diva do
       |> Map.put("birthday", profile["Birthday"])
 
     if profile["Icon"] && profile["Icon"]["Src"] do
-      image =
-        profile["Icon"]["Src"]
-        |> Plug.Exblur.Upload.make_plug!
+      params =
+        try do
+          image =
+            profile["Icon"]["Src"]
+            |> Plug.Exblur.Upload.make_plug!
 
-      params = Map.put(params, "image",  image)
+          Map.put(params, "image",  image)
+        catch
+          _ -> params
+        end
     end
 
     changeset(model, Enum.into(params, %{}))
@@ -125,6 +130,10 @@ defmodule Exblur.Diva do
     query = from v in Model, where: v.name == ^actress["name"]
     Q.find_or_create(query, changeset_actress(%Model{}, actress))
   end
+
+  # fetch icon url
+  def get_thumb(model), do: DivaUploader.url {model.image, model}
+  def get_thumb(model, version), do: DivaUploader.url {model.image, model}, version
 
   def search_data(model) do
     [

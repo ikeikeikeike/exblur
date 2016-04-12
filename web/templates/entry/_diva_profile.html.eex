@@ -1,16 +1,16 @@
-<%#= Blank.blank?(@diva) &&  %>
-<%= unless true do %>
+<%= if !Blank.blank?(@diva) && Blank.blank?(@conn.params["page"]) do %>
+<%#= unless true do %>
 
   <div class="container diva-profile" style="margin-top: 20px; margin-bottom: 20px;">
-    <div class="row panel">
+    <div class="<%= if mobile?(@conn), do: "row" %> panel">
       <a href="<%#= search_diva_path @diva.name %>?page=1">
         <div class="col-md-4 bg_blur" style='
-          background-image: url("<%= @diva.image %>");
+          background-image: url("<%= divaimg @diva %>");
           height: 300px;
           background-size: cover;'>
         </div>
       </a>
-      <div class="col-md-8  col-xs-12">
+      <div class="col-md-8 col-xs-12">
         <% if false do %>
           <img src="<%= @diva.image %>" class="img-thumbnail picture hidden-xs" />
           <img src="<%= @diva.image %>" class="img-thumbnail visible-xs picture_mob" />
@@ -23,13 +23,13 @@
               <%= if @diva.birthday do %>
                 <tr>
                   <td>年齢:</td>
-                  <td><%= @diva.birthday.to_age %>歳 (<%= @diva.birthday %>)</td>
+                  <td><%= to_age @diva.birthday %>歳 (<%= @diva.birthday %>)</td>
                 </tr>
               <% end %>
               <%= if @diva.height do %>
                 <tr>
                   <td>身長体重:</td>
-                  <td><%= @diva.height %>cm / <%= @diva.weight || 'ー' %>kg</td>
+                  <td><%= @diva.height %>cm / <%= if @diva.weight > 0, do: @diva.weight, else: "-" %> kg</td>
                 </tr>
               <% end %>
               <%= if @diva.blood do %>

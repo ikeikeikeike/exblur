@@ -253,7 +253,7 @@ defmodule Exblur.Entry do
 
       published_at: (case Timex.Ecto.DateTime.cast(model.published_at) do
         {:ok, at} ->
-          Timex.DateFormat.format!(at, "{ISO}")
+          Timex.format!(at, "{ISO}")
         _ -> model.published_at
       end),
 

@@ -19,6 +19,17 @@ defmodule Exblur.WebView do
     end
   end
 
+  def divaimg(diva) do
+    Exblur.Diva.get_thumb(diva)
+  end
+
+  def to_age(date) do
+    d = Timex.Date.today
+    age = d.year - date.year
+    if (date.month > d.month or (date.month >= d.month and date.day > d.day)), do: age = age - 1
+    age
+  end
+
   def thumb_one(thumbs) do
     if length(thumbs) > 0, do: Exblur.Thumb.get_thumb(List.first(thumbs)), else: nil
   end

@@ -1,4 +1,4 @@
-defmodule Exblur.ThumbUploader do
+defmodule Exblur.DivaUploader do
   use Arc.Definition
   use Arc.Ecto.Definition
 
@@ -12,19 +12,12 @@ defmodule Exblur.ThumbUploader do
     Enum.member?(@extension_whitelist, file_extension)
   end
 
-  # def transform(:size_100x66, _) do
-    # {:convert, "-thumbnail 100x66^ -gravity center -extent 100x66"}
-  # end
-
   def s3_object_headers(_version, {file, _scope}) do
     [content_type: Plug.MIME.path(file.file_name)] # for "image.png", would produce: "image/png"
   end
 
-  # def __storage, do: Arc.Storage.Local
-  # def __storage, do: Arc.Storage.S3
-
   def filename(version, {file, model}) do
-    "#{model.entry_id}_#{version}_#{file.file_name}"
+    "#{model.id}_#{version}_#{file.file_name}"
   end
 
   def storage_dir(_version, {_file, model}) do
@@ -35,11 +28,11 @@ defmodule Exblur.ThumbUploader do
       |> String.split(".")
       |> List.last
 
-    "uploads/#{dirname}/#{model.entry_id}"
+    "uploads/#{dirname}/#{model.id}"
   end
 
   def default_url(:original) do
-    "https://placehold.it/300x200"
+    "https://placehold.it/500x400"
   end
 
 end
