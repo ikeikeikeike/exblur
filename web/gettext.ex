@@ -23,7 +23,7 @@ defmodule Exblur.Gettext do
   use Gettext, otp_app: :exblur
 
   def default_locale do
-    Application.get_env(:exblur, Exblur.Gettext)[:default_locale] || "en"
+    Application.get_env(:exblur, Exblur.Gettext)[:default_locale] || "ja"
   end
 
   def find_locale(language_tag) do

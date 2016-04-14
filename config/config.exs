@@ -42,7 +42,7 @@ config :ua_inspector,
   database_path: Path.join(File.cwd!, "config/ua_inspector")
 
 config :exblur, Exblur.Gettext,
-  default_locale: "en",
+  default_locale: "ja",
   locales: ~w(en es ja)
 
 # config :phoenix, Exblur.Router,
