@@ -6,6 +6,7 @@
 
 - Support hreflang. It's able to choose needed language for user and G. nginx
 
+- Removed suffix numbers to kana and romaji
 - Diva's profile with some detail info on atag link.
 - To be change some color to 'duration and create_at' when there have some condition."
 

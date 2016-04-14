@@ -4,18 +4,20 @@
   <div class="container diva-profile" style="margin-top: 20px; margin-bottom: 20px;">
     <div class="<%= if mobile?(@conn), do: "row" %> panel">
       <a href="<%#= search_diva_path @diva.name %>?page=1">
-        <div class="col-md-4 bg_blur" style='
-          background-image: url("<%= divaimg @diva %>");
-          height: 300px;
-          background-size: cover;'>
-        </div>
+        <%= if @diva.image do %>
+          <div class="col-md-4 bg_blur" style='
+            background-image: url("<%= divaimg @diva %>");
+            height: 300px;
+            background-size: cover;'>
+          </div>
+        <% end %>
       </a>
-      <div class="col-md-8 col-xs-12">
+      <div class="col-md-<%= if @diva.image, do: 8, else: 12 %> col-xs-12">
         <% if false do %>
           <img src="<%= @diva.image %>" class="img-thumbnail picture hidden-xs" />
           <img src="<%= @diva.image %>" class="img-thumbnail visible-xs picture_mob" />
         <% end %>
-        <div class="header">
+        <div class="header" style='border-bottom: 0;'>
           <h1><%= @diva.name %></h1>
           <h4><%= @diva.kana %></h4>
           <table class="table table-user-information">
