@@ -1,6 +1,6 @@
 <div class='container'>
 
-  <ol class="breadcrumb">
+  <ol class="breadcrumb row">
     <li><a href="/">Home</a></li>
     <li class="active">Tags</li>
   </ol>

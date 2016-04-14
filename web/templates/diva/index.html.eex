@@ -1,8 +1,8 @@
 <div class='container'>
 
-  <ol class="breadcrumb">
+  <ol class="breadcrumb row">
     <li><a href="/">Home</a></li>
-    <li class="active">Divas</li>
+    <li class="active">Diva</li>
   </ol>
 
   <ul class="list-inline">

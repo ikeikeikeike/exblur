@@ -20,6 +20,11 @@ end
 <%= end %>
 
 <div class="container bs-docs-container">
+
+
+  <%= render "_breadcrumb.html", conn: @conn %>
+
+
   <div class="row">
     <div class="panel panel-default">
       <div class="panel-heading">
