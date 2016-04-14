@@ -38,6 +38,13 @@ defimpl Blank, for: Atom do
   def blank?(_),     do: false
 end
 
+defimpl Blank, for: Ecto.Date do
+  def blank?(%Ecto.Date{}), do: true
+  def blank?(%Ecto.Date{year: 0, month: 0, day: 0}), do: true
+  def blank?(%Ecto.Date{year: 1, month: 1, day: 1}), do: true
+  def blank?(_),  do: false
+end
+
 defimpl Blank, for: Any do
   def blank?(_), do: false
 end

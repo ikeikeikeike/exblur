@@ -36,7 +36,7 @@
           </h4>
           <table class="table table-user-information">
             <tbody>
-              <%= if @diva.birthday do %>
+              <%= unless Blank.blank?(@diva.birthday) do %>
                 <tr>
                   <td><%= gettext "Age" %>:</td>
                   <td><%= to_age @diva.birthday %> (<span itemprop="birthDate"><%= @diva.birthday %></span>)</td>
