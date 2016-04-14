@@ -14,7 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "0.3.46"
+    v = "0.3.47"
     File.write! "VERSION", v
     v
   end
@@ -95,7 +95,8 @@ defmodule Exblur.Mixfile do
      {:yaml_elixir, "~> 1.0"},
      {:yamerl, github: "yakaz/yamerl"},
      {:con_cache, "~> 0.10"},
-     {:scrivener_html, github: "ikeikeikeike/scrivener_html"},
+     # {:ex_admin, github: "smpallen99/ex_admin"},
+     {:scrivener_html, github: "ikeikeikeike/scrivener_html", override: true},
      {:ua_inspector, "~> 0.10"},
      {:phoenix_html_simplified_helpers, "~> 0.3"},
      {:simple_format, "~> 0.1"},

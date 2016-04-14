@@ -26,7 +26,7 @@
         <meta itemprop="name" content="<%= entry.title %>" />
         <meta itemprop="headline" content="<%= entry.title %>" />
         <meta itemprop="description" content="<%= entry.content %>" />
-        <meta itemprop="image" content="<%= thumb_one entry.thumbs %>">
+        <meta itemprop="image" content="<%= thumb_one entry.thumbs %>" />
         <meta itemprop="thumbnailUrl" content="<%= thumb_one entry.thumbs %>" />
         <meta itemprop="timeRequired" content="<%#= Duration.new(entry.time).iso8601 %>" />
         <meta itemprop="datePublished" content="<%#= entry.published_at.iso8601 %>" />
