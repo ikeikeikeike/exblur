@@ -61,8 +61,7 @@
             <p>
               <%= for tag <- Enum.take(entry.tags, (if mobile?(@conn), do: 2, else: 10)) do %>
                 <a href="<%= entrytag_path @conn, :index, tag.name %>"
-                    title="<%= gettext "Jump to %{tag}'s video results", tag: tag.name %>"
-                    rel="category tag">
+                   title="<%= gettext "Jump to %{tag}'s video results", tag: tag.name %>">
                   <span class="glyphicon glyphicon-tag label label-primary"><%= tag.name %></span>
                 </a>
               <% end %>

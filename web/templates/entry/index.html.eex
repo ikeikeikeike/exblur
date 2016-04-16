@@ -182,7 +182,6 @@ end
               <li>
                 <a href="<%= entrytag_path @conn, :index, term[:term]  %><%= if @conn.params["list"], do: "?list=#{@conn.params["list"]}" %>"
                    title="<%= gettext "Jump to %{tag}'s video results", tag: term[:term] %>"
-                   rel="category tag nofollow"
                 >
                   <h2 style='<%= if tags_exists(@conn, term[:term]), do: "color: #d9534f; font-weight: bold;" %>'
                       class="no-heading-style"><%= term[:term] %>(<%= term[:count] %>)</h2>
@@ -193,7 +192,6 @@ end
               <li>
                 <a href="<%= entrydiva_path @conn, :index, term[:term]  %><%= if @conn.params["list"], do: "?list=#{@conn.params["list"]}" %>"
                    title="<%= gettext "Jump to %{diva}'s video results", diva: term[:term] %>"
-                   rel="category tag nofollow"
                 >
                   <h2 style='<%= if tags_exists(@conn, term[:term]), do: "color: #d9534f; font-weight: bold;" %>'
                       class="no-heading-style"><%= term[:term] %>(<%= term[:count] %>)</h2>

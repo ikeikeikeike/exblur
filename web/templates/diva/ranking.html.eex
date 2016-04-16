@@ -24,7 +24,7 @@ content_for :description, gettext("")
 
             <%#- cache ['diva_top100', request.smart_phone?, request.mobile?, diva] do -%>
               <div>
-                <a class="list-group-item" rel="category tag" data-toggle="collapse" data-target="#collapse<%= index %>" href='javascript:;'>
+                <a class="list-group-item" data-toggle="collapse" data-target="#collapse<%= index %>" href='javascript:;'>
                   <img class="media-object pull-right"
                        data-src="holder.js/40x40"
                        style="width: 40px; height: 40px; margin-top: -9px;"
@@ -48,7 +48,7 @@ content_for :description, gettext("")
                     adsense_category: 'divas_entries_list'
                    %>
                   <div style="min-height: 25px; margin: 0px 0px 5px 15px; ">
-                    <a rel="category tag" href="<%#= search_diva_path diva.name %>" >
+                    <a href="<%#= search_diva_path diva.name %>" >
                       <%= gettext "Jump to %{name}'s diva results", tag: diva.name %>
                     </a>
                   </div>

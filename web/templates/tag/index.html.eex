@@ -19,7 +19,7 @@
 
         <a href="<%= entrytag_path @conn, :index, term[:term] %>"
            title="<%= gettext "Jump to %{tag}'s video results", tag: term[:term] %>"
-           style="display: inherit;" rel="category tag"
+           style="display: inherit;"
         >
           <%= truncate term[:term], length: 13 %>
         </a>
