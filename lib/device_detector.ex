@@ -9,17 +9,19 @@ defmodule DeviceDetector do
     |> desktop?
   end
   def desktop?(useragent) do
-    case Parser.parse(useragent) do
-      %Result{device: %Result.Device{type: "smartphone"}} -> false
-      %Result{device: %Result.Device{type: "tablet"}} -> false
-      %Result{device: %Result.Device{type: "smart display"}} -> false
-      %Result{device: %Result.Device{type: "feature phone"}} -> false
-      %Result{device: %Result.Device{type: "phablet"}} -> false
-      %Result{device: %Result.Device{type: "portable media player"}} -> false
-      %Result{device: %Result.Device{type: "camera"}} -> false
-      %Result{device: %Result.Device{type: "car browser"}} -> false
-      %Result.Bot{user_agent: ua} -> ! Regex.match?(~r/mobile/i, ua)
-      _ -> true
+    ConCache.get_or_store :exblur_cache, "DeviceDetector.desktop?:#{useragent}", fn ->
+      case Parser.parse(useragent) do
+        %Result{device: %Result.Device{type: "smartphone"}} -> false
+        %Result{device: %Result.Device{type: "tablet"}} -> false
+        %Result{device: %Result.Device{type: "smart display"}} -> false
+        %Result{device: %Result.Device{type: "feature phone"}} -> false
+        %Result{device: %Result.Device{type: "phablet"}} -> false
+        %Result{device: %Result.Device{type: "portable media player"}} -> false
+        %Result{device: %Result.Device{type: "camera"}} -> false
+        %Result{device: %Result.Device{type: "car browser"}} -> false
+        %Result.Bot{user_agent: ua} -> ! Regex.match?(~r/mobile/i, ua)
+        _ -> true
+      end
     end
   end
 
@@ -30,13 +32,15 @@ defmodule DeviceDetector do
     |> mobile?
   end
   def mobile?(useragent) do
-    case Parser.parse(useragent) do
-      %Result{device: %Result.Device{type: "desktop"}} -> false
-      %Result{device: %Result.Device{type: "console"}} -> false
-      %Result{device: %Result.Device{type: "tv"}} -> false
-      %Result{device: %Result.Device{type: :unknown, brand: :unknown, model: :unknown}} -> false
-      %Result.Bot{user_agent: ua} -> Regex.match?(~r/mobile/i, ua)
-      _ -> true
+    ConCache.get_or_store :exblur_cache, "DeviceDetector.mobile?:#{useragent}", fn ->
+      case Parser.parse(useragent) do
+        %Result{device: %Result.Device{type: "desktop"}} -> false
+        %Result{device: %Result.Device{type: "console"}} -> false
+        %Result{device: %Result.Device{type: "tv"}} -> false
+        %Result{device: %Result.Device{type: :unknown, brand: :unknown, model: :unknown}} -> false
+        %Result.Bot{user_agent: ua} -> Regex.match?(~r/mobile/i, ua)
+        _ -> true
+      end
     end
   end
 
@@ -47,11 +51,13 @@ defmodule DeviceDetector do
     |> smartphone?
   end
   def smartphone?(useragent) do
-    case mobile?(useragent) && Parser.parse(useragent) do
-      %Result{device: %Result.Device{type: "tablet"}} -> false
-      %Result{device: %Result.Device{type: "smart display"}} -> false
-      %Result{device: %Result.Device{type: "car browser"}} -> false
-      _ -> true
+    ConCache.get_or_store :exblur_cache, "DeviceDetector.smartphone?:#{useragent}", fn ->
+      case mobile?(useragent) && Parser.parse(useragent) do
+        %Result{device: %Result.Device{type: "tablet"}} -> false
+        %Result{device: %Result.Device{type: "smart display"}} -> false
+        %Result{device: %Result.Device{type: "car browser"}} -> false
+        _ -> true
+      end
     end
   end
 
@@ -62,13 +68,15 @@ defmodule DeviceDetector do
     |> tabled?
   end
   def tabled?(useragent) do
-    case mobile?(useragent) && Parser.parse(useragent) do
-      %Result{device: %Result.Device{type: "smartphone"}} -> false
-      %Result{device: %Result.Device{type: "feature phone"}} -> false
-      %Result{device: %Result.Device{type: "phablet"}} -> false
-      %Result{device: %Result.Device{type: "portable media player"}} -> false
-      %Result{device: %Result.Device{type: "camera"}} -> false
-      _ -> true
+    ConCache.get_or_store :exblur_cache, "DeviceDetector.tabled?:#{useragent}", fn ->
+      case mobile?(useragent) && Parser.parse(useragent) do
+        %Result{device: %Result.Device{type: "smartphone"}} -> false
+        %Result{device: %Result.Device{type: "feature phone"}} -> false
+        %Result{device: %Result.Device{type: "phablet"}} -> false
+        %Result{device: %Result.Device{type: "portable media player"}} -> false
+        %Result{device: %Result.Device{type: "camera"}} -> false
+        _ -> true
+      end
     end
   end
 
