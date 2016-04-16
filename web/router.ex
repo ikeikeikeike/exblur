@@ -33,6 +33,9 @@ defmodule Exblur.Router do
     get  "/reception/removal", ReceptionController, :removal
     post "/reception/removal", ReceptionController, :removal
 
+    get "/diva/atoz", Diva.AtozController, :index
+    get "/diva/birthday", Diva.BirthdayController, :index
+
     get "/tags", TagController, :index
     get "/divas", DivaController, :index
     get "/about", AboutController, :index

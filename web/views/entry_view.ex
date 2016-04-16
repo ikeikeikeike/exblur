@@ -59,7 +59,7 @@ defmodule Exblur.EntryView do
               |> elem(1)
               |> List.to_string
 
-            String.replace(title, name, atag)
+            String.replace(title, name, " " <> atag <> " ")
           end)
 
         raw title

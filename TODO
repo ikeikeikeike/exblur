@@ -6,11 +6,10 @@
 
 - Support hreflang. It's able to choose needed language for user and G. nginx
 
-- Removed suffix numbers to kana and romaji
-- Diva's profile with some detail info on atag link.
-- To be change some color to 'duration and create_at' when there have some condition."
+- Fill up diva's profile more from wiki and GImg.
+- To be change some color to 'duration and create_at' html tag when there have some condition."
 
-- move cusor when tap input form on Nexus 5x
+- Move cusor when tap input form on Nexus 5x
 - Scraping more sites
 
 - To be internationalization to Tag, Diva, Entry Model for template words.
@@ -24,6 +23,7 @@
 
 - Fixed flash message in reception pages. Its not still showing because that is cached by nginx on GET request.
 - http://hashnuke.com/2015/07/19/convenience-hacks-for-using-exrm-with-phoenix-apps.html
+- Removed suffix numbers to kana and romaji, already done in postgres operation. its not stil making in elixir.
 - To be match result in show page's related entries.
 - Fix word search matches in ES
 

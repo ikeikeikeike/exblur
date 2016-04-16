@@ -1,22 +1,30 @@
 <div class='container'>
 
-  <ol class="breadcrumb row">
-    <li><a href="/">Home</a></li>
+  <ol class="breadcrumb row" style='margin-bottom: 0;'>
+    <li><a href="/"><%= gettext "Alternative Name" %></a></li>
     <li class="active">Tags</li>
   </ol>
 
-  <ul class="list-inline">
+  <div>
+    <h1 style="margin-top: 0;"><small><%= gettext "All Tags" %></small></h1>
+    <p><small>
+        <%= gettext "tag page title with %{name}", name: gettext("Site Name") %>
+    </small></p>
+  </div>
+
+  <ol class="list-group row" style="white-space: nowrap;<%= if mobile?(@conn), do: "font-size: 12px;" %>">
     <%= for term <- @tags[:facets][:tags][:terms] do %>
-      <li>
-        <a href="<%= entrytag_path @conn, :index,  term[:term] %>"
+      <li class="list-group-item col-xs-<%= if desktop?(@conn), do: 3, else: 6 %>">
+        <em class='badge' style='background-color: #ABABAB; <%= if mobile?(@conn), do: "font-size: 10px;" %>'><%= term[:count] %></em>
+
+        <a href="<%= entrytag_path @conn, :index, term[:term] %>"
            title="<%= gettext "Jump to %{tag}'s video results", tag: term[:term] %>"
-           rel="category tag"
+           style="display: inherit;" rel="category tag"
         >
-          <h2 style='font-weight: bold;' class="no-heading-style">
-            <%= term[:term] %> <em class='badge' style='padding: 2px 4px; background-color: #ABABAB; font-size: 7px;'><%= term[:count] %></em>
-          </h2>
+          <%= truncate term[:term], length: 13 %>
         </a>
       </li>
     <% end %>
-  </ul>
+    <li class="clearfix"></li>
+  </ol>
 </div>
