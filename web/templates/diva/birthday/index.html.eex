@@ -15,7 +15,11 @@
   <ol class="list-group">
     <%= for birthday <- @birthdays do %>
       <%= if birthday do %>
-        <li class="list-group-item col-xs-3"><a style="display: inherit;" href="<%= birthday.year %>"><%= birthday.year %>年</a></li>
+        <li class="list-group-item col-xs-3">
+          <a style="display: inherit;" href="<%= birthday_path @conn, :year, birthday.year %>">
+            <%= birthday.year %>年
+          </a>
+        </li>
       <% end %>
     <% end %>
     <li class="clearfix"></li>

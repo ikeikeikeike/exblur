@@ -31,6 +31,8 @@ defmodule Exblur.Diva do
 
     field :image,      DivaUploader.Type
 
+    field :appeared,   :integer
+
     field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
     field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
 
@@ -39,7 +41,7 @@ defmodule Exblur.Diva do
   end
 
   @required_fields ~w(name)
-  @optional_fields ~w(kana romaji gyou height weight bust bracup waste hip blood birthday)
+  @optional_fields ~w(kana romaji gyou height weight bust bracup waste hip blood birthday appeared)
   @relational_fields ~w(entries)a
   @actress_fields ~w(name kana romaji gyou)
 
