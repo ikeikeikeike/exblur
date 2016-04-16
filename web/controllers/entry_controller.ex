@@ -39,7 +39,7 @@ defmodule Exblur.EntryController do
   defp esearch(word, params) do
     params =
       params
-      |> Es.Params.prepare_params(1, 25)
+      |> Es.Params.prepare_params(1, 35)
       |> Map.put(:query, Model.query)
 
     entries =

@@ -1,0 +1,24 @@
+<div class='container'>
+
+  <ol class="breadcrumb row" style='margin-bottom: 0;'>
+    <li><a href="/"><%= gettext "Alternative Name" %></a></li>
+    <li class="active"><%= gettext "diva birthday index page title" %></li>
+  </ol>
+
+  <div>
+    <h1 style="margin-top: 0;"><small><%= gettext "diva birthday index page title" %></small></h1>
+    <p><small>
+        <%= gettext "diva birthday index page title with %{name}", name: gettext("Site Name") %>
+    </small></p>
+  </div>
+
+  <ol class="list-group">
+    <%= for birthday <- @birthdays do %>
+      <%= if birthday do %>
+        <li class="list-group-item col-xs-3"><a style="display: inherit;" href="<%= birthday.year %>"><%= birthday.year %>年</a></li>
+      <% end %>
+    <% end %>
+    <li class="clearfix"></li>
+  </ol>
+
+</div>
