@@ -1,0 +1,20 @@
+<div class='container'>
+
+  <ol class="breadcrumb row" style='margin-bottom: 0;'>
+    <li><a href="/"><%= gettext "Alternative Name" %></a></li>
+    <li><a href="<%= birthday_path @conn, :index %>"><%= gettext "diva birthday index page title" %></a></li>
+    <li class="active"><%= gettext "diva birthday show page title" %></li>
+  </ol>
+
+  <div>
+    <h1 style="margin-top: 0;"><small><%= gettext "diva birthday show page title" %></small></h1>
+    <p><small>
+        <%= gettext "diva birthday show page title with %{name}", name: gettext("Site Name") %>
+    </small></p>
+  </div>
+
+  <ol class="list-group">
+    <li class="clearfix"></li>
+  </ol>
+
+</div>
