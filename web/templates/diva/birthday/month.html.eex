@@ -3,7 +3,8 @@
   <ol class="breadcrumb row" style='margin-bottom: 0;'>
     <li><a href="/"><%= gettext "Alternative Name" %></a></li>
     <li><a href="<%= birthday_path @conn, :index %>"><%= gettext "diva birthday index page title" %></a></li>
-    <li class="active"><%= gettext "diva birthday show page title" %></li>
+    <li><a href="<%= birthday_path @conn, :year, @conn.params["year"] %>"><%= @conn.params["year"] %><%= gettext "Year" %></a></li>
+    <li class="active"><%= @conn.params["month"] %><%= gettext "Month"  %></li>
   </ol>
 
   <div>
@@ -13,8 +14,6 @@
     </small></p>
   </div>
 
-  <ol class="list-group">
-    <li class="clearfix"></li>
-  </ol>
+  <%= render Exblur.DivaView, "_divalist.html", conn: @conn, divas: @divas %>
 
 </div>

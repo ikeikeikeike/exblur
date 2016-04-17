@@ -3,7 +3,7 @@
   <ol class="breadcrumb row" style='margin-bottom: 0;'>
     <li><a href="/"><%= gettext "Alternative Name" %></a></li>
     <li><a href="<%= birthday_path @conn, :index %>"><%= gettext "diva birthday index page title" %></a></li>
-    <li class="active"><%= gettext "diva birthday show page title" %></li>
+    <li class="active"><%= @conn.params["year"] %><%= gettext "Year" %></li>
   </ol>
 
   <div>
@@ -13,17 +13,20 @@
     </small></p>
   </div>
 
-  <ol class="list-group">
+  <ol class="list-group row">
     <%= for birthday <- @birthdays do %>
       <%= if birthday do %>
         <li class="list-group-item col-xs-3">
           <a style="display: inherit;" href="<%= birthday_path @conn, :month, birthday.year, birthday.month %>">
-            <%= birthday.month %>月
+            <%= birthday.month %><%= gettext "Month" %>
           </a>
         </li>
       <% end %>
     <% end %>
     <li class="clearfix"></li>
   </ol>
+
+
+  <%= render Exblur.DivaView, "_divalist.html", conn: @conn, divas: @divas %>
 
 </div>
