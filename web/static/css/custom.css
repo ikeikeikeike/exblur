@@ -19,3 +19,17 @@
 .bookmarkhub a img {
    display: inline-block;
 }
+
+.help-title {
+    font-size: 10px;
+    color: #909090;
+}
+
+.loose-list-width * li {
+    padding-right: 0px;
+    padding-left: 2px;
+}
+
+.bold {
+    font-weight: bold;
+}

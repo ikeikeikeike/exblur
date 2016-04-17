@@ -58,8 +58,13 @@ config :logger, level: :warn
 #
 
 config :quantum, cron: [
+    build_appeared: [
+      schedule: "35 * * * *",
+      task: "Divabuilder.BuildAppeared.run",
+      args: []
+    ],
     build_divas: [
-      schedule: "5 5 * * *",
+      schedule: "50 5 * * *",
       task: "Entrybuilder.BuildDivas.run",
       args: []
     ],

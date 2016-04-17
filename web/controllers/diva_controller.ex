@@ -9,8 +9,10 @@ defmodule Exblur.DivaController do
 
   def index(conn, _params) do
     divas =
-      Exblur.Entry.diva_facets
-      |> Tirexs.Query.result
+      Model
+      |> where([q], q.appeared > 0)
+      |> order_by([q], [desc: q.appeared])
+      |> Exblur.Repo.all
 
     render(conn, "index.html", divas: divas)
   end

@@ -39,7 +39,7 @@
               <%= unless Blank.blank?(@diva.birthday) do %>
                 <tr>
                   <td><%= gettext "Age" %>:</td>
-                  <td><%= to_age @diva.birthday %> (<span itemprop="birthDate"><%= @diva.birthday %></span>)</td>
+                  <td><%= to_age @diva.birthday %><%= gettext "AGE" %> (<span itemprop="birthDate"><%= @diva.birthday %></span>)</td>
                 </tr>
               <% end %>
               <%= if @diva.height do %>
@@ -54,13 +54,13 @@
               <%= if @diva.blood do %>
                 <tr>
                   <td><%= gettext "bloodType" %>:</td>
-                  <td itemprop="bloodType"><%= @diva.blood %></td>
+                  <td itemprop="bloodType"><%= @diva.blood %><%= gettext "BTYPE" %></td>
                 </tr>
               <% end %>
               <%= if @diva.bracup do %>
                 <tr>
                   <td><%= gettext "BraSize" %>:</td>
-                  <td itemprop="bracup"><%= @diva.bracup %></td>
+                  <td itemprop="bracup"><%= @diva.bracup %><%= gettext "BRACUP" %></td>
                 </tr>
               <% end %>
               <%= if @diva.bust do %>

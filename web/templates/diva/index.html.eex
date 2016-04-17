@@ -13,15 +13,55 @@
   </div>
 
   <ol class="list-group row" style="white-space: nowrap;<%= if mobile?(@conn), do: "font-size: 12px;" %>">
-    <%= for term <- @divas[:facets][:divas][:terms] do %>
-      <li class="list-group-item col-xs-<%= if desktop?(@conn), do: 3, else: 6 %>">
-        <em class='badge' style='background-color: #ABABAB; <%= if mobile?(@conn), do: "font-size: 10px;" %>'><%= term[:count] %></em>
+    <%= for diva <- @divas do %>
+      <li class="list-group-item col-xs-<%= if desktop?(@conn), do: 4, else: 12 %>" itemscope itemtype="http://schema.org/Person">
+        <link itemprop="url" href="<%= entrydiva_path @conn, :index, diva.name %>" />
+        <meta itemprop="image" content="<%= divaimg diva %>" />
+        <meta itemprop="gender" content="Female" />
+        <meta itemprop="jobTitle" content="Porn Star" />
+        <meta itemprop="actor" content="VideoObject" />
 
-        <a href="<%= entrydiva_path @conn, :index, term[:term] %>"
-           title="<%= gettext "Jump to %{diva}'s video results", diva: term[:term] %>"
+        <em class='badge' style='background-color: #ABABAB; <%= if mobile?(@conn), do: "font-size: 10px;" %>'><%= diva.appeared %></em>
+
+        <a href="<%= entrydiva_path @conn, :index, diva.name %>"
+           title="<%= gettext "Jump to %{diva}'s video results", diva: diva.name %>"
+           class="<%= if mobile?(@conn), do: "loose-list-width" %>"
            style="display: inherit;"
         >
-          <%= truncate term[:term], length: 13 %>
+
+          <ol class="list-inline">
+            <li itemprop="name" class='bold'><%= truncate diva.name, length: 13 %></li>
+            <li itemprop="givenName" class="help-title"><%= diva.kana %></li>
+            <%= unless Blank.blank?(diva.romaji) do %>
+              <li itemprop="alternateName" class="help-title"><%=
+                String.split(diva.romaji, "_")
+                |> Enum.map(&(String.capitalize &1))
+                |> Enum.join(" ")
+                %>
+              </li>
+            <%= end %>
+          </ol>
+          <ol class="list-inline help-title">
+            <%= unless Blank.blank?(diva.birthday) do %>
+              <li><%= to_age diva.birthday %><%= gettext "AGE" %>(<span itemprop="birthDate"><%= diva.birthday %></span>)</li>
+            <% end %>
+            <%= if diva.height do %>
+              <li>
+                <span itemprop="height"><%= diva.height %></span>cm<%= if diva.weight > 0 do %>/<span itemprop="weight"><%= diva.weight %></span>kg<% end %>
+              </li>
+            <% end %>
+            <%= if diva.bust do %>
+              <li>
+                  B:<span itemprop="bust"><%= diva.bust %></span><%= if diva.bracup do %><span itemprop="bracup">(<%= diva.bracup %><%= gettext "BRACUP" %>)</span><% end %>
+                  W:<span itemprop="waste"><%= diva.waste %></span>
+                  H:<span itemprop="hip"><%= diva.hip %></span>
+              </li>
+            <% end %>
+            <%= if diva.blood do %>
+              <li itemprop="bloodType"><%= diva.blood %><%= gettext "BTYPE" %></li>
+            <% end %>
+            <li class="clearfix"></li>
+          </ol>
         </a>
       </li>
     <% end %>
