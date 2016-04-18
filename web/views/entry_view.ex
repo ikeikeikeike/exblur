@@ -44,7 +44,9 @@ defmodule Exblur.EntryView do
   end
   def page_description(:show, assigns) do
     after_description =
-      Enum.map(assigns[:entries].entries, fn entry -> entry.title end)
+      assigns[:entries].entries
+      |> Enum.reverse
+      |> Enum.map(fn entry -> entry.title end)
       |> Enum.join(", ")
 
     Enum.join([
