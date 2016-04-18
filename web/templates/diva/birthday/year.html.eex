@@ -20,9 +20,11 @@
   </ol>
 
   <div>
-    <h1 style="margin-top: 0;"><small><%= gettext "diva birthday show page title" %></small></h1>
+    <h2 style="white-space: nowrap; margin-top: 0;">
+      <small><%= gettext "diva birthday year page title with %{year}", year: @conn.params["year"] %></small>
+    </h2>
     <p><small>
-        <%= gettext "diva birthday show page title with %{name}", name: gettext("Site Name") %>
+        <%= gettext "diva birthday year page title with %{name} and %{year}", name: gettext("Site Name"), year: @conn.params["year"] %>
     </small></p>
   </div>
 

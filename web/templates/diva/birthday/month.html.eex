@@ -26,9 +26,14 @@
   </ol>
 
   <div>
-    <h1 style="margin-top: 0;"><small><%= gettext "diva birthday show page title" %></small></h1>
+    <h2 style="white-space: nowrap; margin-top: 0;">
+      <small><%= gettext "diva birthday month page title with %{year} and %{month}",
+                          year: @conn.params["year"], month: Ordinalizer.Month.ordinalize(locale, @conn.params["month"])%>
+    </small>
+    </h2>
     <p><small>
-        <%= gettext "diva birthday show page title with %{name}", name: gettext("Site Name") %>
+        <%= gettext "diva birthday month page title with %{name} and %{year} and %{month}",
+                    name: gettext("Site Name"), year: @conn.params["year"], month: Ordinalizer.Month.ordinalize(locale, @conn.params["month"]) %>
     </small></p>
   </div>
 
