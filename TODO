@@ -11,6 +11,7 @@
 
 - Move cusor when tap input form on Nexus 5x
 - Scraping more sites
+- Improve short metadata(descriptions) in ?page=2 and show pages.
 
 - To be internationalization to Tag, Diva, Entry Model for template words.
 - Mongo index

@@ -42,7 +42,16 @@ defmodule Exblur.EntryView do
       true             -> gettext "Default Page Description"
     end
   end
-  def page_description(:show, assigns), do: truncate(assigns[:entry].content, length: 700)
+  def page_description(:show, assigns) do
+    after_description =
+      Enum.map(assigns[:entries].entries, fn entry -> entry.title end)
+      |> Enum.join(", ")
+
+    Enum.join([
+      gettext("Content Explain"),
+      truncate(after_description, length: 100)
+    ], ": ")
+  end
   def page_description(_, _),           do: gettext "Default Page Description"
 
   def title_with_link(conn, entry) do
@@ -89,6 +98,9 @@ defmodule Exblur.EntryView do
 
       conn.params["tag"] ->
         conn.params["tag"] == name
+
+      conn.params["diva"] ->
+        conn.params["diva"] == name
 
       true -> false
     end
