@@ -1,10 +1,28 @@
 <div class='container'>
 
-  <ol class="breadcrumb row style-off" style='margin-bottom: 0;'>
-    <li><a href="/"><%= gettext "Alternative Name" %></a></li>
-    <li><a href="<%= birthday_path @conn, :index %>"><%= gettext "diva birthday index page title" %></a></li>
-    <li><a href="<%= birthday_path @conn, :year, @conn.params["year"] %>"><%= @conn.params["year"] %><%= gettext "Year" %></a></li>
-    <li class="active"><%= Ordinalizer.Month.ordinalize locale, @conn.params["month"] %></li>
+  <ol itemscope itemtype="http://schema.org/BreadcrumbList" class="breadcrumb row style-off" style='margin-bottom: 0;'>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/"><span itemprop="name"><%= gettext "Alternative Name" %></span></a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="<%= diva_path(@conn, :index) %>"><span itemprop="name">Diva</span></a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="<%= birthday_path @conn, :index %>"><span itemprop="name"><%= gettext "Birthday" %></span></a>
+      <meta itemprop="position" content="3" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="<%= birthday_path @conn, :year, @conn.params["year"] %>"><span itemprop="name"><%= @conn.params["year"] %><%= gettext "Year" %></span></a>
+      <meta itemprop="position" content="4" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="active">
+      <a itemprop="item" href="<%= birthday_path @conn, :month, @conn.params["year"], @conn.params["month"] %>">
+        <span itemprop="name"><%= Ordinalizer.Month.ordinalize locale, @conn.params["month"] %></span>
+      </a>
+      <meta itemprop="position" content="5" />
+    </li>
   </ol>
 
   <div>

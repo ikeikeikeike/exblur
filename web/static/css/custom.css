@@ -37,3 +37,7 @@
 .style-off {
     list-style: none;
 }
+
+.breadcrumb {
+  white-space: nowrap;
+}
