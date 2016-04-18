@@ -1,6 +1,10 @@
 defmodule Exblur.WebView do
   alias Phoenix.HTML.Tag
 
+  def locale do
+    Gettext.get_locale(Exblur.Gettext)
+  end
+
   def take_params(%Plug.Conn{} = conn, keys)        when is_list(keys),                    do: take_params(conn, keys, %{})
   def take_params(%Plug.Conn{} = conn, keys, merge) when is_list(keys) and is_list(merge), do: take_params(conn, keys, Enum.into(merge, %{}))
   def take_params(%Plug.Conn{} = conn, keys, merge) do

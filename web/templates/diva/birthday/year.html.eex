@@ -1,6 +1,6 @@
 <div class='container'>
 
-  <ol class="breadcrumb row" style='margin-bottom: 0;'>
+  <ol class="breadcrumb row style-off" style='margin-bottom: 0;'>
     <li><a href="/"><%= gettext "Alternative Name" %></a></li>
     <li><a href="<%= birthday_path @conn, :index %>"><%= gettext "diva birthday index page title" %></a></li>
     <li class="active"><%= @conn.params["year"] %><%= gettext "Year" %></li>
@@ -13,12 +13,12 @@
     </small></p>
   </div>
 
-  <ol class="list-group row">
+  <ol class="list-group row style-off">
     <%= for birthday <- @birthdays do %>
       <%= if birthday do %>
         <li class="list-group-item col-xs-3">
           <a style="display: inherit;" href="<%= birthday_path @conn, :month, birthday.year, birthday.month %>">
-            <%= birthday.month %><%= gettext "Month" %>
+            <%= Ordinalizer.Month.ordinalize locale, birthday.month %>
           </a>
         </li>
       <% end %>

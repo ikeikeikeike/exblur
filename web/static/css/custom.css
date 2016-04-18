@@ -33,3 +33,7 @@
 .bold {
     font-weight: bold;
 }
+
+.style-off {
+    list-style: none;
+}

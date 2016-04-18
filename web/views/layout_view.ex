@@ -40,13 +40,6 @@ defmodule Exblur.LayoutView do
   def default_page_description(_conn, _assigns), do: gettext "Default Page Description"
 
   @doc """
-  Renders current locale.
-  """
-  def locale do
-    Gettext.get_locale(Exblur.Gettext)
-  end
-
-  @doc """
   Provides tuples for all alternative languages supported.
   """
   def language_annotations(conn) do
