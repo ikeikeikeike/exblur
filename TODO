@@ -12,6 +12,9 @@
 - Move cusor when tap input form on Nexus 5x
 - Scraping more sites
 - Improve short metadata(descriptions) in ?page=2 and show pages.
+- Improve gettext "Default Page Description"
+
+- descritpion, title will be inspire from my site
 
 - To be internationalization to Tag, Diva, Entry Model for template words.
 - Mongo index
