@@ -6,11 +6,17 @@ defmodule Exblur.Diva.BracupController do
 
   def index(conn, _params) do
     bracups =
-      Model
-      |> where([q], q.appeared > 0)
-      |> where([q], not is_nil(q.bracup))
-      |> order_by([q], [desc: q.bracup])
-      |> Exblur.Repo.all
+      Enum.map(?A..?Z, &IO.iodata_to_binary([&1]))
+      |> Enum.map(fn bracup ->
+        divas =
+          Model
+          |> where([q], q.bracup == ^bracup)
+          |> where([q], q.appeared > 0)
+          |> where([q], not is_nil(q.bracup))
+          |> order_by([q], [asc: q.bracup])
+          |> Exblur.Repo.all
+        {bracup, divas}
+      end)
 
     render(conn, "index.html", bracups: bracups)
   end

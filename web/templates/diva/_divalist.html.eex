@@ -1,6 +1,14 @@
 <ol class="list-group row style-off" style="white-space: nowrap;<%= if mobile?(@conn), do: "font-size: 12px;" %>">
   <%= for diva <- @divas do %>
-    <li class="list-group-item col-xs-<%= if desktop?(@conn), do: 4, else: 12 %>" itemscope itemtype="http://schema.org/Person">
+    <li class="list-group-item
+      <%=
+      cond do
+        @conn.request_path == "/divas" && desktop?(@conn) -> "col-xs-4"
+        desktop?(@conn) -> "col-xs-6"
+        mobile?(@conn)  -> "col-xs-12"
+      end %>
+      "
+        itemscope itemtype="http://schema.org/Person">
       <link itemprop="url" href="<%= entrydiva_path @conn, :index, diva.name %>" />
       <meta itemprop="image" content="<%= divaimg diva %>" />
       <meta itemprop="gender" content="Female" />
