@@ -6,24 +6,19 @@ defmodule Exblur.Diva.AtozController do
   require Tirexs.Query
 
   def index(conn, _params) do
-    divas =
-      Exblur.Entry.diva_facets
-      |> Tirexs.Query.result
-      |> as_model
-
-    render(conn, "index.html", divas: divas)
-  end
-
-  defp as_model(tirexs) do
-    names =
-      Enum.map(tirexs[:facets][:divas][:terms], fn term ->
-        term[:term]
+    letters =
+      Divabuilder.Api.kunrei_romaji
+      |> Enum.map(fn letter ->
+        divas =
+          Model
+          |> where([q], q.gyou == ^letter)
+          |> where([q], q.appeared > 0)
+          |> where([q], not is_nil(q.gyou))
+          |> Exblur.Repo.all
+        {letter, divas}
       end)
 
-    Model.query
-    |> where([q], q.name in ^names)
-    |> order_by([q], [asc: q.kana])
-    |> Exblur.Repo.all
+    render(conn, "index.html", letters: letters)
   end
 
 end

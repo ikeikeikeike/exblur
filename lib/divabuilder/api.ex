@@ -16,6 +16,8 @@ defmodule Divabuilder.Api do
     wa
   }
 
+  def kunrei_romaji, do: @kunrei_romaji
+
   def getdata do
     Enum.map @kunrei_romaji, fn prefix ->
       %{prefix => getdata(prefix)}
