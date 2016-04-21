@@ -41,13 +41,3 @@
 .breadcrumb {
   white-space: nowrap;
 }
-
-.affix-botom {
-  position: absolute;
-}
-
-.affix {
-  position: fixed;
-  top: 10px;
-}
-

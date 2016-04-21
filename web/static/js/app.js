@@ -21,3 +21,4 @@
 // import socket from "./socket"
 
 import typeahead from "./typeahead"
+import sidebar from "./sidebar"
