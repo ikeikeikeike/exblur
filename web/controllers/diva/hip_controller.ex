@@ -11,7 +11,7 @@ defmodule Exblur.Diva.HipController do
         divas =
           Model
           |> where([q], q.hip >= ^hip)
-          |> where([q], q.hip < ^(hip + 10))
+          |> where([q], q.hip < ^(hip + 5))
           |> where([q], q.hip > 50)
           |> where([q], q.appeared > 0)
           |> where([q], not is_nil(q.hip))

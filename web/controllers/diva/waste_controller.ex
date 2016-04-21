@@ -11,8 +11,8 @@ defmodule Exblur.Diva.WasteController do
         divas =
           Model
           |> where([q], q.waste >= ^waste)
-          |> where([q], q.waste < ^(waste + 10))
-          |> where([q], q.waste > 50)
+          |> where([q], q.waste < ^(waste + 5))
+          |> where([q], q.waste > 40)
           |> where([q], q.appeared > 0)
           |> where([q], not is_nil(q.waste))
           |> order_by([q], [asc: q.waste])
