@@ -37,10 +37,12 @@ defmodule Exblur.Router do
     get "/diva/date-of-birth/:year/:month", Diva.BirthdayController, :month
     get "/diva/date-of-birth/:year", Diva.BirthdayController, :year
     get "/diva/date-of-birth", Diva.BirthdayController, :index
+    get "/diva/height", Diva.HeightController, :index
     get "/diva/bracup", Diva.BracupController, :index
     get "/diva/waste", Diva.WasteController, :index
     get "/diva/bust", Diva.BustController, :index
     get "/diva/hip", Diva.HipController, :index
+    get "/diva/blood", Diva.BloodController, :index
 
     get "/tags", TagController, :index
     get "/divas", DivaController, :index
