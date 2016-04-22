@@ -21,6 +21,7 @@
   "ex_aws": {:hex, :ex_aws, "0.4.18"},
   "ex_form": {:git, "https://github.com/smpallen99/ex_form.git", "6d08d449b112f89e48279daeca74b2b42a16fdda", []},
   "ex_queb": {:git, "https://github.com/E-MetroTel/ex_queb.git", "425b68ea04d4819fe068bb740cbf32febcd3109f", []},
+  "ex_sitemap_generator": {:git, "https://github.com/ikeikeikeike/some-sitemap.git", "eeff0184218b646efbcbfbcb2abcc65fc5b7336e", []},
   "exactor": {:hex, :exactor, "2.2.0"},
   "exfavicon": {:hex, :exfavicon, "0.3.3"},
   "exjsx": {:hex, :exjsx, "3.2.0"},
@@ -68,5 +69,6 @@
   "tzdata": {:hex, :tzdata, "0.5.7"},
   "ua_inspector": {:hex, :ua_inspector, "0.11.0"},
   "xain": {:git, "https://github.com/smpallen99/xain.git", "e3abb0a646f46e2b869c0c117a320b658f05506b", []},
+  "xml_builder": {:hex, :xml_builder, "0.0.8"},
   "yamerl": {:git, "https://github.com/yakaz/yamerl.git", "ae810a808817d9482b4628ae3e20d746e3729fe0", []},
   "yaml_elixir": {:hex, :yaml_elixir, "1.0.0"}}
