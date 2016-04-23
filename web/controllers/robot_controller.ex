@@ -6,7 +6,6 @@ defmodule Exblur.RobotController do
 
     text conn, """
     Sitemap: http://#{host}/sitemap.xml.gz
-    Sitemap: http://#{host}/sitemap-mobile.xml.gz
     """
   end
 

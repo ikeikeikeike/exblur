@@ -14,7 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "0.4.33"
+    v = "0.4.42"
     File.write! "VERSION", v
     v
   end
@@ -57,7 +57,8 @@ defmodule Exblur.Mixfile do
        :phoenix_html_simplified_helpers,
        :scrivener_html,
        :floki,
-       :mailgun
+       :mailgun,
+       :ex_sitemap_generator
      ]
    ]
   end

@@ -4,8 +4,8 @@
     <% if false do %>
     <dl class="dl-horizontal">
       <%# Server.all.each do |site| do %>
-        <dt><%#= link_to site.title, urlize(site.domain) %></span></dt>
-        <dd class="text-muted"><span class="glyphicon glyphicon-heart-empty"></dd>
+        <dt><%#= link_to site.title, urlize(site.domain) %></dt>
+        <dd class="text-muted"><span class="glyphicon glyphicon-heart-empty"></span></dd>
       <%# end %>
     </dl>
     <% end %>
@@ -18,10 +18,10 @@
           </a>
           <ul class="dropdown-menu">
             <li class="disabled" itemprop="name"><a itemprop="url" href="javascript:;">
-              <span class="flag-icon flag-icon-background flag-icon-us"></span> English</span>
+              <span class="flag-icon flag-icon-background flag-icon-us"></span> English
             </a></li>
             <li class="disabled" itemprop="name"><a itemprop="url" href="javascript:;">
-              <span class="flag-icon flag-icon-background flag-icon-jp"></span> Japanese</span>
+              <span class="flag-icon flag-icon-background flag-icon-jp"></span> Japanese
             </a></li>
           </ul>
         </li>
