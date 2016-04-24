@@ -58,6 +58,21 @@ config :logger, level: :warn
 #
 
 config :quantum, cron: [
+    build_image_brushup: [
+      schedule: "7 * * * *",
+      task: "Divabuilder.BuildImage.run",
+      args: [brushup: true]
+    ],
+    build_image_fillup: [
+      schedule: "32 * * * *",
+      task: "Divabuilder.BuildImage.run",
+      args: [fillup: true]
+    ],
+    build_image_all: [
+      schedule: "53 * * * *",
+      task: "Divabuilder.BuildImage.run",
+      args: [all: true]
+    ],
     build_appeared: [
       schedule: "35 * * * *",
       task: "Divabuilder.BuildAppeared.run",
