@@ -17,8 +17,7 @@ defmodule Exblur.Tag do
     field :gyou,   :string
     field :orig,   :string
 
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
-    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    timestamps([{:inserted_at, :created_at}])
 
     has_many :entry_tags, Exblur.EntryTag
     has_many :entries, through: [:entry_tags, :entry]

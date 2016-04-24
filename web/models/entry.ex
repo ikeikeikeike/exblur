@@ -32,8 +32,7 @@ defmodule Exblur.Entry do
     field :publish, :boolean, default: false
     field :removal, :boolean, default: false
 
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
-    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    timestamps([{:inserted_at, :created_at}])
 
     belongs_to :site, Site
 

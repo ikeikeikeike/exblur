@@ -7,8 +7,7 @@ defmodule Exblur.EntryTag do
     belongs_to :entry, Exblur.Entry
     belongs_to :tag,   Exblur.Tag
 
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
-    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    timestamps([{:inserted_at, :created_at}])
   end
 
   @required_fields ~w(entry_id tag_id)

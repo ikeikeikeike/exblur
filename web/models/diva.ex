@@ -33,8 +33,7 @@ defmodule Exblur.Diva do
 
     field :appeared,   :integer
 
-    field :created_at, Ecto.DateTime, default: Ecto.DateTime.utc
-    field :updated_at, Ecto.DateTime, default: Ecto.DateTime.utc
+    timestamps([{:inserted_at, :created_at}])
 
     has_many :entry_divas, Exblur.EntryDiva
     has_many :entries, through: [:entry_divas, :entry]
