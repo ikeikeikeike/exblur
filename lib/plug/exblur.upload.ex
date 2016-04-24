@@ -2,6 +2,8 @@ defmodule Plug.Exblur.Upload do
 
   require Logger
 
+  @config Application.get_env(:exblur, :http_headers)
+
   def detect_icon!(url) do
     icon = Exfavicon.find(url)
     if Exfavicon.valid_favicon_url?(icon), do: make_plug!(icon), else: nil
@@ -19,7 +21,8 @@ defmodule Plug.Exblur.Upload do
   end
 
   defp recursive_request!(filename, retry \\ 10) do
-    case HTTPoison.get(filename, [connect_timeout: 30]) do
+    opts = [{"User-agent", @config[:user_agent]}, {"connect_timeout", 30}]
+    case HTTPoison.get(filename, opts) do
       {:error, reason} ->
         Logger.warn "#{inspect reason}"
 

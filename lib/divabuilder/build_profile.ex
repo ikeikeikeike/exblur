@@ -10,7 +10,7 @@ defmodule Divabuilder.BuildProfile do
     bauth = [basic_auth: Application.get_env(:exblur, :diva)[:basic_auth]]
 
     {:ok, response} =
-      case Client.get(endpoint, [], [hackney: bauth, connect_timeout: 100000, timeout: 100000, recv_timeout: 100000]) do
+      case Client.get(endpoint, [], [hackney: bauth]) do
         {:ok, response} -> Poison.decode(response.body)
         {:error, reason} -> Logger.error("#{inspect reason}")
       end

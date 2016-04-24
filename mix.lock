@@ -42,6 +42,7 @@
   "metrics": {:hex, :metrics, "1.0.1"},
   "mimerl": {:hex, :mimerl, "1.0.2"},
   "mochiweb_html": {:hex, :mochiweb_html, "2.13.0"},
+  "mogrify": {:hex, :mogrify, "0.2.0"},
   "mongodb": {:hex, :mongodb, "0.1.1"},
   "mongodb_ecto": {:hex, :mongodb_ecto, "0.1.2"},
   "neotoma": {:hex, :neotoma, "1.7.3"},

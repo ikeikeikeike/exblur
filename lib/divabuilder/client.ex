@@ -8,7 +8,11 @@ defmodule Divabuilder.Client do
   # end
 
   defp process_request_headers(headers) do
-    Keyword.put(headers, :follow_redirect, true)
+    headers
+    |> Keyword.put(:follow_redirect, true)
+    |> Keyword.put(:timeout, 100000)
+    |> Keyword.put(:recv_timeout, 100000)
+    |> Keyword.put(:connect_timeout, 100000)
   end
 
 end

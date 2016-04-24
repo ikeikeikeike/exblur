@@ -1,47 +1,45 @@
-- Confirm has_many, m2mのon_delete, notify
-  -> Want to remove relational table's id on video_entries and diva
-
-- Translate tags to kana and romaji then that creates translated field in tag table if that wants.
-- Set Expires(TTL) in con_cache
-
-- Support hreflang. It's able to choose needed language for user and G. nginx
-
 - Fill up diva's profile more from wiki and GImg.
-- To be change some color to 'duration and create_at' html tag when there have some condition."
 
-- Move cusor when tap input form on Nexus 5x
-- Scraping more sites
-- Improve short metadata(descriptions) in ?page=2 and show pages.
-- Improve gettext "Default Page Description"
 
-- descritpion, title will be inspire from my site
 
-- To be internationalization to Tag, Diva, Entry Model for template words.
-- Mongo index
-- Remove mongo records when the record has bad condition about less than 120 or including url.
-- Needs more scrapy sites and remove already enabled sites.
+
+
+
+
+
+
 - update removal status to entry model like remove record and then send remove api to ES for performance and storage size. its not updating status in ES.
-- To video time format. entry.published_at.iso8601
+- To became video time format. entry.published_at.iso8601
 - Mix task: Dead link checker.
 - Mix task: Remove old videos. Its like unable video.
 
-- Fixed flash message in reception pages. Its not still showing because that is cached by nginx on GET request.
-- http://hashnuke.com/2015/07/19/convenience-hacks-for-using-exrm-with-phoenix-apps.html
-- Removed suffix numbers to kana and romaji, already done in postgres operation. its not stil making in elixir.
-- To be match result in show page's related entries.
-- Fix word search matches in ES
+- Confirm has_many, m2mのon_delete, notify
+  -> To remove relational table's id on video_entries and diva
 
-- Fixed width in container using css.
-- Send mail when the system happended error.
-- Generate sitemap
-
-- Mix task: reindex diva, entry, tag
+- descritpion, title will be inspire from my site
+- Needs more scrapy sites and remove already enabled sites.
+- Scraping more sites
 - Suggestion with Image.
-- Translator's Agent to be follow Application system
-- Autocomplete(suggestion) performance improving.
 - Version up Elasticsearch
+- Autocomplete(suggestion) performance improving.
+- Mix task: reindex diva, entry, tag
+- Fixed width in container using css when the page which is not fixed.
+- Send mail when the system happended error.
+- Fixed flash message in reception pages. Its not still showing because that is cached by nginx on GET request.
+- Remove mongo records when the record has bad condition about less than 120 or including url.
+- To be internationalization to Tag, Diva, Entry Model for template words.
+- Translate tags to kana and romaji then that creates translated field in tag table if that wants.
+- Move cusor when tap input form on Nexus 5x
+- To be change some color to 'duration and create_at' html tag when there have some condition."
+- Support hreflang. It's able to choose needed language for user and G. nginx
+- Set Expires(TTL) in con_cache
+- Removed suffix numbers to kana and romaji, already done in postgres operation. its not stil making in elixir.
+- Improving `show page's` relational entries.
+- Improving word search matches in ES
 - Mongo auth for securty
 - Free SSL certification
+- http://hashnuke.com/2015/07/19/convenience-hacks-for-using-exrm-with-phoenix-apps.html
+
 
 http://www.google.com/ping?sitemap=
 http://www.google.com/webmasters/sitemaps/ping?sitemap=
