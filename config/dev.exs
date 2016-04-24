@@ -58,5 +58,4 @@ config :exblur, Exblur.Mongo,
   hostname: "localhost",
   pool_size: 5
 
-
 import_config "dev.secret.exs"

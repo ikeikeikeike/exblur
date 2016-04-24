@@ -61,17 +61,17 @@ config :quantum, cron: [
     build_image_brushup: [
       schedule: "7 * * * *",
       task: "Divabuilder.BuildImage.run",
-      args: [brushup: true]
+      args: [:brushup]
     ],
     build_image_fillup: [
       schedule: "32 * * * *",
       task: "Divabuilder.BuildImage.run",
-      args: [fillup: true]
+      args: [:fillup]
     ],
     build_image_all: [
       schedule: "53 * * * *",
       task: "Divabuilder.BuildImage.run",
-      args: [all: true]
+      args: [:all]
     ],
     build_appeared: [
       schedule: "35 * * * *",

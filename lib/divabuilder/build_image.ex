@@ -7,8 +7,8 @@ defmodule Divabuilder.BuildImage do
 
   require Logger
 
-  def run, do: run([brushup: true])
-  def run([brushup: true]) do
+  def run, do: run(:brushup)
+  def run(:brushup) do
     Diva
     |> where([q], q.appeared > 0)
     |> order_by([q], [asc: q.updated_at])
@@ -16,7 +16,7 @@ defmodule Divabuilder.BuildImage do
     |> run
   end
 
-  def run([fillup: true]) do
+  def run(:fillup) do
     Diva
     |> where([q], is_nil(q.image))
     |> order_by([q], [asc: q.updated_at])
@@ -24,7 +24,7 @@ defmodule Divabuilder.BuildImage do
     |> run
   end
 
-  def run([all: true]) do
+  def run(:all) do
     Diva
     |> order_by([q], [asc: q.updated_at])
     |> limit([q], 5)
