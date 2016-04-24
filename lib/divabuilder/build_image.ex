@@ -18,7 +18,7 @@ defmodule Divabuilder.BuildImage do
 
   def run([fillup: true]) do
     Diva
-    |> where([q], q.image != "")
+    |> where([q], is_nil(q.image))
     |> order_by([q], [asc: q.updated_at])
     |> limit([q], 5)
     |> run
@@ -48,7 +48,10 @@ defmodule Divabuilder.BuildImage do
             {_, model} ->
               img = Bing.make_plug!(diva.name)
               case Repo.update(Diva.changeset(model, %{image: img})) do
-                {:error, } -> Repo.update(Diva.changeset(model, %{}))
+                {:error, } ->
+                  Diva.changeset(model, %{updated_at: Ecto.DateTime})
+                  |> Repo.update
+
                 {_, model} -> model
               end
           end
