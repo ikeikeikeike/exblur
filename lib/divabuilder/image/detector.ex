@@ -18,8 +18,8 @@ defmodule Divabuilder.Image.Detector do
     x in File.Error -> {:ng, x}
   end
 
-  def info(url) when is_nil(url), do: {:ng, "no filename"}
-  def info(url) when url == "",   do: {:ng, "no filename"}
+  def info(filename) when is_nil(filename), do: {:ng, "no filename"}
+  def info(filename) when filename == "",   do: {:ng, "no filename"}
   def info(filename) do
     magic =
       filename

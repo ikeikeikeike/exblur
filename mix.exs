@@ -14,7 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "0.4.43"
+    v = "0.4.44"
     File.write! "VERSION", v
     v
   end
@@ -42,6 +42,7 @@ defmodule Exblur.Mixfile do
        :calendar,
        :timex,
        :quantum,
+       :sitemap,
        # :conform,
        # :conform_exrm,
      ],
@@ -107,7 +108,8 @@ defmodule Exblur.Mixfile do
      {:mailgun, "~> 0.1"},
      {:mogrify, "~> 0.2"},
 
-     # {:ex_sitemap_generator, github: "ikeikeikeike/some-sitemap"},
+     {:postgrex, ">= 0.0.0"},
+     {:sitemap, ">= 0.0.0"},
      # {:conform, "~> 2.0", override: true},
      # {:conform_exrm, "~> 1.0"}
     ]
