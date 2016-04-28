@@ -7,7 +7,7 @@ defmodule Sitemaps do
       Sitemap.Config.update [
         host: "http://#{Application.get_env(:exblur, Exblur.Endpoint)[:url][:host]}",
         public_path: "",
-        files_path: "priv/static/",
+        files_path: "static/",
       ]
 
       entries =
@@ -58,7 +58,7 @@ defmodule Sitemaps do
           add Helpers.birthday_url(Exblur.Endpoint, :year, year),
             priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
-          Enum.each 1..28, fn month ->
+          Enum.each 1..12, fn month ->
             add Helpers.birthday_url(Exblur.Endpoint, :month, year, month),
               priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
           end

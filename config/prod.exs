@@ -59,7 +59,7 @@ config :logger, level: :warn
 
 config :quantum, cron: [
     sitemaps_gen_sitemap: [
-      schedule: "42 * * * *",
+      schedule: "43 * * * *",
       task: "Sitemaps.gen_sitemap",
       args: []
     ],
