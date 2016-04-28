@@ -62,7 +62,7 @@
   "scrivener": {:hex, :scrivener, "1.1.3"},
   "scrivener_html": {:git, "https://github.com/ikeikeikeike/scrivener_html.git", "1016bf33de5a12f9e39dbcdbd684c586b7c0dd1d", []},
   "simple_format": {:hex, :simple_format, "0.1.0"},
-  "sitemap": {:hex, :sitemap, "0.0.1"},
+  "sitemap": {:hex, :sitemap, "0.1.2"},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.0"},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"},
   "sweet_xml": {:hex, :sweet_xml, "0.6.1"},

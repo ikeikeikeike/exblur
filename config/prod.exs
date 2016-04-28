@@ -13,7 +13,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :exblur, Exblur.Endpoint,
   http: [port: 5700],
-  url: [host: "example.com", port: 80],
+  url: [host: String.replace(File.read!("config/myhost"), "\n", ""), port: 80],
   cache_static_manifest: "priv/static/manifest.json",
   server: true
 
@@ -58,6 +58,11 @@ config :logger, level: :warn
 #
 
 config :quantum, cron: [
+    sitemaps_gen_sitemap: [
+      schedule: "42 * * * *",
+      task: "Sitemaps.gen_sitemap",
+      args: []
+    ],
     build_image_brushup: [
       schedule: "7 * * * *",
       task: "Divabuilder.BuildImage.run",

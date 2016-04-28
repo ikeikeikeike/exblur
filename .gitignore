@@ -28,6 +28,7 @@ erl_crash.dump
 # variables.
 /config/prod.secret.exs
 /config/dev.secret.exs
+/config/myhost
 /config/consts.exs
 /config/translate_filters.yml
 /config/translate_filters.exs
