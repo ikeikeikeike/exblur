@@ -90,7 +90,7 @@ defmodule Sitemaps do
 
     ping ~w(
     http://api.my.yahoo.co.jp/RPC2
-    http://api.my.yahoo.co.jp/rss/ping?u=
+    http://api.my.yahoo.co.jp/rss/ping?u=%s
     http://blogsearch.google.co.jp/ping/RPC2
     http://blogsearch.google.com/ping/RPC2
     http://blog.goo.ne.jp/XMLRPC
@@ -180,7 +180,7 @@ defmodule Sitemaps do
     http://www.blogoole.com/ping/
     http://www.blogoon.net/ping/
     http://www.blogpeople.net/servlet/weblogUpdates
-    http://www.blogroots.com/tb_populi.blog?id=1
+    http://www.blogroots.com/tb_populi.blog?id=%s
     http://www.blogshares.com/rpc.php
     http://www.blogsnow.com/ping
     http://www.blogstreet.com/xrbin/xmlrpc.cgi
