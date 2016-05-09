@@ -87,5 +87,8 @@ defmodule Sitemaps do
 
       end
     end
+
+    ping
+
   end
 end
