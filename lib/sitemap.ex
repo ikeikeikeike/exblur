@@ -23,65 +23,65 @@ defmodule Sitemaps do
         |> Exblur.Repo.all
 
       Enum.each [false, true], fn bool ->
-        add Helpers.entry_url(Exblur.Endpoint, :index),
+        add Helpers.entry_path(Exblur.Endpoint, :index),
           priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
-        add Helpers.diva_url(Exblur.Endpoint, :index),
+        add Helpers.diva_path(Exblur.Endpoint, :index),
           priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
-        add Helpers.tag_url(Exblur.Endpoint, :index),
+        add Helpers.tag_path(Exblur.Endpoint, :index),
           priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
-        add Helpers.blood_url(Exblur.Endpoint, :index),
+        add Helpers.blood_path(Exblur.Endpoint, :index),
           priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
-        add Helpers.height_url(Exblur.Endpoint, :index),
+        add Helpers.height_path(Exblur.Endpoint, :index),
           priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
-        add Helpers.hip_url(Exblur.Endpoint, :index),
+        add Helpers.hip_path(Exblur.Endpoint, :index),
           priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
-        add Helpers.bust_url(Exblur.Endpoint, :index),
+        add Helpers.bust_path(Exblur.Endpoint, :index),
           priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
-        add Helpers.waste_url(Exblur.Endpoint, :index),
+        add Helpers.waste_path(Exblur.Endpoint, :index),
           priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
-        add Helpers.bracup_url(Exblur.Endpoint, :index),
+        add Helpers.bracup_path(Exblur.Endpoint, :index),
           priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
-        add Helpers.birthday_url(Exblur.Endpoint, :index),
+        add Helpers.birthday_path(Exblur.Endpoint, :index),
           priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
         # Wing it
         Enum.each 1966..1996, fn year ->
-          add Helpers.birthday_url(Exblur.Endpoint, :year, year),
+          add Helpers.birthday_path(Exblur.Endpoint, :year, year),
             priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
           Enum.each 1..12, fn month ->
-            add Helpers.birthday_url(Exblur.Endpoint, :month, year, month),
+            add Helpers.birthday_path(Exblur.Endpoint, :month, year, month),
               priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
           end
         end
 
-        add Helpers.atoz_url(Exblur.Endpoint, :index),
+        add Helpers.atoz_path(Exblur.Endpoint, :index),
           priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
 
         entries
         |> Enum.each(fn entry ->
-          add Helpers.entry_url(Exblur.Endpoint, :show, entry.id, entry.title),
+          add Helpers.entry_path(Exblur.Endpoint, :show, entry.id, entry.title),
             priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
         end)
 
         divas
         |> Enum.each(fn diva ->
-          add Helpers.entrydiva_url(Exblur.Endpoint, :index, diva.name),
+          add Helpers.entrydiva_path(Exblur.Endpoint, :index, diva.name),
             priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
         end)
 
         tags
         |> Enum.each(fn tag ->
-          add Helpers.entrytag_url(Exblur.Endpoint, :index, tag.name),
+          add Helpers.entrytag_path(Exblur.Endpoint, :index, tag.name),
             priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
         end)
 
