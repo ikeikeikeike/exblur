@@ -48,4 +48,16 @@ defmodule Exblur.WebView do
       Keyword.put(kw, k , v)
     end)
   end
+
+  def birth_year_link(birthday) do
+    require IEx; IEx.pry
+  end
+
+  def birth_month_link(birthday) do
+    # d = Timex.Date.today
+    # age = d.year - date.year
+    # if (date.month > d.month or (date.month >= d.month and date.day > d.day)), do: age = age - 1
+    # age
+  end
+
 end

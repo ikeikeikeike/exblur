@@ -39,7 +39,11 @@
               <%= unless Blank.blank?(@diva.birthday) do %>
                 <tr>
                   <td><%= gettext "Age" %>:</td>
-                  <td><%= to_age @diva.birthday %><%= gettext "AGE" %> (<span itemprop="birthDate"><%= @diva.birthday %></span>)</td>
+                  <td>
+                    <a href="<%= birthday_path @conn, :month, @diva.birthday.year, @diva.birthday.month %>">
+                      <%= to_age @diva.birthday %><%= gettext "AGE" %>
+                    </a> (<span itemprop="birthDate"><%= @diva.birthday %></span>)
+                  </td>
                 </tr>
               <% end %>
               <%= if @diva.height do %>
