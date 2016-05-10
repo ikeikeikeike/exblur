@@ -193,6 +193,8 @@ defmodule Sitemaps do
     http://xmlrpc.blogg.de
     http://xping.pubsub.com/ping/
     http://rpc.copygator.com/ping/
+    http://submissions.ask.com/ping?sitemap=%s
+    http://www.didikle.com/ping?sitemap=%s
     )
 
   end

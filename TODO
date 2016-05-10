@@ -1,12 +1,5 @@
 - Fill up diva's profile more from wiki and GImg.
-
-
-
-
-
-
-
-
+- Apply jumping to diva's link via profile's content or diva's profile page.
 
 - update removal status to entry model like remove record and then send remove api to ES for performance and storage size. its not updating status in ES.
 - To became video time format. entry.published_at.iso8601
@@ -39,10 +32,3 @@
 - Mongo auth for securty
 - Free SSL certification
 - http://hashnuke.com/2015/07/19/convenience-hacks-for-using-exrm-with-phoenix-apps.html
-
-
-http://www.google.com/ping?sitemap=
-http://www.google.com/webmasters/sitemaps/ping?sitemap=
-http://www.bing.com/webmaster/ping.aspx?sitemap=
-http://submissions.ask.com/ping?sitemap=
-http://www.didikle.com/ping?sitemap=
