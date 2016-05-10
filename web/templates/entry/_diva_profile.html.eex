@@ -46,7 +46,7 @@
                   </td>
                 </tr>
               <% end %>
-              <%= if @diva.height do %>
+              <%= unless Blank.blank?(@diva.height) do %>
                 <tr>
                   <td><%= gettext "Height/Weight" %>:</td>
                   <td>
