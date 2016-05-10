@@ -77,9 +77,9 @@
                 <tr>
                   <td><%= gettext "Measurements" %>:</td>
                   <td>
-                    B:<span itemprop="bust"><%= @diva.bust %></span>
-                    W:<span itemprop="waste"><%= @diva.waste %></span>
-                    H:<span itemprop="hip"><%= @diva.hip %></span>
+                    <a href="<%= bust_path @conn, :index %>#around-<%= Ordinalizer.Around.five "ja", @diva.bust %>">B:<span itemprop="bust"><%= @diva.bust %></span></a>
+                    <a href="<%= waste_path @conn, :index %>#around-<%= Ordinalizer.Around.five "ja", @diva.waste %>">W:<span itemprop="waste"><%= @diva.waste %></span></a>
+                    <a href="<%= hip_path @conn, :index %>#around-<%= Ordinalizer.Around.five "ja", @diva.hip %>">H:<span itemprop="hip"><%= @diva.hip %></span></a>
                   </td>
                 </tr>
               <% end %>
