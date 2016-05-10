@@ -46,7 +46,9 @@
                 <tr>
                   <td><%= gettext "Height/Weight" %>:</td>
                   <td>
-                    <span itemprop="height"><%= @diva.height %></span>cm /
+                    <a href="<%= height_path @conn, :index %>#around-<%= Ordinalizer.Around.five "ja", @diva.height %>" itemprop="height">
+                      <%= @diva.height %>cm
+                    </a> /
                     <span itemprop="weight"><%= if @diva.weight > 0, do: @diva.weight, else: "-" %></span> kg
                   </td>
                 </tr>
@@ -54,13 +56,21 @@
               <%= if @diva.blood do %>
                 <tr>
                   <td><%= gettext "bloodType" %>:</td>
-                  <td itemprop="bloodType"><%= @diva.blood %><%= gettext "BTYPE" %></td>
+                  <td>
+                    <a href="<%= blood_path @conn, :index %>#blood-group-<%= @diva.blood %>" itemprop="bloodType">
+                      <%= @diva.blood %><%= gettext "BTYPE" %>
+                    </a>
+                  </td>
                 </tr>
               <% end %>
               <%= if @diva.bracup do %>
                 <tr>
                   <td><%= gettext "BraSize" %>:</td>
-                  <td itemprop="bracup"><%= @diva.bracup %><%= gettext "BRACUP" %></td>
+                  <td>
+                    <a href="<%= bracup_path @conn, :index %>#cup-<%= @diva.bracup %>" itemprop="bracup">
+                      <%= @diva.bracup %><%= gettext "BRACUP" %>
+                    </a>
+                  </td>
                 </tr>
               <% end %>
               <%= if @diva.bust do %>
