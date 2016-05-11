@@ -8,26 +8,28 @@ import dateparser
 def find_date(orig):
     s = unicodedata.normalize('NFKC', orig)
     s = "".join(s.split())
-    s = regex.sub(ur'\d{1,2}歳', "", s)
+    s = regex.sub(ur'\d{1,2}歳', '', s)
 
     try:
         print(s)
 
-        for _ in orig * 2:
+        for _ in s:
             date = dateparser.parse(s)
             if date:
                 return date
 
             s = _remove_right(s)
+            print(s)
 
         print(s)
 
-        for _ in orig * 2:
+        for _ in s:
             date = dateparser.parse(s)
             if date:
                 return date
 
             s = _remove_left(s)
+            print(s)
 
         print(s)
     except ValueError:
