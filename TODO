@@ -1,16 +1,14 @@
 - Fill up diva's profile more from wiki and GImg.
-- Apply jumping to diva's link via profile's content or diva's profile page.
 
 - update removal status to entry model like remove record and then send remove api to ES for performance and storage size. its not updating status in ES.
 - To became video time format. entry.published_at.iso8601
 - Mix task: Dead link checker.
 - Mix task: Remove old videos. Its like unable video.
+- Needs more scrapy sites and remove already enabled sites.
 
 - Confirm has_many, m2mのon_delete, notify
   -> To remove relational table's id on video_entries and diva
 
-- descritpion, title will be inspire from my site
-- Needs more scrapy sites and remove already enabled sites.
 - Scraping more sites
 - Suggestion with Image.
 - Version up Elasticsearch
