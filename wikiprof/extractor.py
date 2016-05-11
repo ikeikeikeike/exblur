@@ -4,6 +4,8 @@ import urllib
 import requests
 from pyquery import PyQuery as pq
 
+from . import detector
+
 
 ENDPOINT = "http://ja.wikipedia.org/w/api.php?action=parse&format=json&prop=text&uselang=ja&page="
 
@@ -23,8 +25,8 @@ class Wikipedia(object):
 
     def birthday(self, query=None):
         dom = pq(self.request(query))
-        dom(u'tr th:contains(生年月日),tr td:contains(生年月日)').nextAll().text()
-        return
+        text = dom(u'tr th:contains(生年月日),tr td:contains(生年月日)').nextAll().text()
+        return detector.find_date(text)
 
     def blood(self, query=None):
         dom = pq(self.request(query))
@@ -61,6 +63,3 @@ class Wikipedia(object):
     def bracup(self, query=None):
         dom = pq(self.request(query))
         return
-
-
-#  from dateutil import parser
