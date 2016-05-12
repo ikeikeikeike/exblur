@@ -63,6 +63,11 @@ config :quantum, cron: [
       task: "Sitemaps.gen_sitemap",
       args: []
     ],
+    build_diva: [
+      schedule: "47 3 3 * *",
+      task: "Divabuilder.Build.run",
+      args: []
+    ],
     build_image_brushup: [
       schedule: "7 * * * *",
       task: "Divabuilder.BuildImage.run",
