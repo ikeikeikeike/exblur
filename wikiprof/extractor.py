@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import re
-import urllib
 
 import requests
 from pyquery import PyQuery as pq
@@ -12,15 +11,24 @@ from . import detector
 ENDPOINT = "http://ja.wikipedia.org/w/api.php?action=parse&format=json&prop=text&uselang=ja&page="
 
 
+def fint(i):
+    return int(float(i))
+
+
 class Wikipedia(object):
 
     def __init__(self):
         self._doc = None
 
     def request(self, query):
-        if not self._doc:
-            r = requests.get(ENDPOINT + urllib.quote_plus(query))
-            self._doc = r.json()['parse']['text']['*']
+        if self._doc is None:
+            r = requests.get(ENDPOINT + query)
+            js = r.json()
+
+            self._doc = ""
+            if 'error' not in js:
+                self._doc = js['parse']['text']['*']
+
         return self._doc
 
     def birthday(self, query=None):
@@ -28,7 +36,8 @@ class Wikipedia(object):
         selector = u'tr th:contains(生年月日),tr td:contains(生年月日)'
 
         text = dom(selector).nextAll().text()
-        return detector.find_date(text)
+        if text:
+            return detector.find_date(text)
 
     def blood(self, query=None):
         dom = pq(self.request(query))
@@ -49,12 +58,12 @@ class Wikipedia(object):
     def height(self, query=None):
         hw = self.hw(query)
         if hw:
-            return int(hw.split('/')[0])
+            return fint(hw.split('/')[0])
 
     def weight(self, query=None):
         hw = self.hw(query)
         if hw and u'―' not in hw:
-            return int(hw.split('/')[1])
+            return fint(hw.split('/')[1])
 
     def bwh(self, query=None):
         dom = pq(self.request(query))
@@ -68,17 +77,17 @@ class Wikipedia(object):
     def bust(self, query=None):
         bwh = self.bwh(query)
         if bwh:
-            return int(bwh.split('-')[0])
+            return fint(bwh.split('-')[0])
 
     def waist(self, query=None):
         bwh = self.bwh(query)
         if bwh:
-            return int(bwh.split('-')[1])
+            return fint(bwh.split('-')[1])
 
     def hip(self, query=None):
         bwh = self.bwh(query)
         if bwh:
-            return int(bwh.split('-')[2])
+            return fint(bwh.split('-')[2])
 
     def bracup(self, query=None):
         dom = pq(self.request(query))

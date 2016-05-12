@@ -8,18 +8,18 @@ from sqlalchemy.sql.sqltypes import (
     Integer,
     String
 )
-from sqlalchemy.orm import (
-    scoped_session,
-    sessionmaker,
-)
+# from sqlalchemy.orm import (
+#     scoped_session,
+#     sessionmaker,
+# )
 
 Base = declarative_base()
-DBSession = scoped_session(sessionmaker())
+#  DBSession = scoped_session(sessionmaker())
 
 
 class Diva(Base):
     __tablename__ = 'divas'
-    query = DBSession.query_property()
+    #  query = DBSession.query_property()
 
     id = Column(Integer, primary_key=True)
 

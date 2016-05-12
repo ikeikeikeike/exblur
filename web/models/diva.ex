@@ -23,7 +23,7 @@ defmodule Exblur.Diva do
 
     field :bust,       :integer
     field :bracup,     :string
-    field :waste,      :integer
+    field :waste,      :integer  # waist
     field :hip,        :integer
 
     field :blood,      :string
