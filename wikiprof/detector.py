@@ -11,17 +11,12 @@ def find_date(orig):
     s = regex.sub(ur'\d{1,2}歳', '', s)
 
     try:
-        print(s)
-
         for _ in s:
             date = dateparser.parse(s)
             if date:
                 return date
 
             s = _remove_right(s)
-            print(s)
-
-        print(s)
 
         for _ in s:
             date = dateparser.parse(s)
@@ -29,9 +24,7 @@ def find_date(orig):
                 return date
 
             s = _remove_left(s)
-            print(s)
 
-        print(s)
     except ValueError:
         pass
 
