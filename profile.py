@@ -46,15 +46,18 @@ def updates(query):
         for name in re.split(ur'、|（|）', diva.name):
             wiki = extractor.Wikipedia()
 
-            if wiki.request(name):
-                diva.birthday = diva.birthday or wiki.birthday()
-                diva.blood = diva.blood or wiki.blood()
-                diva.height = diva.height or wiki.height()
-                diva.weight = diva.weight or wiki.weight()
-                diva.bust = diva.bust or wiki.bust()
-                diva.waste = diva.waste or wiki.waist()
-                diva.hip = diva.hip or wiki.hip()
-                diva.bracup = diva.bracup or wiki.bracup()
+            try:
+                if wiki.request(name):
+                    diva.birthday = diva.birthday or wiki.birthday()
+                    diva.blood = diva.blood or wiki.blood()
+                    diva.bust = diva.bust or wiki.bust()
+                    diva.waste = diva.waste or wiki.waist()
+                    diva.hip = diva.hip or wiki.hip()
+                    diva.bracup = diva.bracup or wiki.bracup()
+                    diva.height = diva.height or wiki.height()
+                    diva.weight = diva.weight or wiki.weight()
+            except Exception as e:
+                print(e)
 
         diva.updated_at = datetime.datetime.now()
         DBSession.commit()

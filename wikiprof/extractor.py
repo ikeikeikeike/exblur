@@ -58,12 +58,18 @@ class Wikipedia(object):
     def height(self, query=None):
         hw = self.hw(query)
         if hw:
-            return fint(hw.split('/')[0])
+            try:
+                return fint(hw.split('/')[0])
+            except ValueError:
+                pass
 
     def weight(self, query=None):
         hw = self.hw(query)
-        if hw and u'―' not in hw:
-            return fint(hw.split('/')[1])
+        if hw:
+            try:
+                return fint(hw.split('/')[1])
+            except ValueError:
+                pass
 
     def bwh(self, query=None):
         dom = pq(self.request(query))
@@ -99,7 +105,7 @@ class Wikipedia(object):
         for d in dom(selector).nextAll():
             t = pq(d).text()
             if ptn.match(t):
-                r = ''.join(t.split()).replace(u'カップ', '')
+                r = ''.join(ptn.findall(t)[0].split())
 
         if not r:
             h, b, w = self.height(), self.bust(), self.waist()

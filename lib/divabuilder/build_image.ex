@@ -12,7 +12,7 @@ defmodule Divabuilder.BuildImage do
     Diva
     |> where([q], q.appeared > 0)
     |> order_by([q], [asc: q.updated_at])
-    |> limit([q], 10)
+    |> limit([q], 20)
     |> run
   end
 
@@ -20,14 +20,14 @@ defmodule Divabuilder.BuildImage do
     Diva
     |> where([q], is_nil(q.image))
     |> order_by([q], [asc: q.updated_at])
-    |> limit([q], 10)
+    |> limit([q], 20)
     |> run
   end
 
   def run(:all) do
     Diva
     |> order_by([q], [asc: q.updated_at])
-    |> limit([q], 10)
+    |> limit([q], 20)
     |> run
   end
 
