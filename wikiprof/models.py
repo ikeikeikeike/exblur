@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import datetime
+
 from sqlalchemy.ext.declarative.api import declarative_base
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import (
@@ -20,6 +22,7 @@ class Diva(Base):
     query = DBSession.query_property()
 
     id = Column(Integer, primary_key=True)
+
     name = Column(String(255))
     kana = Column(String(255))
     romaji = Column(String(255))
@@ -35,3 +38,8 @@ class Diva(Base):
 
     blood = Column(String(255))
     birthday = Column(DateTime)
+
+    appeared = Column(Integer)
+
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime, onupdate=datetime.datetime.now)
