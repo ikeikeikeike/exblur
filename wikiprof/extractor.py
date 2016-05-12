@@ -25,18 +25,23 @@ class Wikipedia(object):
 
     def birthday(self, query=None):
         dom = pq(self.request(query))
-        text = dom(u'tr th:contains(生年月日),tr td:contains(生年月日)').nextAll().text()
+        selector = u'tr th:contains(生年月日),tr td:contains(生年月日)'
+
+        text = dom(selector).nextAll().text()
         return detector.find_date(text)
 
     def blood(self, query=None):
         dom = pq(self.request(query))
-        text = dom(u'tr th:contains(血液型),tr td:contains(血液型)').nextAll().text()
+        selector = u'tr th:contains(血液型),tr td:contains(血液型)'
+
+        text = dom(selector).nextAll().text()
         return text.replace(u'型', u'')
 
     def hw(self, query=None):
         dom = pq(self.request(query))
+        selector = u'tr th:contains(体重), tr td:contains(体重)'
 
-        for d in dom(u'tr th:contains(体重), tr td:contains(体重)').nextAll():
+        for d in dom(selector).nextAll():
             t = pq(d).text()
             if 'cm' in t:
                 return ''.join(t.split()).replace('cm', '').replace('kg', '')
@@ -53,7 +58,9 @@ class Wikipedia(object):
 
     def bwh(self, query=None):
         dom = pq(self.request(query))
-        for d in dom(u'tr th:contains(スリーサイズ), tr td:contains(スリーサイズ)').nextAll():
+        selector = u'tr th:contains(スリーサイズ), tr td:contains(スリーサイズ)'
+
+        for d in dom(selector).nextAll():
             t = pq(d).text()
             if 'cm' in t:
                 return ''.join(t.split()).replace('cm', '')
@@ -76,10 +83,11 @@ class Wikipedia(object):
     def bracup(self, query=None):
         dom = pq(self.request(query))
         ptn = re.compile(r"(?:[a-z]|[A-Z]){1}")
+        selector = u'tr th:contains(ブラのサイズ), tr th:contains(カップサイズ)'
 
         r = ""
 
-        for d in dom(u'tr th:contains(ブラのサイズ), tr th:contains(カップサイズ)').nextAll():
+        for d in dom(selector).nextAll():
             t = pq(d).text()
             if ptn.match(t):
                 r = ''.join(t.split()).replace(u'カップ', '')
