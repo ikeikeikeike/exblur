@@ -36,8 +36,8 @@ erl_crash.dump
 /config/exblur.conf
 /config/exblur.schema.exs
 
-# TAGS
 tags
+TODO.secret
 /uploads
 
 /.bundle/
