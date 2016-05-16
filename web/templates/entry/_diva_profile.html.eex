@@ -24,7 +24,9 @@
           <img src="<%= @diva.image %>" class="img-thumbnail visible-xs picture_mob" />
         <% end %>
         <div class="header" style='border-bottom: 0;'>
-          <h1 itemprop="name"><%= @diva.name %></h1>
+          <h1>
+            <a itemprop="name" href="<%= entrydiva_path(@conn, :index, @diva.name) %>"><%= @diva.name %></a>
+          </h1>
           <h4>
             <span itemprop="givenName"><%= @diva.kana %></span>
             <span itemprop="alternateName"><%= unless Blank.blank?(@diva.romaji) do
