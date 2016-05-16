@@ -49,6 +49,7 @@ defmodule Exblur.EntryController do
     [entries: entries, params: params]
   end
 
+  defp find_diva(name) when is_nil(name), do: find_diva([])
   defp find_diva(name) when is_bitstring(name) do
     case String.split(name, ~r(、|（|）)) do
       names when length(names) == 1 ->
@@ -62,7 +63,6 @@ defmodule Exblur.EntryController do
     end
   end
   defp find_diva([]), do: nil
-  defp find_diva([], diva), do: diva
   defp find_diva([name|tail]) do
     case Blank.blank?(name) do
       true  -> find_diva(tail)
@@ -75,5 +75,6 @@ defmodule Exblur.EntryController do
         find_diva([], Repo.one(query))
     end
   end
+  defp find_diva([], diva), do: diva
 
 end
