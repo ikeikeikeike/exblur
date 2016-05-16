@@ -49,10 +49,30 @@ defmodule Exblur.EntryController do
     [entries: entries, params: params]
   end
 
-  defp find_diva(name) do
+  defp find_diva(name) when is_bitstring(name) do
+    case String.split(name, ~r(、|（|）)) do
+      names when length(names) == 1 ->
+        diva = Repo.get_by(Exblur.Diva, name: List.first(names))
+        if diva, do: diva, else: find_diva names
+
+      names when length(names)  > 1 ->
+        find_diva names
+
+      _ -> nil
+    end
+  end
+  defp find_diva([]), do: nil
+  defp find_diva([], diva), do: diva
+  defp find_diva([name|tail]) do
     case Blank.blank?(name) do
-      false -> Repo.get_by(Exblur.Diva, name: name)
-      true  -> nil
+      true  -> find_diva(tail)
+      false ->
+        query =
+          from p in Exblur.Diva,
+          where: ilike(p.name, ^"%#{name}%"),
+          limit: 1
+
+        find_diva([], Repo.one(query))
     end
   end
 
