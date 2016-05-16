@@ -406,7 +406,7 @@ defmodule Exblur.Entry do
     queries = Tirexs.Search.search [index: get_index, fields: [], from: 0, size: 0] do
       facets do
         tags do
-          terms field: "tags", size: 1000
+          terms field: "tags", size: 2000
           facet_filter do
             _and [_cache: true] do
               filters do
@@ -425,7 +425,7 @@ defmodule Exblur.Entry do
     |> Tirexs.Query.create_resource
   end
 
-  def diva_facets(size \\ 1000) do
+  def diva_facets(size \\ 2000) do
     queries = Tirexs.Search.search [index: get_index, fields: [], from: 0, size: 0] do
       facets do
         divas do
