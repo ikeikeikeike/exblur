@@ -10,19 +10,19 @@ defmodule Exblur.EntryController do
     # if diva param does not exists in database, throw `not found` exception.
     # Repo.get_by! Exblur.Diva, name: diva
     es = esearch(diva, params)
-    render(conn, "index.html", entries: es[:entries], diva: Diva.find_fuzzy(diva))
+    render(conn, "index.html", entries: es[:entries], diva: Diva.fuzzy_find(diva))
   end
 
   def index(conn, %{"tag" => tag} = params) do
     # if tag does not exists in database, throw `not found` exception.
     # Repo.get_by! Exblur.Tag, name: tag
     es = esearch(tag, params)
-    render(conn, "index.html", entries: es[:entries], diva: Diva.find_fuzzy(tag))
+    render(conn, "index.html", entries: es[:entries], diva: Diva.fuzzy_find(tag))
   end
 
   def index(conn, params) do
     es = esearch(params["search"], params)
-    render(conn, "index.html", entries: es[:entries], diva: Diva.find_fuzzy(conn.params["search"]))
+    render(conn, "index.html", entries: es[:entries], diva: Diva.fuzzy_find(conn.params["search"]))
   end
 
   def show(conn, %{"id" => id, "title" => title}) do
