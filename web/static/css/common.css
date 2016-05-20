@@ -56,3 +56,16 @@ h1,h2,h3,h4,h5,h6,nav {
         width:1170px
     }
 }
+
+.linker:not(.btn), .linker:link:not(.btn) {
+  color: #3C80BA;
+}
+
+.linker:visited:not(.btn) {
+  color: #999999;
+}
+
+.linker:hover:not(.btn) {
+  color: #23527c;
+  text-decoration: underline;
+}

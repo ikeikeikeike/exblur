@@ -69,6 +69,7 @@
 
             <a href="<%= entry_path @conn, :show, entry.id, entry.title %>"
                rel="bookmark"
+               style="text-decoration: none;"
                data-list-index="<%#= index %>"
                <%# data-no-turbolink="1" %>
               >
