@@ -16,13 +16,14 @@ defmodule Exblur.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json", "txt", "text"]
+    plug :accepts, ["json", "txt", "text", "xml"]
   end
 
   scope "/", Exblur do
     pipe_through :api
 
-    get "robots.txt", RobotController, :index
+    get "/rss", RssController, :index
+    get "/robots.txt", RobotController, :index
   end
 
   scope "/", Exblur do

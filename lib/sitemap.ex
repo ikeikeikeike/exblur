@@ -4,11 +4,6 @@ defmodule Sitemaps do
 
   def gen_sitemap do
     create do
-      Sitemap.Config.update [
-        host: "http://#{Application.get_env(:exblur, Exblur.Endpoint)[:url][:host]}",
-        public_path: "",
-        files_path: "static/",
-      ]
 
       entries =
         Exblur.Entry

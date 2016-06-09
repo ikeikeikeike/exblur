@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+    xmlns:admin="http://webns.net/mvcb/"
+    xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:syn="http://purl.org/rss/1.0/modules/syndication/"
+    xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/"
+    xmlns="http://purl.org/rss/1.0/"
+    >
+    <channel rdf:about="<%= entry_url @conn, :index %>">
+        <title><%= gettext "Site Name" %></title>
+        <link><%= entry_url @conn, :index %></link>
+        <description><%= gettext "Default Page Description" %></description>
+        <dc:language><%= locale %></dc:language>
+        <admin:generatorAgent rdf:resource="" />
+        <atom:link rel="hub" href="http://pubsubhubbub.appspot.com" />
+        <items>
+            <rdf:Seq>
+              <%= for e <- @entries do %>
+                <rdf:li rdf:resource="<%= entry_url @conn, :show, e.id, e.title %>" />
+              <% end %>
+            </rdf:Seq>
+        </items>
+    </channel>
+
+<%= for e <- @entries do %>
+    <item rdf:about="<%= entry_url @conn, :show, e.id, e.title %>">
+        <title><%= e.title %></title>
+        <link><%= entry_url @conn, :show, e.id, e.title %></link>
+        <dc:creator><%= gettext "Site Name" %></dc:creator>
+        <dc:date><%= Ecto.DateTime.to_iso8601 e.published_at %></dc:date>
+        <dc:subject><%= gettext "RSS Feed" %></dc:subject>
+        <description><%= e.content %></description>
+        <content:encoded>
+            <![CDATA[
+            <div>
+                <a href="<%= entry_url @conn, :show, e.id, e.title %>">
+                    <img src="<%= thumb_one e.thumbs %>"
+                         alt="<%= "#{gettext("Site Name")}: #{e.title}" %>"
+                         style="max-height:400px; max-width:300px" />
+                    <div>
+                        <h6><%= gettext "Site Name" %></h6>
+                        <p><%= e.title %></p>
+                        <p><%= gettext "Read More" %></p>
+                    </div>
+                </a>
+            </div>
+            ]]>
+        </content:encoded>
+    </item>
+<% end %>
+
+</rdf:RDF>

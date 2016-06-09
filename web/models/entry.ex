@@ -98,6 +98,12 @@ defmodule Exblur.Entry do
     preload: ^@relational_fields
   end
 
+  def latest(query, limit \\ 20) do
+    from e in query,
+    order_by: [desc: e.published_at],
+       limit: ^limit
+  end
+
   def released(query),             do: from p in query, where: p.publish == true
   def unreleased(query),           do: from p in query, where: p.publish == false
   def reviewed(query),             do: from p in query, where: p.review  == true
@@ -108,8 +114,8 @@ defmodule Exblur.Entry do
 
   # return on publish record.
   #
-  def published_entries do
-    __MODULE__
+  def published(query) do
+    query
     |> released
     |> reviewed
     |> unremoved
@@ -117,8 +123,8 @@ defmodule Exblur.Entry do
 
   # before release contents.
   #
-  def reserved_entries do
-    __MODULE__
+  def reserved(query) do
+    query
     |> unreleased
     |> reviewed
     |> unremoved
@@ -126,8 +132,8 @@ defmodule Exblur.Entry do
 
   # default contents.
   #
-  def initialized_entries do
-    __MODULE__
+  def initialized(query) do
+    query
     |> unreleased
     |> unreviewed
     |> unremoved

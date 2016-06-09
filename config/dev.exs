@@ -8,7 +8,7 @@ use Mix.Config
 # with brunch.io to recompile .js and .css sources.
 config :exblur, Exblur.Endpoint,
   http: [port: 4000],
-  url: [host: String.replace(File.read!("config/myhost"), "\n", ""), port: 80],
+  url: [host: "127.0.0.1", port: 80],
   debug_errors: true,
   code_reloader: true,
   cache_static_lookup: false,
@@ -58,5 +58,11 @@ config :exblur, Exblur.Mongo,
   # password: "mongosb",
   hostname: "localhost",
   pool_size: 5
+
+config :sitemap, [
+  host: "http://127.0.0.1",
+  public_path: "",
+  files_path: "log/",
+]
 
 import_config "dev.secret.exs"
