@@ -32,6 +32,9 @@
       <li itemprop="name" class=''><a itemprop="url" href="<%= reception_path @conn, :contact %>">
         <%= gettext "Contact" %>
       </a></li>
+      <li itemprop="name" class=''><a itemprop="url" href="<%= rss_path @conn, :index %>" target='_blank'>
+        <%= gettext "RSS" %>
+      </a></li>
     </ul>
 
     <p class="text-muted">
