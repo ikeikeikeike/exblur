@@ -7,7 +7,7 @@ defmodule Entrybuilder.Publish do
   def run, do: run([])
   def run(_args) do
 
-    entries = Entry.initialized_entries
+    entries = Entry.initialized Entry
 
     # .where(site: Site.order("RANDOM()").first)
     entries =
