@@ -34,6 +34,7 @@
   "getopt": {:hex, :getopt, "0.8.2", "b17556db683000ba50370b16c0619df1337e7af7ecbf7d64fbf8d1d6bce3109b", [:rebar], []},
   "gettext": {:hex, :gettext, "0.11.0", "80c1dd42d270482418fa158ec5ba073d2980e3718bacad86f3d4ad71d5667679", [:mix], []},
   "hackney": {:hex, :hackney, "1.6.0", "8d1e9440c9edf23bf5e5e2fe0c71de03eb265103b72901337394c840eec679ac", [:rebar3], [{:ssl_verify_fun, "1.1.0", [hex: :ssl_verify_fun, optional: false]}, {:mimerl, "1.0.2", [hex: :mimerl, optional: false]}, {:metrics, "1.0.1", [hex: :metrics, optional: false]}, {:idna, "1.2.0", [hex: :idna, optional: false]}, {:certifi, "0.4.0", [hex: :certifi, optional: false]}]},
+  "html_entities": {:hex, :html_entities, "0.3.0", "2f278ffc69c3f0cbd5996628fef37cf922fa715f3e04b9f38924c8adced3f25a", [:mix], []},
   "httpoison": {:hex, :httpoison, "0.8.3", "b675a3fdc839a0b8d7a285c6b3747d6d596ae70b6ccb762233a990d7289ccae4", [:mix], [{:hackney, "~> 1.6.0", [hex: :hackney, optional: false]}]},
   "idna": {:hex, :idna, "1.2.0", "ac62ee99da068f43c50dc69acf700e03a62a348360126260e87f2b54eced86b2", [:rebar3], []},
   "inflex": {:git, "https://github.com/nurugger07/inflex.git", "c82248b43afeb78e86bb7a763b24cda94987ef28", []},

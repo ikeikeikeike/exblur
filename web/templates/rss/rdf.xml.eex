@@ -27,7 +27,7 @@
 
 <%= for e <- @entries do %>
     <item rdf:about="<%= entry_url @conn, :show, e.id, e.title %>">
-        <title><%= e.title %></title>
+        <title><%= HtmlEntities.encode e.title %></title>
         <link><%= entry_url @conn, :show, e.id, e.title %></link>
         <dc:creator><%= gettext "Site Name" %></dc:creator>
         <dc:date><%= Ecto.DateTime.to_iso8601 e.published_at %></dc:date>

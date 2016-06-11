@@ -6,7 +6,7 @@ defmodule Exblur.RssController do
     entries =
       Entry.query
       |> Entry.published
-      |> Entry.latest
+      |> Entry.latest(50)
       |> Repo.all
 
     conn
