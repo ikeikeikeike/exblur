@@ -111,29 +111,27 @@ end
 
           <%= if mobile?(@conn) do %>
             <select class="form-control input-sm" onchange='if(this.value) {location = this.value}'>
-              <option value=''><%= gettext "Sort" %></option>
-              <option <%= if @conn.params["st"] == "match", do: "selected" %> value='<%= match_path %>'><%= gettext "Match" %></option>
               <option <%= if @conn.params["st"] == "desc", do: "selected" %> value='<%= desc_path %>'><%= gettext "Latest" %></option>
               <option <%= if @conn.params["st"] == "asc", do: "selected" %> value='<%= asc_path %>'><%= gettext "Oldest" %></option>
+              <option <%= if @conn.params["st"] == "match", do: "selected" %> value='<%= match_path %>'><%= gettext "Match" %></option>
             </select>
           <% else %>
             <div class="btn-group">
-              <button class="btn btn-default dropdown-toggle <%= if mobile?(@conn), do: "btn-sm" %>"
+              <button class="btn btn-default dropdown-toggle <%= if mobile?(@conn), do: "btn-sm" %> <%= if @conn.params["st"], do: "active" %>"
                       type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <small>
                     <%= case @conn.params["st"] do
                       "match" -> gettext "Match"
-                      "desc"  -> gettext "Latest"
                       "asc"   -> gettext "Oldest"
-                      _       -> gettext "Sort"
+                      _       -> gettext "Latest"
                       end
                     %>
                   </small>  <span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
-                <li><a href='<%= match_path %>'><%= gettext "Match" %></a></li>
                 <li><a href='<%= desc_path %>'><%= gettext "Latest" %></a></li>
                 <li><a href='<%= asc_path %>'><%= gettext "Oldest" %></a></li>
+                <li><a href='<%= match_path %>'><%= gettext "Match" %></a></li>
               </ul>
             </div>
           <% end %>
