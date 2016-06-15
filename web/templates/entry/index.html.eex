@@ -85,17 +85,61 @@ end
 
         <h1 class="no-heading-style" style="display: inline-table; margin: 9px 0px 0px 0px;">
           <span class="glyphicon glyphicon-facetime-video"></span>
-          <%= if @conn.params["search"] do %>
-            <%= gettext "Relevant %{name} video's Results", name: @conn.params["search"]  %>
+          <%= if mobile?(@conn) do %>
+            <%= if @conn.params["search"] do %>
+              <%= gettext "Relevantly" %>
+            <% else %>
+              <%= gettext "Recently" %>
+            <% end %>
           <% else %>
-            <%= gettext "Recently XXX Videos" %>
+            <%= if @conn.params["search"] do %>
+              <%= gettext "Relevant %{name} video's Results", name: @conn.params["search"]  %>
+            <% else %>
+              <%= gettext "Recently XXX Videos" %>
+            <% end %>
           <% end %>
         </h1>
 
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right" style='<%= if mobile?(@conn), do: "display: inline-flex" %>'>
+          <%
+          sort_params = ~w(ft fs list search site_name tag divas)
+
+          match_path = to_qstring take_params(@conn, sort_params, st: "match")
+          desc_path = to_qstring take_params(@conn, sort_params, st: "desc")
+          asc_path = to_qstring take_params(@conn, sort_params, st: "asc")
+          %>
+
+          <%= if mobile?(@conn) do %>
+            <select class="form-control input-sm" onchange='if(this.value) {location = this.value}'>
+              <option value=''><%= gettext "Sort" %></option>
+              <option <%= if @conn.params["st"] == "match", do: "selected" %> value='<%= match_path %>'><%= gettext "Match" %></option>
+              <option <%= if @conn.params["st"] == "desc", do: "selected" %> value='<%= desc_path %>'><%= gettext "Latest" %></option>
+              <option <%= if @conn.params["st"] == "asc", do: "selected" %> value='<%= asc_path %>'><%= gettext "Oldest" %></option>
+            </select>
+          <% else %>
+            <div class="btn-group">
+              <button class="btn btn-default dropdown-toggle <%= if mobile?(@conn), do: "btn-sm" %>"
+                      type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <small>
+                    <%= case @conn.params["st"] do
+                      "match" -> gettext "Match"
+                      "desc"  -> gettext "Latest"
+                      "asc"   -> gettext "Oldest"
+                      _       -> gettext "Sort"
+                      end
+                    %>
+                  </small>  <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href='<%= match_path %>'><%= gettext "Match" %></a></li>
+                <li><a href='<%= desc_path %>'><%= gettext "Latest" %></a></li>
+                <li><a href='<%= asc_path %>'><%= gettext "Oldest" %></a></li>
+              </ul>
+            </div>
+          <% end %>
 
           <%
-          ten_min_params = take_params(@conn, ~w(fs list search site_name tag divas))
+          ten_min_params = take_params(@conn, ~w(st fs list search site_name tag divas))
           unless @conn.params["ft"], do: ten_min_params = Map.merge ten_min_params, %{"ft" => 600}
           %>
           <a href="<%= to_qstring ten_min_params %>"
@@ -105,7 +149,7 @@ end
           </a>
 
           <%
-          carried_params = ~w(fs ft page search site_name tag divas)
+          carried_params = ~w(st fs ft page search site_name tag divas)
           %>
           <%= if desktop? @conn do %>
             <a href="<%= to_qstring take_params(@conn, carried_params) %>"
@@ -150,7 +194,7 @@ end
 
       <div id="paginator" style='text-align: center;'>
         <%
-        carried_params = ~w(list fs ft page search site_name tag divas)
+        carried_params = ~w(list st fs ft page search site_name tag divas)
         %>
         <%= if desktop? @conn do %>
           <%= pagination_links @entries, to_keylist(take_params(@conn, carried_params, first: false, last: false)) %>
