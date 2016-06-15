@@ -30,8 +30,8 @@ defmodule Exblur.EntryController do
       %{}
       |> Es.Params.prepare_params(1, 15)
       |> Map.put(:query, Model.query)
+      |> Map.put(:st, "match")
 
-    # TODO: To be match order instead of desc order.
     entries =
       Model.search(title, params)
       |> Es.Paginator.paginate(params)

@@ -335,7 +335,7 @@ defmodule Exblur.Entry do
 
       sort do
         [
-          [published_at: [order: "desc"]]
+          published_at: [order: "desc"]
         ]
       end
 
@@ -350,6 +350,14 @@ defmodule Exblur.Entry do
 
       s = Keyword.delete(queries[:search], :query) ++ Tirexs.Query.query do
         multi_match word, fields # , cutoff_frequency: 0.001, boost: 10, use_dis_max: false, operator: "and"
+      end
+
+      queries = Keyword.put queries, :search, s
+    end
+
+    if opt[:sort] do
+      s = Keyword.delete(queries[:search], :sort) ++ Tirexs.Search.sort do
+        opt[:sort]
       end
 
       queries = Keyword.put queries, :search, s

@@ -14,7 +14,8 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "0.7.6"
+
+    v = "0.7.7"
     File.write! "VERSION", v
     v
   end
@@ -43,6 +44,7 @@ defmodule Exblur.Mixfile do
        :timex,
        :quantum,
        :sitemap,
+       :html_entities,
        # :conform,
        # :conform_exrm,
      ],

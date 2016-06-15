@@ -27,11 +27,20 @@ defmodule Es.Params do
     per_page = (options[:limit] || options[:per_page] || options[:page_size] || 10000)
     offset = options[:offset] || (page - 1) * per_page
 
-    # filters
     filter = []
     if options[:ft], do: filter = Keyword.put(filter, :ft, options[:ft])
     if options[:fs], do: filter = Keyword.put(filter, :fs, options[:fs])
 
-    [page: page, per_page: per_page, offset: offset, filter: filter]
+    sort =
+      case options[:st] do
+        "match" ->
+          []
+        "asc" ->
+          [published_at: [order: "asc"]]
+        _ -> # "desc"
+          [published_at: [order: "desc"]]
+      end
+
+    [page: page, per_page: per_page, offset: offset, filter: filter, sort: sort]
   end
 end
