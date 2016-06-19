@@ -63,7 +63,7 @@
 
         <media:content url="<%= thumb_one e.thumbs %>" />
         <image:item rdf:about="<%= thumb_one e.thumbs %>">
-            <dc:title><%= "#{gettext("Site Name")}: #{e.title}" %></dc:title>
+            <dc:title><%= "#{gettext("Site Name")}: #{HtmlEntities.encode e.title}" %></dc:title>
             <image:width>300</image:width>
             <image:height>400</image:height>
         </image:item>
