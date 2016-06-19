@@ -14,7 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "0.7.9"
+    v = "0.8.1"
     File.write! "VERSION", v
     v
   end
