@@ -61,6 +61,7 @@
             ]]>
         </content:encoded>
 
+        <enclosure url="<%= thumb_one e.thumbs %>" />
         <media:content url="<%= thumb_one e.thumbs %>" />
         <image:item rdf:about="<%= thumb_one e.thumbs %>">
             <dc:title><%= "#{gettext("Site Name")}: #{HtmlEntities.encode e.title}" %></dc:title>
