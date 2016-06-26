@@ -59,6 +59,7 @@ defmodule Exblur.Web do
 
       import SimpleFormat
       import DeviceDetector
+      import TextExtractor
     end
   end
 

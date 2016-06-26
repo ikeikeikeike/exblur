@@ -81,7 +81,7 @@ content_for :description, "#{@entry.title}: #{@entry.content}"
             <% end %>
 
             <div class="thumbnail" style="max-width: 600px; border: 0px;" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
-              <meta itemprop="url" content="<%= entry_path @conn, :show, @entry.id, @entry.title %>" />
+              <meta itemprop="url" content="<%= entry_path @conn, :show, @entry.id, safe_title(@entry.title) %>" />
               <meta itemprop="name" content="<%= @entry.title %>" />
               <meta itemprop="headline" content="<%= @entry.title %>" />
               <meta itemprop="description" content="<%= @entry.content %>" />

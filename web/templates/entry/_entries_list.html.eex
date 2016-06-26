@@ -29,7 +29,7 @@
       <%#- cache ['list', request.smart_phone?, request.mobile?, entry] do -%>
 
         <li itemprop="videogallery" itemscope itemtype="http://schema.org/VideoGallery" class="media" style="border-bottom: 1px solid #eeeeee;">
-          <meta itemprop="url" content="<%= entry_path @conn, :show, entry.id, entry.title %>" />
+          <meta itemprop="url" content="<%= entry_path @conn, :show, entry.id, safe_title(entry.title) %>" />
           <meta itemprop="name" content="<%= entry.title %>" />
           <meta itemprop="headline" content="<%= entry.title %>" />
           <meta itemprop="description" content="<%= entry.content %>" />
@@ -41,7 +41,7 @@
 
           <a class="pull-left"
              style="margin-right: 5px;"
-             href="<%= entry_path @conn, :show, entry.id, entry.title %>"
+             href="<%= entry_path @conn, :show, entry.id, safe_title(entry.title) %>"
              rel="bookmark"
              data-list-index="<%#= index %>" <%# for access counter %>
              <%# data-no-turbolink="1" %>
@@ -67,7 +67,7 @@
               <% end %>
             </p>
 
-            <a href="<%= entry_path @conn, :show, entry.id, entry.title %>"
+            <a href="<%= entry_path @conn, :show, entry.id, safe_title(entry.title) %>"
                rel="bookmark"
                style="text-decoration: none;"
                data-list-index="<%#= index %>"
