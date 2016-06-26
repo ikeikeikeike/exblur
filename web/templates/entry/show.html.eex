@@ -152,6 +152,13 @@ content_for :description, "#{@entry.title}: #{@entry.content}"
 
       <%= render "_entries_list.html", conn: @conn, entries: @entries %>
 
+      <div class='container' style='padding-bottom: 20px;'>
+        <a type="button" class="btn btn-default <%= if desktop?(@conn), do: "btn-lg" %> center-block"
+            href="<%= entry_path @conn, :index %>?search=<%= safe_title(@entry.title) %>&st=match">
+          <%= gettext("Read relevant videos") %>
+        </a>
+      </div>
+
     </div>
   </div>
 </div>
