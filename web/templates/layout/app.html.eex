@@ -18,8 +18,8 @@
     <meta property="og:url" content="<%= entry_path @conn, :show, @entry.id, safe_title(@entry.title) %>" >
     <meta property="og:site_name" content="<%= gettext "Site Name" %>" >
 
-    <meta name="twitter:image" content="<%= thumb_one @entry.thumbs %>">
     <meta name="twitter:title" content="<%= page_title(@conn, assigns) %>">
+    <meta name="twitter:image" content="<%= thumb_one @entry.thumbs %>">
     <meta name="twitter:url" content="<%= entry_path @conn, :show, @entry.id, safe_title(@entry.title) %>">
     <meta name="twitter:domain" content="<%= Application.get_env(:exblur, Exblur.Endpoint)[:url][:host] %>">
     <%# <meta name="twitter:card" content="player"> %>
