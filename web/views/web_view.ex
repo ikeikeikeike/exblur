@@ -49,4 +49,6 @@ defmodule Exblur.WebView do
     end)
   end
 
+  def showpage?(conn), do: Regex.match?(~r(/vid/.+), conn.request_path)
+
 end
