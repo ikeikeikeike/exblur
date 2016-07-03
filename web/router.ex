@@ -53,6 +53,7 @@ defmodule Exblur.Router do
     get "/", EntryController, :index
 
     get "/vid/:id/:title", EntryController, :show
+    get "/vid/:id/", EntryController, :show
 
     get "/divas/:diva", EntryController, :index, as: :entrydiva
     get "/divas/autocomplete/:search", DivaController, :autocomplete

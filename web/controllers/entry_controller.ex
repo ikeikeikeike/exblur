@@ -39,10 +39,15 @@ defmodule Exblur.EntryController do
     render(conn, "show.html", entry: Repo.get!(Model.query, id), entries: entries)
   end
 
-  defp esearch(word, params) do
+  def show(conn, %{"id" => id} = params) do
+    es = esearch(nil, params, 15)
+    render(conn, "show.html", entry: Repo.get!(Model.query, id), entries: es[:entries])
+  end
+
+  defp esearch(word, params, limit \\ 35) do
     params =
       params
-      |> Es.Params.prepare_params(1, 35)
+      |> Es.Params.prepare_params(1, limit)
       |> Map.put(:query, Model.query)
 
     entries =
