@@ -108,7 +108,7 @@ class Wikipedia(object):
 
         if not r:
             h, b, w = self.height(), self.bust(), self.waist()
-            if h > 10 and b > 10 and w > 10:
+            if h and b and w and h > 10 and b > 10 and w > 10:
                 r = bracalc.calc(h, b, w)['cup']
 
         return r
