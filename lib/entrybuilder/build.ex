@@ -29,6 +29,7 @@ defmodule Entrybuilder.Build do
 
     models =
       entries
+      |> filter_site
       |> filter_less_than
       |> filter_include_url
       |> entry_record
@@ -49,7 +50,7 @@ defmodule Entrybuilder.Build do
 
   #: over the 2 minutes.
   defp filter_less_than(entries, time \\ 120) do
-    Enum.filter(entries, fn(e) ->
+    Enum.filter entries, fn(e) ->
       case e.time < time do
         true ->
           Scrapy.already_post(e)
@@ -58,11 +59,11 @@ defmodule Entrybuilder.Build do
         _ ->
           true
       end
-    end)
+    end
   end
 
   defp filter_include_url(entries) do
-    Enum.filter(entries, fn(e) ->
+    Enum.filter entries, fn(e) ->
       case Regex.match?(~r/ttps?:\/\//i, e.content || "") do
         true ->
           Scrapy.already_post(e)
@@ -71,7 +72,20 @@ defmodule Entrybuilder.Build do
         _ ->
           true
       end
-    end)
+    end
+  end
+
+  defp filter_site(entries) do
+    Enum.filter entries, fn(e) ->
+      case Scrapy.ham?(e) do
+        true ->
+          Scrapy.already_post(e)
+          false
+
+        _ ->
+          true
+      end
+    end
   end
 
   defp entry_record(entries) do
