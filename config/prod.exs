@@ -20,10 +20,11 @@ config :exblur, Exblur.Endpoint,
   server: true
 
 # Do not print debug messages in production
-# config :logger, :console,
-config :logger, level: :warn,
-  format: "$date $time $metadata[$level]$levelpad$message\n",
-  metadata: [:user_id, :request_id, :application, :module, :file, :line]
+#config :logger, :console,
+config :logger, level: :warn
+# config :logger, level: :warn,
+  # format: "$date $time $metadata[$level]$levelpad$message\n",
+  # metadata: [:user_id, :request_id, :application, :module, :file, :line]
 
 # ## SSL Support
 #

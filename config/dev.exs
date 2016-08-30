@@ -33,6 +33,7 @@ config :exblur, Exblur.Endpoint,
   # :console,
   # format: "[$level] $message\n"
 
+# config :logger, level: :warn
 config :logger, :console,
   format: "$date $time $metadata[$level]$levelpad$message\n",
   metadata: [:user_id, :request_id, :application, :module, :file, :line]
