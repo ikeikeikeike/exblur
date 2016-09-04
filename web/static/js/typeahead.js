@@ -1,3 +1,8 @@
+(function($) {
+
+
+var $jq = $;
+
 $(document).on('ready', function() {
   var $modal, divaSuggest, tagSuggest;
 
@@ -40,3 +45,6 @@ $(document).on('ready', function() {
     // templates: { header: '<h5 class="league-name"><i>Diva</i></h5>' }
   });
 });
+
+
+})($);

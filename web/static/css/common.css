@@ -25,6 +25,10 @@ h1,h2,h3,h4,h5,h6,nav {
   cursor: pointer;
 }
 
+.linker {
+  cursor: pointer;
+}
+
 .badge-mini.badge {
     padding: 3px 3px;
     font-size: 10px;

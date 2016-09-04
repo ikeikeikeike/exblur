@@ -1,8 +1,36 @@
+(function($) {
+
+var $jq = $;
+
+
 $(document).on('ready', function() {
   $('.linker').on('click', function(e){
     e.stopPropagation();
     e.preventDefault();
 
-    location.href = $(this).data('link');
+    var w, url = $(this).data('link');
+
+    // happend error in phoenix router
+    // if (document.referrer) {
+      // var referrer = "referrer=" + encodeURIComponent(document.referrer);
+      // url = url + (location.search ? '&' : '?') + referrer;
+    // }
+
+    if ($(this).attr('target') === '_blank') {
+      w = window.open();
+      w.location.href = url;
+      return;
+    }
+
+    if (e.ctrlKey || e.metaKey) {
+      w = window.open();
+      w.location.href = url;
+      return;
+    }
+
+    location.href = url;
   })
 });
+
+
+})($);
