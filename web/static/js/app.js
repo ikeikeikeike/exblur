@@ -23,3 +23,5 @@
 import typeahead from "./typeahead"
 import sidebar from "./sidebar"
 import common from "./common"
+import dmm from "./dmm"
+import ads from "./ads"

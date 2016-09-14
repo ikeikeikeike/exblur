@@ -59,3 +59,5 @@ TODO.secret
 /exblur.tar.gz
 
 /web/templates
+/web/static/js/ads.js
+/web/static/js/dmm.js
