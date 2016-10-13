@@ -136,34 +136,6 @@ defmodule Exblur.Diva do
   def get_thumb(model), do: DivaUploader.url {model.image, model}
   def get_thumb(model, version), do: DivaUploader.url {model.image, model}, version
 
-  def fuzzy_find(name) when is_nil(name), do: fuzzy_find([])
-  def fuzzy_find(name) when is_bitstring(name) do
-    case String.split(name, ~r(、|（|）)) do
-      names when length(names) == 1 ->
-        diva = Repo.get_by(__MODULE__, name: List.first(names))
-        if diva, do: diva, else: fuzzy_find names
-
-      names when length(names)  > 1 ->
-        fuzzy_find names
-
-      _ -> nil
-    end
-  end
-  def fuzzy_find([]), do: nil
-  def fuzzy_find([name|tail]) do
-    case Blank.blank?(name) do
-      true  -> fuzzy_find(tail)
-      false ->
-        query =
-          from p in __MODULE__,
-          where: ilike(p.name, ^"%#{name}%"),
-          limit: 1
-
-        fuzzy_find([], Repo.one(query))
-    end
-  end
-  def fuzzy_find([], diva), do: diva
-
   def search_data(model) do
     [
       _type: "diva",

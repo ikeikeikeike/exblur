@@ -3,6 +3,7 @@ defmodule Exblur.EntryController do
 
   alias Exblur.Entry, as: Model
   alias Exblur.Diva
+  alias Exblur.Ecto.Q, as: Q
 
   plug :scrub_params, "entry" when action in [:create, :update]
 
@@ -10,19 +11,19 @@ defmodule Exblur.EntryController do
     # if diva param does not exists in database, throw `not found` exception.
     # Repo.get_by! Exblur.Diva, name: diva
     es = esearch(diva, params)
-    render(conn, "index.html", entries: es[:entries], diva: Diva.fuzzy_find(diva))
+    render(conn, "index.html", entries: es[:entries], diva: Q.fuzzy_find(Diva, diva))
   end
 
   def index(conn, %{"tag" => tag} = params) do
     # if tag does not exists in database, throw `not found` exception.
     # Repo.get_by! Exblur.Tag, name: tag
     es = esearch(tag, params)
-    render(conn, "index.html", entries: es[:entries], diva: Diva.fuzzy_find(tag))
+    render(conn, "index.html", entries: es[:entries], diva: Q.fuzzy_find(Diva, tag))
   end
 
   def index(conn, params) do
     es = esearch(params["search"], params)
-    render(conn, "index.html", entries: es[:entries], diva: Diva.fuzzy_find(conn.params["search"]))
+    render(conn, "index.html", entries: es[:entries], diva: Q.fuzzy_find(Diva, params["search"]))
   end
 
   def show(conn, %{"id" => id, "title" => title}) do
