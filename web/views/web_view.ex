@@ -56,10 +56,13 @@ defmodule Exblur.WebView do
 
   def nearly_search(nil), do: []
   def nearly_search(%Diva{} = model) do
-    Enum.map(Q.nearly_search(:bracup, Diva.query, model.bracup), & {:bracup, &1})
-    ++ Enum.map(Q.nearly_search(:bust, Diva.query, model.bust), & {:bust, &1})
-    ++ Enum.map(Q.nearly_search(:hip, Diva.query, model.hip), & {:hip, &1})
-    ++ Enum.map(Q.nearly_search(:waist, Diva.query, model.waste), & {:waist, &1})
+    measurements =
+      Enum.map(Q.nearly_search(:bracup, Diva.query, model.bracup), & {:bracup, &1})
+      ++ Enum.map(Q.nearly_search(:bust, Diva.query, model.bust), & {:bust, &1})
+      ++ Enum.map(Q.nearly_search(:hip, Diva.query, model.hip), & {:hip, &1})
+      ++ Enum.map(Q.nearly_search(:waist, Diva.query, model.waste), & {:waist, &1})
+
+    Enum.shuffle measurements
   end
 
   def translate_default({msg, opts}) do

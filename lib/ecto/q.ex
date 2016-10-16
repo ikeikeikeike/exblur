@@ -55,6 +55,16 @@ defmodule Exblur.Ecto.Q do
            and q.bust > ^(bust - 5),
         limit: 10
 
+    queryable =
+      case Enum.random [1, 2, 3] do
+        1 ->
+          from q in queryable, order_by: [desc: q.appeared]
+        2 ->
+          from q in queryable, order_by: [desc: q.bust]
+        3 ->
+          queryable
+      end
+
     Repo.all(queryable)
   end
   def nearly_search(:bracup, queryable, bracup) do
@@ -63,6 +73,16 @@ defmodule Exblur.Ecto.Q do
         where: q.appeared > 0
            and q.bracup == ^bracup,
         limit: 10
+
+    queryable =
+      case Enum.random [1, 2, 3] do
+        1 ->
+          from q in queryable, order_by: [desc: q.appeared]
+        2 ->
+          from q in queryable, order_by: [desc: q.bracup]
+        3 ->
+          queryable
+      end
 
     Repo.all(queryable)
   end
@@ -74,6 +94,16 @@ defmodule Exblur.Ecto.Q do
            and q.waste > ^(waist - 2),
         limit: 5
 
+    queryable =
+      case Enum.random [1, 2, 3] do
+        1 ->
+          from q in queryable, order_by: [desc: q.appeared]
+        2 ->
+          from q in queryable, order_by: [desc: q.waste]
+        3 ->
+          queryable
+      end
+
     Repo.all(queryable)
   end
   def nearly_search(:hip, queryable, hip) when is_integer(hip) do
@@ -84,6 +114,16 @@ defmodule Exblur.Ecto.Q do
            and q.hip > ^(hip - 3),
         limit: 5
 
+    queryable =
+      case Enum.random [1, 2, 3] do
+        1 ->
+          from q in queryable, order_by: [desc: q.appeared]
+        2 ->
+          from q in queryable, order_by: [desc: q.hip]
+        3 ->
+          queryable
+      end
+
     Repo.all(queryable)
   end
   def nearly_search(:blood, queryable, blood) do
@@ -92,6 +132,16 @@ defmodule Exblur.Ecto.Q do
         where: q.appeared > 0
            and q.blood == ^blood,
         limit: 5
+
+    queryable =
+      case Enum.random [1, 2, 3] do
+        1 ->
+          from q in queryable, order_by: [desc: q.appeared]
+        2 ->
+          from q in queryable, order_by: [desc: q.blood]
+        3 ->
+          queryable
+      end
 
     Repo.all(queryable)
   end
@@ -105,6 +155,16 @@ defmodule Exblur.Ecto.Q do
            and q.birthday <  ^nextmonth
            and q.birthday >= ^thismonth,
         limit: 5
+
+    queryable =
+      case Enum.random [1, 2, 3] do
+        1 ->
+          from q in queryable, order_by: [desc: q.appeared]
+        2 ->
+          from q in queryable, order_by: [desc: q.birthday]
+        3 ->
+          queryable
+      end
 
     Repo.all(queryable)
   end
