@@ -1,4 +1,7 @@
 defmodule Exblur.WebView do
+  alias Exblur.Diva
+  alias Exblur.Ecto.Q
+
   alias Phoenix.HTML.Tag
 
   def locale do
@@ -50,5 +53,20 @@ defmodule Exblur.WebView do
   end
 
   def showpage?(conn), do: Regex.match?(~r(/vid/.+), conn.request_path)
+
+  def nearly_search(nil), do: []
+  def nearly_search(%Diva{} = model) do
+    Enum.map(Q.nearly_search(:bracup, Diva.query, model.bracup), & {:bracup, &1})
+    ++ Enum.map(Q.nearly_search(:bust, Diva.query, model.bust), & {:bust, &1})
+    ++ Enum.map(Q.nearly_search(:hip, Diva.query, model.hip), & {:hip, &1})
+    ++ Enum.map(Q.nearly_search(:waist, Diva.query, model.waste), & {:waist, &1})
+  end
+
+  def translate_default({msg, opts}) do
+    Gettext.dngettext(Exblur.Gettext, "default", msg, msg, opts[:count] || 0, opts)
+  end
+  def translate_default(msg) do
+    Gettext.dgettext(Exblur.Gettext, "default", msg || "")
+  end
 
 end

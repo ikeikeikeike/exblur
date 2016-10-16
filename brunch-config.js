@@ -45,6 +45,7 @@ exports.config = {
       order: {
         before: [
           "bower_components/bootstrap/dist/css/bootstrap.min.css",
+          "bower_components/slick-carousel/slick/slick-theme.css",
           // "bower_components/bootstrap/dist/css/bootstrap-theme.css",
         ]
       }
@@ -94,6 +95,7 @@ exports.config = {
       "web/static",
       "test/static",
       "bower_components/bootstrap/dist/css",
+      "bower_components/slick-carousel/slick/slick-theme.css",
       // "bower_components/bootstrap/dist",
       // "bower_components/jquery/dist",
       // "bower_components/typeahead.js/dist",

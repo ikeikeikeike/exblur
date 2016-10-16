@@ -2,7 +2,7 @@ defmodule Exblur.Ecto.Q do
   import Ecto.Query, only: [from: 1, from: 2]
 
   alias Blank
-  alias Ecto.Repo
+  alias Exblur.Repo
   alias Exblur.Diva
 
   def exists?(queryable) do
@@ -20,8 +20,11 @@ defmodule Exblur.Ecto.Q do
   def fuzzy_find(mod, name) when is_bitstring(name) do
     case String.split(name, ~r(、|（|）)) do
       names when length(names) == 1 ->
-        model = Repo.get_by(mod, name: List.first(names))
-        if model, do: model, else: fuzzy_find mod, names
+        if model = Repo.get_by(mod, name: List.first(names)) do
+          model
+        else
+          fuzzy_find mod, names
+        end
 
       names when length(names)  > 1 ->
         fuzzy_find mod, names
@@ -48,8 +51,8 @@ defmodule Exblur.Ecto.Q do
     queryable =
       from q in queryable,
         where: q.appeared > 0
-           and q.bust < (^bust + 5)
-           and q.bust > (^bust - 5),
+           and q.bust < ^(bust + 5)
+           and q.bust > ^(bust - 5),
         limit: 10
 
     Repo.all(queryable)
@@ -67,8 +70,8 @@ defmodule Exblur.Ecto.Q do
     queryable =
       from q in queryable,
         where: q.appeared > 0
-           and q.waste < (^waist + 2)
-           and q.waste > (^waist - 2),
+           and q.waste < ^(waist + 2)
+           and q.waste > ^(waist - 2),
         limit: 10
 
     Repo.all(queryable)
@@ -77,8 +80,8 @@ defmodule Exblur.Ecto.Q do
     queryable =
       from q in queryable,
         where: q.appeared > 0
-           and q.hip < (^hip + 3)
-           and q.hip > (^hip - 3),
+           and q.hip < ^(hip + 3)
+           and q.hip > ^(hip - 3),
         limit: 10
 
     Repo.all(queryable)

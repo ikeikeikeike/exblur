@@ -94,3 +94,122 @@
   filter: alpha(opacity=100);
   opacity: 1;
 }
+
+.nearly-box {
+    font-size: 14px;
+    color: #eee;
+    background-color: #222;
+
+    padding: 0;
+    margin-bottom: 20px;
+}
+.nearly-box * {
+    font-size: 12px;
+    color: #eee;
+}
+.nearly-title {
+    font-size: 14px;
+    margin: 10px 0px 0px 10px;
+}
+.nearly-image {
+}
+a.nearly-link {
+    display: block;
+}
+a.nearly-link:hover {
+    background: #000;
+    text-decoration: none;
+}
+.nearly-slider {
+    top: 10px;
+    padding: 0;
+    margin-top: 0;
+}
+.nearly-name {
+    margin-left: 5px;
+}
+.nearly-measurements {
+    margin-left: 5px;
+}
+.nearly-parts {
+    font-size: 10px;
+    margin-left: 5px;
+    color: #999;
+}
+
+.slick-prev:before,
+.slick-next:before {
+    color: #000 !important;
+    font-size: 70px !important;
+}
+.slick-next {
+    right: 4px !important;
+    z-index: 99;
+    top: 30% !important;
+}
+.slick-prev {
+    left: -44px !important;
+    z-index: 100;
+    top: 30% !important;
+}
+.nearly-image-wrapper {
+    text-align: center;
+}
+.slick-dots li.slick-active button:before,
+.slick-dots li button:before {
+    color: #fff !important;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.cover,
+.contain {
+    display: inline-block;
+    position: relative;
+    border: 1px solid silver;
+    width: 142px;
+    height: 160px;
+    overflow: hidden;
+}
+.cover img,
+.contain img {
+    position: absolute;
+    width: auto;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.cover img {
+    min-width: 100%;
+    min-height: 100%;
+}
+.contain img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.bgSizeCover,
+.bgSizeContain {
+    display: inline-block;
+    position: relative;
+    border: 1px solid silver;
+    width: 160px;
+    height: 160px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+.bgSizeCover {
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+.bgSizeContain {
+    -webkit-background-size: contain;
+    background-size: contain;
+}
