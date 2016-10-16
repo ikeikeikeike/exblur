@@ -146,11 +146,13 @@ a.nearly-link:hover {
     right: 4px !important;
     z-index: 99;
     top: 30% !important;
+    color: transparent;
 }
 .slick-prev {
     left: -44px !important;
     z-index: 100;
     top: 30% !important;
+    color: transparent;
 }
 .nearly-image-wrapper {
     text-align: center;
