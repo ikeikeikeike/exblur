@@ -72,7 +72,7 @@ defmodule Exblur.Ecto.Q do
         where: q.appeared > 0
            and q.waste < ^(waist + 2)
            and q.waste > ^(waist - 2),
-        limit: 10
+        limit: 5
 
     Repo.all(queryable)
   end
@@ -82,7 +82,7 @@ defmodule Exblur.Ecto.Q do
         where: q.appeared > 0
            and q.hip < ^(hip + 3)
            and q.hip > ^(hip - 3),
-        limit: 10
+        limit: 5
 
     Repo.all(queryable)
   end
@@ -91,7 +91,7 @@ defmodule Exblur.Ecto.Q do
       from q in queryable,
         where: q.appeared > 0
            and q.blood == ^blood,
-        limit: 10
+        limit: 5
 
     Repo.all(queryable)
   end
@@ -104,7 +104,7 @@ defmodule Exblur.Ecto.Q do
         where: q.appeared > 0
            and q.birthday <  ^nextmonth
            and q.birthday >= ^thismonth,
-        limit: 10
+        limit: 5
 
     Repo.all(queryable)
   end
