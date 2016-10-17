@@ -316,7 +316,7 @@ defmodule Exblur.Entry do
         end
 
         divas do
-          terms field: "divas", size: 20
+          terms field: "divas", size: 35
           facet_filter do
             _and [_cache: true] do
               filters do

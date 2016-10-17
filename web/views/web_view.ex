@@ -82,7 +82,7 @@ defmodule Exblur.WebView do
         Map.put acc, term[:term], term[:count]
       end
 
-    names = Enum.keys map
+    names = Map.keys map
 
     queryable =
       from q in queryable,
