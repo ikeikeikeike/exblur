@@ -47,6 +47,19 @@ defmodule Exblur.Ecto.Q do
   end
   def fuzzy_find(_mod, [], model), do: model
 
+  def nearly_search(:measurements, queryable, %Diva{} = model) do
+    queryable =
+      from q in queryable,
+        where: q.appeared > 0
+           and q.bust  < ^(model.bust + 5)  and q.bust  > ^(model.bust - 5)
+           and q.waste < ^(model.waste + 3) and q.waste > ^(model.waste - 3)
+           and q.hip   < ^(model.hip + 5)   and q.hip   > ^(model.hip - 5),
+        limit: 10
+
+    queryable
+    |> nearly_order([desc: :bust])
+    |> Repo.all
+  end
   def nearly_search(:bust, queryable, bust) when is_integer(bust) do
     queryable =
       from q in queryable,
@@ -55,17 +68,9 @@ defmodule Exblur.Ecto.Q do
            and q.bust > ^(bust - 5),
         limit: 10
 
-    queryable =
-      case Enum.random [1, 2, 3] do
-        1 ->
-          from q in queryable, order_by: [desc: q.appeared]
-        2 ->
-          from q in queryable, order_by: [desc: q.bust]
-        3 ->
-          queryable
-      end
-
-    Repo.all(queryable)
+    queryable
+    |> nearly_order([desc: :bust])
+    |> Repo.all
   end
   def nearly_search(:bracup, queryable, bracup) do
     queryable =
@@ -74,17 +79,9 @@ defmodule Exblur.Ecto.Q do
            and q.bracup == ^bracup,
         limit: 10
 
-    queryable =
-      case Enum.random [1, 2, 3] do
-        1 ->
-          from q in queryable, order_by: [desc: q.appeared]
-        2 ->
-          from q in queryable, order_by: [desc: q.bracup]
-        3 ->
-          queryable
-      end
-
-    Repo.all(queryable)
+    queryable
+    |> nearly_order([desc: :bracup])
+    |> Repo.all
   end
   def nearly_search(:waist, queryable, waist) when is_integer(waist) do
     queryable =
@@ -94,17 +91,9 @@ defmodule Exblur.Ecto.Q do
            and q.waste > ^(waist - 2),
         limit: 5
 
-    queryable =
-      case Enum.random [1, 2, 3] do
-        1 ->
-          from q in queryable, order_by: [desc: q.appeared]
-        2 ->
-          from q in queryable, order_by: [desc: q.waste]
-        3 ->
-          queryable
-      end
-
-    Repo.all(queryable)
+    queryable
+    |> nearly_order([desc: :waste])
+    |> Repo.all
   end
   def nearly_search(:hip, queryable, hip) when is_integer(hip) do
     queryable =
@@ -114,17 +103,9 @@ defmodule Exblur.Ecto.Q do
            and q.hip > ^(hip - 3),
         limit: 5
 
-    queryable =
-      case Enum.random [1, 2, 3] do
-        1 ->
-          from q in queryable, order_by: [desc: q.appeared]
-        2 ->
-          from q in queryable, order_by: [desc: q.hip]
-        3 ->
-          queryable
-      end
-
-    Repo.all(queryable)
+    queryable
+    |> nearly_order([desc: :hip])
+    |> Repo.all
   end
   def nearly_search(:blood, queryable, blood) do
     queryable =
@@ -133,17 +114,9 @@ defmodule Exblur.Ecto.Q do
            and q.blood == ^blood,
         limit: 5
 
-    queryable =
-      case Enum.random [1, 2, 3] do
-        1 ->
-          from q in queryable, order_by: [desc: q.appeared]
-        2 ->
-          from q in queryable, order_by: [desc: q.blood]
-        3 ->
-          queryable
-      end
-
-    Repo.all(queryable)
+    queryable
+    |> nearly_order([desc: :blood])
+    |> Repo.all
   end
   def nearly_search(:birthday, queryable, %Ecto.Date{} = birthday) do
     thismonth = Timex.Date.from({birthday.year, birthday.month , 01})
@@ -156,17 +129,20 @@ defmodule Exblur.Ecto.Q do
            and q.birthday >= ^thismonth,
         limit: 5
 
-    queryable =
-      case Enum.random [1, 2, 3] do
-        1 ->
-          from q in queryable, order_by: [desc: q.appeared]
-        2 ->
-          from q in queryable, order_by: [desc: q.birthday]
-        3 ->
-          queryable
-      end
+    queryable
+    |> nearly_order([desc: :birthday])
+    |> Repo.all
+  end
 
-    Repo.all(queryable)
+  defp nearly_order(queryable, order_by) do
+    case Enum.random [1, 2, 3] do
+      1 ->
+        from queryable, order_by: [desc: :appeared]
+      2 ->
+        from queryable, order_by: ^order_by
+      3 ->
+        queryable
+    end
   end
 
 end
