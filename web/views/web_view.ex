@@ -96,7 +96,7 @@ defmodule Exblur.WebView do
 
   def pick_searchword(%Plug.Conn{} = conn) do
     [conn.params["search"], conn.params["tag"], conn.params["diva"]]
-    |> Enum.filter(& &1)
+    |> Enum.filter(fn w -> ! Blank.blank?(w) end)
     |> List.first
   end
 
