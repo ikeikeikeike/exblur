@@ -69,9 +69,9 @@ defmodule Exblur.WebView do
   def nearly_search(nil), do: []
   def nearly_search(%Diva{} = model) do
     measurements =
-      Enum.map(Q.nearly_search(:measurements, Diva.query, model), & {:measurements, &1})
-      ++ Enum.map(Q.nearly_search(:bracup, Diva.query, model.bracup), & {:bracup, &1})
-      ++ Enum.map(Q.nearly_search(:birthday, Diva.query, model.birthday), & {:birthday, &1})
+      Enum.map(Q.nearly_search(:measurements, Diva, model), & {:measurements, &1})
+      ++ Enum.map(Q.nearly_search(:bracup, Diva, model.bracup), & {:bracup, &1})
+      ++ Enum.map(Q.nearly_search(:birthday, Diva, model.birthday), & {:birthday, &1})
 
     Enum.shuffle measurements
   end
@@ -92,12 +92,31 @@ defmodule Exblur.WebView do
     queryable
     |> Repo.all
     |> Enum.map(& {map[&1.name], &1})
+    |> Enum.shuffle
   end
 
   def pick_searchword(%Plug.Conn{} = conn) do
     [conn.params["search"], conn.params["tag"], conn.params["diva"]]
     |> Enum.filter(fn w -> ! Blank.blank?(w) end)
     |> List.first
+  end
+
+  def available?(nil), do: nil
+  def available?(%Diva{bust: bust, waste: waist, hip: hip} = model) do
+    ! Blank.blank?(model) && ! Blank.blank?(bust) && ! Blank.blank?(waist) && ! Blank.blank?(hip)
+  end
+
+  def gaid(conn) do
+    id =
+      conn.cookies["_ga"]
+      |> String.split(".")
+      |> Enum.take(-2)
+      |> Enum.join
+
+    case Integer.parse(id) do
+      {num, _} -> num
+      _ -> 1
+    end
   end
 
 end
