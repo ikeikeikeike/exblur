@@ -106,9 +106,10 @@ defmodule Exblur.WebView do
     ! Blank.blank?(model) && ! Blank.blank?(bust) && ! Blank.blank?(waist) && ! Blank.blank?(hip)
   end
 
-  def gaid(conn) do
+  def gaid(nil), do: 1
+  def gaid(ga) do
     id =
-      conn.cookies["_ga"]
+      ga
       |> String.split(".")
       |> Enum.take(-2)
       |> Enum.join
