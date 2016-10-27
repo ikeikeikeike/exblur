@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import datetime
 
 from sqlalchemy.ext.declarative.api import declarative_base

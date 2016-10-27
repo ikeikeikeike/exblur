@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 CUPS = [
     "less than AAA",
     "AAA", "AA", "A",
