@@ -14,8 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "0.8.41"
-
+    v = "0.8.43"
     File.write! "VERSION", v
     v
   end
@@ -45,8 +44,7 @@ defmodule Exblur.Mixfile do
        :quantum,
        :sitemap,
        :html_entities,
-       # :conform,
-       # :conform_exrm,
+       # :exsentry,
      ],
      included_applications: [
        :arc,
@@ -111,8 +109,7 @@ defmodule Exblur.Mixfile do
      {:mogrify, "~> 0.2"},
      {:sitemap, ">= 0.0.0"},
      {:html_entities, "~> 0.3"},
-     # {:conform, "~> 2.0", override: true},
-     # {:conform_exrm, "~> 1.0"}
+     # {:exsentry, "~> 0.7"},
     ]
   end
 

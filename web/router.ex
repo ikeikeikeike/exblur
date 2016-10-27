@@ -1,5 +1,6 @@
 defmodule Exblur.Router do
   use Exblur.Web, :router
+  # use ExSentry.Plug
 
   pipeline :browser do
     plug :accepts, ["html"]
