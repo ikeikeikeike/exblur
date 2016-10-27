@@ -47,7 +47,7 @@ defmodule Divabuilder.BuildImage do
 
             {_, model} ->
               img = Bing.make_plug!(diva.name)
-              case img && Repo.update(Diva.changeset_image(model, %{image: img})) do
+              case img && Repo.update(Diva.changeset(model, %{image: img})) do
                 {:error, } ->
                   Diva.changeset(model, %{updated_at: Ecto.DateTime})
                   |> Repo.update

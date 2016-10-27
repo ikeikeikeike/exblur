@@ -12,10 +12,15 @@ defmodule Divabuilder.Image.Bing do
     end
 
     case Client.get(query.(name), [{"User-agent", @config[:user_agent]}], [hackney: [basic_auth: @config[:basic_auth]]]) do
-      {:error, _} -> []
+      {:error, _} ->
+        []
       {:ok, resp} ->
-        {:ok, map} = Poison.decode(resp.body)
-        map["d"]["results"]
+        case Poison.decode(resp.body) do
+          {:ok, map} ->
+            map["d"]["results"]
+          {:error, _} ->
+            []
+        end
     end
   end
 
