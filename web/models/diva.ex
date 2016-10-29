@@ -28,6 +28,7 @@ defmodule Exblur.Diva do
 
     field :blood,      :string
     field :birthday,   Ecto.Date
+    field :age,        :integer, virtual: true
 
     field :image,      DivaUploader.Type
 
