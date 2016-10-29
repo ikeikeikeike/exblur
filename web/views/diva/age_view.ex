@@ -6,7 +6,7 @@ defmodule Exblur.Diva.AgeView do
   def page_title(:index, assigns), do: gettext("diva age index page title") <> " - " <> gettext("Default Page Title")
   def page_title(:age, assigns) do
     params = assigns.conn.params
-    gettext("diva age page title with %{age}", age: params["age"]) <> " - " <> gettext("Default Page Title")
+    gettext("diva age page title with %{name}", name: params["age"]) <> " - " <> gettext("Default Page Title")
   end
   def page_title(_, _), do: gettext("diva age index page title") <> " - " <> gettext("Default Page Title")
 
