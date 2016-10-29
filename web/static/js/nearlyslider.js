@@ -11,6 +11,8 @@ $(document).on('ready', function() {
     dots: false,
     slidesToShow: 8,
     slidesToScroll: 8,
+    prevArrow: '<a type="button" data-role="none" class="slick-prev" aria-label="Previous" tabindex="0" role="button">Previous</a>',
+    nextArrow: '<a type="button" data-role="none" class="slick-next" aria-label="Next" tabindex="0" role="button">Next</a>',
     responsive: [
       {
         breakpoint: 1200,
