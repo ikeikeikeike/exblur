@@ -234,3 +234,7 @@ img {
     -webkit-background-size: contain;
     background-size: contain;
 }
+
+.panel.panel-default {
+    background-color: #fcfdff;
+}
