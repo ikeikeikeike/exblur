@@ -1,5 +1,5 @@
 .encircle {
-    min-height: 800px;
+    min-height: 550px;
 }
 
 .label-white {
@@ -73,11 +73,9 @@
 .force-foreground {
     position: absolute;
     z-index: 400;
+
     width: 330px;
     height: 250px;
-
-    /* width: 380px; */
-    /* height: 270px; */
 
     margin-left: auto;
     margin-right: auto;
@@ -108,14 +106,24 @@
   opacity: 1;
 }
 
-.force-foreground.sp {
+.force-foreground.sp.storage {
     width: 293px;
     height: 331px;
+}
+
+.force-foreground.sp {
     left: 26px;
 }
 
-.force-foreground.sp .close {
-  font-size: 70px;
+.force-foreground.sp.ninad .close {
+    font-size: 60px;
+    left: 43px;
+    top: -30px;
+}
+
+
+.force-foreground.sp.storage .close {
+    font-size: 60px;
 }
 
 .nearly-box {
