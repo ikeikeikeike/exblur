@@ -21,7 +21,7 @@ defmodule Plug.Exblur.Upload do
   end
 
   defp recursive_request!(filename, retry \\ 10) do
-    opts = [{"User-agent", @config[:user_agent]}, {"connect_timeout", 30}]
+    opts = [{"User-Agent", @config[:user_agent]}, {"connect_timeout", 30}]
     case HTTPoison.get(filename, opts) do
       {:error, reason} ->
         Logger.warn "#{inspect reason}"
