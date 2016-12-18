@@ -10,7 +10,11 @@ defmodule Exblur.ReceptionMailer do
     send_email to: Application.get_env(:exblur, :mailer)[:me],
                from: @from,
                subject: "From Mailgun as removal request: #{subject}",
-               text: body
+               text: """
+               email: #{email}
+               subject: #{subject}
+               body: #{body}
+               """
 
     send_email to: email,
                from: @from,
@@ -31,7 +35,11 @@ defmodule Exblur.ReceptionMailer do
     send_email to: Application.get_env(:exblur, :mailer)[:me],
                from: @from,
                subject: "From Mailgun as contact: #{subject}",
-               text: body
+               text: """
+               email: #{email}
+               subject: #{subject}
+               body: #{body}
+               """
 
     send_email to: email,
                from: @from,
