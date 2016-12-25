@@ -45,6 +45,9 @@ config :exblur, Exblur.Gettext,
   default_locale: "ja",
   locales: ~w(en es ja)
 
+config :redisank, :redis,
+  ranking: "redis://127.0.0.1:6379/14"
+
 # config :phoenix, Exblur.Router,
   # session: [store: :cookie,
             # key: "_exblur_key"]

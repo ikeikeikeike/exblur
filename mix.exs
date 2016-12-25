@@ -14,7 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "0.9.15"
+    v = "0.9.16"
     File.write! "VERSION", v
     v
   end
@@ -45,6 +45,7 @@ defmodule Exblur.Mixfile do
        :quantum,
        :sitemap,
        :html_entities,
+       :redisank,
        # :exsentry,
      ],
      included_applications: [
@@ -91,7 +92,7 @@ defmodule Exblur.Mixfile do
      {:ex_aws, "~> 0.4"},
      {:httpoison, "~> 0.8"},
      {:tirexs, "~> 0.7"},
-     {:timex, "~> 2.1"},  # {:tirexs, github: "Zatvobor/tirexs"},
+     {:timex, "~> 2.1", override: true},  # {:tirexs, github: "Zatvobor/tirexs"},
      {:timex_ecto, "~> 1.0"},
      {:calendar, "~> 0.12"},
      {:exromaji, "~> 0.3"},
@@ -102,7 +103,7 @@ defmodule Exblur.Mixfile do
      # {:ex_admin, github: "smpallen99/ex_admin"},
      {:scrivener_html, github: "ikeikeikeike/scrivener_html", override: true},
      {:ua_inspector, "~> 0.10"},
-     {:phoenix_html_simplified_helpers, "~> 0.3"},
+     {:phoenix_html_simplified_helpers, "~> 0.8"},
      {:simple_format, "~> 0.1"},
      {:quantum, "~> 1.7"},
      {:exrm, "~> 1.0"},
@@ -110,6 +111,7 @@ defmodule Exblur.Mixfile do
      {:mogrify, "~> 0.2"},
      {:sitemap, ">= 0.0.0"},
      {:html_entities, "~> 0.3"},
+     {:redisank, "~> 0.1"},
      # {:exsentry, "~> 0.7"},
     ]
   end

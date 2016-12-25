@@ -6,6 +6,7 @@ defmodule Exblur.EntryController do
   alias Exblur.Ecto.Q, as: Q
 
   plug :scrub_params, "entry" when action in [:create, :update]
+  plug Redisank.Plug.Access, [key: "id"] when action in [:show]
 
   def index(conn, %{"diva" => diva} = params) do
     # if diva param does not exists in database, throw `not found` exception.

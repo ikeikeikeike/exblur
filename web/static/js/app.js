@@ -12,6 +12,7 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 // import "deps/phoenix_html/web/static/js/phoenix_html"
+// import "slideout"
 
 // Import local files
 //
@@ -26,3 +27,5 @@ import sidebar from "./sidebar"
 import common from "./common"
 import dmm from "./dmm"
 import ads from "./ads"
+
+import slidermenu from "./slidermenu"

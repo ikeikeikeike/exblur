@@ -12,9 +12,12 @@
   ],
   "dependencies": {
     "typeahead.js": "^0.10.5",
-    "bootstrap": "^3.3.6",
-    "flag-icon-css": "^1.4.0",
     "underscore": "^1.8.3",
-    "slick-carousel": "^1.6.0"
+    "bootstrap": "^3.3.6",
+    "flag-icon-css": "^2.7.0",
+    "icomoon-bower": "^0.1.2",
+    "slick-carousel": "^1.6.0",
+    "font-awesome": "fontawesome#^4.7.0",
+    "bootstrap-hover-dropdown": "^2.2.1"
   }
 }

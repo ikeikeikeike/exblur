@@ -46,6 +46,7 @@ exports.config = {
         before: [
           "bower_components/bootstrap/dist/css/bootstrap.min.css",
           "bower_components/slick-carousel/slick/slick-theme.css",
+          "bower_components/font-awesome/css/font-awesome.min.css",
           // "bower_components/bootstrap/dist/css/bootstrap-theme.css",
         ]
       }
@@ -96,6 +97,7 @@ exports.config = {
       "test/static",
       "bower_components/bootstrap/dist/css",
       "bower_components/slick-carousel/slick/slick-theme.css",
+      "bower_components/font-awesome/css/font-awesome.min.css",
       // "bower_components/bootstrap/dist",
       // "bower_components/jquery/dist",
       // "bower_components/typeahead.js/dist",
@@ -117,6 +119,11 @@ exports.config = {
 
       'mkdir -p priv/static/flags',
       'cp -pRf bower_components/flag-icon-css/flags/* priv/static/flags',
+
+      'cp -f bower_components/slick-carousel/slick/fonts/* priv/static/css/fonts',
+      'cp -f bower_components/slick-carousel/slick/ajax-loader.gif priv/static/css/',
+
+      'cp -f bower_components/font-awesome/fonts/* priv/static/fonts',
     ]
   },
 

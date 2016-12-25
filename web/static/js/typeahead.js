@@ -4,12 +4,16 @@
 var $jq = $;
 
 $(document).on('ready', function() {
-  var $modal, divaSuggest, tagSuggest;
+  var $modal, divaSuggest, tagSuggest, $searchform, strlength;
 
   if (window.isMobile) {
     $modal = $('.js-autocomplete-modal');
     $modal.on('shown.bs.modal', function() {
-      $(this).find('input[name="search"]').focus();
+      $searchform = $(this).find('input[name="search"]');
+      strlength = $searchform.val().length * 2;
+
+      $searchform.focus();
+      $searchform[0].setSelectionRange(strlength, strlength);
     });
     $modal.on('hidden.bs.modal', function() {
       $('input.js-autocomplete-firedom').val($(this).find('input[name="search"]').val());
