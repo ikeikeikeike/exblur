@@ -108,6 +108,11 @@ config :quantum, cron: [
       schedule: "15 * * * *",
       task: "Entrybuilder.Publish.run",
       args: []
+    ],
+    ranking_run: [
+      schedule: "30 * * * *",
+      task: "Exblur.Builders.Ranking.run",
+      args: []
     ]
 ]
 
