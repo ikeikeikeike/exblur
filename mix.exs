@@ -113,6 +113,7 @@ defmodule Exblur.Mixfile do
      {:sitemap, ">= 0.0.0"},
      {:html_entities, "~> 0.3"},
      {:redisank, "~> 0.1"},
+     {:credo, "~> 0.5", only: [:dev, :test]},
      # {:exsentry, "~> 0.7"},
     ]
   end
