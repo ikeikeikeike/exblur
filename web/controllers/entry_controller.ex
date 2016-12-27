@@ -1,9 +1,7 @@
 defmodule Exblur.EntryController do
   use Exblur.Web, :controller
 
-  alias Exblur.Entry, as: Model
-  alias Exblur.Diva
-  alias Exblur.Ecto.Q, as: Q
+  alias Exblur.{Entry, Diva, Ecto.Q}
 
   plug :scrub_params, "entry" when action in [:create, :update]
   plug Redisank.Plug.Access, [key: "id"] when action in [:show]
@@ -11,57 +9,58 @@ defmodule Exblur.EntryController do
   def index(conn, %{"diva" => diva} = params) do
     # if diva param does not exists in database, throw `not found` exception.
     # Repo.get_by! Exblur.Diva, name: diva
-    es = esearch(diva, params)
-    render(conn, "index.html", entries: es[:entries], diva: Q.fuzzy_find(Diva, diva))
+    pager = esearch(diva, params)
+    render(conn, "index.html", entries: pager, diva: Q.fuzzy_find(Diva, diva))
   end
 
   def index(conn, %{"tag" => tag} = params) do
     # if tag does not exists in database, throw `not found` exception.
     # Repo.get_by! Exblur.Tag, name: tag
-    es = esearch(tag, params)
-    render(conn, "index.html", entries: es[:entries], diva: Q.fuzzy_find(Diva, tag))
+    pager = esearch(tag, params)
+    render(conn, "index.html", entries: pager, diva: Q.fuzzy_find(Diva, tag))
   end
 
   def index(conn, params) do
-    es = esearch(params["search"], params)
-    render(conn, "index.html", entries: es[:entries], diva: Q.fuzzy_find(Diva, params["search"]))
+    pager = esearch(params["search"], params)
+    render(conn, "index.html", entries: pager, diva: Q.fuzzy_find(Diva, params["search"]))
   end
 
   def hottest(conn, params) do
-    es = esearch(params["search"], params)
-    render(conn, "index.html", entries: es[:entries], diva: Q.fuzzy_find(Diva, params["search"]))
+    pager = esearch(params["search"], params)
+    render(conn, "index.html", entries: pager, diva: Q.fuzzy_find(Diva, params["search"]))
   end
 
   def show(conn, %{"id" => id, "title" => title}) do
     params =
       %{}
       |> Es.Params.prepare_params(1, 15)
-      |> Map.put(:query, Model.query)
+      |> Map.put(:query, Entry.query)
       |> Map.put(:st, "match")
 
     entries =
-      Model.search(title, params)
+      Entry.search(title, params)
       |> Es.Paginator.paginate(params)
 
-    render(conn, "show.html", entry: Repo.get!(Model.query, id), entries: entries)
+    render(conn, "show.html", entry: Repo.get!(Entry.query, id), entries: entries)
   end
 
   def show(conn, %{"id" => id} = params) do
-    es = esearch(nil, params, 15)
-    render(conn, "show.html", entry: Repo.get!(Model.query, id), entries: es[:entries])
+    pager = esearch(nil, params, 15)
+    render(conn, "show.html", entry: Repo.get!(Entry.query, id), entries: pager)
   end
 
-  defp esearch(word, params, limit \\ 35) do
+  defp esearch(word, params, limit \\ nil) do
+    params = Map.merge(params, %{search: word})
     params =
-      params
-      |> Es.Params.prepare_params(1, limit)
-      |> Map.put(:query, Model.query)
+      if limit do
+        Map.merge(params, %{page_size: limit})
+      else
+        params
+      end
 
-    entries =
-      Model.search(word != "" && word || nil, params)
-      |> Es.Paginator.paginate(params)
-
-    [entries: entries, params: params]
+    Entry.query
+    |> Exblur.ESx.search(Entry.search(params))
+    |> Exblur.ESx.paginate(params)
   end
 
 end

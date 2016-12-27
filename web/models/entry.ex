@@ -1,22 +1,12 @@
 defmodule Exblur.Entry do
   use Exblur.Web, :model
 
-  use Es
-  use Es.Index
-  use Es.Document
+  use ESx.Schema
 
-  alias Exblur.Entry, as: Model
-
-  alias Exblur.EntryTag
-  alias Exblur.EntryDiva
-  alias Exblur.Diva
-  alias Exblur.Site
-  alias Exblur.Tag
-  alias Exblur.Thumb
+  alias Exblur.ESx
+  alias Exblur.{Entry, EntryTag, EntryDiva, Diva, Site, Tag, Thumb}
 
   require Logger
-
-  es :model, Model
 
   schema "entries" do
     field :url, :string
@@ -47,6 +37,60 @@ defmodule Exblur.Entry do
     has_many :tags, through: [:entry_tags, :tag]
   end
 
+  index_name "es_entry"
+  document_type "entry"
+
+  mapping _all: [enabled: false] do
+    # indexes "id",             type: "long",   analyzer: "not_analyzed", include_in_all: false
+    indexes "url",            type: "string", index: "not_analyzed"
+
+    indexes "site_name",      type: "string", index: "not_analyzed"
+    indexes "server_title",   type: "string", index: "not_analyzed"
+    indexes "server_domain",  type: "string", index: "not_analyzed"
+
+    indexes "tags",           type: "string", index: "not_analyzed"
+    indexes "divas",          type: "string", index: "not_analyzed"
+
+    indexes "title",          type: "string", analyzer: "ja_analyzer"
+    # indexes "content",        type: "string", analyzer: "ja_analyzer"
+
+    indexes "time",           type: "long"
+    indexes "published_at",   type: "date",  format: "dateOptionalTime"
+
+    indexes "review",         type: "boolean"
+    indexes "publish",        type: "boolean"
+    indexes "removal",        type: "boolean"
+  end
+
+  settings do
+    analysis do
+      filter    "ja_posfilter",
+        type: "kuromoji_neologd_part_of_speech",
+        stoptags: ["助詞-格助詞-一般", "助詞-終助詞"]
+      filter    "edge_ngram",
+        type: "edgeNGram",
+        min_gram: 1, max_gram: 15
+
+      tokenizer "ja_tokenizer",
+        type: "kuromoji_neologd_tokenizer"
+      tokenizer "ngram_tokenizer",
+        type: "nGram",
+        min_gram: "2", max_gram: "3",
+        token_chars: ["letter", "digit"]
+
+      # analyzer  "default",
+      #   type: "custom",
+      #   tokenizer: "ja_tokenizer",
+      #   filter: ["kuromoji_neologd_baseform", "ja_posfilter", "cjk_width"]
+      analyzer  "ja_analyzer",
+        type: "custom",
+        tokenizer: "ja_tokenizer",
+        filter: ["kuromoji_neologd_baseform", "ja_posfilter", "cjk_width"]
+      analyzer  "ngram_analyzer",
+        tokenizer: "ngram_tokenizer"
+    end
+  end
+
   @required_fields ~w(url title embed_code time review publish removal)
   @optional_fields ~w(content published_at site_id sort)
   @relational_fields ~w(site divas tags thumbs)a
@@ -62,7 +106,7 @@ defmodule Exblur.Entry do
   def put_es_document(changeset) do
     changeset.model
     |> Repo.preload(@relational_fields)
-    |> put_document
+    |> ESx.index_document
 
     changeset
   end
@@ -71,7 +115,7 @@ defmodule Exblur.Entry do
   def delete_es_document(changeset) do
     changeset.model
     |> Repo.preload(@relational_fields)
-    |> delete_document
+    |> ESx.delete_document
 
     changeset
   end
@@ -154,13 +198,13 @@ defmodule Exblur.Entry do
   end
 
   def find_or_create_by_entry(entry) do
-    query = from v in Model,
+    query = from v in Entry,
           where: v.url == ^entry.url
 
     case model = Repo.one(query) do
       nil ->
         cset =
-          %Model{}
+          %Entry{}
           |> changeset_by_entry(entry)
 
         case Repo.insert(cset) do
@@ -242,10 +286,8 @@ defmodule Exblur.Entry do
     end
   end
 
-  def search_data(model) do
-    [
-      _type: "entry",
-      _id: model.id,
+  def as_indexed_json(model, _opts) do
+    %{
       url: model.url,
       time: model.time,
       title: model.title,
@@ -267,260 +309,102 @@ defmodule Exblur.Entry do
       end),
 
       site_name: (if model.site_id, do: model.site.name, else: ""),
-    ]
+    }
   end
 
-  def search,               do: search(nil, [])
-  def search(word),         do: search(word, [])
-  def search(word, options) do
-    opt = prepare_options(options)
-
-    # pagination
-    # page = opt[:page]
-    offset = opt[:offset]
-    per_page = opt[:per_page]
-
-    # queries = search [index: @index_name, from: 0, size: 10, fields: [:tag, :article], explain: 5, version: true, min_score: 0.5] do
-    queries = Tirexs.Search.search [index: get_index, fields: [], from: offset, size: per_page] do
-
-      query do
-        match_all
-      end
-
-      filter do
-        _and [_cache: true] do
-          filters do
-            terms "review",  [true]
-            terms "publish", [true]
-            terms "removal", [false]
-            # terms "divas"  # TODO: specified serach
-          end
-        end
-      end
-
-      facets do
-        # tags [global: true] do
-          # terms field: "tags"
-        # end
-
-        tags do
-          terms field: "tags", size: 20
-          facet_filter do
-            _and [_cache: true] do
-              filters do
-                terms "review",  [true]
-                terms "publish", [true]
-                terms "removal", [false]
-                # terms "server_domain" Server.shown_domain(request.host)
-                # terms "site_name"
-                # terms "divas"
-              end
+  def search(params \\ %{}) do
+    %{
+      fields: [],
+      query: %{
+        filtered: %{
+          query: (
+            if q = params["search"] do
+              %{ multi_match: %{ query: q, fields: ~w(title tags divas) }}
+            else
+              %{ match_all: %{} }
             end
-          end
+          ),
+          filter: %{
+            bool: %{
+              must: (
+                [
+                  %{term: %{review:  [true]}},
+                  %{term: %{publish: [true]}},
+                  %{term: %{removal: [false]}},
+                  if(params[:fs], do: %{term: %{site_name: [params[:fs]]}}),
+                  if(params[:ft], do: %{range: %{time: %{gte: params[:ft]}}}),
+                ]
+                |> Enum.filter(& !!&1)
+              )
+            }
+          }
+        }
+      },
+      facets: %{
+        tags: %{
+          terms: %{field: "tags", size: 20},
+        },
+        divas: %{
+          terms: %{field: "divas", size: 35},
+        },
+      },
+      sort: (
+        case params[:st] do
+          "match" ->
+            %{}
+          "asc" ->
+            %{published_at: %{order: "asc"}}
+          _ ->
+            %{published_at: %{order: "desc"}}
         end
-
-        divas do
-          terms field: "divas", size: 35
-          facet_filter do
-            _and [_cache: true] do
-              filters do
-                terms "review",  [true]
-                terms "publish", [true]
-                terms "removal", [false]
-                # terms "server_domain" Server.shown_domain(request.host)
-                # terms "site_name"
-                # terms "divas"
-              end
-            end
-          end
-        end
-
-      end
-
-      sort do
-        [
-          published_at: [order: "desc"]
-        ]
-      end
-
-      # TODO: highlight: word highlight
-      # TODO: phrase suggester API: I'm not sure that you want like this right ?
-      # TODO: completion suggester API: autocomplete
-      # XXX: more like this: relational contents
-    end
-
-    if word do
-      fields = [:title, :tags, :divas]  # , :content
-
-      s = Keyword.delete(queries[:search], :query) ++ Tirexs.Query.query do
-        multi_match word, fields # , cutoff_frequency: 0.001, boost: 10, use_dis_max: false, operator: "and"
-      end
-
-      queries = Keyword.put queries, :search, s
-    end
-
-    if opt[:sort] do
-      s = Keyword.delete(queries[:search], :sort) ++ Tirexs.Search.sort do
-        opt[:sort]
-      end
-
-      queries = Keyword.put queries, :search, s
-    end
-
-    # XXX: OMG.. Its not dry. Its tirerd that how to build xml in this library. later I'll fixed below.
-    if opt[:filter][:ft] && opt[:filter][:fs] do
-      f = Keyword.delete(queries[:search], :filter) ++ Tirexs.Query.Filter.filter do
-        _and [_cache: true] do
-          filters do
-            terms "review",  [true]
-            terms "publish", [true]
-            terms "removal", [false]
-            terms "site_name", [opt[:filter][:fs]]
-            range "time", [gte: opt[:filter][:ft]]
-          end
-        end
-      end
-
-      queries = Keyword.put queries, :search, f
-    else
-      if opt[:filter][:fs] do
-        f = Keyword.delete(queries[:search], :filter) ++ Tirexs.Query.Filter.filter do
-          _and [_cache: true] do
-            filters do
-              terms "review",  [true]
-              terms "publish", [true]
-              terms "removal", [false]
-              terms "site_name", [opt[:filter][:fs]]
-            end
-          end
-        end
-
-        queries = Keyword.put queries, :search, f
-      end
-
-      if opt[:filter][:ft] do
-        f = Keyword.delete(queries[:search], :filter) ++ Tirexs.Query.Filter.filter do
-          _and [_cache: true] do
-            filters do
-              terms "review",  [true]
-              terms "publish", [true]
-              terms "removal", [false]
-              range "time", [gte: opt[:filter][:ft]]
-            end
-          end
-        end
-
-        queries = Keyword.put queries, :search, f
-      end
-
-    end
-
-    queries
-    |> ppquery
-    |> Tirexs.Query.create_resource
+      ),
+    }
   end
 
-  def tag_facets do
-    queries = Tirexs.Search.search [index: get_index, fields: [], from: 0, size: 0] do
-      facets do
-        tags do
-          terms field: "tags", size: 2000
-          facet_filter do
-            _and [_cache: true] do
-              filters do
-                terms "review",  [true]
-                terms "publish", [true]
-                terms "removal", [false]
-              end
-            end
-          end
-        end
-      end
-    end
-
-    queries
-    |> ppquery
-    |> Tirexs.Query.create_resource
+  def tag_facets(size \\ 2000) do
+    %{
+      size: 0,
+      from: 0,
+      fields: [],
+      facets: %{
+        tags: %{
+          terms: %{field: "tags", size: size},
+          facet_filter: %{
+            bool: %{
+              _cache: true,
+              must: [
+                %{term: %{"review":  [true]}},
+                %{term: %{"publish": [true]}},
+                %{term: %{"removal": [false]}},
+              ]
+            }
+          }
+        }
+      }
+    }
   end
 
   def diva_facets(size \\ 2000) do
-    queries = Tirexs.Search.search [index: get_index, fields: [], from: 0, size: 0] do
-      facets do
-        divas do
-          terms field: "divas", size: size
-          facet_filter do
-            _and [_cache: true] do
-              filters do
-                terms "review",  [true]
-                terms "publish", [true]
-                terms "removal", [false]
-              end
-            end
-          end
-        end
-      end
-    end
-
-    queries
-    |> ppquery
-    |> Tirexs.Query.create_resource
-
+    %{
+      size: 0,
+      from: 0,
+      fields: [],
+      facets: %{
+        divas: %{
+          terms: %{field: "divas", size: size},
+          facet_filter: %{
+            bool: %{
+              _cache: true,
+              must: [
+                %{term: %{"review":  [true]}},
+                %{term: %{"publish": [true]}},
+                %{term: %{"removal": [false]}},
+              ]
+            }
+          }
+        }
+      }
+    }
   end
-
-  # settings = Tirexs.ElasticSearch.config()
-  # Tirexs.ElasticSearch.delete("exblur_video_entreis", settings)
-
-  def create_index(index \\ get_index) do
-    Tirexs.DSL.define [type: "entry", index: index], fn(index, es_settings) ->
-      settings do
-        analysis do
-          filter    "ja_posfilter",     type: "kuromoji_neologd_part_of_speech", stoptags: ["助詞-格助詞-一般", "助詞-終助詞"]
-          filter    "edge_ngram",       type: "edgeNGram", min_gram: 1, max_gram: 15
-
-          tokenizer "ja_tokenizer",     type: "kuromoji_neologd_tokenizer"
-          tokenizer "ngram_tokenizer",  type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
-
-          # analyzer  "default",          type: "custom", tokenizer: "ja_tokenizer", filter: ["kuromoji_neologd_baseform", "ja_posfilter", "cjk_width"]
-          analyzer  "ja_analyzer",      type: "custom", tokenizer: "ja_tokenizer", filter: ["kuromoji_neologd_baseform", "ja_posfilter", "cjk_width"]
-          analyzer  "ngram_analyzer",                   tokenizer: "ngram_tokenizer"
-        end
-      end
-      |> ppquery
-
-      {index, es_settings}
-    end
-
-    Tirexs.DSL.define [type: "entry", index: index], fn(index, es_settings) ->
-      mappings do
-
-        # indexes "id",             type: "long",   analyzer: "not_analyzed", include_in_all: false
-        indexes "url",            type: "string", index: "not_analyzed"
-
-        indexes "site_name",      type: "string", index: "not_analyzed"
-        indexes "server_title",   type: "string", index: "not_analyzed"
-        indexes "server_domain",  type: "string", index: "not_analyzed"
-
-        indexes "tags",           type: "string", index: "not_analyzed"
-        indexes "divas",          type: "string", index: "not_analyzed"
-
-        indexes "title",          type: "string", analyzer: "ja_analyzer"
-        # indexes "content",        type: "string", analyzer: "ja_analyzer"
-
-        indexes "time",           type: "long"
-        indexes "published_at",   type: "date",  format: "dateOptionalTime"
-
-        indexes "review",         type: "boolean"
-        indexes "publish",        type: "boolean"
-        indexes "removal",        type: "boolean"
-
-      end
-      |> ppquery
-
-      {index, es_settings}
-    end
-
-    :ok
-  end
-
 
 end

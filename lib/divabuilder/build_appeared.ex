@@ -1,15 +1,16 @@
 defmodule Divabuilder.BuildAppeared do
   use Exblur.Web, :build
+
   alias Exblur.Diva
+
   require Logger
-  require Tirexs.Query
 
   def run, do: run([])
   def run(_args) do
 
     tirexs =
       Exblur.Entry.diva_facets(10000)
-      |> Tirexs.Query.result
+      # |> Tirexs.Query.result
 
     models =
       tirexs[:facets][:divas][:terms]

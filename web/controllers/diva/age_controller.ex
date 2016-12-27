@@ -1,10 +1,10 @@
 defmodule Exblur.Diva.AgeController do
   use Exblur.Web, :controller
 
-  alias Exblur.Repo
-  alias Exblur.Diva, as: Model
   import Ecto.Query
-  require Tirexs.Query
+
+  alias Exblur.Repo
+  alias Exblur.Diva
 
   def index(conn, _params) do
     render(conn, "index.html", ages: ages)
@@ -18,7 +18,7 @@ defmodule Exblur.Diva.AgeController do
       SELECT * FROM divas WHERE
         EXTRACT(YEAR from AGE(birthday)) = $1
           AND appeared > 0
-      """, [one], Model
+      """, [one], Diva
 
     render(conn, "age.html", ages: ages, divas: divas)
   end

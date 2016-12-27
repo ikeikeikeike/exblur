@@ -1,9 +1,9 @@
 defmodule Exblur.Diva.BirthdayController do
   use Exblur.Web, :controller
 
-  alias Exblur.Diva, as: Model
   import Ecto.Query
-  require Tirexs.Query
+
+  alias Exblur.Diva
 
   def month(conn, %{"year" => year, "month" => month}) do
     {year, _} = Integer.parse(year)
@@ -13,7 +13,7 @@ defmodule Exblur.Diva.BirthdayController do
       |> Timex.Date.shift(months: 1)
 
     birthdays =
-      Model
+      Diba
       |> select([p], p.birthday)
       |> where([q], q.appeared > 0)
       |> where([q], not is_nil(q.birthday))
@@ -26,7 +26,7 @@ defmodule Exblur.Diva.BirthdayController do
       end)
 
    divas =
-      Model
+      Diba
       |> where([q], q.appeared > 0)
       |> where([q], not is_nil(q.birthday))
       |> where([q], q.birthday  < ^next_month)
@@ -38,7 +38,7 @@ defmodule Exblur.Diva.BirthdayController do
 
   def year(conn, %{"year" => year}) do
     birthdays =
-      Model
+      Diba
       |> select([p], p.birthday)
       |> where([q], q.appeared > 0)
       |> where([q], not is_nil(q.birthday))
@@ -51,7 +51,7 @@ defmodule Exblur.Diva.BirthdayController do
       end)
 
    divas =
-      Model
+      Diba
       |> where([q], q.appeared > 0)
       |> where([q], not is_nil(q.birthday))
       |> where([q], q.birthday <= ^"#{year}-12-31")
@@ -63,7 +63,7 @@ defmodule Exblur.Diva.BirthdayController do
 
   def index(conn, _params) do
     birthdays =
-      Model
+      Diba
       |> group_by([p], p.birthday)
       |> select([p], p.birthday)
       |> where([q], q.appeared > 0)

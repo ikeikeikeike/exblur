@@ -5,7 +5,7 @@ defmodule Exblur.EntryDiva do
 
   schema "entry_divas" do
     belongs_to :entry, Exblur.Entry
-    belongs_to :diva,        Exblur.Diva
+    belongs_to :diva,  Exblur.Diva
 
     timestamps([{:inserted_at, :created_at}])
   end

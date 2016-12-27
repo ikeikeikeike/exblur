@@ -6,18 +6,18 @@ defmodule Es do
       Module.register_attribute(__MODULE__, :ess, accumulate: true)
       @before_compile Es
 
-      import Tirexs.Bulk
-      import Tirexs.Mapping
-      import Tirexs.Index.Settings
-      import Tirexs.Manage.Aliases
+      # import Tirexs.Bulk
+      # import Tirexs.Mapping
+      # import Tirexs.Index.Settings
+      # import Tirexs.Manage.Aliases
       import Imitation.Converter, only: [to_i: 1]
       import Es
       import Es.Params
 
-      require Tirexs.Manage
-      require Tirexs.Query
-      require Tirexs.Query.Filter
-      require Tirexs.Search
+      # require Tirexs.Manage
+      # require Tirexs.Query
+      # require Tirexs.Query.Filter
+      # require Tirexs.Search
       require Logger
     end
   end

@@ -47,13 +47,17 @@ defmodule Exblur.Mixfile do
        :html_entities,
        :redisank,
        # :exsentry,
+
+       :esx,
+       :scrivener_esx,
+       :common_device_detector,
      ],
      included_applications: [
        :arc,
        :timex_ecto,
        :scrivener,
        :simple_format,
-       :tirexs,
+       # :tirexs,
        :exkanji,
        :exromaji,
        :arc_ecto,
@@ -78,7 +82,6 @@ defmodule Exblur.Mixfile do
   defp deps do
     [
      {:phoenix, "~> 1.1"},
-     {:postgrex, ">= 0.0.0"},
      {:phoenix_ecto, "~> 2.0"},
      {:phoenix_html, "~> 2.4"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
@@ -92,7 +95,7 @@ defmodule Exblur.Mixfile do
      {:arc_ecto, "~> 0.3"},
      {:ex_aws, "~> 0.4"},
      {:httpoison, "~> 0.8"},
-     {:tirexs, "~> 0.7"},
+     # {:tirexs, "~> 0.7"},
      {:timex, "~> 2.1", override: true},  # {:tirexs, github: "Zatvobor/tirexs"},
      {:timex_ecto, "~> 1.0"},
      {:calendar, "~> 0.12"},
@@ -102,19 +105,32 @@ defmodule Exblur.Mixfile do
      {:yamerl, github: "yakaz/yamerl"},
      {:con_cache, "~> 0.10"},
      # {:ex_admin, github: "smpallen99/ex_admin"},
-     {:scrivener_html, github: "ikeikeikeike/scrivener_html", override: true},
      {:ua_inspector, "~> 0.10"},
-     {:phoenix_html_simplified_helpers, "~> 0.8"},
      {:simple_format, "~> 0.1"},
      {:quantum, "~> 1.7"},
      {:exrm, "~> 1.0"},
      {:mailgun, "~> 0.1"},
      {:mogrify, "~> 0.2"},
-     {:sitemap, ">= 0.0.0"},
-     {:html_entities, "~> 0.3"},
      {:redisank, "~> 0.1"},
-     {:credo, "~> 0.5", only: [:dev, :test]},
+
+     {:common_device_detector, github: "ikeikeikeike/common_device_detector"},
+
+     {:sitemap, ">= 0.0.0"},
+     {:phoenix_html_simplified_helpers, "~> 0.8"},
+     {:html_entities, "~> 0.3"},
+
      # {:exsentry, "~> 0.7"},
+
+     {:ecto, "~> 1.1", override: true},
+     {:postgrex, "~> 0.11"},
+     # {:postgrex, ">= 0.0.0"},
+     {:esx, "~> 0.1"},
+     {:scrivener, "~> 2.0"},
+     {:scrivener_esx, "~> 0.1"},
+     {:scrivener_ecto, "~> 1.0"},
+     {:scrivener_html, "~> 1.1"},
+
+     {:credo, "~> 0.5", only: [:dev, :test]},
     ]
   end
 

@@ -1,7 +1,7 @@
 defmodule Es.Paginator do
   use Es
   import Ecto.Query
-  require Tirexs.Query
+  # require Tirexs.Query
 
   defmodule Es.Paginator.Page do
     defstruct [:entries, :page_number, :page_size, :total_entries, :total_pages, :tirexs]

@@ -1,6 +1,7 @@
 defmodule Exblur.EntryTag do
   use Exblur.Web, :model
-  alias Exblur.EntryTag, as: Model
+
+  alias Exblur.EntryTag
   alias Imitation.Q
 
   schema "entry_tags" do
@@ -28,11 +29,11 @@ defmodule Exblur.EntryTag do
 
   def find_or_create(entry, tag) do
     query =
-      from v in Model,
+      from v in EntryTag,
       where: v.tag_id == ^tag.id
          and v.entry_id == ^entry.id
 
-    Q.find_or_create(query, changeset(%Model{}, entry, tag))
+    Q.find_or_create(query, changeset(%EntryTag{}, entry, tag))
   end
 
 

@@ -1,16 +1,11 @@
 defmodule Exblur.Diva do
   use Exblur.Web, :model
+
   use Arc.Ecto.Model
+  use ESx.Schema
 
-  use Es
-  use Es.Index
-  use Es.Document
-
-  alias Exblur.Diva, as: Model
-  alias Exblur.DivaUploader
+  alias Exblur.{ESx, Diva, DivaUploader}
   alias Imitation.Q
-
-  es :model, Model
 
   schema "divas" do
     field :name,       :string
@@ -40,6 +35,35 @@ defmodule Exblur.Diva do
     has_many :entries, through: [:entry_divas, :entry]
   end
 
+  index_name "es_diva"
+  document_type "diva"
+
+  mapping _all: [enabled: false] do
+    indexes "name",
+      type: "string",
+      analyzer: "ngram_analyzer"
+    indexes "kana",
+      type: "string",
+      analyzer: "ngram_analyzer"
+    indexes "romaji",
+      type: "string",
+      analyzer: "ngram_analyzer"
+  end
+
+  settings do
+    analysis do
+      tokenizer "ngram_tokenizer",
+        type: "nGram",
+        min_gram: "2", max_gram: "3",
+        token_chars: ["letter", "digit"]
+      analyzer"default",
+        type: "custom",
+        tokenizer: "ngram_tokenizer"
+      analyzer"ngram_analyzer",
+        tokenizer: "ngram_tokenizer"
+    end
+  end
+
   @required_fields ~w(name)
   @optional_fields ~w(kana romaji gyou height weight bust bracup waste hip blood birthday appeared)
   @relational_fields ~w(entries)a
@@ -48,12 +72,39 @@ defmodule Exblur.Diva do
   @required_file_fields ~w()
   @optional_file_fields ~w(image)
 
+  def as_indexed_json(model, _opts) do
+    %{
+      name: model.name,
+      kana: model.kana,
+      romaji: (if model.romaji, do: String.replace(model.romaji, "_", ""))
+    }
+  end
+
+  def essuggest(word) do
+    %{
+      size: 5,
+      fields: [],
+      query: %{
+        filtered: %{
+          query: %{
+            multi_match: %{
+              query: word,
+              fields: ~w(name kana romaji)
+            },
+            # prefix: %{}
+          },
+          filter: %{},
+        }
+      }
+    }
+  end
+
   after_insert :put_es_document
   after_update :put_es_document
   def put_es_document(changeset) do
     changeset.model
     |> Repo.preload(@relational_fields)
-    |> put_document
+    |> ESx.index_document
 
     changeset
   end
@@ -62,13 +113,13 @@ defmodule Exblur.Diva do
   def delete_es_document(changeset) do
     changeset.model
     |> Repo.preload(@relational_fields)
-    |> delete_document
+    |> ESx.delete_document
 
     changeset
   end
 
   def query do
-    from e in Model,
+    from e in Diva,
      select: e,
     preload: ^@relational_fields
   end
@@ -124,75 +175,17 @@ defmodule Exblur.Diva do
   end
 
   def find_or_create_by_name(name) do
-    query = from v in Model, where: v.name == ^name
-    Q.find_or_create(query, changeset(%Model{}, %{name: name}))
+    query = from v in Diva, where: v.name == ^name
+    Q.find_or_create(query, changeset(%Diva{}, %{name: name}))
   end
 
   def diva_creater(actress) do
-    query = from v in Model, where: v.name == ^actress["name"]
-    Q.find_or_create(query, changeset_actress(%Model{}, actress))
+    query = from v in Diva, where: v.name == ^actress["name"]
+    Q.find_or_create(query, changeset_actress(%Diva{}, actress))
   end
 
   # fetch icon url
   def get_thumb(model), do: DivaUploader.url {model.image, model}
   def get_thumb(model, version), do: DivaUploader.url {model.image, model}, version
-
-  def search_data(model) do
-    [
-      _type: "diva",
-      _id: model.id,
-      name: model.name,
-      kana: model.kana,
-      romaji: (if model.romaji, do: String.replace(model.romaji, "_", ""))
-    ]
-  end
-
-  def search(word) do
-    queries = Tirexs.Search.search [index: get_index, from: 0, size: 5, fields: []] do
-      query do
-        dis_max do
-          queries do
-            multi_match word, ["name"]
-            prefix "name", word
-            multi_match word, ["kana"]
-            prefix "kana", word
-            multi_match word, ["romaji"]
-            prefix "romaji", word
-          end
-        end
-      end
-    end
-
-    ppquery(queries)
-    |> Tirexs.Query.create_resource
-  end
-
-  def create_index(index \\ get_index) do
-    Tirexs.DSL.define [type: "diva", index: index], fn(index, es_settings) ->
-      settings do
-        analysis do
-          tokenizer "ngram_tokenizer", type: "nGram",  min_gram: "2", max_gram: "3", token_chars: ["letter", "digit"]
-          analyzer  "default",         type: "custom", tokenizer: "ngram_tokenizer"
-          analyzer  "ngram_analyzer",                  tokenizer: "ngram_tokenizer"
-        end
-      end
-      |> ppquery
-
-      {index, es_settings}
-    end
-
-    Tirexs.DSL.define [type: "diva", index: index], fn(index, es_settings) ->
-      mappings do
-        indexes "name",   type: "string", analyzer: "ngram_analyzer"
-        indexes "kana",   type: "string", analyzer: "ngram_analyzer"
-        indexes "romaji", type: "string", analyzer: "ngram_analyzer"
-      end
-      |> ppquery
-
-      {index, es_settings}
-    end
-
-    :ok
-  end
 
 end

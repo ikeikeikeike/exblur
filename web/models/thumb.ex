@@ -2,8 +2,7 @@ defmodule Exblur.Thumb do
   use Exblur.Web, :model
   use Arc.Ecto.Model
 
-  alias Exblur.Thumb, as: Model
-  alias Exblur.ThumbUploader
+  alias Exblur.{Thumb, ThumbUploader}
 
   require Logger
 
@@ -36,7 +35,7 @@ defmodule Exblur.Thumb do
       |> Plug.Exblur.Upload.make_plug!
 
     params = %{"entry_id" => entry.id, "image" => image}
-    case Repo.insert(changeset(%Model{}, params)) do
+    case Repo.insert(changeset(%Thumb{}, params)) do
       {:error, reason} ->
         Logger.error("#{inspect reason}")
         {:error, reason}
