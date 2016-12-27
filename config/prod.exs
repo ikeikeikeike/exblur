@@ -66,7 +66,7 @@ config :logger, level: :warn
 config :quantum, cron: [
     sitemaps_gen_sitemap: [
       schedule: "43 */4 * * *",
-      task: "Sitemaps.gen_sitemap",
+      task: "Exblur.Sitemaps.gen_sitemap",
       args: []
     ],
     build_diva: [

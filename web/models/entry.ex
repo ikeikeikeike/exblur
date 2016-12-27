@@ -28,6 +28,8 @@ defmodule Exblur.Entry do
     field :time, :integer
     field :published_at, Ecto.DateTime
 
+    field :sort, :integer
+
     field :review, :boolean, default: false
     field :publish, :boolean, default: false
     field :removal, :boolean, default: false
@@ -46,7 +48,7 @@ defmodule Exblur.Entry do
   end
 
   @required_fields ~w(url title embed_code time review publish removal)
-  @optional_fields ~w(content published_at site_id)
+  @optional_fields ~w(content published_at site_id sort)
   @relational_fields ~w(site divas tags thumbs)a
 
   # before_insert :set_published_at_to_now
@@ -248,6 +250,8 @@ defmodule Exblur.Entry do
       time: model.time,
       title: model.title,
       # content: model.content,
+
+      sort: model.sort,
 
       tags: Enum.map(model.tags, &(&1.name)),
       divas: Enum.map(model.divas, &(&1.name)),

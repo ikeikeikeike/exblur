@@ -27,6 +27,11 @@ defmodule Exblur.EntryController do
     render(conn, "index.html", entries: es[:entries], diva: Q.fuzzy_find(Diva, params["search"]))
   end
 
+  def hottest(conn, params) do
+    es = esearch(params["search"], params)
+    render(conn, "index.html", entries: es[:entries], diva: Q.fuzzy_find(Diva, params["search"]))
+  end
+
   def show(conn, %{"id" => id, "title" => title}) do
     params =
       %{}

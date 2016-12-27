@@ -1,4 +1,4 @@
-defmodule Sitemaps do
+defmodule Exblur.Sitemaps do
   use Sitemap
   alias Exblur.Router.Helpers
 
