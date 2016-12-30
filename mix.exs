@@ -83,7 +83,7 @@ defmodule Exblur.Mixfile do
     [
      {:phoenix, "~> 1.1"},
      {:phoenix_ecto, "~> 2.0"},
-     {:phoenix_html, "~> 2.4"},
+     {:phoenix_html, "~> 2.5.1"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.10"},
      {:cowboy, "~> 1.0"},
@@ -121,14 +121,19 @@ defmodule Exblur.Mixfile do
 
      # {:exsentry, "~> 0.7"},
 
+     ### belows are resolving dependencies
      {:ecto, "~> 1.1", override: true},
      {:postgrex, "~> 0.11"},
      # {:postgrex, ">= 0.0.0"},
-     {:esx, "~> 0.1"},
+     # {:scrivener_esx, "~> 0.2"},
+     # {:scrivener_html, "~> 1.1"},
+     {:scrivener_esx, github: "ikeikeikeike/scrivener_esx", branch: "expand"},
+     {:scrivener_html, github: "ikeikeikeike/scrivener_html"},
+     #### until this line
+
+     {:esx, "~> 0.2"},
      {:scrivener, "~> 2.0"},
-     {:scrivener_esx, "~> 0.1"},
      {:scrivener_ecto, "~> 1.0"},
-     {:scrivener_html, "~> 1.1"},
 
      {:credo, "~> 0.5", only: [:dev, :test]},
     ]

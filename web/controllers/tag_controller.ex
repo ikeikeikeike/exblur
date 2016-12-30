@@ -20,8 +20,9 @@ defmodule Exblur.TagController do
 
   def index(conn, _params) do
     tags =
-      Entry.tag_facets
-      |> Extoon.ESx.results
+      Entry
+      |> Exblur.ESx.search(Entry.tag_facets)
+      |> Exblur.ESx.results
 
     render(conn, "index.html", tags: tags)
   end

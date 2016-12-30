@@ -8,21 +8,22 @@ defmodule Divabuilder.BuildAppeared do
   def run, do: run([])
   def run(_args) do
 
-    tirexs =
-      Exblur.Entry.diva_facets(10000)
-      # |> Tirexs.Query.result
+    divas =
+      Entry
+      |> Exblur.ESx.search(Entry.diva_facets(10000))
+      |> Exblur.ESx.results
 
     models =
-      tirexs[:facets][:divas][:terms]
+      divas.aggregations["divas"]["terms"]
       |> Enum.map(fn(term) ->
         Repo.transaction fn ->
-          case Diva.find_or_create_by_name(term[:term]) do
+          case Diva.find_or_create_by_name(term["term"]) do
             {:error, reason} ->
               Repo.rollback(reason)
               Logger.error("#{inspect reason}")
 
             {_, model} ->
-              params = %{appeared: term[:count]}
+              params = %{appeared: term["count"]}
               case Repo.update(Diva.changeset(model, params)) do
                 {:error, reason} ->
                   Repo.rollback(reason)
