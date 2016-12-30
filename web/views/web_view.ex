@@ -79,7 +79,7 @@ defmodule Exblur.WebView do
   def model_with_count(queryable, terms) when is_list(terms) do
     map =
       Enum.reduce terms, %{}, fn term, acc ->
-        Map.put acc, term[:term], term[:count]
+        Map.put acc, term["term"], term["count"]
       end
 
     names = Map.keys map

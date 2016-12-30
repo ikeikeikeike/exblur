@@ -13,7 +13,7 @@ defmodule Exblur.Diva.BirthdayController do
       |> Timex.Date.shift(months: 1)
 
     birthdays =
-      Diba
+      Diva
       |> select([p], p.birthday)
       |> where([q], q.appeared > 0)
       |> where([q], not is_nil(q.birthday))
@@ -26,7 +26,7 @@ defmodule Exblur.Diva.BirthdayController do
       end)
 
    divas =
-      Diba
+      Diva
       |> where([q], q.appeared > 0)
       |> where([q], not is_nil(q.birthday))
       |> where([q], q.birthday  < ^next_month)
@@ -38,7 +38,7 @@ defmodule Exblur.Diva.BirthdayController do
 
   def year(conn, %{"year" => year}) do
     birthdays =
-      Diba
+      Diva
       |> select([p], p.birthday)
       |> where([q], q.appeared > 0)
       |> where([q], not is_nil(q.birthday))
@@ -51,7 +51,7 @@ defmodule Exblur.Diva.BirthdayController do
       end)
 
    divas =
-      Diba
+      Diva
       |> where([q], q.appeared > 0)
       |> where([q], not is_nil(q.birthday))
       |> where([q], q.birthday <= ^"#{year}-12-31")
@@ -63,7 +63,7 @@ defmodule Exblur.Diva.BirthdayController do
 
   def index(conn, _params) do
     birthdays =
-      Diba
+      Diva
       |> group_by([p], p.birthday)
       |> select([p], p.birthday)
       |> where([q], q.appeared > 0)

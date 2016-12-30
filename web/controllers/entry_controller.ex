@@ -31,29 +31,21 @@ defmodule Exblur.EntryController do
   end
 
   def show(conn, %{"id" => id, "title" => title}) do
-    params =
-      %{}
-      |> Es.Params.prepare_params(1, 15)
-      |> Map.put(:query, Entry.query)
-      |> Map.put(:st, "match")
+    pager = esearch(title, %{st: "match"}, page_size: 15)
 
-    entries =
-      Entry.search(title, params)
-      |> Es.Paginator.paginate(params)
-
-    render(conn, "show.html", entry: Repo.get!(Entry.query, id), entries: entries)
-  end
-
-  def show(conn, %{"id" => id} = params) do
-    pager = esearch(nil, params, 15)
     render(conn, "show.html", entry: Repo.get!(Entry.query, id), entries: pager)
   end
 
-  defp esearch(word, params, limit \\ nil) do
+  def show(conn, %{"id" => id} = params) do
+    pager = esearch(nil, params, page_size: 15)
+    render(conn, "show.html", entry: Repo.get!(Entry.query, id), entries: pager)
+  end
+
+  defp esearch(word, params, opts \\ []) do
     params = Map.merge(params, %{search: word})
     params =
-      if limit do
-        Map.merge(params, %{page_size: limit})
+      if length(opts) > 0 do
+        Map.merge params, Enum.into(opts, %{})
       else
         params
       end

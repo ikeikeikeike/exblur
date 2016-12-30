@@ -331,8 +331,8 @@ defmodule Exblur.Entry do
                   %{term: %{review:  [true]}},
                   %{term: %{publish: [true]}},
                   %{term: %{removal: [false]}},
-                  if(params[:fs], do: %{term: %{site_name: [params[:fs]]}}),
-                  if(params[:ft], do: %{range: %{time: %{gte: params[:ft]}}}),
+                  if(params["fs"], do: %{term: %{site_name: [params["fs"]]}}),
+                  if(params["ft"], do: %{range: %{time: %{gte: params["ft"]}}}),
                 ]
                 |> Enum.filter(& !!&1)
               )
@@ -349,7 +349,7 @@ defmodule Exblur.Entry do
         },
       },
       sort: (
-        case params[:st] do
+        case params["st"] do
           "match" ->
             %{}
           "asc" ->
