@@ -1,7 +1,7 @@
 defmodule Divabuilder.BuildAppeared do
   use Exblur.Web, :build
 
-  alias Exblur.Diva
+  alias Exblur.{Entry, Diva}
 
   require Logger
 

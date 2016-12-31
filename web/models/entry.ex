@@ -95,6 +95,129 @@ defmodule Exblur.Entry do
   @optional_fields ~w(content published_at site_id sort)
   @relational_fields ~w(site divas tags thumbs)a
 
+  def as_indexed_json(model, _opts) do
+    %{
+      url: model.url,
+      time: model.time,
+      title: model.title,
+      # content: model.content,
+
+      sort: model.sort,
+
+      tags: Enum.map(model.tags, &(&1.name)),
+      divas: Enum.map(model.divas, &(&1.name)),
+
+      review: model.review,
+      publish: model.publish,
+      removal: model.removal,
+
+      published_at: (case Timex.Ecto.DateTime.cast(model.published_at) do
+        {:ok, at} ->
+          Timex.format!(at, "{ISO}")
+        _ -> model.published_at
+      end),
+
+      site_name: (if model.site_id, do: model.site.name, else: ""),
+    }
+  end
+
+  def search(params \\ %{}) do
+    %{
+      fields: [],
+      query: %{
+        filtered: %{
+          query: (
+            if q = params["search"] do
+              %{ multi_match: %{ query: q, fields: ~w(title tags divas) }}
+            else
+              %{ match_all: %{} }
+            end
+          ),
+          filter: %{
+            bool: %{
+              must: (
+                [
+                  %{term: %{review:  [true]}},
+                  %{term: %{publish: [true]}},
+                  %{term: %{removal: [false]}},
+                  if(params["fs"], do: %{term: %{site_name: [params["fs"]]}}),
+                  if(params["ft"], do: %{range: %{time: %{gte: params["ft"]}}}),
+                ]
+                |> Enum.filter(& !!&1)
+              )
+            }
+          }
+        }
+      },
+      facets: %{
+        tags: %{
+          terms: %{field: "tags", size: 20},
+        },
+        divas: %{
+          terms: %{field: "divas", size: 35},
+        },
+      },
+      sort: (
+        case params["st"] || params[:st] do
+          "match" ->
+            %{}
+          "hot" ->
+            %{sort: %{order: "asc"}}
+          "asc" ->
+            %{published_at: %{order: "asc"}}
+          _ ->
+            %{published_at: %{order: "desc"}}
+        end
+      ),
+    }
+  end
+
+  def tag_facets(size \\ 2000) do
+    %{
+      size: 0,
+      from: 0,
+      fields: [],
+      facets: %{
+        tags: %{
+          terms: %{field: "tags", size: size},
+          facet_filter: %{
+            bool: %{
+              _cache: true,
+              must: [
+                %{term: %{"review":  [true]}},
+                %{term: %{"publish": [true]}},
+                %{term: %{"removal": [false]}},
+              ]
+            }
+          }
+        }
+      }
+    }
+  end
+
+  def diva_facets(size \\ 2000) do
+    %{
+      size: 0,
+      from: 0,
+      fields: [],
+      facets: %{
+        divas: %{
+          terms: %{field: "divas", size: size},
+          facet_filter: %{
+            bool: %{
+              _cache: true,
+              must: [
+                %{term: %{"review":  [true]}},
+                %{term: %{"publish": [true]}},
+                %{term: %{"removal": [false]}},
+              ]
+            }
+          }
+        }
+      }
+    }
+  end
+
   # before_insert :set_published_at_to_now
   # def set_published_at_to_now(changeset) do
     # changeset
@@ -285,126 +408,4 @@ defmodule Exblur.Entry do
         result
     end
   end
-
-  def as_indexed_json(model, _opts) do
-    %{
-      url: model.url,
-      time: model.time,
-      title: model.title,
-      # content: model.content,
-
-      sort: model.sort,
-
-      tags: Enum.map(model.tags, &(&1.name)),
-      divas: Enum.map(model.divas, &(&1.name)),
-
-      review: model.review,
-      publish: model.publish,
-      removal: model.removal,
-
-      published_at: (case Timex.Ecto.DateTime.cast(model.published_at) do
-        {:ok, at} ->
-          Timex.format!(at, "{ISO}")
-        _ -> model.published_at
-      end),
-
-      site_name: (if model.site_id, do: model.site.name, else: ""),
-    }
-  end
-
-  def search(params \\ %{}) do
-    %{
-      fields: [],
-      query: %{
-        filtered: %{
-          query: (
-            if q = params["search"] do
-              %{ multi_match: %{ query: q, fields: ~w(title tags divas) }}
-            else
-              %{ match_all: %{} }
-            end
-          ),
-          filter: %{
-            bool: %{
-              must: (
-                [
-                  %{term: %{review:  [true]}},
-                  %{term: %{publish: [true]}},
-                  %{term: %{removal: [false]}},
-                  if(params["fs"], do: %{term: %{site_name: [params["fs"]]}}),
-                  if(params["ft"], do: %{range: %{time: %{gte: params["ft"]}}}),
-                ]
-                |> Enum.filter(& !!&1)
-              )
-            }
-          }
-        }
-      },
-      facets: %{
-        tags: %{
-          terms: %{field: "tags", size: 20},
-        },
-        divas: %{
-          terms: %{field: "divas", size: 35},
-        },
-      },
-      sort: (
-        case params["st"] do
-          "match" ->
-            %{}
-          "asc" ->
-            %{published_at: %{order: "asc"}}
-          _ ->
-            %{published_at: %{order: "desc"}}
-        end
-      ),
-    }
-  end
-
-  def tag_facets(size \\ 2000) do
-    %{
-      size: 0,
-      from: 0,
-      fields: [],
-      facets: %{
-        tags: %{
-          terms: %{field: "tags", size: size},
-          facet_filter: %{
-            bool: %{
-              _cache: true,
-              must: [
-                %{term: %{"review":  [true]}},
-                %{term: %{"publish": [true]}},
-                %{term: %{"removal": [false]}},
-              ]
-            }
-          }
-        }
-      }
-    }
-  end
-
-  def diva_facets(size \\ 2000) do
-    %{
-      size: 0,
-      from: 0,
-      fields: [],
-      facets: %{
-        divas: %{
-          terms: %{field: "divas", size: size},
-          facet_filter: %{
-            bool: %{
-              _cache: true,
-              must: [
-                %{term: %{"review":  [true]}},
-                %{term: %{"publish": [true]}},
-                %{term: %{"removal": [false]}},
-              ]
-            }
-          }
-        }
-      }
-    }
-  end
-
 end

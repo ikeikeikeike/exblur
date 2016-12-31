@@ -52,6 +52,7 @@ defmodule Exblur.Router do
     get "/divas", DivaController, :index
     get "/about", AboutController, :index
 
+    get "/latest", EntryController, :latest
     get "/hottest", EntryController, :hottest
     get "/:tag", EntryController, :index, as: :entrytag  # if tag does not exists in database, Exblur throws `not found` exception.
     get "/", EntryController, :index

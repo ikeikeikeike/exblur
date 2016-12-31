@@ -110,8 +110,13 @@ config :quantum, cron: [
       args: []
     ],
     ranking_run: [
-      schedule: "30 * * * *",
+      schedule: "50,59 * * * *",
       task: "Exblur.Builders.Ranking.run",
+      args: []
+    ],
+    hottest_run: [
+      schedule: "55 1 * * *",
+      task: "Exblur.Builders.Hottest.run",
       args: []
     ]
 ]

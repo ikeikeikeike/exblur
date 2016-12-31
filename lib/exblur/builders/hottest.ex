@@ -31,6 +31,8 @@ defmodule Exblur.Builders.Hottest do
 
     result =
       Enum.map Enum.with_index(sorted_entries, 1), fn {entry, index} ->
+        :timer.sleep(50)
+
         changeset = Entry.changeset entry, %{sort: index}
 
         Repo.transaction fn ->

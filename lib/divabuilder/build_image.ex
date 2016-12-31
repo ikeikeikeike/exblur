@@ -1,9 +1,8 @@
 defmodule Divabuilder.BuildImage do
   use Exblur.Web, :build
-  alias Exblur.Diva
 
-  alias Divabuilder.Image.Bing
-  alias Divabuilder.Image.Detector
+  alias Exblur.Diva
+  alias Divabuilder.Image.{Bing, Detector}
 
   require Logger
 
@@ -89,7 +88,7 @@ defmodule Divabuilder.BuildImage do
     end)
     |> Enum.filter(fn(result) ->
       case result do
-        %Exblur.Diva{} ->
+        %Diva{} ->
           true
         _ ->
           false

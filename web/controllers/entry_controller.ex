@@ -25,8 +25,13 @@ defmodule Exblur.EntryController do
     render(conn, "index.html", entries: pager, diva: Q.fuzzy_find(Diva, params["search"]))
   end
 
-  def hottest(conn, params) do
+  def latest(conn, params) do
     pager = esearch(params["search"], params)
+    render(conn, "index.html", entries: pager, diva: Q.fuzzy_find(Diva, params["search"]))
+  end
+
+  def hottest(conn, params) do
+    pager = esearch(params["search"], params, st: "hot")
     render(conn, "index.html", entries: pager, diva: Q.fuzzy_find(Diva, params["search"]))
   end
 
