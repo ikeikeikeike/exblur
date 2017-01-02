@@ -131,12 +131,13 @@ body {
   background-color: inherit;
   border: none;
   line-height: 40px;
-  border-bottom: 1px solid #23282e;
+  border-bottom: 1px solid #f1f1f1;
   margin-left: 0px;
 }
 .nav-side-menu ul .sub-menu li:hover,
 .nav-side-menu li .sub-menu li:hover {
-  background-color: #020203;
+  background-color: #f5f5f5;
+  /* background-color: #020203; */
 }
 .nav-side-menu ul .sub-menu li:before,
 .nav-side-menu li .sub-menu li:before {

@@ -4,6 +4,9 @@ defmodule Exblur.Diva.BracupController do
   alias Exblur.Diva, as: Model
   import Ecto.Query
 
+  plug Exblur.Ctrl.Plug.AssignTag
+  plug Exblur.Ctrl.Plug.AssignDiva
+
   def index(conn, _params) do
     bracups =
       Enum.map(?A..?Z, &IO.iodata_to_binary([&1]))

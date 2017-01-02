@@ -3,13 +3,11 @@ defmodule Exblur.DivaController do
 
   alias Exblur.{Diva, Repo}
 
-  def index(conn, _params) do
-    divas =
-      from q in Diva,
-        where: q.appeared > 0,
-        order_by: [desc: q.appeared]
+  plug Exblur.Ctrl.Plug.AssignTag
+  plug Exblur.Ctrl.Plug.AssignDiva
 
-    render(conn, "index.html", divas: Repo.all(divas))
+  def index(conn, _params) do
+    render conn, "index.html", divas: conn.assigns.top_divas
   end
 
   def autocomplete(conn, %{"search" => search}) do

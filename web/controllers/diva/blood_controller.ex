@@ -1,8 +1,11 @@
 defmodule Exblur.Diva.BloodController do
   use Exblur.Web, :controller
 
-  alias Exblur.Diva, as: Model
   import Ecto.Query
+  alias Exblur.Diva, as: Model
+
+  plug Exblur.Ctrl.Plug.AssignTag
+  plug Exblur.Ctrl.Plug.AssignDiva
 
   def index(conn, _params) do
     bloods =

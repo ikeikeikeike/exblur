@@ -3,8 +3,10 @@ defmodule Exblur.Diva.AgeController do
 
   import Ecto.Query
 
-  alias Exblur.Repo
-  alias Exblur.Diva
+  alias Exblur.{Repo,Diva}
+
+  plug Exblur.Ctrl.Plug.AssignTag
+  plug Exblur.Ctrl.Plug.AssignDiva
 
   def index(conn, _params) do
     render(conn, "index.html", ages: ages)

@@ -5,6 +5,8 @@ defmodule Exblur.EntryController do
 
   plug :scrub_params, "entry" when action in [:create, :update]
   plug Redisank.Plug.Access, [key: "id"] when action in [:show]
+  plug Exblur.Ctrl.Plug.AssignTag
+  plug Exblur.Ctrl.Plug.AssignDiva
 
   def index(conn, %{"diva" => diva} = params) do
     # if diva param does not exists in database, throw `not found` exception.

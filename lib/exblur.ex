@@ -14,13 +14,9 @@ defmodule Exblur do
       # Here you could define other workers and supervisors as children
       # worker(Exblur.Worker, [arg1, arg2, arg3]),
       worker(Exblur.Mongo, []),
-      worker(ConCache, [
-        [
-          ttl_check: :timer.seconds(3),
-          ttl: :timer.seconds(1200)
-        ],
-        [name: :exblur_cache]
-      ])
+      worker(ConCache, [[ttl_check: :timer.seconds(10), ttl: :timer.seconds(1200) ], [name: :exblur_cache]]),
+      worker(ConCache, [[ttl_check: :timer.seconds(600), ttl: :timer.seconds(60 * 60 * 24 * 1)], [name: :tag]], id: :exblur_tag_cache),
+      worker(ConCache, [[ttl_check: :timer.seconds(600), ttl: :timer.seconds(60 * 60 * 24 * 1)], [name: :diva]], id: :exblur_diva_cache),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

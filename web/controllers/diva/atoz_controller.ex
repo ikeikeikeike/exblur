@@ -5,6 +5,9 @@ defmodule Exblur.Diva.AtozController do
 
   alias Exblur.Diva
 
+  plug Exblur.Ctrl.Plug.AssignTag
+  plug Exblur.Ctrl.Plug.AssignDiva
+
   def index(conn, _params) do
     letters =
       Divabuilder.Api.kunrei_romaji

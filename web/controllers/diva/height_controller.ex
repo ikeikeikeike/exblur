@@ -4,6 +4,9 @@ defmodule Exblur.Diva.HeightController do
   alias Exblur.Diva, as: Model
   import Ecto.Query
 
+  plug Exblur.Ctrl.Plug.AssignTag
+  plug Exblur.Ctrl.Plug.AssignDiva
+
   def index(conn, _params) do
     heights =
       [130, 135, 140, 145, 150, 155, 160, 165, 170, 175, 180, 185, 190]

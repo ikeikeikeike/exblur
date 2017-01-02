@@ -1,7 +1,14 @@
 defmodule Exblur.TagController do
   use Exblur.Web, :controller
 
-  alias Exblur.{Entry, Tag}
+  alias Exblur.Entry
+
+  plug Exblur.Ctrl.Plug.AssignTag
+  plug Exblur.Ctrl.Plug.AssignDiva
+
+  def index(conn, _params) do
+    render(conn, "index.html", tags: conn.assigns.top_tags)
+  end
 
   def autocomplete(conn, %{"search" => search}) do
     tags =
@@ -16,15 +23,6 @@ defmodule Exblur.TagController do
       end
 
     render(conn, "autocomplete.json", tags: tags)
-  end
-
-  def index(conn, _params) do
-    tags =
-      Entry
-      |> Exblur.ESx.search(Entry.tag_facets)
-      |> Exblur.ESx.results
-
-    render(conn, "index.html", tags: tags)
   end
 
 end

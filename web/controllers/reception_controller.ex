@@ -2,6 +2,8 @@ defmodule Exblur.ReceptionController do
   use Exblur.Web, :controller
 
   # plug :scrub_params, "reception" when action in [:removal]
+  plug Exblur.Ctrl.Plug.AssignTag
+  plug Exblur.Ctrl.Plug.AssignDiva
 
   def removal(conn, %{"reception" => params}) do
     case Exblur.ReceptionMailer.send_removal_request(params) do

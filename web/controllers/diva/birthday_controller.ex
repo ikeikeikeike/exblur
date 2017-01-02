@@ -5,6 +5,9 @@ defmodule Exblur.Diva.BirthdayController do
 
   alias Exblur.Diva
 
+  plug Exblur.Ctrl.Plug.AssignTag
+  plug Exblur.Ctrl.Plug.AssignDiva
+
   def month(conn, %{"year" => year, "month" => month}) do
     {year, _} = Integer.parse(year)
     {month, _} = Integer.parse(month)

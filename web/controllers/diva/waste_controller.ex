@@ -4,6 +4,9 @@ defmodule Exblur.Diva.WasteController do
   alias Exblur.Diva, as: Model
   import Ecto.Query
 
+  plug Exblur.Ctrl.Plug.AssignTag
+  plug Exblur.Ctrl.Plug.AssignDiva
+
   def index(conn, _params) do
     wastes =
       [40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]

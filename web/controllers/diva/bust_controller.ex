@@ -4,6 +4,9 @@ defmodule Exblur.Diva.BustController do
   alias Exblur.Diva, as: Model
   import Ecto.Query
 
+  plug Exblur.Ctrl.Plug.AssignTag
+  plug Exblur.Ctrl.Plug.AssignDiva
+
   def index(conn, _params) do
     busts =
       [60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135]
