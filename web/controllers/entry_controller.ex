@@ -47,7 +47,7 @@ defmodule Exblur.EntryController do
   end
 
   defp esearch(word, params, opts \\ []) do
-    params = Map.merge(params, %{search: word})
+    params = Map.merge(params, %{"search" => word})
     params =
       if length(opts) > 0 do
         Map.merge params, Enum.into(opts, %{})

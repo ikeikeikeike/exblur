@@ -14,7 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "0.9.18"
+    v = "0.9.20"
     File.write! "VERSION", v
     v
   end
@@ -66,6 +66,8 @@ defmodule Exblur.Mixfile do
        :mailgun,
        :mogrify,
        :redix,
+       :scrivener_ecto,
+       :jsx,
        # :ex_sitemap_generator
      ]
    ]

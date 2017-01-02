@@ -143,9 +143,9 @@ defmodule Exblur.Entry do
             bool: %{
               must: (
                 [
-                  %{term: %{review:  [true]}},
-                  %{term: %{publish: [true]}},
-                  %{term: %{removal: [false]}},
+                  %{term: %{review:  true}},
+                  %{term: %{publish: true}},
+                  %{term: %{removal: false}},
                   if(params["fs"], do: %{term: %{site_name: [params["fs"]]}}),
                   if(params["ft"], do: %{range: %{time: %{gte: params["ft"]}}}),
                 ]
@@ -155,7 +155,7 @@ defmodule Exblur.Entry do
           }
         }
       },
-      facets: %{
+      aggs: %{
         tags: %{
           terms: %{field: "tags", size: 20},
         },
@@ -166,7 +166,7 @@ defmodule Exblur.Entry do
       sort: (
         case params["st"] || params[:st] do
           "match" ->
-            %{}
+            :_score
           "hot" ->
             %{sort: %{order: "asc"}}
           "asc" ->
@@ -183,19 +183,23 @@ defmodule Exblur.Entry do
       size: 0,
       from: 0,
       fields: [],
-      facets: %{
-        tags: %{
-          terms: %{field: "tags", size: size},
-          facet_filter: %{
+      query: %{
+        filtered: %{
+          filter: %{
             bool: %{
               _cache: true,
               must: [
-                %{term: %{"review":  [true]}},
-                %{term: %{"publish": [true]}},
-                %{term: %{"removal": [false]}},
+                %{term: %{"review":  true}},
+                %{term: %{"publish": true}},
+                %{term: %{"removal": false}},
               ]
             }
-          }
+          },
+        }
+      },
+      aggs: %{
+        tags: %{
+          terms: %{field: "tags", size: size},
         }
       }
     }
@@ -206,19 +210,23 @@ defmodule Exblur.Entry do
       size: 0,
       from: 0,
       fields: [],
-      facets: %{
-        divas: %{
-          terms: %{field: "divas", size: size},
-          facet_filter: %{
+      query: %{
+        filtered: %{
+          filter: %{
             bool: %{
               _cache: true,
               must: [
-                %{term: %{"review":  [true]}},
-                %{term: %{"publish": [true]}},
-                %{term: %{"removal": [false]}},
+                %{term: %{"review":  true}},
+                %{term: %{"publish": true}},
+                %{term: %{"removal": false}},
               ]
             }
-          }
+          },
+        }
+      },
+      aggs: %{
+        divas: %{
+          terms: %{field: "divas", size: size},
         }
       }
     }
