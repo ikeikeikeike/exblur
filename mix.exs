@@ -50,7 +50,6 @@ defmodule Exblur.Mixfile do
 
        :esx,
        :scrivener_esx,
-       :common_device_detector,
      ],
      included_applications: [
        :arc,
@@ -112,8 +111,6 @@ defmodule Exblur.Mixfile do
      {:mailgun, "~> 0.1"},
      {:mogrify, "~> 0.2"},
      {:redisank, "~> 0.1"},
-
-     {:common_device_detector, github: "ikeikeikeike/common_device_detector"},
 
      {:sitemap, ">= 0.0.0"},
      {:phoenix_html_simplified_helpers, "~> 0.8"},
