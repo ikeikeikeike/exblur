@@ -1,7 +1,7 @@
 defmodule Exblur.TagController do
   use Exblur.Web, :controller
 
-  alias Exblur.Entry
+  alias Exblur.Tag
 
   plug Exblur.Ctrl.Plug.AssignTag
   plug Exblur.Ctrl.Plug.AssignDiva
