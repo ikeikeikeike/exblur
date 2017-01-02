@@ -40,9 +40,9 @@
   name: 'Windows Phone'
   version: ''
 
-- regex: 'Windows CE'
+- regex: 'Windows CE(?: (\d+[\.\d]+))?'
   name: 'Windows CE'
-  version: ''
+  version: '$1'
   
   
 - regex: '(?:IEMobile|Windows Mobile)(?: (\d+[\.\d]+))?'
@@ -81,12 +81,16 @@
 ##########
 # Android
 ##########
-- regex: '(?:Android|Adr)[ /](?:[a-z]+ )?(\d+[\.\d]+)'
+- regex: '(?:(?:Orca-)?Android|Adr)[ /](?:[a-z]+ )?(\d+[\.\d]+)'
   name: 'Android'
   version: '$1'
   
   
 - regex: 'Android|Silk-Accelerated=[a-z]{4,5}'
+  name: 'Android'
+  version: ''
+
+- regex: 'BeyondPod|AntennaPod|Podkicker|DoggCatcher|Player FM|okhttp|Podcatcher Deluxe'
   name: 'Android'
   version: ''
   
@@ -124,7 +128,7 @@
 ##########
 - regex: 'Maemo'
   name: 'Maemo'
-  version: '$1'
+  version: ''
 
 - regex: 'Arch ?Linux(?:[ /\-](\d+[\.\d]+))?'
   name: 'Arch Linux'
@@ -245,6 +249,18 @@
 ##########
 # iOS
 ##########
+- regex: 'CFNetwork/758\.4\.3'
+  name: 'iOS'
+  version: '9.3.2'
+
+- regex: 'CFNetwork/758\.3\.15'
+  name: 'iOS'
+  version: '9.3'
+
+- regex: 'CFNetwork/758\.2\.[78]'
+  name: 'iOS'
+  version: '9.2'
+
 - regex: 'CFNetwork/758\.1\.6'
   name: 'iOS'
   version: '9.1'
@@ -317,6 +333,10 @@
   name: 'iOS'
   version: '4.0'
 
+- regex: 'CFNetwork/467\.12'
+  name: 'iOS'
+  version: '3.2'
+
 - regex: 'CFNetwork/459'
   name: 'iOS'
   version: '3.1'
@@ -329,6 +349,13 @@
   name: 'iOS'
   version: '$1'
 
+- regex: 'Podcasts/(?:[\d\.]+)|Instacast(?:HD)?/(?:\d\.[\d\.abc]+)|Pocket Casts, iOS|Overcast|Castro|Podcat|i[cC]atcher'
+  name: 'iOS'
+  version: ''
+
+- regex: 'iTunes-(iPod|iPad|iPhone)/(?:[\d\.]+)'
+  name: 'iOS'
+  version: ''
 
 
 ##########
@@ -383,7 +410,7 @@
   name: 'Mac'
   version: '$1'
 
-- regex: 'Darwin|Macintosh|Mac_PowerPC|PPC|Mac PowerPC'
+- regex: 'Darwin|Macintosh|Mac_PowerPC|PPC|Mac PowerPC|iMac|MacBook'
   name: 'Mac'
   version: ''
   
@@ -417,6 +444,10 @@
   
   
 - regex: 'BlackBerry'
+  name: 'BlackBerry OS'
+  version: ''
+  
+- regex: 'bPod'
   name: 'BlackBerry OS'
   version: ''
 
@@ -477,7 +508,7 @@
   version: ''
   
   
-- regex: 'Symbian OS|SymbOS'
+- regex: 'Symbian(?: OS)?|SymbOS'
   name: 'Symbian OS'
   version: ''
   
@@ -555,8 +586,23 @@
   name: 'WebTV'
   version: '$1'
   
-  
-  
+
+##########
+# Remix OS
+##########
+- regex: 'RemixOS 5.1.1'
+  name: 'Remix OS'
+  version: '1'
+
+- regex: 'RemixOS 6.0'
+  name: 'Remix OS'
+  version: '2'
+
+- regex: 'RemixOS'
+  name: 'Remix OS'
+  version: ''
+
+
 ##########
 # Unix
 ##########
@@ -656,7 +702,7 @@
 ###########
 # Linux (Generic)
 ###########
-- regex: 'Linux[^a-z]'
+- regex: 'Linux(?:OS)?[^a-z]'
   name: 'GNU/Linux'
   version: ''
 
