@@ -14,16 +14,16 @@ defmodule Divabuilder.BuildAppeared do
       |> Exblur.ESx.results
 
     models =
-      divas.aggregations["divas"]["terms"]
-      |> Enum.map(fn(term) ->
+      divas.aggregations["divas"]["buckets"]
+      |> Enum.map(fn term ->
         Repo.transaction fn ->
-          case Diva.find_or_create_by_name(term["term"]) do
+          case Diva.find_or_create_by_name(term["key"]) do
             {:error, reason} ->
               Repo.rollback(reason)
               Logger.error("#{inspect reason}")
 
             {_, model} ->
-              params = %{appeared: term["count"]}
+              params = %{appeared: term["doc_count"]}
               case Repo.update(Diva.changeset(model, params)) do
                 {:error, reason} ->
                   Repo.rollback(reason)

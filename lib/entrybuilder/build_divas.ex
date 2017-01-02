@@ -1,9 +1,8 @@
 defmodule Entrybuilder.BuildDivas do
   use Exblur.Web, :build
-  alias Exblur.Entry
-  alias Exblur.Diva
-  alias Exblur.EntryDiva
+
   alias Entrybuilder.Filter
+  alias Exblur.{ESx, Entry, Diva, EntryDiva}
 
   require Logger
 
@@ -39,7 +38,7 @@ defmodule Entrybuilder.BuildDivas do
 
           {:new, _model} ->
             %{entry | divas: entry.divas ++ [diva]}
-            |> Entry.put_document
+            |> ESx.index_document
         end
       end)
     end)
