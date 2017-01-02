@@ -63,6 +63,10 @@ defmodule Exblur.Tag do
     }
   end
 
+  def esreindex do
+    ESx.reindex __MODULE__
+  end
+
   def essuggest(word) do
     %{
       size: 5,

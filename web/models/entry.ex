@@ -121,6 +121,12 @@ defmodule Exblur.Entry do
     }
   end
 
+  def esreindex do
+    from(e in __MODULE__, preload: [:site, :divas, :tags])
+    |> published
+    |> ESx.reindex
+  end
+
   def search(params \\ %{}) do
     %{
       fields: [],

@@ -58,7 +58,7 @@ defmodule Exblur.Web do
       import Exblur.Gettext
 
       import SimpleFormat
-      import DeviceDetector
+      import CommonDeviceDetector.Detector
       import TextExtractor
     end
   end
