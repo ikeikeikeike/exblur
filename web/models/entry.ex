@@ -334,6 +334,23 @@ defmodule Exblur.Entry do
     |> Repo.update
   end
 
+  def delete_entry(id, :physically) when is_integer(id) do
+    model = Repo.get query(), id
+    delete_entry model, :physically
+  end
+  def delete_entry(%__MODULE__{} = model, :physically) do
+    Repo.delete model
+  end
+  def delete_entry(id) when is_integer(id) do
+    model = Repo.get query(), id
+    delete_entry model
+  end
+  def delete_entry(%__MODULE__{} = model) do
+    model
+    |> changeset(%{removal: true})
+    |> Repo.update
+  end
+
   def find_or_create_by_entry(entry) do
     query = from v in Entry,
           where: v.url == ^entry.url
