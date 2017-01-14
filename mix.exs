@@ -14,7 +14,8 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "0.10.6"
+    v = "0.10.7"
+
     File.write! "VERSION", v
     v
   end
@@ -50,6 +51,7 @@ defmodule Exblur.Mixfile do
 
        :esx,
        :scrivener_esx,
+       :tzdata,
      ],
      included_applications: [
        :arc,
@@ -113,6 +115,8 @@ defmodule Exblur.Mixfile do
      {:mailgun, "~> 0.1"},
      {:mogrify, "~> 0.2"},
      {:redisank, "~> 0.1"},
+
+     {:tzdata, "~> 0.1.8 or ~> 0.5"},
 
      {:sitemap, ">= 0.0.0"},
      {:phoenix_html_simplified_helpers, "~> 0.8"},
