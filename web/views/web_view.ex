@@ -49,6 +49,13 @@ defmodule Exblur.WebView do
     age
   end
 
+  def randstring(length) do
+    length
+    |> :crypto.strong_rand_bytes
+    |> Base.url_encode64
+    |> binary_part(0, length)
+  end
+
   def thumb_one(thumbs) do
     if length(thumbs) > 0, do: Exblur.Thumb.get_thumb(List.first(thumbs)), else: nil
   end
