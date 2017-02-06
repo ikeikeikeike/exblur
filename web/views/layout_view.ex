@@ -44,7 +44,6 @@ defmodule Exblur.LayoutView do
   """
   def language_annotations(conn) do
     Exblur.Gettext.supported_locales
-    |> Enum.reject(fn l -> l == locale end)
     |> Enum.concat(["x-default"])
     |> Enum.map(fn l ->
       case l do
@@ -54,12 +53,29 @@ defmodule Exblur.LayoutView do
     end)
   end
 
-  defp localized_url(conn, alt) do
-    # Replace current locale with alternative
-    path = ~r/\/#{locale}(\/(?:[^?]+)?|$)/
-    |> Regex.replace(conn.request_path, "#{alt}\\1")
+  def fb_locales do
+    Exblur.Gettext.supported_locales
+    |> Enum.map(fn l ->
+      # Cannot call `locale/0` inside guard clause
+      current = locale
+      case l do
+        l when l == current -> {"og:locale", l}
+        l -> {"og:locale:alternate", l}
+      end
+    end)
+  end
 
-    Phoenix.Router.Helpers.url(Exblur.Router, conn) <> path
+  defp localized_url(conn, alt) do
+    path =
+      ~r/\/#{locale}(\/(?:[^?]+)?|$)/
+      |> Regex.replace(conn.request_path, "#{alt}\\1")
+
+    Phoenix.Router.Helpers.url(Exblur.Router, conn) <>
+      if String.starts_with?(path, alt) do
+        path
+      else
+        alt <> path
+      end
   end
 
 end

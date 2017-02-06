@@ -66,6 +66,126 @@ defmodule Exblur.Router do
     get "/tags/autocomplete/:search", TagController, :autocomplete
   end
 
+  scope "/ja", Exblur do
+    pipe_through :browser # Use the default browser stack
+
+    get  "/reception/contact", ReceptionController, :contact
+    post "/reception/contact", ReceptionController, :contact
+    get  "/reception/removal", ReceptionController, :removal
+    post "/reception/removal", ReceptionController, :removal
+
+    get "/diva/atoz", Diva.AtozController, :index
+    get "/diva/date-of-birth/:year/:month", Diva.BirthdayController, :month
+    get "/diva/date-of-birth/:year", Diva.BirthdayController, :year
+    get "/diva/date-of-birth", Diva.BirthdayController, :index
+    get "/diva/age/:age", Diva.AgeController, :age
+    get "/diva/age", Diva.AgeController, :index
+    get "/diva/bracup", Diva.BracupController, :index
+    get "/diva/waste", Diva.WasteController, :index
+    get "/diva/bust", Diva.BustController, :index
+    get "/diva/hip", Diva.HipController, :index
+    get "/diva/height", Diva.HeightController, :index
+    get "/diva/blood", Diva.BloodController, :index
+
+    get "/tags", TagController, :index
+    get "/divas", DivaController, :index
+    get "/about", AboutController, :index
+
+    get "/latest", EntryController, :latest
+    get "/hottest", EntryController, :hottest
+    get "/:tag", EntryController, :index, as: :entrytag  # if tag does not exists in database, Exblur throws `not found` exception.
+    get "/", EntryController, :index
+
+    get "/vid/:id/:title", EntryController, :show
+    get "/vid/:id/", EntryController, :show
+
+    get "/divas/:diva", EntryController, :index, as: :entrydiva
+    get "/divas/autocomplete/:search", DivaController, :autocomplete
+
+    get "/tags/autocomplete/:search", TagController, :autocomplete
+  end
+
+  scope "/en", Exblur do
+    pipe_through :browser # Use the default browser stack
+
+    get  "/reception/contact", ReceptionController, :contact
+    post "/reception/contact", ReceptionController, :contact
+    get  "/reception/removal", ReceptionController, :removal
+    post "/reception/removal", ReceptionController, :removal
+
+    get "/diva/atoz", Diva.AtozController, :index
+    get "/diva/date-of-birth/:year/:month", Diva.BirthdayController, :month
+    get "/diva/date-of-birth/:year", Diva.BirthdayController, :year
+    get "/diva/date-of-birth", Diva.BirthdayController, :index
+    get "/diva/age/:age", Diva.AgeController, :age
+    get "/diva/age", Diva.AgeController, :index
+    get "/diva/bracup", Diva.BracupController, :index
+    get "/diva/waste", Diva.WasteController, :index
+    get "/diva/bust", Diva.BustController, :index
+    get "/diva/hip", Diva.HipController, :index
+    get "/diva/height", Diva.HeightController, :index
+    get "/diva/blood", Diva.BloodController, :index
+
+    get "/tags", TagController, :index
+    get "/divas", DivaController, :index
+    get "/about", AboutController, :index
+
+    get "/latest", EntryController, :latest
+    get "/hottest", EntryController, :hottest
+    get "/:tag", EntryController, :index, as: :entrytag  # if tag does not exists in database, Exblur throws `not found` exception.
+    get "/", EntryController, :index
+
+    get "/vid/:id/:title", EntryController, :show
+    get "/vid/:id/", EntryController, :show
+
+    get "/divas/:diva", EntryController, :index, as: :entrydiva
+    get "/divas/autocomplete/:search", DivaController, :autocomplete
+
+    get "/tags/autocomplete/:search", TagController, :autocomplete
+  end
+
+
+  scope "/es", Exblur do
+    pipe_through :browser # Use the default browser stack
+
+    get  "/reception/contact", ReceptionController, :contact
+    post "/reception/contact", ReceptionController, :contact
+    get  "/reception/removal", ReceptionController, :removal
+    post "/reception/removal", ReceptionController, :removal
+
+    get "/diva/atoz", Diva.AtozController, :index
+    get "/diva/date-of-birth/:year/:month", Diva.BirthdayController, :month
+    get "/diva/date-of-birth/:year", Diva.BirthdayController, :year
+    get "/diva/date-of-birth", Diva.BirthdayController, :index
+    get "/diva/age/:age", Diva.AgeController, :age
+    get "/diva/age", Diva.AgeController, :index
+    get "/diva/bracup", Diva.BracupController, :index
+    get "/diva/waste", Diva.WasteController, :index
+    get "/diva/bust", Diva.BustController, :index
+    get "/diva/hip", Diva.HipController, :index
+    get "/diva/height", Diva.HeightController, :index
+    get "/diva/blood", Diva.BloodController, :index
+
+    get "/tags", TagController, :index
+    get "/divas", DivaController, :index
+    get "/about", AboutController, :index
+
+    get "/latest", EntryController, :latest
+    get "/hottest", EntryController, :hottest
+    get "/:tag", EntryController, :index, as: :entrytag  # if tag does not exists in database, Exblur throws `not found` exception.
+    get "/", EntryController, :index
+
+    get "/vid/:id/:title", EntryController, :show
+    get "/vid/:id/", EntryController, :show
+
+    get "/divas/:diva", EntryController, :index, as: :entrydiva
+    get "/divas/autocomplete/:search", DivaController, :autocomplete
+
+    get "/tags/autocomplete/:search", TagController, :autocomplete
+  end
+
+
+
   # Other scopes may use custom stacks.
   # scope "/api", Exblur do
   #   pipe_through :api

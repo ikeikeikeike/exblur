@@ -6,14 +6,14 @@ defmodule Plug.Exblur.AssignLocale do
 
   def call(conn, _opts) do
     # {conn, lang_tag} = choose_locale_then_proxycache(conn)
-    lang_tag = List.first(extract_accept_language(conn))
+    lang_tag = conn.params["locale"] || conn.params["hl"]
 
     locale = I18n.find_locale(lang_tag || I18n.default_locale)
     Plug.Conn.assign(conn, :locale, locale)
   end
 
   defp choose_locale_then_proxycache(conn) do
-    if locale = conn.params["locale"] do
+    if locale = conn.params["locale"] || conn.params["hl"] do
       conn = Plug.Conn.put_session(conn, :locale, locale)
     end
 

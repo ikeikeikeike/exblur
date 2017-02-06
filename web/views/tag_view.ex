@@ -1,5 +1,6 @@
 defmodule Exblur.TagView do
   use Exblur.Web, :view
+  import Exblur.WebView
 
   def render("autocomplete.json", %{tags: tags}) do
     render_many(tags, Exblur.TagView, "typeahead.json")

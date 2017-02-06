@@ -28,8 +28,8 @@ defmodule Exblur.WebView do
     |> Map.merge(merge)
   end
 
-  def to_qstring(params) do
-    "?" <> URI.encode_query params
+  def to_qstring(params, opts \\ []) do
+    "?" <> URI.encode_query Map.merge(params, Enum.into(opts, %{}))
   end
 
   def take_hidden_field_tags(%Plug.Conn{} = conn, keys) when is_list(keys) do
@@ -126,5 +126,10 @@ defmodule Exblur.WebView do
       _ -> 1
     end
   end
+
+  def carried_locales(conn) do
+    take_params conn, ~w(gl hl)
+  end
+
 
 end
