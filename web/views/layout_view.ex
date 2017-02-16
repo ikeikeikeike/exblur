@@ -1,6 +1,7 @@
 defmodule Exblur.LayoutView do
   use Exblur.Web, :view
   import Exblur.WebView
+  import Exblur.Checks, only: [blank?: 1]
 
   def page_title(conn, assigns) do
     try do
@@ -45,40 +46,39 @@ defmodule Exblur.LayoutView do
   def language_annotations(conn) do
     Exblur.Gettext.supported_locales
     |> Enum.concat(["x-default"])
-    |> Enum.map(fn l ->
-      case l do
-        "x-default" -> {"x-default", localized_url(conn, "")}
-        l -> {l, localized_url(conn, l)}
-      end
+    |> Enum.map(fn
+      "x-default" -> {"x-default", localized_url(conn, nil)}
+      lang        -> {lang, localized_url(conn, lang)}
     end)
   end
 
   def fb_locales do
     Exblur.Gettext.supported_locales
-    |> Enum.map(fn l ->
+    |> Enum.map(fn lang ->
       # Cannot call `locale/0` inside guard clause
       current = locale()
-      case l do
-        l when l == current -> {"og:locale", l}
-        l -> {"og:locale:alternate", l}
+      case lang do
+        lang when lang == current ->
+          {"og:locale", lang}
+        lang ->
+          {"og:locale:alternate", lang}
       end
     end)
   end
 
-  defp localized_url(conn, alt) do
-    host = Phoenix.Router.Helpers.url(Exblur.Router, conn)
-    path =
-      ~r/\/#{locale}(\/(?:[^?]+)?|$)/
-      |> Regex.replace(conn.request_path, "#{alt}\\1")
-
-    if String.starts_with?(path, alt) do
-      URI.parse(host <> path)
-    else
-      params =
+  def localized_url(conn, alt) do
+    host   = Phoenix.Router.Helpers.url(Exblur.Router, conn)
+    path   = conn.request_path
+    params =
+      if blank?(alt) do
+        Map.delete(conn.params, "hl")
+        |> URI.encode_query
+      else
         Map.merge(conn.params, %{"hl" => alt})
         |> URI.encode_query
-      URI.parse(host <> path <> "?" <> params)
-    end
+      end
+
+    URI.parse(host <> path <> "?" <> params)
     |> to_string
   end
 
