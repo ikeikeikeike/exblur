@@ -48,7 +48,7 @@ defmodule Exblur.LayoutView do
     |> Enum.map(fn l ->
       case l do
         "x-default" -> {"x-default", localized_url(conn, "")}
-        l -> {l, localized_url(conn, "/#{l}")}
+        l -> {l, localized_url(conn, l)}
       end
     end)
   end
@@ -57,7 +57,7 @@ defmodule Exblur.LayoutView do
     Exblur.Gettext.supported_locales
     |> Enum.map(fn l ->
       # Cannot call `locale/0` inside guard clause
-      current = locale
+      current = locale()
       case l do
         l when l == current -> {"og:locale", l}
         l -> {"og:locale:alternate", l}
@@ -66,16 +66,20 @@ defmodule Exblur.LayoutView do
   end
 
   defp localized_url(conn, alt) do
+    host = Phoenix.Router.Helpers.url(Exblur.Router, conn)
     path =
       ~r/\/#{locale}(\/(?:[^?]+)?|$)/
       |> Regex.replace(conn.request_path, "#{alt}\\1")
 
-    Phoenix.Router.Helpers.url(Exblur.Router, conn) <>
-      if String.starts_with?(path, alt) do
-        path
-      else
-        alt <> path
-      end
+    if String.starts_with?(path, alt) do
+      URI.parse(host <> path)
+    else
+      params =
+        Map.merge(conn.params, %{"hl" => alt})
+        |> URI.encode_query
+      URI.parse(host <> path <> "?" <> params)
+    end
+    |> to_string
   end
 
 end
