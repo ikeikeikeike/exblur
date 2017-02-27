@@ -61,5 +61,4 @@ defmodule Exblur.EntryController do
     |> Exblur.ESx.search(Entry.search(params))
     |> Exblur.ESx.paginate(params)
   end
-
 end
