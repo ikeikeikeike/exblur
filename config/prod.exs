@@ -19,9 +19,14 @@ config :exblur, Exblur.Endpoint,
   cache_static_manifest: "priv/static/manifest.json",
   server: true
 
-# Do not print debug messages in production
-#config :logger, :console,
-config :logger, level: :warn
+config :logger,
+  level: :warn,
+  backends: [
+    {ExSyslog, :exsyslog_error},
+    {ExSyslog, :exsyslog_debug},
+    {ExSyslog, :exsyslog_json}
+  ]
+
 # config :logger, level: :warn,
   # format: "$date $time $metadata[$level]$levelpad$message\n",
   # metadata: [:user_id, :request_id, :application, :module, :file, :line]

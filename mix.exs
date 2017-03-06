@@ -70,6 +70,9 @@ defmodule Exblur.Mixfile do
        :scrivener_ecto,
        :jsx,
        # :ex_sitemap_generator
+
+       :exsyslog,
+       :syslog,
      ]
    ]
   end
@@ -136,6 +139,10 @@ defmodule Exblur.Mixfile do
      {:esx, "~> 0.2"},
      {:scrivener, "~> 2.0"},
      {:scrivener_ecto, "~> 1.0"},
+
+     # Throw syslog
+     {:exsyslog, "~> 1.0"},
+     # {:sentry, "~> 2.2"},
 
      {:credo, "~> 0.5", only: [:dev, :test]},
     ]

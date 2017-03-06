@@ -33,6 +33,15 @@ config :exblur, Exblur.Endpoint,
   # :console,
   # format: "[$level] $message\n"
 
+config :logger,
+  level: :debug,
+  backends: [
+    :console,
+    {ExSyslog, :exsyslog_error},
+    {ExSyslog, :exsyslog_debug},
+    {ExSyslog, :exsyslog_json}
+  ]
+
 # config :logger, level: :warn
 config :logger, :console,
   format: "$date $time $metadata[$level]$levelpad$message\n",

@@ -23,6 +23,30 @@ config :logger, :console,
   format: "$date $time $metadata[$level]$levelpad$message\n",
   metadata: [:user_id, :request_id, :application, :module, :file, :line]
 
+config :logger, :exsyslog_error,
+  level: :error,
+  format: "$date $time [$level] $levelpad$node $metadata $message",
+  metadata: [:module, :line, :function],
+  ident: "exblur",
+  facility: :local0,
+  option: [:pid, :cons]
+
+config :logger, :exsyslog_debug,
+  level: :debug,
+  format: "$date $time [$level] $message",
+  ident: "exblur",
+  facility: :local1,
+  option: [:pid, :perror]
+
+config :logger, :exsyslog_json,
+  level: :debug,
+  format: "$message",
+  formatter: ExSyslog.JsonFormatter,
+  metadata: [:module, :line, :function],
+  ident: "exblur",
+  facility: :local1,
+  option: :pid
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
