@@ -10,7 +10,7 @@ defmodule Exblur.Entrybuilder.Build do
   def run(args) do
     TL.configure
 
-    limit = if length(args) > 0, do: List.first(args), else: 2
+    limit = if length(args) > 0, do: List.first(args), else: 30
 
     entries =
       Scrapy.query
@@ -33,13 +33,6 @@ defmodule Exblur.Entrybuilder.Build do
       |> filter_less_than
       |> filter_include_url
       |> entry_record
-
-    # Put built up document to Elasticsearch
-    # IO.inspect models
-    # if length(models) > 0 do
-      # Es.Entry.reindex
-      # Logger.debug("finish reindex")
-    # end
 
     Logger.info "Finish to build scrapy #{length models} records."
   end

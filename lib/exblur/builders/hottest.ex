@@ -47,9 +47,9 @@ defmodule Exblur.Builders.Hottest do
 
     Enum.map(result, fn
       {:error, entry} ->
-        Entry.put_es_document entry
         skip entry, "final"
-      _ ->
+      {_, entry} ->
+        Entry.put_es_document entry
         nil
     end)
     |> Enum.filter(&is_nil/1)
