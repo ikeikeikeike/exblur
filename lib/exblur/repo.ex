@@ -13,7 +13,7 @@ defmodule Exblur.Repo do
         Map.put(map, key, value)
       end)
 
-      Ecto.Schema.__load__(model, nil, nil, [], fields, &__MODULE__.__adapter__.load/2)
+      __MODULE__.load model, fields
     end
   end
 

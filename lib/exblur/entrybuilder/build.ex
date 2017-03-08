@@ -10,7 +10,7 @@ defmodule Exblur.Entrybuilder.Build do
   def run(args) do
     TL.configure
 
-    limit = if length(args) > 0, do: List.first(args), else: 30
+    limit = if length(args) > 0, do: List.first(args), else: 2
 
     entries =
       Scrapy.query
@@ -20,9 +20,9 @@ defmodule Exblur.Entrybuilder.Build do
 
     entries =
       Enum.map entries, fn(e) ->
-        e = %{e | tags: Enum.map(e.tags, &TL.tag(TL.translate(&1)))}
-        e = %{e | title: TL.sentence(TL.translate(e.title))}
-        e = %{e | content: TL.sentence(TL.translate(e.content))}
+        e = %{e | tags: Enum.map(e.tags, &TL.tag(translate(&1)))}
+        e = %{e | title: TL.sentence(translate(e.title))}
+        e = %{e | content: TL.sentence(translate(e.content))}
         # e = %{e | embed_code: fix_embed_code(e.embed_code, e.title)
         e
       end
@@ -124,5 +124,14 @@ defmodule Exblur.Entrybuilder.Build do
           false
       end
     end)
+  end
+
+  defp translate(word) do
+    try do
+      TL.translate word
+    rescue
+      HTTPoison.Error ->
+        word
+    end
   end
 end

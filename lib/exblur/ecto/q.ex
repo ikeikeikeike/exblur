@@ -1,7 +1,7 @@
 defmodule Exblur.Ecto.Q do
   import Ecto.Query, only: [from: 1, from: 2]
 
-  alias Blank
+  alias Exblur.Blank
   alias Exblur.Repo
   alias Exblur.Diva
 
@@ -119,8 +119,8 @@ defmodule Exblur.Ecto.Q do
     |> Repo.all
   end
   def nearly_search(:birthday, queryable, %Ecto.Date{} = birthday) do
-    thismonth = Timex.Date.from({birthday.year, birthday.month , 01})
-    nextmonth = Timex.Date.shift(thismonth, months: 1)
+    thismonth = Timex.to_datetime {{birthday.year, birthday.month, 01}, {0, 0, 0}}
+    nextmonth = Timex.shift(thismonth, months: 1)
 
     queryable =
       from q in queryable,

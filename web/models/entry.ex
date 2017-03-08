@@ -109,9 +109,8 @@ defmodule Exblur.Entry do
 
       time: model.time,
       published_at: (case Timex.Ecto.DateTime.cast(model.published_at) do
-        {:ok, at} ->
-          Timex.format!(at, "{ISO}")
-        _ -> model.published_at
+        {:ok, at} -> Timex.format!(at, "{ISO:Extended}")
+        _         -> model.published_at
       end),
 
       site_name: (if model.site_id, do: model.site.name, else: ""),
@@ -131,9 +130,9 @@ defmodule Exblur.Entry do
         filtered: %{
           query: (
             if q = params["search"] do
-              %{ multi_match: %{ query: q, fields: ~w(title tags divas) }}
+              %{multi_match: %{ query: q, fields: ~w(title tags divas)}}
             else
-              %{ match_all: %{} }
+              %{match_all: %{}}
             end
           ),
           filter: %{
@@ -397,6 +396,10 @@ defmodule Exblur.Entry do
                 {:error, reason} ->
                   Logger.error("#{inspect reason}")
 
+                {:new, diva} ->
+                  Diva.put_es_document diva
+                  EntryDiva.find_or_create(model, diva)
+
                 {_, diva} ->
                   EntryDiva.find_or_create(model, diva)
               end
@@ -407,6 +410,10 @@ defmodule Exblur.Entry do
               case Tag.find_or_create_by_name(name) do
                 {:error, reason} ->
                   Logger.error("#{inspect reason}")
+
+                {:new, tag} ->
+                  Tag.put_es_document tag
+                  EntryTag.find_or_create(model, tag)
 
                 {_, tag} ->
                   EntryTag.find_or_create(model, tag)

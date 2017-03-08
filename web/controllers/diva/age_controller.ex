@@ -3,7 +3,7 @@ defmodule Exblur.Diva.AgeController do
 
   import Ecto.Query
 
-  alias Exblur.{Repo,Diva}
+  alias Exblur.{Repo, Diva}
 
   plug Exblur.Ctrl.Plug.AssignTag
   plug Exblur.Ctrl.Plug.AssignDiva

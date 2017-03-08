@@ -43,7 +43,7 @@ defmodule Exblur.WebView do
   end
 
   def to_age(date) do
-    d = Timex.Date.today
+    d = Timex.today
     age = d.year - date.year
     if (date.month > d.month or (date.month >= d.month and date.day > d.day)), do: age = age - 1
     age

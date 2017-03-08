@@ -53,6 +53,7 @@ defmodule Exblur.Mixfile do
        :esx,
        :scrivener_esx,
        :tzdata,
+       :httpotion,
      ],
      included_applications: [
        :arc,
@@ -98,10 +99,12 @@ defmodule Exblur.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
 
+      {:httpotion, "~> 3.0"},
       {:httpoison, "~> 0.11.1", override: true},
       {:poison, "~> 3.1", override: true},
       {:yamerl, "~> 0.4", override: true},
       {:hackney, "~> 1.6", override: true},
+
       {:arc, "~> 0.7", override: true},
       {:timex, "~> 3.0", override: true},
 
@@ -110,7 +113,7 @@ defmodule Exblur.Mixfile do
       {:sweet_xml, "~> 0.6"},
       {:ex_aws, "~> 1.1"},
 
-      {:mongodb_ecto, github: "michalmuskala/mongodb_ecto", branch: "ecto-2"},
+      {:mongodb_ecto, github: "ikeikeikeike/mongodb_ecto", branch: "ecto-2"},
 
       {:bing_translator, "~> 0.2"},
       {:exfavicon, "~> 0.3"},

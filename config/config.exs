@@ -57,13 +57,6 @@ config :phoenix, :generators,
   migration: true,
   binary_id: false
 
-config :esx, ESx.Model,
-  repo: Exblur.Repo,
-  protocol: "http",
-  host: "127.0.0.1",
-  port: 9200,
-  trace: false
-
 config :scrivener_html,
   routes_helper: Exblur.Router.Helpers
 

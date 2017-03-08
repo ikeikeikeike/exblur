@@ -69,6 +69,13 @@ config :exblur, Exblur.Mongo,
   hostname: "localhost",
   pool_size: 5
 
+config :esx, ESx.Model,
+  repo: Exblur.Repo,
+  protocol: "http",
+  host: "127.0.0.1",
+  port: 9200,
+  trace: true
+
 config :sitemap, [
   host: "http://127.0.0.1",
   public_path: "",
@@ -76,3 +83,4 @@ config :sitemap, [
 ]
 
 import_config "dev.secret.exs"
+

@@ -12,8 +12,8 @@ defmodule Exblur.Diva.BirthdayController do
     {year, _} = Integer.parse(year)
     {month, _} = Integer.parse(month)
     next_month =
-      Timex.Date.from({year, month, 01})
-      |> Timex.Date.shift(months: 1)
+      Timex.to_datetime({{year, month, 01}, {0, 0, 0}})
+      |> Timex.shift(months: 1)
 
     birthdays =
       Diva
@@ -21,7 +21,7 @@ defmodule Exblur.Diva.BirthdayController do
       |> where([q], q.appeared > 0)
       |> where([q], not is_nil(q.birthday))
       |> where([q], q.birthday  < ^next_month)
-      |> where([q], q.birthday >= ^Timex.Date.from({year, month , 01}))
+      |> where([q], q.birthday >= ^Timex.to_datetime({{year, month , 01}, {0, 0, 0}}))
       |> order_by([q], [asc: q.birthday])
       |> Exblur.Repo.all
       |> Enum.uniq_by(fn birthday ->
@@ -33,7 +33,7 @@ defmodule Exblur.Diva.BirthdayController do
       |> where([q], q.appeared > 0)
       |> where([q], not is_nil(q.birthday))
       |> where([q], q.birthday  < ^next_month)
-      |> where([q], q.birthday >= ^Timex.Date.from({year, month , 01}))
+      |> where([q], q.birthday >= ^Timex.to_datetime({{year, month , 01}, {0, 0, 0}}))
       |> Exblur.Repo.all
 
     render(conn, "month.html", birthdays: birthdays, divas: divas)

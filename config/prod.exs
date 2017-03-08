@@ -126,6 +126,13 @@ config :quantum, cron: [
     ]
 ]
 
+config :esx, ESx.Model,
+  repo: Exblur.Repo,
+  protocol: "http",
+  host: "127.0.0.1",
+  port: 9200,
+  trace: false
+
 config :sitemap, [
   host: "http://#{myhost}",
   public_path: "",
