@@ -1,7 +1,7 @@
 defmodule Exblur.Diva do
   use Exblur.Web, :model
+  use Arc.Ecto.Schema
 
-  use Arc.Ecto.Model
   use ESx.Schema
 
   alias Exblur.{ESx, Diva, DivaUploader}
@@ -103,8 +103,8 @@ defmodule Exblur.Diva do
     }
   end
 
-  after_insert :put_es_document
-  after_update :put_es_document
+  # after_insert :put_es_document
+  # after_update :put_es_document
   def put_es_document(changeset) do
     changeset.model
     |> Repo.preload(@relational_fields)
@@ -113,7 +113,7 @@ defmodule Exblur.Diva do
     changeset
   end
 
-  after_delete :delete_es_document
+  # after_delete :delete_es_document
   def delete_es_document(changeset) do
     changeset.model
     |> Repo.preload(@relational_fields)
@@ -128,7 +128,7 @@ defmodule Exblur.Diva do
     preload: ^@relational_fields
   end
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\  %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> cast_attachments(params, @required_file_fields, @optional_file_fields)

@@ -11,9 +11,10 @@ config :exblur, Exblur.Endpoint,
   url: [host: "127.0.0.1", port: 80],
   debug_errors: true,
   code_reloader: true,
-  cache_static_lookup: false,
   check_origin: false,
-  watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin"]]
+  # cache_static_lookup: false,
+  watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
+                    cd: Path.expand("../", __DIR__)]]
 
 # Watch static and templates for browser reloading.
 config :exblur, Exblur.Endpoint,
@@ -62,7 +63,6 @@ config :exblur, Exblur.Repo,
   pool_size: 20
 
 config :exblur, Exblur.Mongo,
-  adapter: Mongo.Ecto,
   database: "video",
   # username: "mongodb",
   # password: "mongosb",

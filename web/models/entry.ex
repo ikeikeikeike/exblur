@@ -238,8 +238,8 @@ defmodule Exblur.Entry do
     # |> Ecto.Changeset.put_change(:published_at, Ecto.DateTime.utc)
   # end
 
-  after_insert :put_es_document
-  after_update :put_es_document
+  # after_insert :put_es_document
+  # after_update :put_es_document
   def put_es_document(changeset) do
     changeset.model
     |> Repo.preload(@relational_fields)
@@ -248,7 +248,7 @@ defmodule Exblur.Entry do
     changeset
   end
 
-  after_delete :delete_es_document
+  # after_delete :delete_es_document
   def delete_es_document(changeset) do
     changeset.model
     |> Repo.preload(@relational_fields)
@@ -257,7 +257,7 @@ defmodule Exblur.Entry do
     changeset
   end
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\  %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end

@@ -1,6 +1,6 @@
 defmodule Exblur.Thumb do
   use Exblur.Web, :model
-  use Arc.Ecto.Model
+  use Arc.Ecto.Schema
 
   alias Exblur.{Thumb, ThumbUploader}
 
@@ -19,7 +19,7 @@ defmodule Exblur.Thumb do
   @required_file_fields ~w(image)
   @optional_file_fields ~w()
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\  %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> cast_attachments(params, @required_file_fields, @optional_file_fields)

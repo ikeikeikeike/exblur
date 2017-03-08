@@ -13,7 +13,7 @@ defmodule Exblur.EntryDiva do
   @required_fields ~w(entry_id diva_id)
   @optional_fields ~w()
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\  %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end

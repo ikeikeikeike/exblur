@@ -5,19 +5,20 @@
 # is restricted to this project.
 use Mix.Config
 
+# General application configuration
+config :exblur,
+  ecto_repos: [Exblur.Repo]
+
+config :exblur,
+  namespace: Exblur
+
 # Configures the endpoint
 config :exblur, Exblur.Endpoint,
   url: [host: "localhost"],
-  root: Path.dirname(__DIR__),
   secret_key_base: "ezQ86ORqGpUkX7Omn+vK19bu6vXe3ckRU0iLSOCwe2mB5B/nsHSRWu4GkzLrYrg2",
   render_errors: [accepts: ~w(html json)],
   pubsub: [name: Exblur.PubSub,
            adapter: Phoenix.PubSub.PG2]
-
-# Configures Elixir's Logger
-# config :logger, :console,
-  # format: "$time $metadata[$level] $message\n",
-  # metadata: [:request_id]
 
 config :logger, :console,
   format: "$date $time $metadata[$level]$levelpad$message\n",

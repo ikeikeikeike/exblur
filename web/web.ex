@@ -18,13 +18,13 @@ defmodule Exblur.Web do
 
   def model do
     quote do
-      use Ecto.Model
-      use Timex.Ecto.Timestamps
+      use Ecto.Schema
+      # use Timex.Ecto.Timestamps
 
       alias Exblur.Mongo
       alias Exblur.Repo
       import Ecto.Changeset
-      import Ecto.Query, only: [from: 1, from: 2]
+      import Ecto.Query
     end
   end
 
@@ -32,10 +32,11 @@ defmodule Exblur.Web do
     quote do
       use Phoenix.Controller
 
-      alias Exblur.Mongo
       alias Exblur.Repo
-      import Ecto.Model
-      import Ecto.Query, only: [from: 1, from: 2]
+      alias Exblur.Mongo
+
+      import Ecto
+      import Ecto.Query
 
       import Exblur.Router.Helpers
       import Exblur.Gettext
@@ -53,10 +54,11 @@ defmodule Exblur.Web do
       use Phoenix.HTML
       use Phoenix.HTML.SimplifiedHelpers
 
+      import CommonDeviceDetector.Detector
+
       import Exblur.Router.Helpers
       import Exblur.ErrorHelpers
       import Exblur.Gettext
-      import Exblur.DeviceDetector
 
       import SimpleFormat
       import TextExtractor
@@ -75,7 +77,6 @@ defmodule Exblur.Web do
 
       alias Exblur.Mongo
       alias Exblur.Repo
-      import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
       import Exblur.Gettext
     end
