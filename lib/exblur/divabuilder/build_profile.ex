@@ -36,7 +36,8 @@ defmodule Exblur.Divabuilder.BuildProfile do
       end)
       |> Enum.filter(fn(result) ->
         case result do
-          {:ok, %Diva{}} ->
+          {:ok, %Diva{} = model} ->
+            Diva.put_es_document model
             true
           _ ->
             false

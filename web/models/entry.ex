@@ -37,30 +37,12 @@ defmodule Exblur.Entry do
     has_many :tags, through: [:entry_tags, :tag]
   end
 
+  @required_fields ~w(url title embed_code time review publish removal)
+  @optional_fields ~w(content published_at site_id sort)
+  @relational_fields ~w(site divas tags thumbs)a
+
   index_name "es_entry"
   document_type "entry"
-
-  mapping _all: [enabled: false] do
-    # indexes "id",             type: "long",   analyzer: "not_analyzed", include_in_all: false
-    indexes "url",            type: "string", index: "not_analyzed"
-
-    indexes "site_name",      type: "string", index: "not_analyzed"
-    indexes "server_title",   type: "string", index: "not_analyzed"
-    indexes "server_domain",  type: "string", index: "not_analyzed"
-
-    indexes "tags",           type: "string", index: "not_analyzed"
-    indexes "divas",          type: "string", index: "not_analyzed"
-
-    indexes "title",          type: "string", analyzer: "ja_analyzer"
-    # indexes "content",        type: "string", analyzer: "ja_analyzer"
-
-    indexes "time",           type: "long"
-    indexes "published_at",   type: "date",  format: "dateOptionalTime"
-
-    indexes "review",         type: "boolean"
-    indexes "publish",        type: "boolean"
-    indexes "removal",        type: "boolean"
-  end
 
   settings do
     analysis do
@@ -91,16 +73,30 @@ defmodule Exblur.Entry do
     end
   end
 
-  @required_fields ~w(url title embed_code time review publish removal)
-  @optional_fields ~w(content published_at site_id sort)
-  @relational_fields ~w(site divas tags thumbs)a
+  mapping _all: [enabled: false] do
+    # indexes "id",             type: "long",   analyzer: "not_analyzed", include_in_all: false
+    indexes "url",          type: "string", index: "not_analyzed"
+
+    indexes "site_name",    type: "string", index: "not_analyzed"
+
+    indexes "tags",         type: "string", index: "not_analyzed"
+    indexes "divas",        type: "string", index: "not_analyzed"
+
+    indexes "title",        type: "string", analyzer: "ja_analyzer"
+
+    indexes "sort",         type: "long"
+    indexes "time",         type: "long"
+    indexes "published_at", type: "date",   format: "dateOptionalTime"
+
+    indexes "review",       type: "boolean"
+    indexes "publish",      type: "boolean"
+    indexes "removal",      type: "boolean"
+  end
 
   def as_indexed_json(model, _opts) do
     %{
       url: model.url,
-      time: model.time,
       title: model.title,
-      # content: model.content,
 
       sort: model.sort,
 
@@ -111,6 +107,7 @@ defmodule Exblur.Entry do
       publish: model.publish,
       removal: model.removal,
 
+      time: model.time,
       published_at: (case Timex.Ecto.DateTime.cast(model.published_at) do
         {:ok, at} ->
           Timex.format!(at, "{ISO}")
@@ -232,29 +229,16 @@ defmodule Exblur.Entry do
     }
   end
 
-  # before_insert :set_published_at_to_now
-  # def set_published_at_to_now(changeset) do
-    # changeset
-    # |> Ecto.Changeset.put_change(:published_at, Ecto.DateTime.utc)
-  # end
-
-  # after_insert :put_es_document
-  # after_update :put_es_document
-  def put_es_document(changeset) do
-    changeset.model
+  def put_es_document(model) do
+    model
     |> Repo.preload(@relational_fields)
     |> ESx.index_document
-
-    changeset
   end
 
-  # after_delete :delete_es_document
-  def delete_es_document(changeset) do
-    changeset.model
+  def delete_es_document(model) do
+    model
     |> Repo.preload(@relational_fields)
     |> ESx.delete_document
-
-    changeset
   end
 
   def changeset(model, params \\  %{}) do
@@ -331,7 +315,8 @@ defmodule Exblur.Entry do
 
     model
     |> changeset(params)
-    |> Repo.update
+    |> Repo.update!
+    |> put_es_document
   end
 
   def delete_entry(id, :physically) when is_integer(id) do
@@ -340,6 +325,7 @@ defmodule Exblur.Entry do
   end
   def delete_entry(%__MODULE__{} = model, :physically) do
     Repo.delete model
+    delete_es_document model
   end
   def delete_entry(id) when is_integer(id) do
     model = Repo.get query(), id
@@ -348,10 +334,11 @@ defmodule Exblur.Entry do
   def delete_entry(%__MODULE__{} = model) do
     model
     |> changeset(%{removal: true})
-    |> Repo.update
+    |> Repo.update!
+    |> put_es_document
   end
 
-  def find_or_create_by_entry(entry) do
+  defp find_or_create_by_entry(entry) do
     query = from v in Entry,
           where: v.url == ^entry.url
 
@@ -396,6 +383,7 @@ defmodule Exblur.Entry do
                   {:error, reason}
 
                 {_, model} ->
+                  model
                   {:new, model}
               end
           end

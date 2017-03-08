@@ -16,15 +16,7 @@ defmodule Exblur.Entrybuilder.Publish do
       |> limit([_e], 200)
 
     Enum.each Repo.all(entries), fn(e) ->
-      # checker = Exblur.Entrybuilder::Deadlink.get_checker ve.site, ve.url
-
-      # if checker.failure? || !checker.available? do
-        # Clean video: Physical delete entries coz before publishing those.
-        # ve.destroy
-      # else
-        Entry.publish_entry(e)
-
-      # end
+      Entry.publish_entry(e)
 
       Logger.info "Publish: #{e.id}:#{Ecto.DateTime.utc}"
       :timer.sleep(500)

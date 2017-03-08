@@ -98,9 +98,13 @@ defmodule Exblur.Entrybuilder.Build do
               Repo.rollback(reason)
               Logger.error("#{inspect reason}")
 
-            {:ok, _model} -> nil
+            {:ok, model} ->
+              Entry.put_es_document model
+              nil
 
-            {:new, model} -> model
+            {:new, model} ->
+              Entry.put_es_document model
+              model
           end
         rescue
           # skip entry

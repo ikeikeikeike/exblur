@@ -86,23 +86,16 @@ defmodule Exblur.Tag do
     }
   end
 
-  # after_insert :put_es_document
-  # after_update :put_es_document
-  def put_es_document(changeset) do
-    changeset.model
+  def put_es_document(model) do
+    model
     |> Repo.preload(@relational_fields)
     |> ESx.index_document
-
-    changeset
   end
 
-  # after_delete :delete_es_document
-  def delete_es_document(changeset) do
-    changeset.model
+  def delete_es_document(model) do
+    model
     |> Repo.preload(@relational_fields)
     |> ESx.delete_document
-
-    changeset
   end
 
   def query do

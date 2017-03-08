@@ -1,6 +1,8 @@
 defmodule Exblur.Divabuilder.Build do
   use Exblur.Web, :build
+
   alias Exblur.Diva
+
   require Logger
 
   def run, do: run([])
@@ -31,7 +33,8 @@ defmodule Exblur.Divabuilder.Build do
       end)
       |> Enum.filter(fn(result) ->
         case result do
-          {:ok, %Exblur.Diva{}} ->
+          {:ok, %Diva{} = model} ->
+            Diva.put_es_document model
             true
           _ ->
             false
