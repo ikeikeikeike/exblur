@@ -1,11 +1,11 @@
-defmodule Divabuilder.Build do
+defmodule Exblur.Divabuilder.Build do
   use Exblur.Web, :build
   alias Exblur.Diva
   require Logger
 
   def run, do: run([])
   def run(args) do
-    responses = if length(args) > 0, do: Divabuilder.getdata(args), else: Divabuilder.getdata
+    responses = if length(args) > 0, do: Exblur.Divabuilder.getdata(args), else: Exblur.Divabuilder.getdata
 
     # models =
       responses

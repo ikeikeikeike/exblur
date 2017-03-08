@@ -1,4 +1,4 @@
-defmodule Divabuilder.BuildAppeared do
+defmodule Exblur.Divabuilder.BuildAppeared do
   use Exblur.Web, :build
 
   alias Exblur.{Entry, Diva}

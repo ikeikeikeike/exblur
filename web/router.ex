@@ -11,9 +11,9 @@ defmodule Exblur.Router do
 
     # plug Plug.Static, at: "/uploads", from: :exblur
 
-    plug Plug.Exblur.AssignLocale
-    plug Plug.Exblur.HandleLocalizedPath
-    plug Plug.Exblur.ConfigureGettext
+    plug Exblur.Plug.AssignLocale
+    plug Exblur.Plug.HandleLocalizedPath
+    plug Exblur.Plug.ConfigureGettext
   end
 
   pipeline :api do

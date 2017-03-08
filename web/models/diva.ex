@@ -5,7 +5,7 @@ defmodule Exblur.Diva do
   use ESx.Schema
 
   alias Exblur.{ESx, Diva, DivaUploader}
-  alias Imitation.Q
+  alias Exblur.Imitation.Q
 
   schema "divas" do
     field :name,       :string
@@ -167,7 +167,7 @@ defmodule Exblur.Diva do
         try do
           image =
             profile["Icon"]["Src"]
-            |> Plug.Exblur.Upload.make_plug!
+            |> Exblur.Plug.Upload.make_plug!
 
           Map.put(params, "image",  image)
         catch

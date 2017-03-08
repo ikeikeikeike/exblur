@@ -10,7 +10,7 @@ defmodule Mix.Tasks.Exblur.BuildDiva do
   def run(args) do
     setup
 
-    Divabuilder.Build.run args
+    Exblur.Divabuilder.Build.run args
 
     Mix.shell.info "Finish to build diva"
   end

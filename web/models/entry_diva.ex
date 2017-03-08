@@ -1,7 +1,7 @@
 defmodule Exblur.EntryDiva do
   use Exblur.Web, :model
   alias Exblur.EntryDiva, as: Model
-  alias Imitation.Q
+  alias Exblur.Imitation.Q
 
   schema "entry_divas" do
     belongs_to :entry, Exblur.Entry

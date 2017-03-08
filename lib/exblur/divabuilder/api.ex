@@ -1,5 +1,5 @@
-defmodule Divabuilder.Api do
-  alias Divabuilder.Client
+defmodule Exblur.Divabuilder.Api do
+  alias Exblur.Divabuilder.Client
 
   @endpoint Application.get_env(:exblur, :diva)[:actress]
 

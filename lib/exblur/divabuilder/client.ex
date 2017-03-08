@@ -1,4 +1,4 @@
-defmodule Divabuilder.Client do
+defmodule Exblur.Divabuilder.Client do
   use HTTPoison.Base
 
   # @endpoint "http://apiactress.appspot.com/api/1/getdata/"

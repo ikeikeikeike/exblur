@@ -1,8 +1,8 @@
-defmodule Divabuilder.BuildImage do
+defmodule Exblur.Divabuilder.BuildImage do
   use Exblur.Web, :build
 
   alias Exblur.Diva
-  alias Divabuilder.Image.{Bing, Detector}
+  alias Exblur.Divabuilder.Image.{Bing, Detector}
 
   require Logger
 

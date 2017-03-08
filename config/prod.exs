@@ -76,27 +76,27 @@ config :quantum, cron: [
     ],
     build_diva: [
       schedule: "47 3 3 * *",
-      task: "Divabuilder.Build.run",
+      task: "Exblur.Divabuilder.Build.run",
       args: []
     ],
     build_image_brushup: [
       schedule: "7 * * * *",
-      task: "Divabuilder.BuildImage.run",
+      task: "Exblur.Divabuilder.BuildImage.run",
       args: [:brushup]
     ],
     build_image_fillup: [
       schedule: "32 * * * *",
-      task: "Divabuilder.BuildImage.run",
+      task: "Exblur.Divabuilder.BuildImage.run",
       args: [:fillup]
     ],
     build_image_all: [
       schedule: "53 * * * *",
-      task: "Divabuilder.BuildImage.run",
+      task: "Exblur.Divabuilder.BuildImage.run",
       args: [:all]
     ],
     build_appeared: [
       schedule: "35 * * * *",
-      task: "Divabuilder.BuildAppeared.run",
+      task: "Exblur.Divabuilder.BuildAppeared.run",
       args: []
     ],
     build_divas: [

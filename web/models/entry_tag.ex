@@ -2,7 +2,7 @@ defmodule Exblur.EntryTag do
   use Exblur.Web, :model
 
   alias Exblur.EntryTag
-  alias Imitation.Q
+  alias Exblur.Imitation.Q
 
   schema "entry_tags" do
     belongs_to :entry, Exblur.Entry

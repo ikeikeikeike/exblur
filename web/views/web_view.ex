@@ -104,13 +104,13 @@ defmodule Exblur.WebView do
 
   def pick_searchword(%Plug.Conn{} = conn) do
     [conn.params["search"], conn.params["tag"], conn.params["diva"]]
-    |> Enum.filter(fn w -> ! Blank.blank?(w) end)
+    |> Enum.filter(fn w -> ! Exblur.Blank.blank?(w) end)
     |> List.first
   end
 
   def available?(nil), do: nil
   def available?(%Diva{bust: bust, waste: waist, hip: hip} = model) do
-    ! Blank.blank?(model) && ! Blank.blank?(bust) && ! Blank.blank?(waist) && ! Blank.blank?(hip)
+    ! Exblur.Blank.blank?(model) && ! Exblur.Blank.blank?(bust) && ! Exblur.Blank.blank?(waist) && ! Exblur.Blank.blank?(hip)
   end
 
   def gaid(nil), do: 1

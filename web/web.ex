@@ -61,7 +61,7 @@ defmodule Exblur.Web do
       import Exblur.Gettext
 
       import SimpleFormat
-      import TextExtractor
+      import Exblur.TextExtractor
     end
   end
 

@@ -1,7 +1,7 @@
-defmodule Divabuilder.BuildProfile do
+defmodule Exblur.Divabuilder.BuildProfile do
   use Exblur.Web, :build
   alias Exblur.Diva
-  alias Divabuilder.Client
+  alias Exblur.Divabuilder.Client
   require Logger
 
   def run, do: run([])

@@ -1,4 +1,4 @@
-defmodule Divabuilder.Image.Detector do
+defmodule Exblur.Divabuilder.Image.Detector do
   import Mogrify
   require Logger
 

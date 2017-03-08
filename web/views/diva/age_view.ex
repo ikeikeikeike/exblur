@@ -1,7 +1,7 @@
 defmodule Exblur.Diva.AgeView do
   use Exblur.Web, :view
   import Exblur.WebView
-  alias Ordinalizer.Month
+  alias Exblur.Ordinalizer.Month
 
   def page_title(:index, assigns), do: gettext("diva age index page title") <> " - " <> gettext("Default Page Title")
   def page_title(:age, assigns) do

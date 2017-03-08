@@ -1,7 +1,7 @@
 defmodule Exblur.Diva.BirthdayView do
   use Exblur.Web, :view
   import Exblur.WebView
-  alias Ordinalizer.Month
+  alias Exblur.Ordinalizer.Month
 
   def page_title(:index, assigns), do: gettext("diva birthday index page title") <> " - " <> gettext("Default Page Title")
   def page_title(:year, assigns) do

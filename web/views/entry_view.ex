@@ -7,9 +7,9 @@ defmodule Exblur.EntryView do
     params = assigns.conn.params
     title =
       cond do
-        ! Blank.blank? params["tag"]    -> gettext "%{word} showing %{num} results", word: params["tag"], num: number_with_delimiter(assigns.entries.total_entries)
-        ! Blank.blank? params["diva"]   -> gettext "%{word} showing %{num} results", word: params["diva"], num: number_with_delimiter(assigns.entries.total_entries)
-        ! Blank.blank? params["search"] -> gettext "%{word} Found %{num} results", word: params["search"], num: number_with_delimiter(assigns.entries.total_entries)
+        ! Exblur.Blank.blank? params["tag"]    -> gettext "%{word} showing %{num} results", word: params["tag"], num: number_with_delimiter(assigns.entries.total_entries)
+        ! Exblur.Blank.blank? params["diva"]   -> gettext "%{word} showing %{num} results", word: params["diva"], num: number_with_delimiter(assigns.entries.total_entries)
+        ! Exblur.Blank.blank? params["search"] -> gettext "%{word} Found %{num} results", word: params["search"], num: number_with_delimiter(assigns.entries.total_entries)
         true               -> nil
       end
 
@@ -22,9 +22,9 @@ defmodule Exblur.EntryView do
     params = assigns.conn.params
     keywords =
       cond do
-        ! Blank.blank? params["tag"]    -> gettext ",%{word}", word: params["tag"]
-        ! Blank.blank? params["diva"]   -> gettext ",%{word}", word: params["diva"]
-        ! Blank.blank? params["search"] -> gettext ",%{word}", word: params["search"]
+        ! Exblur.Blank.blank? params["tag"]    -> gettext ",%{word}", word: params["tag"]
+        ! Exblur.Blank.blank? params["diva"]   -> gettext ",%{word}", word: params["diva"]
+        ! Exblur.Blank.blank? params["search"] -> gettext ",%{word}", word: params["search"]
         true             -> ""
       end
 
@@ -36,9 +36,9 @@ defmodule Exblur.EntryView do
   def page_description(:index, assigns) do
     params = assigns.conn.params
     cond do
-      ! Blank.blank? params["tag"]    -> gettext "You would search '%{word}' in XXX. Let's see the video in XXX !!", word: params["tag"]
-      ! Blank.blank? params["diva"]   -> gettext "You would search '%{word}' in XXX. Let's see the video in XXX !!", word: params["diva"]
-      ! Blank.blank? params["search"] -> gettext "You would search '%{word}' in XXX. Let's see the video in XXX !!", word: params["search"]
+      ! Exblur.Blank.blank? params["tag"]    -> gettext "You would search '%{word}' in XXX. Let's see the video in XXX !!", word: params["tag"]
+      ! Exblur.Blank.blank? params["diva"]   -> gettext "You would search '%{word}' in XXX. Let's see the video in XXX !!", word: params["diva"]
+      ! Exblur.Blank.blank? params["search"] -> gettext "You would search '%{word}' in XXX. Let's see the video in XXX !!", word: params["search"]
       true             -> gettext "Default Page Description"
     end
   end
@@ -62,7 +62,7 @@ defmodule Exblur.EntryView do
         title =
           entry.divas
           |> Enum.flat_map(fn(diva) ->
-            Entrybuilder.Filter.separate_name(diva.name)
+            Exblur.Entrybuilder.Filter.separate_name(diva.name)
           end)
           |> Enum.reduce(entry.title, fn(name, title) ->
             tag =

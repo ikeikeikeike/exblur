@@ -10,7 +10,7 @@ defmodule Exblur.Diva.AtozController do
 
   def index(conn, _params) do
     letters =
-      Divabuilder.Api.kunrei_romaji
+      Exblur.Divabuilder.Api.kunrei_romaji
       |> Enum.map(fn letter ->
         divas =
           Diva

@@ -3,7 +3,7 @@ defmodule Exblur.Tag do
   use ESx.Schema
 
   alias Exblur.{ESx, Tag}
-  alias Imitation.Q
+  alias Exblur.Imitation.Q
 
   schema "tags" do
     field :name,   :string

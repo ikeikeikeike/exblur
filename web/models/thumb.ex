@@ -32,7 +32,7 @@ defmodule Exblur.Thumb do
   def create_by_scrapy(entry, scrapy) do
     image =
       "#{Application.get_env(:exblur, :scrapy)[:endpoint]}#{scrapy["path"]}"
-      |> Plug.Exblur.Upload.make_plug!
+      |> Exblur.Plug.Upload.make_plug!
 
     params = %{"entry_id" => entry.id, "image" => image}
     case Repo.insert(changeset(%Thumb{}, params)) do
