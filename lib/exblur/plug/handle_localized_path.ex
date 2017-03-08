@@ -1,4 +1,4 @@
-defmodule Plug.Exblur.HandleLocalizedPath do
+defmodule Exblur.Plug.HandleLocalizedPath do
   import Plug.Conn, only: [assign: 3]
 
   def init(opts), do: opts

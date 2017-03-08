@@ -101,17 +101,17 @@ config :quantum, cron: [
     ],
     build_divas: [
       schedule: "50 5 * * *",
-      task: "Entrybuilder.BuildDivas.run",
+      task: "Exblur.Entrybuilder.BuildDivas.run",
       args: []
     ],
     build_scrapy: [
       schedule: "*/20 * * * *",
-      task: "Entrybuilder.Build.run",
+      task: "Exblur.Entrybuilder.Build.run",
       args: []
     ],
     publish_entry: [
       schedule: "15 * * * *",
-      task: "Entrybuilder.Publish.run",
+      task: "Exblur.Entrybuilder.Publish.run",
       args: []
     ],
     ranking_run: [

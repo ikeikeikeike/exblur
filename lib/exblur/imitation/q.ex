@@ -1,4 +1,4 @@
-defmodule Imitation.Q do
+defmodule Exblur.Imitation.Q do
 
   def find_or_create(query, cset) do
     case model = Exblur.Repo.one(query) do

@@ -1,4 +1,4 @@
-defmodule Imitation.String do
+defmodule Exblur.Imitation.String do
   def is_ascii?(text) do
     text
     |> to_char_list

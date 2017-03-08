@@ -1,6 +1,6 @@
 defmodule Mix.Tasks.Exblur.BuildScrapy do
   use Exblur.Web, :task
-  alias Translator, as: TL
+  alias Exblur.Translator, as: TL
 
   require Logger
 
@@ -13,7 +13,7 @@ defmodule Mix.Tasks.Exblur.BuildScrapy do
   def run(args) do
     setup
 
-    Entrybuilder.Build.run args
+    Exblur.Entrybuilder.Build.run args
 
     Mix.shell.info "Finish to build scrapy"
   end

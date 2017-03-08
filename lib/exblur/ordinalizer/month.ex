@@ -1,4 +1,4 @@
-defmodule Ordinalizer.Month do
+defmodule Exblur.Ordinalizer.Month do
   @moduledoc false
 
   def ordinalize(locale, number) when not is_number(number) do

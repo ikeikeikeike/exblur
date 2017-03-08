@@ -1,4 +1,4 @@
-defmodule Plug.Exblur.Upload do
+defmodule Exblur.Plug.Upload do
 
   require Logger
 

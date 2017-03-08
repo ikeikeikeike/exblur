@@ -1,5 +1,5 @@
-defmodule Translator.Proofreading do
-  alias Translator.Proofreading, as: Proof
+defmodule Exblur.Translator.Proofreading do
+  alias Exblur.Translator.Proofreading, as: Proof
 
   def tag(word) when "" ==  word,  do: word
   def tag(word) when is_nil(word), do: word

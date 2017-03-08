@@ -11,7 +11,7 @@ defmodule Mix.Tasks.Exblur.PublishEntry do
   def run(_args) do
     setup
 
-    Entrybuilder.Publish.run
+    Exblur.Entrybuilder.Publish.run
 
     Mix.shell.info "Finish to publish entries"
   end

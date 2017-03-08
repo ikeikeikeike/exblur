@@ -1,4 +1,4 @@
-defmodule Ordinalizer.Around do
+defmodule Exblur.Ordinalizer.Around do
   @moduledoc false
 
   def ten(locale, number) when not is_number(number) do

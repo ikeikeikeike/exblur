@@ -1,8 +1,8 @@
-defmodule Entrybuilder.Build do
+defmodule Exblur.Entrybuilder.Build do
   use Exblur.Web, :build
   alias Exblur.Scrapy
   alias Exblur.Entry
-  alias Translator, as: TL
+  alias Exblur.Translator, as: TL
 
   require Logger
 
@@ -45,7 +45,7 @@ defmodule Entrybuilder.Build do
   end
 
   # Clean video: Physical delete entries coz before publishing those.
-  # Entrybuilder::Query.chinese_spams(
+  # Exblur.Entrybuilder::Query.chinese_spams(
     # entries: reserve_entries).delete_all
 
   #: over the 2 minutes.

@@ -64,7 +64,7 @@ defmodule Exblur.Sitemaps do
 
         entries
         |> Enum.each(fn entry ->
-          add Helpers.entry_path(Exblur.Endpoint, :show, entry.id, TextExtractor.safe_title(entry.title)),
+          add Helpers.entry_path(Exblur.Endpoint, :show, entry.id, Exblur.TextExtractor.safe_title(entry.title)),
             priority: 0.5, changefreq: "hourly", expires: nil, mobile: bool
         end)
 

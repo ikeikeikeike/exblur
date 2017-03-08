@@ -1,7 +1,7 @@
-defmodule Entrybuilder.BuildDivas do
+defmodule Exblur.Entrybuilder.BuildDivas do
   use Exblur.Web, :build
 
-  alias Entrybuilder.Filter
+  alias Exblur.Entrybuilder.Filter
   alias Exblur.{ESx, Entry, Diva, EntryDiva}
 
   require Logger

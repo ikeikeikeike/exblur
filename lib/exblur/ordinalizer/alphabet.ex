@@ -1,4 +1,4 @@
-defmodule Ordinalizer.Word do
+defmodule Exblur.Ordinalizer.Word do
   @moduledoc false
 
   def alphabet(locale, str) do

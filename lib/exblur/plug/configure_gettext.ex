@@ -1,4 +1,4 @@
-defmodule Plug.Exblur.ConfigureGettext do
+defmodule Exblur.Plug.ConfigureGettext do
 
   def init(opts), do: opts
 

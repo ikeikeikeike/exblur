@@ -1,4 +1,4 @@
-defmodule Imitation.Converter do
+defmodule Exblur.Imitation.Converter do
   def to_i(num) when is_integer(num), do: num
   def to_i(num) when is_float(num),   do: round(num)
   def to_i(num) when is_nil(num),     do: 0

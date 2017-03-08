@@ -1,4 +1,4 @@
-defmodule Plug.Exblur.AssignLocale do
+defmodule Exblur.Plug.AssignLocale do
   alias Exblur.Gettext, as: I18n
   require Logger
 

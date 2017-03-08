@@ -1,4 +1,4 @@
-defmodule Entrybuilder.Publish do
+defmodule Exblur.Entrybuilder.Publish do
   use Exblur.Web, :build
   alias Exblur.Entry
 
@@ -16,7 +16,7 @@ defmodule Entrybuilder.Publish do
       |> limit([_e], 200)
 
     Enum.each Repo.all(entries), fn(e) ->
-      # checker = Entrybuilder::Deadlink.get_checker ve.site, ve.url
+      # checker = Exblur.Entrybuilder::Deadlink.get_checker ve.site, ve.url
 
       # if checker.failure? || !checker.available? do
         # Clean video: Physical delete entries coz before publishing those.

@@ -1,4 +1,4 @@
-defmodule Entrybuilder.Filter do
+defmodule Exblur.Entrybuilder.Filter do
 
   @reHKA3 ~r/^([ぁ-んー－]|[ァ-ヴー－]|[a-z]){3,4}$/iu
 
