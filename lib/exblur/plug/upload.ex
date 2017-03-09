@@ -31,9 +31,7 @@ defmodule Exblur.Plug.Upload do
 
   defp recursive_request!(filename, retry \\ 10) do
     headers = [{"User-Agent", @config[:user_agent]}, {"connect_timeout", 30}]
-    opts    = [ssl: [{:versions, [:'tlsv1.2']}]]
-
-    case HTTPoison.get(filename, headers, opts) do
+    case HTTPoison.get(filename, headers) do
       {:error, reason} ->
         Logger.warn "#{inspect reason}"
 

@@ -1,7 +1,7 @@
 %{"arc": {:hex, :arc, "0.7.0", "36ba65e390c2f869b98ebbe79d66eedf383788875986a20a546f19d87e4f13ac", [:mix], [{:ex_aws, "~> 1.1", [hex: :ex_aws, optional: true]}, {:httpoison, "~> 0.11", [hex: :httpoison, optional: false]}, {:poison, "~> 2.2 or ~> 3.1", [hex: :poison, optional: true]}, {:sweet_xml, "~> 0.6", [hex: :sweet_xml, optional: true]}]},
   "arc_ecto": {:hex, :arc_ecto, "0.5.0", "ae5369e3c9a956bd7eacf1d8e2163970cfc2cf6c2e9ce79eeef91888e6f6a05e", [:mix], [{:arc, "~> 0.6.0", [hex: :arc, optional: false]}, {:ecto, "~> 2.0", [hex: :ecto, optional: false]}]},
   "bbmustache": {:hex, :bbmustache, "1.0.4", "7ba94f971c5afd7b6617918a4bb74705e36cab36eb84b19b6a1b7ee06427aa38", [:rebar], []},
-  "bing_translator": {:hex, :bing_translator, "0.3.0", "09868c20ab5eaa3e29cb0abdd9d6179324e5b5cd9089797a6cac6fedcdba7798", [:mix], [{:floki, ">= 0.0.0", [hex: :floki, optional: false]}, {:httpoison, ">= 0.0.0", [hex: :httpoison, optional: false]}, {:poison, ">= 0.0.0", [hex: :poison, optional: false]}]},
+  "bing_translator": {:hex, :bing_translator, "0.5.1", "e7b10f2671fefa8aab3691d735b61790a4e9dc0511de5cefdba8f77727636264", [:mix], [{:floki, ">= 0.7.0", [hex: :floki, optional: false]}, {:httpoison, ">= 0.8.0", [hex: :httpoison, optional: false]}, {:poison, ">= 1.5.0", [hex: :poison, optional: false]}]},
   "bunt": {:hex, :bunt, "0.2.0", "951c6e801e8b1d2cbe58ebbd3e616a869061ddadcc4863d0a2182541acae9a38", [:mix], []},
   "calendar": {:hex, :calendar, "0.17.2", "d6b7bccc29c72203b076d4e488d967780bf2d123a96fafdbf45746fdc2fa342c", [:mix], [{:tzdata, "~> 0.5.8 or ~> 0.1.201603", [hex: :tzdata, optional: false]}]},
   "certifi": {:hex, :certifi, "1.0.0", "1c787a85b1855ba354f0b8920392c19aa1d06b0ee1362f9141279620a5be2039", [:rebar3], []},
