@@ -2,7 +2,7 @@ defmodule Exblur.Divabuilder.Image.Bing do
   require Logger
 
   alias Exblur.Divabuilder.Client
-  alias Plug.Exblur.Upload
+  alias Exblur.Plug.Upload
 
   @config Application.get_env(:exblur, :bing_image)
 

@@ -20,9 +20,9 @@ defmodule Exblur.Entrybuilder.Build do
 
     entries =
       Enum.map entries, fn(e) ->
-        e = %{e | tags: Enum.map(e.tags, &TL.tag(translate(&1)))}
-        e = %{e | title: TL.sentence(translate(e.title))}
-        e = %{e | content: TL.sentence(translate(e.content))}
+        e = %{e | tags: Enum.map(e.tags, &TL.tag(TL.translate(&1)))}
+        e = %{e | title: TL.sentence(TL.translate(e.title))}
+        e = %{e | content: TL.sentence(TL.translate(e.content))}
         # e = %{e | embed_code: fix_embed_code(e.embed_code, e.title)
         e
       end
@@ -33,6 +33,13 @@ defmodule Exblur.Entrybuilder.Build do
       |> filter_less_than
       |> filter_include_url
       |> entry_record
+
+    # Put built up document to Elasticsearch
+    # IO.inspect models
+    # if length(models) > 0 do
+      # Es.Entry.reindex
+      # Logger.debug("finish reindex")
+    # end
 
     Logger.info "Finish to build scrapy #{length models} records."
   end
@@ -117,14 +124,5 @@ defmodule Exblur.Entrybuilder.Build do
           false
       end
     end)
-  end
-
-  defp translate(word) do
-    try do
-      TL.translate word
-    rescue
-      HTTPoison.Error ->
-        word
-    end
   end
 end
