@@ -57,8 +57,17 @@ defmodule Exblur.EntryController do
         params
       end
 
-    Entry.query
-    |> Exblur.ESx.search(Entry.search(params))
-    |> Exblur.ESx.paginate(params)
+    none =
+      Entry.query
+      |> Exblur.ESx.search(Entry.search(%{"search" => nil}))
+
+    try do
+      Exblur.ESx.search(Entry.query, Entry.search(params))
+      |> Exblur.ESx.paginate(params)
+    rescue _ ->
+        Exblur.ESx.paginate none, params
+    catch  _ ->
+        Exblur.ESx.paginate none, params
+    end
   end
 end
