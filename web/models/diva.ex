@@ -65,12 +65,11 @@ defmodule Exblur.Diva do
   end
 
   @required_fields ~w(name)
-  @optional_fields ~w(kana romaji gyou height weight bust bracup waste hip blood birthday appeared)
+  @optional_fields ~w(kana romaji gyou height weight bust bracup waste hip blood birthday appeared updated_at)
   @relational_fields ~w(entries)a
   @actress_fields ~w(name kana romaji gyou)
 
-  @required_file_fields ~w()
-  @optional_file_fields ~w(image)
+  @attachs_fields ~w(image)
 
   def as_indexed_json(model, _opts) do
     %{
@@ -124,7 +123,7 @@ defmodule Exblur.Diva do
   def changeset(model, params \\  %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> cast_attachments(params, @required_file_fields, @optional_file_fields)
+    |> cast_attachments(params, @attachs_fields)
   end
 
   def changeset_actress(model, actress) do

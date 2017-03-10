@@ -11,7 +11,7 @@ defmodule Exblur.Diva.BirthdayView do
   def page_title(:month, assigns) do
     params = assigns.conn.params
     gettext("diva birthday month page title with %{year} and %{month}",
-             year: params["year"], month: Month.ordinalize(locale, params["month"])) <> " - " <> gettext("Default Page Title")
+             year: params["year"], month: Month.ordinalize(locale(), params["month"])) <> " - " <> gettext("Default Page Title")
   end
   def page_title(_, _), do: gettext("diva birthday index page title") <> " - " <> gettext("Default Page Title")
 
@@ -26,7 +26,7 @@ defmodule Exblur.Diva.BirthdayView do
   def page_description(:month, assigns) do
     params = assigns.conn.params
     gettext "diva birthday month page title with %{name} and %{year} and %{month}",
-             name: gettext("Site Name"), year: params["year"], month: Month.ordinalize(locale, params["month"])
+             name: gettext("Site Name"), year: params["year"], month: Month.ordinalize(locale(), params["month"])
   end
   def page_description(_, _), do: gettext "Diva Page Description"
 

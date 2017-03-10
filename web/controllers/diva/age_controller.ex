@@ -9,7 +9,7 @@ defmodule Exblur.Diva.AgeController do
   plug Exblur.Ctrl.Plug.AssignDiva
 
   def index(conn, _params) do
-    render(conn, "index.html", ages: ages)
+    render(conn, "index.html", ages: ages())
   end
 
   def age(conn, %{"age" => age}) do
@@ -22,7 +22,7 @@ defmodule Exblur.Diva.AgeController do
           AND appeared > 0
       """, [one], Diva
 
-    render(conn, "age.html", ages: ages, divas: divas)
+    render(conn, "age.html", ages: ages(), divas: divas)
   end
 
   defp ages do

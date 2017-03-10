@@ -1,7 +1,6 @@
 defmodule Exblur.Diva.BracupView do
   use Exblur.Web, :view
   import Exblur.WebView
-  alias Exblur.Ordinalizer.Month
 
   def page_title(:index, _assigns), do: gettext("diva bracup index page title") <> " - " <> gettext("Default Page Title")
   def page_title(_, _), do: gettext("diva bracup index page title") <> " - " <> gettext("Default Page Title")

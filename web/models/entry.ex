@@ -38,7 +38,7 @@ defmodule Exblur.Entry do
   end
 
   @required_fields ~w(url title embed_code time review publish removal)
-  @optional_fields ~w(content published_at site_id sort)
+  @optional_fields ~w(content published_at site_id sort updated_at)
   @relational_fields ~w(site divas tags thumbs)a
 
   index_name "es_entry"

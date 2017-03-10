@@ -45,14 +45,14 @@ defmodule Exblur.Divabuilder.BuildImage do
               Logger.error("#{inspect reason}")
 
             {_, model} ->
-              img = Bing.make_plug!(diva.name)
-              case img && Repo.update(Diva.changeset(model, %{image: img})) do
-                {:error, } ->
-                  Diva.changeset(model, %{updated_at: Ecto.DateTime})
+              image = Bing.make_plug!(diva.name)
+              case image && Repo.update(Diva.changeset(model, %{image: image})) do
+                {:error, _} ->
+                  Diva.changeset(model, %{updated_at: Ecto.DateTime.utc})
                   |> Repo.update
 
                 nil ->
-                  Diva.changeset(model, %{updated_at: Ecto.DateTime})
+                  Diva.changeset(model, %{updated_at: Ecto.DateTime.utc})
                   |> Repo.update
 
                 {_, model} -> model

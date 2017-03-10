@@ -10,8 +10,8 @@ defmodule Exblur.EntryDiva do
     timestamps([{:inserted_at, :created_at}])
   end
 
-  @required_fields ~w(entry_id diva_id)
-  @optional_fields ~w()
+  @required_fields ~w(entry_id diva_id)a
+  @optional_fields ~w(created_at)a
 
   def changeset(model, params \\  %{}) do
     model

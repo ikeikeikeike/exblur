@@ -14,15 +14,13 @@ defmodule Exblur.Thumb do
   end
 
   @required_fields ~w(entry_id)
-  @optional_fields ~w()
-
-  @required_file_fields ~w(image)
-  @optional_file_fields ~w()
+  @optional_fields ~w(updated_at)
+  @attache_files ~w(image)
 
   def changeset(model, params \\  %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> cast_attachments(params, @required_file_fields, @optional_file_fields)
+    |> cast_attachments(params, @attache_files)
   end
 
   # fetch icon url

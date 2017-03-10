@@ -12,7 +12,7 @@ defmodule Exblur.EntryTag do
   end
 
   @required_fields ~w(entry_id tag_id)
-  @optional_fields ~w()
+  @optional_fields ~w(updated_at)
 
   def changeset(model, params \\  %{}) do
     model

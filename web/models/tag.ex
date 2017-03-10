@@ -51,7 +51,7 @@ defmodule Exblur.Tag do
   end
 
   @required_fields ~w(name)
-  @optional_fields ~w(kana romaji gyou orig)
+  @optional_fields ~w(kana romaji gyou orig updated_at)
   @relational_fields ~w(entries)a
 
   def as_indexed_json(model, _opts) do
