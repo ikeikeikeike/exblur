@@ -39,7 +39,6 @@ defmodule Exblur.EntryController do
 
   def show(conn, %{"id" => id, "title" => title}) do
     pager = esearch(title, %{st: "match"}, page_size: 15)
-
     render(conn, "show.html", entry: Repo.get!(Entry.query, id), entries: pager)
   end
 
@@ -57,12 +56,13 @@ defmodule Exblur.EntryController do
         params
       end
 
-    none =
-      Entry.query
+    query = Entry.published(Entry.query)
+    none  =
+      query
       |> Exblur.ESx.search(Entry.search(%{"search" => nil}))
 
     try do
-      Exblur.ESx.search(Entry.query, Entry.search(params))
+      Exblur.ESx.search(query, Entry.search(params))
       |> Exblur.ESx.paginate(params)
     rescue _ ->
         Exblur.ESx.paginate none, params

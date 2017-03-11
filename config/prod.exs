@@ -69,61 +69,63 @@ config :logger,
 #
 
 config :quantum, :exblur,
-   sitemaps_gen_sitemap: [
-     schedule: "43 */4 * * *",
-     task: "Exblur.Sitemaps.gen_sitemap",
-     args: []
-   ],
-   build_diva: [
-     schedule: "47 3 3 * *",
-     task: "Exblur.Divabuilder.Build.run",
-     args: []
-   ],
-   build_image_brushup: [
-     schedule: "7 * * * *",
-     task: "Exblur.Divabuilder.BuildImage.run",
-     args: [:brushup]
-   ],
-   build_image_fillup: [
-     schedule: "32 * * * *",
-     task: "Exblur.Divabuilder.BuildImage.run",
-     args: [:fillup]
-   ],
-   build_image_all: [
-     schedule: "53 * * * *",
-     task: "Exblur.Divabuilder.BuildImage.run",
-     args: [:all]
-   ],
-   build_appeared: [
-     schedule: "35 * * * *",
-     task: "Exblur.Divabuilder.BuildAppeared.run",
-     args: []
-   ],
-   build_divas: [
-     schedule: "50 5 * * *",
-     task: "Exblur.Entrybuilder.BuildDivas.run",
-     args: []
-   ],
-   build_scrapy: [
-     schedule: "*/20 * * * *",
-     task: "Exblur.Entrybuilder.Build.run",
-     args: []
-   ],
-   publish_entry: [
-     schedule: "15 * * * *",
-     task: "Exblur.Entrybuilder.Publish.run",
-     args: []
-   ],
-   ranking_run: [
-     schedule: "50,59 * * * *",
-     task: "Exblur.Builders.Ranking.run",
-     args: []
-   ],
-   hottest_run: [
-     schedule: "55 1 * * *",
-     task: "Exblur.Builders.Hottest.run",
-     args: []
-   ]
+  cron: [
+    sitemaps_gen_sitemap: [
+      schedule: "43 */4 * * *",
+      task: "Exblur.Sitemaps.gen_sitemap",
+      args: []
+    ],
+    build_diva: [
+      schedule: "47 3 3 * *",
+      task: "Exblur.Divabuilder.Build.run",
+      args: []
+    ],
+    build_image_brushup: [
+      schedule: "7 * * * *",
+      task: "Exblur.Divabuilder.BuildImage.run",
+      args: [:brushup]
+    ],
+    build_image_fillup: [
+      schedule: "32 * * * *",
+      task: "Exblur.Divabuilder.BuildImage.run",
+      args: [:fillup]
+    ],
+    build_image_all: [
+      schedule: "53 * * * *",
+      task: "Exblur.Divabuilder.BuildImage.run",
+      args: [:all]
+    ],
+    build_appeared: [
+      schedule: "35 * * * *",
+      task: "Exblur.Divabuilder.BuildAppeared.run",
+      args: []
+    ],
+    build_divas: [
+      schedule: "50 5 * * *",
+      task: "Exblur.Entrybuilder.BuildDivas.run",
+      args: []
+    ],
+    build_scrapy: [
+      schedule: "*/20 * * * *",
+      task: "Exblur.Entrybuilder.Build.run",
+      args: []
+    ],
+    publish_entry: [
+      schedule: "15 * * * *",
+      task: "Exblur.Entrybuilder.Publish.run",
+      args: []
+    ],
+    ranking_run: [
+      schedule: "50,59 * * * *",
+      task: "Exblur.Builders.Ranking.run",
+      args: []
+    ],
+    hottest_run: [
+      schedule: "55 1 * * *",
+      task: "Exblur.Builders.Hottest.run",
+      args: []
+    ]
+  ]
 
 config :esx, ESx.Model,
   repo: Exblur.Repo,

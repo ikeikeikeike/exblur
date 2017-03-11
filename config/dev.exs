@@ -82,5 +82,15 @@ config :sitemap, [
   files_path: "log/",
 ]
 
+config :quantum, :exblur,
+  cron: [
+    "* * * * *":   fn -> System.cmd("touch", ["/tmp/tmp_"]) end,
+    build_appeared: [
+      schedule: "43 * * * *",
+      task: "Exblur.Divabuilder.BuildAppeared.run",
+      args: []
+    ]
+  ]
+
 import_config "dev.secret.exs"
 

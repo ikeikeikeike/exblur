@@ -57,3 +57,5 @@ def _remove_left(letters):
         pass
 
     return letters[1::]
+
+

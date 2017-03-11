@@ -7,7 +7,9 @@ from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import (
     DateTime,
     Integer,
-    String
+    Boolean,
+    String,
+    Text,
 )
 # from sqlalchemy.orm import (
 #     scoped_session,
@@ -41,6 +43,26 @@ class Diva(Base):
     birthday = Column(DateTime)
 
     appeared = Column(Integer)
+
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime, onupdate=datetime.datetime.now)
+
+
+class Entry(Base):
+    __tablename__ = 'entries'
+    #  query = DBSession.query_property()
+
+    id = Column(Integer, primary_key=True)
+
+    url = Column(Text)
+
+    title = Column(String(255))
+    content = Column(Text)
+    embed_code = Column(Text)
+
+    review = Column(Boolean)
+    publish = Column(Boolean)
+    removal = Column(Boolean)
 
     created_at = Column(DateTime)
     updated_at = Column(DateTime, onupdate=datetime.datetime.now)
