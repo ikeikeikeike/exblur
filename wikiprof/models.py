@@ -64,5 +64,7 @@ class Entry(Base):
     publish = Column(Boolean)
     removal = Column(Boolean)
 
+    published_at = Column(DateTime)
+
     created_at = Column(DateTime)
     updated_at = Column(DateTime, onupdate=datetime.datetime.now)

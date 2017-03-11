@@ -10,12 +10,17 @@ defmodule Exblur.Builders.Removal do
   def run, do: run []
   def run([]) do
     entries =
-      from(q in Entry, where: q.removal == true)
-      |> Repo.all
+      from q in Entry,
+      where: q.removal == true
+         and not is_nil(q.published_at)
 
-    Enum.map entries, fn entry ->
+    Enum.map Repo.all(entries), fn entry ->
       :timer.sleep(300)
-      Entry.put_es_document entry
+
+      entry
+      |> Entry.changeset(%{"published_at" => nil})
+      |> Repo.update!
+      |> Entry.delete_es_document
     end
   end
 
