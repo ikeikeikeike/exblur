@@ -14,7 +14,8 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "18.3.0"
+    v = "18.3.5"
+
     File.write! "VERSION", v
     v
   end
@@ -36,7 +37,6 @@ defmodule Exblur.Mixfile do
        :mongodb_ecto,
        :ecto,
        :ex_aws,
-       :bing_translator,
        :exfavicon,
        :yaml_elixir,
        :con_cache,
@@ -60,6 +60,7 @@ defmodule Exblur.Mixfile do
        :timex_ecto,
        :scrivener,
        :simple_format,
+       :bing_translator,
        # :tirexs,
        :exkanji,
        :exromaji,

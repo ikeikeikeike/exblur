@@ -11,7 +11,7 @@ defmodule Exblur.EntryDiva do
   end
 
   @required_fields ~w(entry_id diva_id)a
-  @optional_fields ~w(created_at)a
+  @optional_fields ~w(created_at updated_at)a
 
   def changeset(model, params \\  %{}) do
     model

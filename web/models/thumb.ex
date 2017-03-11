@@ -14,7 +14,7 @@ defmodule Exblur.Thumb do
   end
 
   @required_fields ~w(entry_id)
-  @optional_fields ~w(updated_at)
+  @optional_fields ~w()
   @attache_files ~w(image)
 
   def changeset(model, params \\  %{}) do

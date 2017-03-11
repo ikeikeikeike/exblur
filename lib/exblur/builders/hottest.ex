@@ -9,11 +9,11 @@ defmodule Exblur.Builders.Hottest do
 
   def run, do: run []
   def run([]) do
-    ids = Redisank.top :weekly
+    ids = Redisank.top :weekly, 0, 50_000, []
     ids =
       if blank?(ids) do
         Redisank.sum :weekly
-        Redisank.top :weekly
+        Redisank.top :weekly, 0, 50_000, []
       else
         ids
       end
@@ -24,14 +24,17 @@ defmodule Exblur.Builders.Hottest do
       |> Repo.all
 
     sorted_entries =
-      Enum.map ids, fn id ->
-        [elm] = Enum.filter ranking, & id == &1.id
-         elm
-      end
+      Enum.map(ids, fn id ->
+        case Enum.filter(ranking, & id == &1.id) do
+          [elm] -> elm
+          _     -> nil
+        end
+      end)
+      |> Enum.filter(& not is_nil &1)
 
     result =
       Enum.map Enum.with_index(sorted_entries, 1), fn {entry, index} ->
-        :timer.sleep(50)
+        :timer.sleep(300)
 
         changeset = Entry.changeset entry, %{sort: index}
 
