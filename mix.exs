@@ -14,7 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "18.3.7"
+    v = "18.3.10"
     File.write! "VERSION", v
     v
   end
@@ -60,7 +60,6 @@ defmodule Exblur.Mixfile do
        :scrivener,
        :simple_format,
        :bing_translator,
-       # :tirexs,
        :exkanji,
        :exromaji,
        :arc_ecto,
@@ -76,6 +75,7 @@ defmodule Exblur.Mixfile do
 
        :exsyslog,
        :syslog,
+       :crontab,
      ]
    ]
   end

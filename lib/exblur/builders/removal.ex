@@ -14,14 +14,15 @@ defmodule Exblur.Builders.Removal do
       where: q.removal == true
          and not is_nil(q.published_at)
 
-    Enum.map Repo.all(entries), fn entry ->
-      :timer.sleep(300)
-
+    Enum.map(Repo.all(entries), fn entry ->
       entry
       |> Entry.changeset(%{"published_at" => nil})
       |> Repo.update!
-      |> Entry.delete_es_document
-    end
+    end)
+    |> Enum.each(fn entry ->
+      :timer.sleep(300)
+      Entry.delete_es_document entry
+    end)
   end
 
 end

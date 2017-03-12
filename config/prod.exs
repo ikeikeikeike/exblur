@@ -124,6 +124,11 @@ config :quantum, :exblur,
       schedule: "55 1 * * *",
       task: "Exblur.Builders.Hottest.run",
       args: []
+    ],
+    removal_run: [
+      schedule: "* * * * *",  # XXX: Until implimet es code in python.
+      task: "Exblur.Builders.Removal.run",
+      args: []
     ]
   ]
 
