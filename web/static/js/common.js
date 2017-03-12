@@ -32,5 +32,12 @@ $(document).on('ready', function() {
   })
 });
 
+$(function() {
+  $('.btn-loading').on('click', function() {
+    const $btn = $(this).button('loading');
+    setTimeout(() => $btn.button('reset'), 3000);
+  });
+});
+
 
 })($);

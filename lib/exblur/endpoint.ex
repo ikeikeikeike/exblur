@@ -32,7 +32,7 @@ defmodule Exblur.Endpoint do
 
   plug Plug.Session,
     store: :cookie,
-    key: "_adlifjwaej94817_session_key",
+    key: Application.get_env(:exblur, :seskey),
     signing_salt: "dC07GkD+"
 
   plug Exblur.Router

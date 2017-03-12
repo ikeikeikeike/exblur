@@ -282,3 +282,20 @@ img {
 .panel.panel-default {
     background-color: #fcfdff;
 }
+
+.thumbnail .caption {
+    position: relative;
+    min-height: 120px;
+}
+
+.absolute-bottom-right {
+    position: absolute;
+    bottom: 0;
+    right: 7px;
+}
+
+.absolute-bottom-left {
+    position: absolute;
+    bottom: 0;
+    left: 7px;
+}

@@ -64,6 +64,11 @@ defmodule Exblur.Router do
     get "/divas/autocomplete/:search", DivaController, :autocomplete
 
     get "/tags/autocomplete/:search", TagController, :autocomplete
+
+    scope "/report" do
+      post "/like/:id", ReportController, :like
+      post "/broken/:id", ReportController, :broken
+    end
   end
 
   # Other scopes may use custom stacks.

@@ -9,11 +9,11 @@ defmodule Exblur.Builders.Hottest do
 
   def run, do: run []
   def run([]) do
-    ids = Redisank.top :weekly, 0, 50_000, []
+    ids = Redisank.top :weekly, 0, 10_000, []
     ids =
       if blank?(ids) do
         Redisank.sum :weekly
-        Redisank.top :weekly, 0, 50_000, []
+        Redisank.top :weekly, 0, 10_000, []
       else
         ids
       end

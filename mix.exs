@@ -14,7 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "18.3.10"
+    v = "18.3.11"
     File.write! "VERSION", v
     v
   end
@@ -49,6 +49,7 @@ defmodule Exblur.Mixfile do
        :common_device_detector,
        # :exsentry,
 
+       :rdtype,
        :esx,
        :scrivener_esx,
        :tzdata,
@@ -127,6 +128,8 @@ defmodule Exblur.Mixfile do
 
       {:simple_format, "~> 0.1"},
       {:quantum, ">= 1.9.0"},
+
+      {:rdtype, "~> 0.5"},
 
       {:exrm, "~> 1.0"},
       {:mailgun, "~> 0.1"},
