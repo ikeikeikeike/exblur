@@ -92,5 +92,12 @@ config :quantum, :exblur,
     ]
   ]
 
+config :redisank, :redis,
+  ranking: "redis://127.0.0.1:6379/14"
+
+config :exblur, :redis,
+  broken: "redis://127.0.0.1:6379/13",
+  like: "redis://127.0.0.1:6379/12"
+
 import_config "dev.secret.exs"
 

@@ -13,7 +13,7 @@ $(function() {
             .removeClass('btn-default')
             .addClass('btn-success');
 
-        setTimeout(_ => $btn.addClass('disabled'), 1000);
+        setTimeout(_ => $btn.addClass('disabled'), 100);
       }, 3000);
 
     });
@@ -33,7 +33,7 @@ $(function() {
             .removeClass('btn-default')
             .addClass('btn-danger');
 
-        setTimeout(_ => $btn.addClass('disabled'), 1000);
+        setTimeout(_ => $btn.addClass('disabled'), 100);
       }, 3000);
     });
   });

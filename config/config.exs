@@ -67,19 +67,9 @@ config :exblur, Exblur.Gettext,
   default_locale: "ja",
   locales: ~w(en es ja)
 
-config :redisank, :redis,
-  ranking: "redis://127.0.0.1:6379/14"
-
-config :exblur, :redis,
-  broken: "redis://127.0.0.1:6379/13",
-  like: "redis://127.0.0.1:6379/12"
-
 # config :phoenix, Exblur.Router,
   # session: [store: :cookie,
             # key: "_exblur_key"]
-
-config :exblur, :seskey,
-  "_adlifjwaej94817_session_key"
 
 # filters
 import_config "translate_filters.exs"
