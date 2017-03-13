@@ -4,13 +4,13 @@ defmodule Exblur.ReportController do
   alias Exblur.Redis.{Like, Broken}
 
   def like(conn, %{"id" => id}) do
-    Like.add "exblur_like:#{id}", seskey(conn)
+    Like.store id, seskey(conn)
 
     json conn, %{"message" => "ok"}
   end
 
   def broken(conn, %{"id" => id}) do
-    Broken.add "exblur_broken:#{id}", seskey(conn)
+    Broken.store id, seskey(conn)
 
     json conn, %{"message" => "ok"}
   end

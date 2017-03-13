@@ -19,6 +19,8 @@ defmodule Exblur.Entry do
     field :published_at, Ecto.DateTime
 
     field :sort, :integer
+    field :likes, :integer, default: 0
+    field :broken, :integer, default: 0
 
     field :review, :boolean, default: false
     field :publish, :boolean, default: false
@@ -38,7 +40,7 @@ defmodule Exblur.Entry do
   end
 
   @required_fields ~w(url title embed_code time review publish removal)
-  @optional_fields ~w(content published_at site_id sort updated_at)
+  @optional_fields ~w(content published_at site_id sort updated_at likes broken)
   @relational_fields ~w(site divas tags thumbs)a
 
   index_name "es_entry"
@@ -85,6 +87,9 @@ defmodule Exblur.Entry do
     indexes "title",        type: "string", analyzer: "ja_analyzer"
 
     indexes "sort",         type: "long"
+    indexes "likes",        type: "long"
+    # indexes "broken",       type: "long"
+
     indexes "time",         type: "long"
     indexes "published_at", type: "date",   format: "dateOptionalTime"
 
@@ -99,6 +104,8 @@ defmodule Exblur.Entry do
       title: model.title,
 
       sort: model.sort,
+      likes: model.likes,
+      # broken: model.broken,
 
       tags: Enum.map(model.tags, &(&1.name)),
       divas: Enum.map(model.divas, &(&1.name)),
@@ -165,6 +172,8 @@ defmodule Exblur.Entry do
             :_score
           "hot" ->
             %{sort: %{order: "asc"}}
+          "pick" ->
+            %{likes: %{order: "desc"}}
           "asc" ->
             %{published_at: %{order: "asc"}}
           _ ->
