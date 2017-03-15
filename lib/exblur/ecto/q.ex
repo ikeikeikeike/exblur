@@ -118,6 +118,7 @@ defmodule Exblur.Ecto.Q do
     |> nearly_order([desc: :blood])
     |> Repo.all
   end
+  def nearly_search(:birthday, queryable, nil), do: []
   def nearly_search(:birthday, queryable, %Ecto.Date{} = birthday) do
     thismonth = Timex.to_datetime {{birthday.year, birthday.month, 01}, {0, 0, 0}}
     nextmonth = Timex.shift(thismonth, months: 1)
