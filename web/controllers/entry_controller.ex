@@ -1,6 +1,8 @@
 defmodule Exblur.EntryController do
   use Exblur.Web, :controller
 
+  import Exblur.Checks, only: [blank?: 1]
+
   alias Exblur.{Entry, Diva, Ecto.Q}
 
   plug :scrub_params, "entry" when action in [:create, :update]
@@ -29,17 +31,26 @@ defmodule Exblur.EntryController do
 
   def latest(conn, params) do
     pager = esearch(params["search"], params)
-    render(conn, "index.html", entries: pager, diva: Q.fuzzy_find(Diva, params["search"]))
+
+    conn
+    |> struct([params: Map.merge(%{"st" => "desc"}, params)])
+    |> render("index.html", entries: pager, diva: Q.fuzzy_find(Diva, params["search"]))
   end
 
   def pickup(conn, params) do
     pager = esearch(params["search"], params, st: "pick")
-    render(conn, "index.html", entries: pager, diva: Q.fuzzy_find(Diva, params["search"]))
+
+    conn
+    |> struct([params: Map.merge(%{"st" => "pick"}, params)])
+    |> render("index.html", entries: pager, diva: Q.fuzzy_find(Diva, params["search"]))
   end
 
   def hottest(conn, params) do
     pager = esearch(params["search"], params, st: "hot")
-    render(conn, "index.html", entries: pager, diva: Q.fuzzy_find(Diva, params["search"]))
+
+    conn
+    |> struct([params: Map.merge(%{"st" => "hot"}, params)])
+    |> render("index.html", entries: pager, diva: Q.fuzzy_find(Diva, params["search"]))
   end
 
   def show(conn, %{"id" => id, "title" => title}) do
@@ -53,7 +64,7 @@ defmodule Exblur.EntryController do
   end
 
   defp esearch(word, params, opts \\ []) do
-    params = Map.merge(params, %{"search" => word})
+    params = Map.merge(params, %{"search" => if(blank?(word), do: nil, else: word)})
     params =
       if length(opts) > 0 do
         Map.merge params, Enum.into(opts, %{})

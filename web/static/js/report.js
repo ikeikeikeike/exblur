@@ -14,7 +14,7 @@ $(function() {
             .addClass('btn-success');
 
         setTimeout(_ => $btn.addClass('disabled'), 100);
-      }, 3000);
+      }, 1000);
 
     });
   });
@@ -34,7 +34,7 @@ $(function() {
             .addClass('btn-danger');
 
         setTimeout(_ => $btn.addClass('disabled'), 100);
-      }, 3000);
+      }, 1000);
     });
   });
 
