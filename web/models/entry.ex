@@ -333,8 +333,8 @@ defmodule Exblur.Entry do
     delete_entry model, :physically
   end
   def delete_entry(%__MODULE__{} = model, :physically) do
-    Repo.delete model
     delete_es_document model
+    Repo.delete model
   end
   def delete_entry(id) when is_integer(id) do
     model = Repo.get query(), id

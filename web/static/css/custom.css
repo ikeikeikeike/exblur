@@ -71,6 +71,8 @@
 }
 
 .force-foreground {
+    background: rgba(140, 140, 140, 0.32);
+
     position: absolute;
     z-index: 400;
 
@@ -126,13 +128,17 @@
 
 .force-foreground.ninad .close {
     font-size: 60px;
-    left: 30px;
-    top: -10px;
+    left: 42px;
+    top: -36px;
 }
 
+.admax-banner iframe {
+    left: -4px !important;
+}
 
 .force-foreground.sp.storage .close {
     font-size: 60px;
+    left: 43px;
 }
 
 .nearly-box {
