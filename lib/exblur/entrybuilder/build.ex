@@ -8,7 +8,7 @@ defmodule Exblur.Entrybuilder.Build do
 
   def run, do: run([])
   def run(args) do
-    TL.configure
+    TL.Proofreading.configure
 
     limit = if length(args) > 0, do: List.first(args), else: 30
 

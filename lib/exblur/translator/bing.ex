@@ -17,7 +17,7 @@ defmodule Exblur.Translator.Bing do
 
       true ->
         ConCache.get_or_store :exblur_cache, "translator.bing:#{word}", fn() ->
-          BingTranslator.translate(word, opts)
+          BingTranslator.translate([text: word] ++ opts)
         end
     end
   end

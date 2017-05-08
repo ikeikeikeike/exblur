@@ -27,7 +27,7 @@ defmodule Mix.Tasks.Exblur.BuildScrapy do
       touch_on_read: true
     ], name: :exblur_cache
 
-    TL.configure
+    TL.Proofreading.configure
   end
 
   # We can define other functions as needed here.

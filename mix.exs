@@ -14,7 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "18.3.22"
+    v = "18.3.24"
     File.write! "VERSION", v
     v
   end
@@ -52,13 +52,13 @@ defmodule Exblur.Mixfile do
        :scrivener_esx,
        :tzdata,
        :sweet_xml,
+       :bing_translator,
      ],
      included_applications: [
        :arc,
        :timex_ecto,
        :scrivener,
        :simple_format,
-       :bing_translator,
        :exkanji,
        :exromaji,
        :arc_ecto,
@@ -114,7 +114,7 @@ defmodule Exblur.Mixfile do
 
       {:mongodb_ecto, github: "ikeikeikeike/mongodb_ecto", branch: "ecto-2"},
 
-      {:bing_translator, "~> 0.5"},
+      {:bing_translator, "~> 1.0"},
       {:exfavicon, "~> 0.3"},
 
       {:calendar, "~> 0.12"},

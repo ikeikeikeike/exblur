@@ -11,12 +11,4 @@ defmodule Exblur.Translator do
   """
   defdelegate tag(word), to: Exblur.Translator.Proofreading, as: :tag
   defdelegate sentence(word), to: Exblur.Translator.Proofreading, as: :sentence
-
-  @doc """
-  configuration
-  """
-  def configure do
-    BingTranslator.configure
-    Exblur.Translator.Proofreading.configure
-  end
 end
