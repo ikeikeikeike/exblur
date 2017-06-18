@@ -71,7 +71,7 @@ config :logger,
 config :quantum, :exblur,
   cron: [
     sitemaps_gen_sitemap: [
-      schedule: "43 */4 * * *",
+      schedule: "20 22 */3 * *",
       task: "Exblur.Sitemaps.gen_sitemap",
       args: []
     ],

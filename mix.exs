@@ -14,7 +14,7 @@ defmodule Exblur.Mixfile do
   end
 
   defp version do
-    v = "18.3.24"
+    v = "18.3.33"
     File.write! "VERSION", v
     v
   end
@@ -31,12 +31,11 @@ defmodule Exblur.Mixfile do
        :cowboy,
        :logger,
        :gettext,
-       :phoenix_ecto,
        :postgrex,
+       :phoenix_ecto,
        :mongodb_ecto,
        :ecto,
        :ex_aws,
-       :exfavicon,
        :yaml_elixir,
        :con_cache,
        :ua_inspector,
@@ -55,6 +54,7 @@ defmodule Exblur.Mixfile do
        :bing_translator,
      ],
      included_applications: [
+       :exfavicon,
        :arc,
        :timex_ecto,
        :scrivener,
@@ -64,14 +64,11 @@ defmodule Exblur.Mixfile do
        :arc_ecto,
        :phoenix_html_simplified_helpers,
        :scrivener_html,
-       :floki,
        :mailgun,
        :mogrify,
        :redix,
        :scrivener_ecto,
        :jsx,
-       # :ex_sitemap_generator
-
        :exsyslog,
        :syslog,
        :crontab,
@@ -114,7 +111,9 @@ defmodule Exblur.Mixfile do
 
       {:mongodb_ecto, github: "ikeikeikeike/mongodb_ecto", branch: "ecto-2"},
 
-      {:bing_translator, "~> 1.0"},
+      # {:bing_translator, "~> 1.0"},
+      {:bing_translator, github: "ikeikeikeike/bing_translator"},
+
       {:exfavicon, "~> 0.3"},
 
       {:calendar, "~> 0.12"},
