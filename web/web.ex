@@ -40,6 +40,7 @@ defmodule Exblur.Web do
 
       import Exblur.Router.Helpers
       import Exblur.Gettext
+      import Exblur.Imitation
     end
   end
 
@@ -60,7 +61,6 @@ defmodule Exblur.Web do
       import Exblur.ErrorHelpers
       import Exblur.Gettext
 
-      import SimpleFormat
       import Exblur.TextExtractor
     end
   end

@@ -58,7 +58,6 @@ defmodule Exblur.Mixfile do
        :arc,
        :timex_ecto,
        :scrivener,
-       :simple_format,
        :exkanji,
        :exromaji,
        :arc_ecto,
@@ -73,6 +72,7 @@ defmodule Exblur.Mixfile do
        :syslog,
        :crontab,
        :rdtype,
+       :recaptcha,
      ]
    ]
   end
@@ -124,7 +124,6 @@ defmodule Exblur.Mixfile do
 
       {:common_device_detector, github: "ikeikeikeike/common_device_detector"},
 
-      {:simple_format, "~> 0.1"},
       {:quantum, ">= 1.9.0"},
 
       {:rdtype, "~> 0.5"},
@@ -152,6 +151,8 @@ defmodule Exblur.Mixfile do
       {:esx, "~> 0.2"},
       {:scrivener, "~> 2.0"},
       {:scrivener_ecto, "== 1.1.1"},
+
+      {:recaptcha, "~> 2.1"},
 
       # Throw syslog
       {:exsyslog, "~> 1.0"},
