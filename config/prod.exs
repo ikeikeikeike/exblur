@@ -81,22 +81,22 @@ config :quantum, :exblur,
       args: []
     ],
     build_image_brushup: [
-      schedule: "7 * * * *",
+      schedule: "7 21 * * *",
       task: "Exblur.Divabuilder.BuildImage.run",
       args: [:brushup]
     ],
     build_image_fillup: [
-      schedule: "32 * * * *",
+      schedule: "32 22 * * *",
       task: "Exblur.Divabuilder.BuildImage.run",
       args: [:fillup]
     ],
     build_image_all: [
-      schedule: "53 * * * *",
+      schedule: "53 23 * * *",
       task: "Exblur.Divabuilder.BuildImage.run",
       args: [:all]
     ],
     build_appeared: [
-      schedule: "35 * * * *",
+      schedule: "35 */3 * * *",
       task: "Exblur.Divabuilder.BuildAppeared.run",
       args: []
     ],
@@ -131,7 +131,7 @@ config :quantum, :exblur,
       args: []
     ],
     removal_run: [
-      schedule: "* * * * *",  # XXX: Until implimet es code in python.
+      schedule: "* * * * *",  # XXX: Until impliment es code in python.
       task: "Exblur.Builders.Removal.run",
       args: []
     ]

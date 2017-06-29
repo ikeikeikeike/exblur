@@ -8,16 +8,20 @@ defmodule Exblur.Divabuilder.Image.Bing do
 
   def search(name) do
     query = fn q ->
-      String.replace(@config[:query], "[[[query]]]", q)
+      String.replace(@config[:query], "[[[query]]]", URI.encode(q))
     end
+    headers = [
+      "User-Agent": @config[:user_agent],
+      "Ocp-Apim-Subscription-Key": @config[:authkey]
+    ]
 
-    case Client.get(query.(name), [{"User-agent", @config[:user_agent]}], [hackney: [basic_auth: @config[:basic_auth]]]) do
+    case Client.get(query.(name), headers) do
       {:error, _} ->
         []
       {:ok, resp} ->
         case Poison.decode(resp.body) do
           {:ok, map} ->
-            map["d"]["results"]
+            map["value"]
           {:error, _} ->
             []
         end
@@ -28,7 +32,7 @@ defmodule Exblur.Divabuilder.Image.Bing do
   def make_plug!(plug, []), do: plug
   def make_plug!(nil, [result|tail]) do
     try do
-      make_plug!(Upload.make_plug!(result["MediaUrl"]), [])
+      make_plug!(Upload.make_plug!(result["contentUrl"]), [])
     catch
       _ -> make_plug!(nil, tail)
     end

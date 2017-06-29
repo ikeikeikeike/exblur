@@ -8,7 +8,7 @@ defmodule Exblur.Plug.Upload do
     try do
       detect_icon! url
     rescue
-      e in CaseClauseError ->
+      _e in CaseClauseError ->
         nil
     end
   end
@@ -31,7 +31,7 @@ defmodule Exblur.Plug.Upload do
 
   defp recursive_request!(filename, retry \\ 10) do
     headers = [{"User-Agent", @config[:user_agent]}, {"connect_timeout", 30}]
-    case HTTPoison.get(filename, headers) do
+    case HTTPoison.get(filename, headers, [follow_redirect: true]) do
       {:error, reason} ->
         Logger.warn "#{inspect reason}"
 

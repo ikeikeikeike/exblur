@@ -11,7 +11,7 @@ defmodule Exblur.Divabuilder.BuildImage do
     Diva
     |> where([q], q.appeared > 0)
     |> order_by([q], [asc: q.updated_at])
-    |> limit([q], 15)
+    |> limit([q], 14)
     |> run
   end
 
@@ -19,14 +19,14 @@ defmodule Exblur.Divabuilder.BuildImage do
     Diva
     |> where([q], is_nil(q.image))
     |> order_by([q], [asc: q.updated_at])
-    |> limit([q], 5)
+    |> limit([q], 8)
     |> run
   end
 
   def run(:all) do
     Diva
     |> order_by([q], [asc: q.updated_at])
-    |> limit([q], 5)
+    |> limit([q], 8)
     |> run
   end
 
