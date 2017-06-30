@@ -38,36 +38,47 @@ defmodule Exblur.Divabuilder.BuildImage do
 
     models =
       Enum.map(divas, fn diva ->
-        Repo.transaction fn ->
-          case Diva.find_or_create_by_name(diva.name) do
-            {:error, reason} ->
-              Repo.rollback(reason)
-              Logger.error("#{inspect reason}")
+        case Diva.find_or_create_by_name(diva.name) do
+          {:error, reason} ->
+            Logger.error("#{inspect reason}")
+            :error1
 
-            {_, model} ->
+          {_, model} ->
+            try do
               image = Bing.make_plug!(diva.name)
               case image && Repo.update(Diva.changeset(model, %{image: image})) do
                 {:error, _} ->
                   Diva.changeset(model, %{updated_at: Ecto.DateTime.utc})
                   |> Repo.update
+                  :error2
 
                 nil ->
                   Diva.changeset(model, %{updated_at: Ecto.DateTime.utc})
                   |> Repo.update
+                  :none
 
-                {_, model} -> model
+                {_, model} ->
+                  model
               end
-          end
+            rescue reason ->
+              Logger.error("#{inspect reason}")
+              Diva.changeset(model, %{updated_at: Ecto.DateTime.utc})
+              |> Repo.update
+              :rescue
+            catch reason ->
+              Logger.error("#{inspect reason}")
+              Diva.changeset(model, %{updated_at: Ecto.DateTime.utc})
+              |> Repo.update
+              :catch
+            end
         end
       end)
-      |> Enum.filter(fn(result) ->
-        case result do
-          {:ok, %Diva{} = model} ->
-            Diva.put_es_document model
-            true
-          _ ->
-            false
-        end
+      |> Enum.filter(fn
+        %Diva{} = model ->
+          Diva.put_es_document model
+          true
+        _ ->
+          false
       end)
 
     Logger.info "Finish to build profile's image: #{length models} records."
