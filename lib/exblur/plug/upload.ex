@@ -19,14 +19,15 @@ defmodule Exblur.Plug.Upload do
   end
 
   def make_plug!(filename) do
-    basename = Path.basename URI.parse(filename).path
-
     resp = recursive_request!(filename)
+
+    ctype = getheader(resp.headers, "Content-Type")
+    basename = "#{randstr(10)}.#{getext(ctype)}"
 
     path = "/tmp/#{basename}"
     File.write!(path, resp.body)
 
-    %Plug.Upload{path: path, filename: basename}
+    %Plug.Upload{content_type: ctype, path: path, filename: basename}
   end
 
   defp recursive_request!(filename, retry \\ 10) do
@@ -46,4 +47,23 @@ defmodule Exblur.Plug.Upload do
     end
   end
 
+  defp randstr(len) do
+    len
+    |> :crypto.strong_rand_bytes
+    |> Base.url_encode64
+    |> binary_part(0, len)
+  end
+
+  defp getheader(headers, key) do
+    headers
+    |> Enum.filter(fn({k, _}) -> k == key end)
+    |> List.first
+    |> elem(1)
+  end
+
+  defp getext(ctype) do
+    ctype
+    |> MIME.extensions
+    |> List.first
+  end
 end
