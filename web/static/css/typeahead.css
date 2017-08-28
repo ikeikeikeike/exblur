@@ -1,3 +1,74 @@
+a .my-suggest.my-footer {
+    padding-left: 23px;
+    border-top: 1px dashed #ecebeb;
+}
+
+.my-suggest.my-footer {
+    padding: 9px;
+}
+
+.my-suggest.my-footer {
+    padding: 9px;
+}
+
+.my-suggest.my-footer {
+    padding: 9px;
+}
+
+.my-suggest.my-footer i {
+    padding-right: 21px;
+}
+
+.my-suggest strong {
+    font-weight: bold;
+}
+
+.my-suggest.footer:hover {
+    background-color: #f9f9f9;
+}
+
+.my-suggest {
+    cursor: pointer;
+    color: #000;
+}
+
+.my-suggest * small {
+    color: #999;
+    font-size: 85%;
+}
+
+.my-suggest .media .my-suggest-image {
+    -webkit-background-size: cover;
+    background-size: cover;
+    margin-left: -8px;
+    width: 38px;
+    height: 38px;
+    display: inline-block;
+    margin-right: 13px;
+    margin-top: 5px;
+}
+
+.my-suggest .media .media-body {
+    padding: 4px;
+}
+
+.typeahead.tt-input {
+    color: #333;
+}
+
+.typeahead.tt-hint {
+    color: #999 !important;
+}
+
+.twitter-typeahead input[type=search] {
+    font-size: 16px;
+}
+
+.tt-dataset-entry-suggest .empty-message {
+    padding: 5px 10px;
+    text-align: center;
+}
+
 .readonly-white[readonly] {
     background-color: #FFF;
 }
@@ -203,11 +274,13 @@
 .input-group .twitter-typeahead:first-child .tt-hint {
   border-bottom-left-radius: 4px;
   border-top-left-radius: 4px;
+  width: 100%;
 }
 .input-group .twitter-typeahead:last-child .tt-input,
 .input-group .twitter-typeahead:last-child .tt-hint {
   border-bottom-right-radius: 4px;
   border-top-right-radius: 4px;
+  width: 100%;
 }
 .input-group.input-group-sm .twitter-typeahead .tt-input,
 .input-group.input-group-sm .twitter-typeahead .tt-hint {
@@ -285,10 +358,10 @@ select[multiple].input-group.input-group-lg .twitter-typeahead .tt-hint {
 }
 .twitter-typeahead {
   width: 100%;
+  float: left;
 }
 .input-group .twitter-typeahead {
   display: table-cell !important;
-  float: left;
 }
 .twitter-typeahead .tt-hint {
   color: #999999;
@@ -302,11 +375,12 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   cursor: not-allowed;
   background-color: #eeeeee !important;
 }
-.tt-dropdown-menu {
+.tt-dropdown-menu,
+.tt-menu {
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 1000 !important;
+  z-index: 1000;
   min-width: 160px;
   width: 100%;
   padding: 5px 0;
@@ -323,30 +397,32 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   *border-right-width: 2px;
   *border-bottom-width: 2px;
 }
-.tt-dropdown-menu .tt-suggestion {
+.tt-dropdown-menu .tt-suggestion,
+.tt-menu .tt-suggestion {
   display: block;
   padding: 3px 20px;
   clear: both;
   font-weight: normal;
   line-height: 1.42857143;
   color: #333333;
-  white-space: nowrap;
 }
-.tt-dropdown-menu .tt-suggestion.tt-cursor {
+.tt-dropdown-menu .tt-suggestion.tt-cursor,
+.tt-menu .tt-suggestion.tt-cursor,
+.tt-dropdown-menu .tt-suggestion:hover,
+.tt-menu .tt-suggestion:hover {
+  cursor: pointer;
   text-decoration: none;
   outline: 0;
   background-color: #f5f5f5;
   color: #262626;
 }
-.tt-dropdown-menu .tt-suggestion.tt-cursor a {
+.tt-dropdown-menu .tt-suggestion.tt-cursor a,
+.tt-menu .tt-suggestion.tt-cursor a,
+.tt-dropdown-menu .tt-suggestion:hover a,
+.tt-menu .tt-suggestion:hover a {
   color: #262626;
 }
-.tt-dropdown-menu .tt-suggestion p {
+.tt-dropdown-menu .tt-suggestion p,
+.tt-menu .tt-suggestion p {
   margin: 0;
-}
-
-#remote .league-name {
-  margin: 0 20px 5px 20px;
-  padding: 3px 0;
-  border-bottom: 1px solid #ccc;
 }

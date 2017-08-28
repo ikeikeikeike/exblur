@@ -48,43 +48,68 @@ defmodule Exblur.Entry do
 
   settings do
     analysis do
-      filter    "ja_posfilter",
+      filter :ja_posfilter,
         type: "kuromoji_neologd_part_of_speech",
         stoptags: ["助詞-格助詞-一般", "助詞-終助詞"]
-      filter    "edge_ngram",
-        type: "edgeNGram",
-        min_gram: 1, max_gram: 15
+      tokenizer :ja_tokenizer,
+        type: "kuromoji_neologd_tokenizer",
+        mode: "search"
+      analyzer :ja_analyzer,
+        type: "custom", tokenizer: "ja_tokenizer",
+        char_filter: ["html_strip", "kuromoji_neologd_iteration_mark"],
+        filter: [
+          "kuromoji_neologd_baseform", "kuromoji_neologd_stemmer",
+          "ja_posfilter", "cjk_width"
+        ]
 
-      tokenizer "ja_tokenizer",
+      tokenizer :kuromoji_pserson_dic,
         type: "kuromoji_neologd_tokenizer"
+        # user_dictionary: "person.dic"
+      filter :katakana_readingform,
+        type: "kuromoji_neologd_readingform",
+        use_romaji: false
+      filter :split_delimiter,
+          type: "word_delimiter",
+          generate_word_parts: true,
+          generate_number_parts: false,
+          catenate_words: false,
+          catenate_numbers: false,
+          catenate_all: false,
+          split_on_case_change: false,
+          preserve_original: false,
+          split_on_numerics: false,
+          stem_english_possessive: false
+      analyzer :rubytext_analyzer,
+        type: "custom",
+        tokenizer: "kuromoji_pserson_dic",
+        filter: ["katakana_readingform", "split_delimiter"]
+
       tokenizer "ngram_tokenizer",
         type: "nGram",
-        min_gram: "2", max_gram: "3",
-        token_chars: ["letter", "digit"]
-
-      # analyzer  "default",
-      #   type: "custom",
-      #   tokenizer: "ja_tokenizer",
-      #   filter: ["kuromoji_neologd_baseform", "ja_posfilter", "cjk_width"]
-      analyzer  "ja_analyzer",
+        token_chars: ["letter", "digit"],
+        min_gram: "2", max_gram: "3"
+      analyzer "ngram_analyzer",
         type: "custom",
-        tokenizer: "ja_tokenizer",
-        filter: ["kuromoji_neologd_baseform", "ja_posfilter", "cjk_width"]
-      analyzer  "ngram_analyzer",
         tokenizer: "ngram_tokenizer"
+
+      tokenizer "unigram_tokenizer",
+        "type": "nGram",
+        "token_chars": ["letter", "digit"],
+        "min_gram": "1", "max_gram": "2"
+      analyzer "unigram_analyzer",
+        "type": "custom",
+        "tokenizer": "unigram_tokenizer"
     end
   end
 
   mapping _all: [enabled: false] do
-    # indexes "id",             type: "long",   analyzer: "not_analyzed", include_in_all: false
-    indexes "url",          type: "string", index: "not_analyzed"
-
     indexes "site_name",    type: "string", index: "not_analyzed"
 
     indexes "tags",         type: "string", index: "not_analyzed"
     indexes "divas",        type: "string", index: "not_analyzed"
 
     indexes "title",        type: "string", analyzer: "ja_analyzer"
+    indexes "title_ruby",   type: "string", analyzer: "rubytext_analyzer"
 
     indexes "sort",         type: "long"
     indexes "likes",        type: "long"
@@ -100,8 +125,8 @@ defmodule Exblur.Entry do
 
   def as_indexed_json(model, _opts) do
     %{
-      url: model.url,
       title: model.title,
+      title_ruby: model.title,
 
       sort: model.sort,
       likes: model.likes,
@@ -137,7 +162,10 @@ defmodule Exblur.Entry do
         filtered: %{
           query: (
             if q = params["search"] do
-              %{multi_match: %{ query: q, fields: ~w(title tags divas)}}
+              %{multi_match: %{
+                query: q,
+                fields: ~w(title title_ruby tags divas site_name)
+              }}
             else
               %{match_all: %{}}
             end
@@ -180,6 +208,32 @@ defmodule Exblur.Entry do
             %{published_at: %{order: "desc"}}
         end
       ),
+    }
+  end
+
+  def essuggest(word) do
+    %{
+      size: 5,
+      fields: [],
+      query: %{
+        filtered: %{
+          query: %{
+            multi_match: %{
+              query: word,
+              fields: ~w(title title_ruby tags divas site_name)
+            }
+          },
+          filter: %{
+            bool: %{
+              must: [
+                %{term: %{review:  true}},
+                %{term: %{publish: true}},
+                %{term: %{removal: false}},
+              ]
+            }
+          }
+        }
+      }
     }
   end
 
@@ -266,6 +320,11 @@ defmodule Exblur.Entry do
   def query do
     from e in __MODULE__,
      select: e,
+    preload: ^@relational_fields
+  end
+
+  def query_suggest(query \\ __MODULE__) do
+    from e in query,
     preload: ^@relational_fields
   end
 

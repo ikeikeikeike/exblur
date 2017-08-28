@@ -3,6 +3,17 @@ defmodule Exblur.EntryView do
   import Exblur.WebView
   import Scrivener.HTML
 
+  def render("autocomplete.json", %{entries: entries}) do
+    render_many(entries, __MODULE__, "typeahead.json")
+  end
+
+  def render("typeahead.json", %{entry: entry}) do
+    %{
+      value: entry.title,
+      tokens: String.split(entry.title)
+    }
+  end
+
   def page_title(:index, assigns) do
     params = assigns.conn.params
     title =

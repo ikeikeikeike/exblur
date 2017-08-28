@@ -62,9 +62,10 @@ defmodule Exblur.Router do
     get "/vid/:id/", EntryController, :show
 
     get "/divas/:diva", EntryController, :index, as: :entrydiva
-    get "/divas/autocomplete/:search", DivaController, :autocomplete
 
-    get "/tags/autocomplete/:search", TagController, :autocomplete
+    get "/autocomplete/vid/:search", EntryController, :autocomplete
+    get "/autocomplete/tag/:search", TagController, :autocomplete
+    get "/autocomplete/diva/:search", DivaController, :autocomplete
 
     scope "/report" do
       post "/like/:id", ReportController, :like

@@ -63,6 +63,28 @@ defmodule Exblur.EntryController do
     render(conn, "show.html", entry: Repo.get!(Entry.query, id), entries: pager)
   end
 
+  def autocomplete(conn, %{"search" => "__NONE__.json"}) do
+    json conn, [%{"value" => "__NONE__"}]
+  end
+
+  def autocomplete(conn, %{"search" => search}) do
+    entries =
+      ConCache.get_or_store :exblur_cache, "entries_autocomplete:#{search}", fn ->
+        word =
+          String.split(search, ".")
+          |> List.first
+
+        from(Entry.relates(Entry))
+        |> Exblur.ESx.search(Entry.essuggest(word))
+        |> Exblur.ESx.records
+        |> Enum.map(&Map.take &1, [
+          :id, :title, :tags, :divas, :site
+        ])
+      end
+
+    render(conn, "autocomplete.json", entries: entries)
+  end
+
   defp esearch(word, params, opts \\ []) do
     params = Map.merge(params, %{"search" => if(blank?(word), do: nil, else: word)})
     params =
@@ -73,17 +95,15 @@ defmodule Exblur.EntryController do
       end
 
     query = Entry.published(Entry.query)
-    none  =
-      query
-      |> Exblur.ESx.search(Entry.search(%{"search" => nil}))
+    none  = query |> Exblur.ESx.search(Entry.search(%{"search" => nil}))
 
     try do
       Exblur.ESx.search(query, Entry.search(params))
       |> Exblur.ESx.paginate(params)
     rescue _ ->
-        Exblur.ESx.paginate none, params
+      Exblur.ESx.paginate none, params
     catch  _ ->
-        Exblur.ESx.paginate none, params
+      Exblur.ESx.paginate none, params
     end
   end
 end
