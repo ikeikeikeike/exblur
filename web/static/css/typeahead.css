@@ -12,91 +12,91 @@
 @media (min-width: 310px) and (orientation: portrait) {
     .responsive-visible-modal {
         height: 0;
-        width: 102%;
+        width: 104%;
     }
 }
 
 @media (min-width: 330px) and (orientation: portrait) {
     .responsive-visible-modal {
         height: 0;
-        width: 106%;
+        width: 112%;
     }
 }
 
 @media (min-width: 350px) and (orientation: portrait) {
     .responsive-visible-modal {
         height: 0;
-        width: 111%;
+        width: 117%;
     }
 }
 
 @media (min-width: 370px) and (orientation: portrait) {
     .responsive-visible-modal {
         height: 0;
-        width: 115%;
+        width: 122%;
     }
 }
 
 @media (min-width: 410px) and (orientation: portrait) {
     .responsive-visible-modal {
         height: 0;
-        width: 129%;
+        width: 134%;
     }
 }
 
 @media (min-width: 413px) and (orientation: portrait) {
     .responsive-visible-modal {
         height: 0;
-        width: 130%;
+        width: 135%;
     }
 }
 
 @media (min-width: 430px) and (orientation: portrait) {
     .responsive-visible-modal {
         height: 0;
-        width: 133%;
+        width: 138%;
     }
 }
 
 @media (min-width: 450px) and (orientation: portrait) {
     .responsive-visible-modal {
         height: 0;
-        width: 140%;
+        width: 145%;
     }
 }
 
 @media (min-width: 700px) and (orientation: portrait) {
     .responsive-visible-modal {
         height: 0;
-        width: 230%;
+        width: 235%;
     }
 }
 
 @media (min-width: 200px) and (orientation: landscape) {
     .responsive-visible-modal {
         height: 0;
-        width: 200%;
+        width: 205%;
     }
 }
 
 @media (min-width: 310px) and (orientation: landscape) {
     .responsive-visible-modal {
         height: 0;
-        width: 202%;
+        width: 207%;
     }
 }
 
 @media (min-width: 370px) and (orientation: landscape) {
     .responsive-visible-modal {
         height: 0;
-        width: 215%;
+        width: 220%;
     }
 }
 
 @media (min-width: 410px) and (orientation: landscape) {
     .responsive-visible-modal {
         height: 0;
-        width: 195%;
+        width: 200%;
     }
 }
 
@@ -109,49 +109,49 @@
 (orientation: landscape) {
     .responsive-visible-modal {
         height: 0;
-        width: 129%;
+        width: 134%;
     }
 }
 
 @media (min-width: 430px) and (orientation: landscape) {
     .responsive-visible-modal {
         height: 0;
-        width: 203%;
+        width: 208%;
     }
 }
 
 @media (min-width: 550px) and (orientation: landscape) {
     .responsive-visible-modal {
         height: 0;
-        width: 182%;
+        width: 187%;
     }
 }
 
 @media (min-width: 640px) and (orientation: landscape) {
     .responsive-visible-modal {
         height: 0;
-        width: 207%;;
+        width: 212%;;
     }
 }
 
 @media (min-width: 660px) and (orientation: landscape) {
     .responsive-visible-modal {
         height: 0;
-        width: 214%;;
+        width: 219%;;
     }
 }
 
 @media (min-width: 680px) and (orientation: landscape) {
     .responsive-visible-modal {
         height: 0;
-        width: 222%;
+        width: 227%;
     }
 }
 
 @media (min-width: 720px) and (orientation: landscape) {
     .responsive-visible-modal {
         height: 0;
-        width: 235%;
+        width: 240%;
     }
 }
 
