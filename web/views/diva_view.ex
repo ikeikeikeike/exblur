@@ -3,11 +3,27 @@ defmodule Exblur.DivaView do
   import Exblur.WebView
 
   def render("autocomplete.json", %{divas: divas}) do
-    render_many(divas, Exblur.TagView, "typeahead.json")
+    render_many(divas, __MODULE__, "typeahead.json")
   end
 
   def render("typeahead.json", %{diva: diva}) do
-    %{value: diva.name, tokens: String.split(diva.name)}
+    %{
+      name: diva.name,
+      kana: diva.kana,
+      romaji: diva.romaji,
+      gyou: diva.gyou,
+      height: diva.height,
+      weight: diva.weight,
+      bust: diva.bust,
+      bracup: diva.bracup,
+      waist: diva.waste,
+      hip: diva.hip,
+      blood: diva.blood,
+      birthday: diva.birthday,
+      # age,        :integer, virtual: true
+      image:  divaimg(diva),
+      appeared: diva.appeared,
+    }
   end
 
   def page_title(_, _), do: gettext("All Divas") <> " - " <> gettext("Default Page Title")

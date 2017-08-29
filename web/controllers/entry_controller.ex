@@ -78,7 +78,7 @@ defmodule Exblur.EntryController do
         |> Exblur.ESx.search(Entry.essuggest(word))
         |> Exblur.ESx.records
         |> Enum.map(&Map.take &1, [
-          :id, :title, :tags, :divas, :site
+          :id, :title, :tags, :divas, :thumbs, :site
         ])
       end
 

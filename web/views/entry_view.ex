@@ -9,8 +9,12 @@ defmodule Exblur.EntryView do
 
   def render("typeahead.json", %{entry: entry}) do
     %{
-      value: entry.title,
-      tokens: String.split(entry.title)
+      id: entry.id,
+      title: entry.title,
+      thumb: thumb_one(entry.thumbs),
+      site_name: entry.site.name,
+      tags: Enum.map(entry.tags, & &1.name),
+      divas: Enum.map(entry.divas, & &1.name),
     }
   end
 

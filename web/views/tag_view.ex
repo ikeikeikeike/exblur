@@ -3,7 +3,7 @@ defmodule Exblur.TagView do
   import Exblur.WebView
 
   def render("autocomplete.json", %{tags: tags}) do
-    render_many(tags, Exblur.TagView, "typeahead.json")
+    render_many(tags, __MODULE__, "typeahead.json")
   end
 
   def render("typeahead.json", %{tag: tag}) do

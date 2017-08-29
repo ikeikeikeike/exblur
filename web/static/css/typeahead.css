@@ -1,3 +1,10 @@
+h3.suggest-header {
+    color: #a0a0a0;
+    padding-left: 8px;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
 a .my-suggest.my-footer {
     padding-left: 23px;
     border-top: 1px dashed #ecebeb;
