@@ -20,6 +20,10 @@ defmodule Exblur.TagController do
         Tag
         |> Exblur.ESx.search(Tag.essuggest(word))
         |> Exblur.ESx.records
+        |> Enum.map(&Map.take &1, [
+          :id, :name, :kana, :romaji
+        ])
+        |> Enum.uniq
       end
 
     render(conn, "autocomplete.json", tags: tags)

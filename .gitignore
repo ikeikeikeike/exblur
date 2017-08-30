@@ -70,3 +70,4 @@ TODO.secret
 /wikiprof/not_found.py
 /web/static/assets/favicon.ico
 /web/mailers
+/web/static/js/typeahead.js

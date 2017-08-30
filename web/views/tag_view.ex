@@ -7,7 +7,12 @@ defmodule Exblur.TagView do
   end
 
   def render("typeahead.json", %{tag: tag}) do
-    %{value: tag.name, tokens: String.split(tag.name)}
+    %{
+      id: tag.id,
+      name: tag.name,
+      kana: tag.kana,
+      romaji: tag.romaji,
+    }
   end
 
   def page_title(_, _), do: gettext("All Tags") <> " - " <> gettext "tag page title with %{name}", name: gettext("Site Name")

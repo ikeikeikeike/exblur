@@ -20,7 +20,6 @@ defmodule Exblur.DivaView do
       hip: diva.hip,
       blood: diva.blood,
       birthday: diva.birthday,
-      # age,        :integer, virtual: true
       image:  divaimg(diva),
       appeared: diva.appeared,
     }

@@ -13,6 +13,8 @@ defmodule Exblur.EntryView do
       title: entry.title,
       thumb: thumb_one(entry.thumbs),
       site_name: entry.site.name,
+      time: entry.time,
+      published_at: entry.published_at,
       tags: Enum.map(entry.tags, & &1.name),
       divas: Enum.map(entry.divas, & &1.name),
     }
