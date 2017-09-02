@@ -24,6 +24,7 @@
 import nearlyslider from "./nearlyslider"
 import typeahead from "./typeahead"
 import sidebar from "./sidebar"
+import mylist from "./mylist"
 import common from "./common"
 import report from "./report"
 import dmm from "./dmm"

@@ -27,6 +27,7 @@ defmodule Exblur.Ordinalizer.Around do
           x when x in 150..159 -> "Around 150-159"
           x when x in 160..169 -> "Around 160-169"
           x when x in 170..179 -> "Around 170-179"
+          _ -> "Unmetered"
         end
       "ja" ->
         case number do
@@ -47,6 +48,7 @@ defmodule Exblur.Ordinalizer.Around do
           x when x in 150..159 -> "150-159"
           x when x in 160..169 -> "160-169"
           x when x in 170..179 -> "170-179"
+          _ -> "Unmetered"
         end
     end
   end
@@ -97,6 +99,10 @@ defmodule Exblur.Ordinalizer.Around do
           x when x in 170..174 -> "Around 170-174"
           x when x in 175..179 -> "Around 175-179"
           x when x in 180..184 -> "Around 180-184"
+          x when x in 185..189 -> "Around 185-189"
+          x when x in 190..184 -> "Around 190-194"
+          x when x in 195..189 -> "Around 195-199"
+          _ -> "Unmetered"
         end
       "ja" ->
         case number do
@@ -137,6 +143,10 @@ defmodule Exblur.Ordinalizer.Around do
           x when x in 170..174 -> "170-174"
           x when x in 175..179 -> "175-179"
           x when x in 180..184 -> "180-184"
+          x when x in 185..189 -> "185-189"
+          x when x in 190..184 -> "190-194"
+          x when x in 195..189 -> "195-199"
+          _ -> "Unmetered"
         end
     end
   end
