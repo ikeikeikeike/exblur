@@ -14,6 +14,7 @@ defmodule Exblur.Router do
     plug Exblur.Plug.AssignLocale
     plug Exblur.Plug.HandleLocalizedPath
     plug Exblur.Plug.ConfigureGettext
+    plug Exblur.Ctrl.Plug.ParamsPaginator
   end
 
   pipeline :api do
