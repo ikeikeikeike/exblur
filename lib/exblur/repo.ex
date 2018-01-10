@@ -2,6 +2,9 @@ defmodule Exblur.Repo do
   use Ecto.Repo, otp_app: :exblur
   # use Scrivener, page_size: 10
 
+  def execute_and_load(sql) do
+    execute_and_load(sql, [])
+  end
   def execute_and_load(sql, params) do
     Ecto.Adapters.SQL.query!(__MODULE__, sql, params)
     |> load_into()
