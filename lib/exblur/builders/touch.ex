@@ -3,7 +3,7 @@ defmodule Exblur.Builders.Touch do
 
   def run, do: run []
   def run([]) do
-    System.cmd("touch", ["/tmp/tmp_"])
+    System.cmd("touch", ["/tmp/_exblur"])
   end
 
 end

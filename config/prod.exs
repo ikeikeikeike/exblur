@@ -134,6 +134,11 @@ config :quantum, :exblur,
       schedule: "* * * * *",  # XXX: Until impliment es code in python.
       task: "Exblur.Builders.Removal.run",
       args: []
+    ],
+    builders_touch_run: [
+      schedule: "* * * * *",
+      task: "Exblur.Builders.Touch.run",
+      args: []
     ]
   ]
 

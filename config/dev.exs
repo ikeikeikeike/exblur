@@ -84,7 +84,11 @@ config :sitemap, [
 
 config :quantum, :exblur,
   cron: [
-    "* * * * *":   fn -> System.cmd("touch", ["/tmp/tmp_"]) end,
+    builders_touch_run: [
+      schedule: "* * * * *",
+      task: "Exblur.Builders.Touch.run",
+      args: []
+    ],
     build_appeared: [
       schedule: "43 * * * *",
       task: "Exblur.Divabuilder.BuildAppeared.run",
