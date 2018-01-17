@@ -26,12 +26,12 @@ defmodule Exblur.Builders.Notify do
 
     likes =
       Repo.execute_and_load("""
-      select count(*) as likes from entries where likes > 0;
+      select count(*) as likes from entries where likes > 0
       """, [])
 
     broken =
       Repo.execute_and_load("""
-      select count(*) as broken from entries where broken > 0;
+      select count(*) as broken from entries where broken > 0
       """, [])
 
     sites =
@@ -42,7 +42,7 @@ defmodule Exblur.Builders.Notify do
     videos ++ removal ++ review ++ publish ++
       likes ++ broken ++ sites
     |> format()
-    |> send_slack()
+    |> send_slack("VIDEO")
   end
 
   def diva do
@@ -63,11 +63,11 @@ defmodule Exblur.Builders.Notify do
 
     busts =
       Repo.execute_and_load("""
-      select count(*) as busts from divas where bust is not null or bust != 0;
+      select count(*) as busts from divas where bust is not null or bust != 0
       """, [])
 
     format(appeared ++ divas ++ images ++ busts)
-    |> send_slack()
+    |> send_slack("DIVA")
   end
 
   def tag do
@@ -77,7 +77,7 @@ defmodule Exblur.Builders.Notify do
       """, [])
 
     format(tags)
-    |> send_slack()
+    |> send_slack("TAG")
   end
 
   def format(records) do
@@ -90,8 +90,15 @@ defmodule Exblur.Builders.Notify do
     Enum.join(formated, "\n")
   end
 
-  def send_slack(io) do
-    IO.puts io
+  @webhook_url Application.get_env(:exblur, :slack)[:webhook]
+  def send_slack(io, name) do
+    params = %{
+      link_names: 1,
+      channel: "#alert_exblur",
+      username: "Summaries",
+      text: "------ #{name} ------\n" <> io,
+    }
+    HTTPoison.post @webhook_url, Poison.encode!(params), [{"Content-Type", "application/json"}]
   end
 
 end
