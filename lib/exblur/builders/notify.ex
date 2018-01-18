@@ -3,6 +3,12 @@ defmodule Exblur.Builders.Notify do
 
   alias Exblur.Repo
 
+  def summarize do
+    video()
+    diva()
+    tag()
+  end
+
   def video do
     videos =
       Repo.execute_and_load("""
@@ -80,7 +86,7 @@ defmodule Exblur.Builders.Notify do
     |> send_slack("TAG")
   end
 
-  def format(records) do
+  defp format(records) do
     formated =
       Enum.map records, fn record ->
         Enum.map(record, fn {k, v} -> "#{k}\t#{v}" end)
@@ -91,7 +97,7 @@ defmodule Exblur.Builders.Notify do
   end
 
   @webhook_url Application.get_env(:exblur, :slack)[:webhook]
-  def send_slack(io, name) do
+  defp send_slack(io, name) do
     params = %{
       link_names: 1,
       channel: "#alert_exblur",
