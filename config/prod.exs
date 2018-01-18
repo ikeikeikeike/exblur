@@ -139,6 +139,11 @@ config :quantum, :exblur,
       schedule: "* * * * *",
       task: "Exblur.Builders.Touch.run",
       args: []
+    ],
+    builders_notify_summarize: [
+      schedule: "35 20 * * *",  # UTC: 20:35
+      task: "Exblur.Builders.Notify.summarize",
+      args: []
     ]
   ]
 
